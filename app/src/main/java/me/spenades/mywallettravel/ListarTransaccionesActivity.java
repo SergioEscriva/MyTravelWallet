@@ -15,11 +15,10 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.spenades.mywallettravel.adapters.AdaptadorResumen;
+import me.spenades.mywallettravel.adapters.AdaptadorTransacciones;
 import me.spenades.mywallettravel.controllers.TransaccionController;
-import me.spenades.mywallettravel.modelos.Transaccion;
-import me.spenades.mywallettravel.modelos.Wallet;
-
-
+import me.spenades.mywallettravel.models.Transaccion;
 
 
 public class ListarTransaccionesActivity extends AppCompatActivity {
@@ -29,13 +28,9 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     private AdaptadorTransacciones adaptadorTransacciones;
     private AdaptadorResumen adaptadorResumen;
     private TransaccionController transaccionController;
-
-
-
-
-    //private WalletController walletController;
     private FloatingActionButton fabAgregarTransaccion;
-    //private FloatingActionButton fabAgregarWallet;
+    private FloatingActionButton fabResolverDeudas;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +46,10 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             return;
         }
 
-        // Recuperamos WalletId Activo
-        int walletIdSelected = extras.getInt("walletId");
 
+        // Recuperamos WalletId Activo
+        long walletIdSelected = extras.getInt("walletId");
+        String walletNameSelected = extras.getString("walletName");
 
         // Definir nuestro controlador
         transaccionController = new TransaccionController(ListarTransaccionesActivity.this);
@@ -62,12 +58,15 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         recyclerViewResumen = findViewById(R.id.recyclerViewResumen);
         recyclerViewTransacciones = findViewById(R.id.recyclerViewTransacciones) ;
         fabAgregarTransaccion = findViewById(R.id.fabAgregarTransaccion);
+        fabResolverDeudas = findViewById(R.id.fabResolverDeudas);
 
         // Por defecto es una lista vacía,
-        // se la ponemos al adaptador y configuramos el recyclerView
+
 
         listaDeTransaccions = new ArrayList<>();
         adaptadorTransacciones = new AdaptadorTransacciones(listaDeTransaccions);
+
+        // se la ponemos al adaptador y configuramos el recyclerView
 
         RecyclerView.LayoutManager mLayoutManagerTop = new LinearLayoutManager(getApplicationContext());
         recyclerViewTransacciones.setLayoutManager(mLayoutManagerTop);
@@ -75,10 +74,11 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         recyclerViewTransacciones.setAdapter(adaptadorTransacciones);
 
         RecyclerView.LayoutManager mLayoutManagerBottom = new LinearLayoutManager(getApplicationContext());
-        adaptadorResumen = new AdaptadorResumen(listaDeTransaccions);
+        adaptadorResumen = new AdaptadorResumen(listaDeTransaccions, walletNameSelected);
         recyclerViewResumen.setLayoutManager(mLayoutManagerBottom);
         recyclerViewResumen.setItemAnimator(new DefaultItemAnimator());
         recyclerViewResumen.setAdapter(adaptadorResumen);
+
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeTransacciones();
@@ -90,7 +90,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                 // Pasar a la actividad EditarTransaccionesActivity.java
                 Transaccion transaccionSeleccionada = listaDeTransaccions.get(position);
                 Intent intent = new Intent(ListarTransaccionesActivity.this, EditarTransaccionesActivity.class);
-                intent.putExtra("idTransaccion", transaccionSeleccionada.getTransaccionId());
+                intent.putExtra("idTransaccion", transaccionSeleccionada.getId());
                 intent.putExtra("descripcionTransaccion", transaccionSeleccionada.getDescripcion());
                 intent.putExtra("importeTransaccion", transaccionSeleccionada.getImporte());
                 intent.putExtra("pagadorTransaccion", transaccionSeleccionada.getPagador());
@@ -126,7 +126,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             }
         }));
 
-        // Listener del FAB
+        // Listener del FABTransacciones
         fabAgregarTransaccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,12 +163,52 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+    // Listener del FABResolverDeudas
+        fabResolverDeudas.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // Simplemente cambiamos de actividad
+            Intent intent = new Intent(ListarTransaccionesActivity.this, ResolverDeudaActivity.class);
+            intent.putExtra("walletId", walletIdSelected);
+            startActivity(intent);
+        }
+    });
+
+    // Créditos
+        fabResolverDeudas.setOnLongClickListener(new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            new AlertDialog.Builder(ListarTransaccionesActivity.this)
+                    .setTitle("Acerca de")
+                    .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y plantilla código de www.parzibyte.me")
+                    .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogo, int which) {
+                            dialogo.dismiss();
+                        }
+                    })
+                    .setPositiveButton("Sitio web", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intentNavegador = new Intent(Intent.ACTION_VIEW, Uri.parse("https://universae.com"));
+                            startActivity(intentNavegador);
+                        }
+                    })
+                    .create()
+                    .show();
+            return false;
+        }
+    });
+
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        //refrescarListaDeResumen();
         refrescarListaDeTransacciones();
     }
 
@@ -184,13 +224,14 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Recuperamos WalletId Activo
         int walletIdSelected = extras.getInt("walletId");
+        String walletNameSelected = extras.getString("walletName");
 
-        System.out.println("#####Valor Recuperado WalletId " + walletIdSelected);
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletIdSelected);
         adaptadorTransacciones.setListaDeTransacciones(listaDeTransaccions);
         adaptadorTransacciones.notifyDataSetChanged();
-        adaptadorResumen.setListaDeTransacciones(listaDeTransaccions);
+        adaptadorResumen.setListaDeTransacciones(listaDeTransaccions, walletNameSelected);
         adaptadorResumen.notifyDataSetChanged();
+
     }
 
 }

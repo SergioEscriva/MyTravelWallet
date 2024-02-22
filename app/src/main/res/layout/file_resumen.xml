@@ -4,19 +4,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="315px"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
     android:padding="5dp"
-    android:translationY="1300px"
+    android:translationY="1350px"
     tools:layout_editor_absoluteY="571dp">
 
     <TextView
         android:id="@+id/tvTotalLabel"
         android:layout_width="63dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:text="Total:"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -30,7 +29,7 @@
         android:layout_height="wrap_content"
         android:hint="€€.€€€"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="85dp"
+        android:translationX="175px"
         android:translationY="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -7,13 +7,20 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tvWalletActivo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wallet Activo"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="125dp"
         android:layout_height="32dp"
         android:text="Categoría"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:translationX="20px"
-        android:translationY="125px" />
+        android:translationY="275px" />
 
     <TextView
         android:id="@+id/textView"
@@ -21,7 +28,8 @@
         android:layout_height="32dp"
         android:text="Descripción"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="20px" />
+        android:translationX="20px"
+        android:translationY="200px" />
 
     <TextView
         android:id="@+id/textView5"
@@ -29,7 +37,8 @@
         android:layout_height="32dp"
         android:text="Importe"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="350px" />
+        android:translationX="350px"
+        android:translationY="275px" />
 
     <TextView
         android:id="@+id/textView4"
@@ -37,7 +46,8 @@
         android:layout_height="32dp"
         android:text="Pagador"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="750px" />
+        android:translationX="750px"
+        android:translationY="200px" />
 
     <TextView
         android:id="@+id/textView6"
@@ -46,7 +56,7 @@
         android:text="Fecha"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:translationX="750px"
-        android:translationY="125px" />
+        android:translationY="275px" />
 
     <TextView
         android:id="@+id/textView3"
@@ -55,8 +65,7 @@
         android:text="Participantes"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:translationX="350px"
-        android:translationY="125px" />
-
+        android:translationY="200px" />
 
 
     <View
@@ -64,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
-        android:translationY="250px" />
+        android:translationY="200px" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAgregarTransaccion"
@@ -75,12 +84,22 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_white_24dp" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabResolverDeudas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="210px"
+        android:src="?attr/actionModeSelectAllDrawable"
+        android:translationY="165px"
+        app:fabSize="normal" />
+
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="648dp"
-        android:translationY="225px"
+        android:layout_height="632dp"
+        android:translationY="350px"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
@@ -93,14 +112,13 @@
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="92dp">
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="0dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewTransacciones"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewTransacciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
         </ScrollView>
 
