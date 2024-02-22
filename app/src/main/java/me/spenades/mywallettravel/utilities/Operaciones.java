@@ -1,8 +1,8 @@
-package me.spenades.mywallettravel;
+package me.spenades.mywallettravel.utilities;
 
 import java.util.List;
 
-import me.spenades.mywallettravel.modelos.Transaccion;
+import me.spenades.mywallettravel.models.Transaccion;
 
 public class Operaciones {
         private List<Transaccion> listaDeTransaccions;

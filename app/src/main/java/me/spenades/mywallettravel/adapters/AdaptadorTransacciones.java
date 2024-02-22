@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel;
+package me.spenades.mywallettravel.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -6,15 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.util.List;
 
-import me.spenades.mywallettravel.modelos.Transaccion;
+import me.spenades.mywallettravel.R;
+import me.spenades.mywallettravel.models.Transaccion;
 
 public class AdaptadorTransacciones extends RecyclerView.Adapter<AdaptadorTransacciones.MyViewHolder> {
 
     private List<Transaccion> listaDeTransaccions;
-
     public void setListaDeTransacciones(List<Transaccion> listaDeTransaccions) {
         this.listaDeTransaccions = listaDeTransaccions;
     }
@@ -27,6 +26,7 @@ public class AdaptadorTransacciones extends RecyclerView.Adapter<AdaptadorTransa
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View filaTransaccion = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_transaction, viewGroup, false);
+
         return new MyViewHolder(filaTransaccion);
     }
 
@@ -40,7 +40,7 @@ public class AdaptadorTransacciones extends RecyclerView.Adapter<AdaptadorTransa
         String descripcionTransaccion = transaccion.getDescripcion();
         int importeTransaccion = transaccion.getImporte();
         String pagadorTransaccion = transaccion.getPagador();
-        int participantesTransaccion = transaccion.getParticipantes();
+        String participantesTransaccion = transaccion.getParticipantes();
         String categoriaTransaccion = transaccion.getCategoria();
         int fechaTransaccion = transaccion.getFecha();
 
@@ -60,7 +60,7 @@ public class AdaptadorTransacciones extends RecyclerView.Adapter<AdaptadorTransa
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDescripcion, tvImporte, tvPagador, tvParticipantes, tvCategoria, tvFecha ;
+        TextView tvDescripcion, tvImporte, tvPagador, tvParticipantes, tvCategoria, tvFecha;
 
         MyViewHolder(View itemView) {
             super(itemView);
@@ -72,4 +72,5 @@ public class AdaptadorTransacciones extends RecyclerView.Adapter<AdaptadorTransa
             this.tvFecha = itemView.findViewById(R.id.tvFecha);
         }
     }
+
 }

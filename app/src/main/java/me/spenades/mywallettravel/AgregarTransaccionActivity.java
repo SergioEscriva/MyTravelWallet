@@ -8,8 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import me.spenades.mywallettravel.controllers.TransaccionController;
-import me.spenades.mywallettravel.modelos.Transaccion;
-import me.spenades.mywallettravel.modelos.Wallet;
+import me.spenades.mywallettravel.models.Transaccion;
 
 public class AgregarTransaccionActivity extends AppCompatActivity {
     private Button btnAgregarTransaccion, btnCancelarNuevaTransaccion;
@@ -112,7 +111,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 }
                 */
                 // Ya pasó la validación
-                Transaccion nuevaTransaccion = new Transaccion(descripcion, Integer.parseInt(importeString), pagador, Integer.parseInt(participantesString), categoria, Integer.parseInt(fechaString), walletIdSelected);
+                Transaccion nuevaTransaccion = new Transaccion(descripcion, Integer.parseInt(importeString), pagador, participantesString, categoria, Integer.parseInt(fechaString), walletIdSelected);
                 long id = transaccionController.nuevaTransaccion(nuevaTransaccion);
                 if (id == -1) {
                     // De alguna manera ocurrió un error

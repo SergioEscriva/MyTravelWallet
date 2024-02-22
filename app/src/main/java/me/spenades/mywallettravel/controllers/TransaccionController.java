@@ -4,16 +4,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.Settings;
 
 import java.util.ArrayList;
 
 import me.spenades.mywallettravel.SQLiteDB.AyudanteBaseDeDatos;
-import me.spenades.mywallettravel.modelos.Transaccion;
-import me.spenades.mywallettravel.modelos.Wallet;
+import me.spenades.mywallettravel.models.Transaccion;
 
 public class TransaccionController {
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
-    private String NOMBRE_TABLA = "transacciones";
+    private String NOMBRE_TABLA = "transaccion";
 
     public TransaccionController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
@@ -23,7 +23,7 @@ public class TransaccionController {
     public int eliminarTransaccion(Transaccion transaccion) {
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
-        String[] argumentos = {String.valueOf(transaccion.getTransaccionId())};
+        String[] argumentos = {String.valueOf(transaccion.getId())};
         return baseDeDatos.delete(NOMBRE_TABLA, "id = ?", argumentos);
     }
 
@@ -45,32 +45,34 @@ public class TransaccionController {
     public int guardarCambios(Transaccion transaccionEditada) {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();
-
         valoresParaActualizar.put("descripcion", transaccionEditada.getDescripcion());
         valoresParaActualizar.put("importe", transaccionEditada.getImporte());
         valoresParaActualizar.put("pagador", transaccionEditada.getPagador());
         valoresParaActualizar.put("participantes", transaccionEditada.getParticipantes());
         valoresParaActualizar.put("categoria", transaccionEditada.getCategoria());
         valoresParaActualizar.put("fecha", transaccionEditada.getFecha());
-        valoresParaActualizar.put("walletId", transaccionEditada.getWalletId());
-        System.out.println("QQQQQQQQQQ" + valoresParaActualizar);
+        valoresParaActualizar.put("walletId", transaccionEditada.getWalletId()+1);
+
         // where id...
         String campoParaActualizar = "id = ?";
         // ... = idTransaccion
-        String[] argumentosParaActualizar = {String.valueOf(transaccionEditada.getTransaccionId())};
+        String[] argumentosParaActualizar = {String.valueOf(transaccionEditada.getId())};
+
         return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
     }
 
     public ArrayList<Transaccion> obtenerTransacciones(int walletIdSelected) {
         ArrayList<Transaccion> transaccions = new ArrayList<>();
+
         // readable porque no vamos a modificar, solamente leer
         long walletId = walletIdSelected;
-        String WalletIdAConsultar = "walletId = " + String.valueOf(walletId +1);
+        String WalletIdAConsultar = "walletId = " + String.valueOf(walletId + 1);
+
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
         // SELECT id del Wallet
         String[] columnasAConsultar = {"descripcion", "importe", "pagador", "participantes", "categoria", "fecha", "walletId", "id"};
         Cursor cursor = baseDeDatos.query(
-                NOMBRE_TABLA, // Transacciones
+                NOMBRE_TABLA, // Transaccion
                 columnasAConsultar,
                 WalletIdAConsultar,
                 null,
@@ -85,7 +87,6 @@ public class TransaccionController {
                 lista vacía
              */
             return transaccions;
-
         }
         // Si no hay datos, igualmente regresamos la lista vacía
         if (!cursor.moveToFirst()) return transaccions;
@@ -97,16 +98,15 @@ public class TransaccionController {
             String descripcionObtenidoDeBD = cursor.getString(0);
             int importeObtenidaDeBD = cursor.getInt(1);
             String pagadorObtenidoDeBD = cursor.getString(2);
-            int participantesObtenidaDeBD = cursor.getInt(3);
+            String participantesObtenidaDeBD = cursor.getString(3);
             String categoriaObtenidaDeBD = cursor.getString(4);
             int fechaObtenidoDeBD = cursor.getInt(5);
-            int walletIdObtenidoDeBD = cursor.getInt(6);
+            long walletIdObtenidoDeBD = cursor.getInt(6);
             long idTransaccion = cursor.getLong(7);
 
             Transaccion transaccionObtenidaDeBD = new Transaccion(descripcionObtenidoDeBD, importeObtenidaDeBD, pagadorObtenidoDeBD, participantesObtenidaDeBD, categoriaObtenidaDeBD, fechaObtenidoDeBD, walletIdObtenidoDeBD, idTransaccion);
             transaccions.add(transaccionObtenidaDeBD);
         } while (cursor.moveToNext());
-            System.out.println(transaccions);
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
         return transaccions;

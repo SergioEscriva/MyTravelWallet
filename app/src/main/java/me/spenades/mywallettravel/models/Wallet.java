@@ -1,15 +1,15 @@
-package me.spenades.mywallettravel.modelos;
+package me.spenades.mywallettravel.models;
 
 public class Wallet {
 
     private String nombre;
     private String descripcion;
-    private int propietario;
+    private String propietario;
     private int compartir;
     private long WalletId; // El ID del Wallet
 
 
-    public Wallet(String nombre, String descripcion, int propietario, int compartir) {
+    public Wallet(String nombre, String descripcion, String propietario, int compartir) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.propietario = propietario;
@@ -18,7 +18,7 @@ public class Wallet {
     }
 
     // Constructor para cuando instanciamos desde la BD
-    public Wallet(String nombre, String descripcion, int propietario,  int compartir, long WalletId) {
+    public Wallet(String nombre, String descripcion, String propietario,  int compartir, long WalletId) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.propietario = propietario;
@@ -46,10 +46,10 @@ public class Wallet {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public int getPropietario() {
+    public String getPropietario() {
         return propietario;
     }
-    public void setPropietario(int propietario) {
+    public void setPropietario(String propietario) {
         this.propietario = propietario;
     }
     public int getCompartir() {
@@ -62,9 +62,9 @@ public class Wallet {
     public String toString() {
         return "Wallet{" +
                 "nombre='" + nombre + '\'' +
-                "descripcion='" + descripcion + '\'' +
-                "propietario='" + propietario + '\'' +
-                "compartir='" + compartir +
-                '}';
+                ", descripcion='" + descripcion + '\'' +
+                ", propietario='" + propietario + '\'' +
+                ", compartir='" + compartir +
+                "'}";
     }
 }

@@ -16,13 +16,16 @@ import me.spenades.mywallettravel.models.Transaccion;
 public class AdaptadorResumen extends RecyclerView.Adapter<AdaptadorResumen.MyViewHolder> {
 
     private List<Transaccion> listaDeTransaccions;
+    private String walletName;
 
-    public void setListaDeTransacciones(List<Transaccion> listaDeTransaccions) {
+    public void setListaDeTransacciones(List<Transaccion> listaDeTransaccions, String walletName) {
         this.listaDeTransaccions = listaDeTransaccions;
+        this.walletName = walletName;
     }
 
-    public AdaptadorResumen(List<Transaccion> transaccions) {
+    public AdaptadorResumen(List<Transaccion> transaccions, String walletName) {
         this.listaDeTransaccions = transaccions;
+        this.walletName = walletName;
     }
 
     @NonNull

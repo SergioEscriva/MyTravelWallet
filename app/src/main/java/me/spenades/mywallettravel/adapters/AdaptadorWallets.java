@@ -1,15 +1,17 @@
-package me.spenades.mywallettravel;
+package me.spenades.mywallettravel.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
 
-import me.spenades.mywallettravel.modelos.Wallet;
+import me.spenades.mywallettravel.R;
+import me.spenades.mywallettravel.models.Wallet;
 
 public class AdaptadorWallets extends RecyclerView.Adapter<AdaptadorWallets.MyViewHolder> {
 
@@ -39,13 +41,15 @@ public class AdaptadorWallets extends RecyclerView.Adapter<AdaptadorWallets.MyVi
         String nombreWallet = wallet.getNombre();
         String descripcionWallet = wallet.getDescripcion();
         Long WalletId = wallet.getWalletId();
-        int propietarioWallet = wallet.getPropietario();
+        String propietarioWallet = wallet.getPropietario();
         int compartirWallet = wallet.getCompartir();
 
         // Y poner a los TextView los datos con setText
         myViewHolder.tvNombre.setText(nombreWallet);
         myViewHolder.tvDescripcion.setText(descripcionWallet);
         myViewHolder.tvWalletId.setText(String.valueOf(WalletId)) ;
+
+        boolean checkbox_Compartir = (compartirWallet==1)? true:false;
 
 
     }
@@ -56,15 +60,15 @@ public class AdaptadorWallets extends RecyclerView.Adapter<AdaptadorWallets.MyVi
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNombre, tvDescripcion, tvPropietario, tvCompartir, tvWalletId;
-
+        TextView tvNombre, tvDescripcion, tvPropietario, tvWalletId;
+        CheckBox checkbox_Compartir;
         MyViewHolder(View itemView) {
             super(itemView);
             this.tvNombre = itemView.findViewById(R.id.tvNombreWallet);
             this.tvDescripcion = itemView.findViewById(R.id.tvDescripcionWallet);
             this.tvWalletId = itemView.findViewById(R.id.tvWalletId);
             //this.tvPropietario = itemView.findViewById(R.id.tvPropietario);
-            //this.tvCompartir = itemView.findViewById(R.id.tvCompartir);
+            this.checkbox_Compartir = (CheckBox) itemView.findViewById(R.id.checkBox_Compartir);
         }
     }
 }

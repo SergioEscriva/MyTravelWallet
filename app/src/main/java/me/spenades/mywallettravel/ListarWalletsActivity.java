@@ -15,8 +15,10 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.spenades.mywallettravel.adapters.AdaptadorResumen;
+import me.spenades.mywallettravel.adapters.AdaptadorWallets;
 import me.spenades.mywallettravel.controllers.WalletController;
-import me.spenades.mywallettravel.modelos.Wallet;
+import me.spenades.mywallettravel.models.Wallet;
 
 
 public class ListarWalletsActivity extends AppCompatActivity {
@@ -59,8 +61,11 @@ public class ListarWalletsActivity extends AppCompatActivity {
             @Override // Un toque
             public void onClick(View view, int position) {
                  // Pasar a la actividad ListaTransaccionesActivity.java
+                final Wallet walletNameActivo = listaDeWallets.get(position);
                Intent intent = new Intent(ListarWalletsActivity.this, ListarTransaccionesActivity.class);
-               intent.putExtra("walletId", position);
+               intent.putExtra("walletId", String.valueOf(walletNameActivo.getWalletId()));
+               intent.putExtra("walletName", String.valueOf(walletNameActivo.getNombre()));
+               //pasarActividad(String.valueOf(walletNameActivo.getNombre()));
                startActivity(intent);
             }
 
@@ -139,6 +144,12 @@ public class ListarWalletsActivity extends AppCompatActivity {
         adaptadorWallets.setListaDeWallets(listaDeWallets);
         adaptadorWallets.notifyDataSetChanged();
 
+    }
+
+    public void pasarActividad(String walletNameSelected){
+        Intent intentResumen = new Intent(this, AdaptadorResumen.class);
+        intentResumen.putExtra("waletName", walletNameSelected);
+        startActivity(intentResumen);
     }
 
 }

@@ -8,11 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import me.spenades.mywallettravel.SQLiteDB.AyudanteBaseDeDatos;
-import me.spenades.mywallettravel.modelos.Wallet;
+import me.spenades.mywallettravel.models.Wallet;
 
 public class WalletController {
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
-    private String NOMBRE_TABLA = "wallets";
+    private String NOMBRE_TABLA = "wallet";
 
     public WalletController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
@@ -33,6 +33,7 @@ public class WalletController {
         valoresParaInsertar.put("descripcion", wallet.getDescripcion());
         valoresParaInsertar.put("propietario", wallet.getPropietario());
         valoresParaInsertar.put("compartir", wallet.getCompartir());
+        System.out.println("Wallet" + valoresParaInsertar);
         return baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
     }
 
@@ -85,12 +86,13 @@ public class WalletController {
 
             String nombreObtenidoDeBD = cursor.getString(0);
             String descripcionObtenidoDeBD = cursor.getString(1);
-            int propietarioObtenidaDeBD = cursor.getInt(2);
+            String propietarioObtenidaDeBD = cursor.getString(2);
             int compartirObtenidaDeBD = cursor.getInt(3);
             long walletIdObtenidoDeBD = cursor.getLong(4);
 
             Wallet walletObtenidaDeBD = new Wallet(nombreObtenidoDeBD, descripcionObtenidoDeBD, propietarioObtenidaDeBD, compartirObtenidaDeBD, walletIdObtenidoDeBD);
             wallets.add(walletObtenidaDeBD);
+            System.out.println("WAllet: " + walletIdObtenidoDeBD);
         } while (cursor.moveToNext());
 
         // Fin del ciclo. Cerramos cursor y regresamos la lista

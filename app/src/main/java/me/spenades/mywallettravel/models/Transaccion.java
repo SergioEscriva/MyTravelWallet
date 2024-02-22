@@ -1,18 +1,19 @@
-package me.spenades.mywallettravel.modelos;
+package me.spenades.mywallettravel.models;
 
 public class Transaccion {
 
     private String descripcion;
     private int importe;
     private String pagador;
-    private int participantes;
+    private String participantes;
     private String categoria;
     private int fecha;
-    private int walletId; // El ID del Wallet
-    private long transaccionId; // El ID de la Transacción
+    private long walletId; // El ID del Wallet
+    //private long walletName; // El nombre del Wallet
+    private long id; // El ID de la Transacción
     private int total;
 
-    public Transaccion(String descripcion, int importe, String pagador, int participantes, String categoria, int fecha, int walletId) {
+    public Transaccion(String descripcion, int importe, String pagador, String participantes, String categoria, int fecha, long walletId) {
         this.descripcion = descripcion;
         this.importe = importe;
         this.pagador = pagador;
@@ -20,11 +21,10 @@ public class Transaccion {
         this.categoria = categoria;
         this.fecha = fecha;
         this.walletId = walletId;
-
     }
 
     // Constructor para cuando instanciamos desde la BD
-    public Transaccion(String descripcion, int importe, String pagador, int participantes, String categoria, int fecha, int walletId, long transaccionId) {
+    public Transaccion(String descripcion, int importe, String pagador, String participantes, String categoria, int fecha, long walletId, long id) {
         this.descripcion = descripcion;
         this.importe = importe;
         this.pagador = pagador;
@@ -32,15 +32,15 @@ public class Transaccion {
         this.categoria = categoria;
         this.fecha = fecha;
         this.walletId = walletId;
-        this.transaccionId = transaccionId;
+        this.id = id;
     }
 
-    public long getTransaccionId() {
-        return transaccionId;
+    public long getId() {
+        return id;
     }
 
-    public void setTransaccionId(long transaccionId) {
-        this.transaccionId = transaccionId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
@@ -61,10 +61,10 @@ public class Transaccion {
     public void setPagador(String pagador) {
         this.pagador = pagador;
     }
-    public int getParticipantes() {
+    public String getParticipantes() {
         return participantes;
     }
-    public void setParticipantes(int participantes) {
+    public void setParticipantes(String participantes) {
         this.participantes = participantes;
     }
     public String getCategoria() {
@@ -79,10 +79,10 @@ public class Transaccion {
     public void setFecha(int fecha) {
         this.fecha = fecha;
     }
-    public int getWalletId() {
+    public long getWalletId() {
         return walletId;
     }
-    public void setWalletId(int walletId) {
+    public void setWalletId(long walletId) {
         this.walletId = walletId;
     }
 
@@ -91,12 +91,13 @@ public class Transaccion {
     public String toString() {
         return "Transaccion{" +
                 "descripcion='" + descripcion + '\'' +
-                "importe='" + importe + '\'' +
-                "pagador='" + pagador + '\'' +
-                "participantes='" + participantes + '\'' +
-                "categoria='" + categoria + '\'' +
-                "fecha='" + fecha + '\'' +
-                "walletId=" + walletId +
-                '}';
+                ", importe='" + importe + '\'' +
+                ", pagador='" + pagador + '\'' +
+                ", participantes='" + participantes + '\'' +
+                ", categoria='" + categoria + '\'' +
+                ", fecha='" + fecha + '\'' +
+                ", walletId='" + walletId +
+                "'}";
     }
+
 }

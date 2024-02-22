@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import me.spenades.mywallettravel.controllers.TransaccionController;
-import me.spenades.mywallettravel.modelos.Transaccion;
+import me.spenades.mywallettravel.models.Transaccion;
 
 public class EditarTransaccionesActivity extends AppCompatActivity {
     private EditText etDescripcion, etImporte, etPagador, etParticipantes, etCategoria, etFecha, etWalletId;
@@ -23,7 +23,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
-        // Si no hay datos (cosa rara) salimos
+        // Si no hay datos salimos
         if (extras == null) {
             finish();
             return;
@@ -32,15 +32,15 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         transaccionController = new TransaccionController(EditarTransaccionesActivity.this);
 
         // Rearmar la transacción
-        long transaccionId = extras.getLong("transaccionId");
         String descripcionTransaccion = extras.getString("descripcionTransaccion");
         int importeTransaccion = extras.getInt("importeTransaccion");
         String pagadorTransaccion = extras.getString("pagadorTransaccion");
-        int participantesTransaccion = extras.getInt("participantesTransaccion");
+        String participantesTransaccion = extras.getString("participantesTransaccion");
         String categoriaTransaccion = extras.getString("categoriaTransaccion");
         int fechaTransaccion = extras.getInt("fechaTransaccion");
-        int walletId = extras.getInt("walletId");
-        transaccion = new Transaccion(descripcionTransaccion, importeTransaccion, pagadorTransaccion, participantesTransaccion, categoriaTransaccion, fechaTransaccion, walletId, transaccionId);
+        long walletIdTransaccion = extras.getInt("walletId");
+        long transaccionId = extras.getLong("transaccionId");
+        transaccion = new Transaccion(descripcionTransaccion, importeTransaccion, pagadorTransaccion, participantesTransaccion, categoriaTransaccion, fechaTransaccion, walletIdTransaccion, transaccionId);
 
         // Ahora declaramos las vistas
         etDescripcion = findViewById(R.id.etEditarDescripcion);
@@ -49,7 +49,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         etParticipantes = findViewById(R.id.etEditarParticipantes);
         etCategoria = findViewById(R.id.etEditarCategoria);
         etFecha = findViewById(R.id.etEditarFecha);
-        //etWalletId = findViewById(R.id.etEditarWalletId);
         btnCancelarEdicion = findViewById(R.id.btnCancelarEdicionTransaccion);
         btnGuardarCambios = findViewById(R.id.btnGuardarCambiosTransaccion);
 
@@ -81,7 +80,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 etParticipantes.setError(null);
                 etCategoria.setError(null);
                 etFecha.setError(null);
-                etWalletId.setError(null);
+                //etWalletId.setError(null);
 
                 // Crear la transaccion con los cambio y su id
                 String nuevaDescripcion = etDescripcion.getText().toString();
@@ -135,10 +134,9 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 }
 
                  */
-
-                System.out.println("Editaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 // Si llegamos hasta aquí es porque los datos ya están validados
-                Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion, Integer.parseInt(nuevoImporte), nuevoPagador, Integer.parseInt(nuevosParticipantes), nuevaCategoria, Integer.parseInt(nuevaFecha), transaccion.getWalletId(), transaccion.getTransaccionId());
+                Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion, Integer.parseInt(nuevoImporte), nuevoPagador, nuevosParticipantes, nuevaCategoria, Integer.parseInt(nuevaFecha), transaccion.getWalletId(), transaccion.getId());
+
                 int filasModificadas = transaccionController.guardarCambios(transaccionConNuevosCambios);
                 if (filasModificadas != 1) {
                     // De alguna forma ocurrió un error porque se debió modificar únicamente una fila
