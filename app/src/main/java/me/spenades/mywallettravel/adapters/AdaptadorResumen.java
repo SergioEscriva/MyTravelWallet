@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel;
+package me.spenades.mywallettravel.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import me.spenades.mywallettravel.modelos.Transaccion;
+import me.spenades.mywallettravel.utilities.Operaciones;
+import me.spenades.mywallettravel.R;
+import me.spenades.mywallettravel.models.Transaccion;
 
 public class AdaptadorResumen extends RecyclerView.Adapter<AdaptadorResumen.MyViewHolder> {
 
@@ -39,15 +41,17 @@ public class AdaptadorResumen extends RecyclerView.Adapter<AdaptadorResumen.MyVi
 
     @Override
     public int getItemCount() {
-        return listaDeTransaccions.size();
+        return 1;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+
         TextView tvTotal ;
+
         MyViewHolder(View itemView) {
             super(itemView);
             this.tvTotal = itemView.findViewById(R.id.tvTotal);
-
+            //tvTotal = itemView.findViewById(R.id.tvNombreWallet);
         }
     }
 }
