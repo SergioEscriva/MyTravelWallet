@@ -29,15 +29,15 @@ public class AyudanteBaseDeDatos extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, nombre text, descripcion text, propietario int, compartir int)", NOMBRE_TABLA_WALLETS));
+        db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, nombre text unique, descripcion text, propietario int, compartir int)", NOMBRE_TABLA_WALLETS));
 
         db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, descripcion text, importe int, pagador txt, participantes int, categoria txt, fecha int, walletId int)", NOMBRE_TABLA_TRANSACCIONES));
 
-        db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, nombre text, apodo text, pin int)", NOMBRE_TABLA_USUARIOS));
+        db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, nombre text unique, apodo text)", NOMBRE_TABLA_USUARIOS));
 
         db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, wallet_id int, usuario_id int)", NOMBRE_TABLA_WALLETS_USUARIOS));
 
-        db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, categoria text)", NOMBRE_TABLA_CATEGORIAS));
+        db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, categoria text unique)", NOMBRE_TABLA_CATEGORIAS));
 
 
 
