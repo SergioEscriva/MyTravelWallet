@@ -37,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
         adaptadorUsuarios.setListaDeUsuarios(listaDeUsuarios);
         int cantidadUsuarios = adaptadorUsuarios.getItemCount();
 
-        System.out.println(adaptadorUsuarios.getItemCount());
 
-        //final Usuario usuarioActivo = listaDeUsuarios.get(1);
+        // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
+        refrescarListaDeUsuarios();
 
         // Si la lista está vacía se insta a añadir usuario Propietario
-        if (cantidadUsuarios == 0){
+        if (cantidadUsuarios == 0) {
 
             // Instanciamos vistas
             etNombrePropietario = findViewById(R.id.etNombrePropietario);
@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
 
-                    System.out.println(nombrePropietario);
                     Usuario nuevoPropietario = new Usuario(nombrePropietario, nombrePropietario);
                     System.out.println(nuevoPropietario);
                     long id = usuarioController.nuevoUsuario(nuevoPropietario);
@@ -69,20 +68,43 @@ public class MainActivity extends AppCompatActivity {
                         // De alguna manera ocurrió un error
                         Toast.makeText(MainActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
                     } else {
-
-                        Intent intent = new Intent(MainActivity.this, ListarWalletsActivity.class);
-                        startActivity(intent);
-                    }
+                            System.out.println("Continuar");
+                            continuar();
+                        }
                 }
 
             });
-        }else {
-            //Simplemente cambiamos de actividad
-
-            Intent intent = new Intent(MainActivity.this, ListarWalletsActivity.class);
-            startActivity(intent);
+        }else{
+            continuar();
         }
     }
 
+    private void continuar(){
+        //cambiamos de actividad
+        refrescarListaDeUsuarios();
+        final Usuario usuario = listaDeUsuarios.get(0);
+        String usuarioActivo = usuario.getNombre();
+        long usuarioIdActivo = usuario.getId();
+
+        System.out.println(usuarioActivo + usuarioIdActivo);
+        Intent intent = new Intent(MainActivity.this, ListarWalletsActivity.class);
+        intent.putExtra("usuarioActivo", usuarioActivo);
+        intent.putExtra("usuarioIdActivo", usuarioIdActivo);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refrescarListaDeUsuarios();
+    }
+
+    public void refrescarListaDeUsuarios() {
+        listaDeUsuarios = usuarioController.obtenerUsuarios(0);
+        adaptadorUsuarios.setListaDeUsuarios(listaDeUsuarios);
+        adaptadorUsuarios.notifyDataSetChanged();
+    }
+
 }
+
 
