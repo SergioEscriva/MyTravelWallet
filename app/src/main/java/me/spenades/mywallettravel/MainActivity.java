@@ -1,5 +1,6 @@
 package me.spenades.mywallettravel;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import me.spenades.mywallettravel.adapters.AdaptadorUsuarios;
 import me.spenades.mywallettravel.controllers.UsuarioController;
+import me.spenades.mywallettravel.models.Participante;
 import me.spenades.mywallettravel.models.Usuario;
 
 public class MainActivity extends AppCompatActivity {
@@ -62,13 +64,12 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     Usuario nuevoPropietario = new Usuario(nombrePropietario, nombrePropietario);
-                    System.out.println(nuevoPropietario);
+
                     long id = usuarioController.nuevoUsuario(nuevoPropietario);
                     if (id == -1) {
                         // De alguna manera ocurrió un error
                         Toast.makeText(MainActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
                     } else {
-                            System.out.println("Continuar");
                             continuar();
                         }
                 }
@@ -86,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         String usuarioActivo = usuario.getNombre();
         long usuarioIdActivo = usuario.getId();
 
-        System.out.println(usuarioActivo + usuarioIdActivo);
         Intent intent = new Intent(MainActivity.this, ListarWalletsActivity.class);
         intent.putExtra("usuarioActivo", usuarioActivo);
         intent.putExtra("usuarioIdActivo", usuarioIdActivo);

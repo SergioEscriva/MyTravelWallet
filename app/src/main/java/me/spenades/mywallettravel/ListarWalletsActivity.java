@@ -11,6 +11,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ import me.spenades.mywallettravel.models.Wallet;
 public class ListarWalletsActivity extends AppCompatActivity {
     private List<Wallet> listaDeWallets;
 
-    private RecyclerView recyclerViewWallets;
+    private RecyclerView recyclerViewWallets, recyclerViewParticipantes;
 
     private AdaptadorWallets adaptadorWallets;
 
@@ -32,17 +34,35 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
     private FloatingActionButton fabAgregarWallet;
 
+    private Button btnAgregarWallet, btnAgregarUsuario;
+    private EditText etAddParticipante;
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // código es generado automáticamente
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_wallets);
 
+        // Recuperar datos que enviaron
+        Bundle extras = getIntent().getExtras();
+        long usuarioIdActivo = extras.getInt("usuarioIdActivo");
+        String usuarioActivo = extras.getString("usuarioActivo");
+        // Si no hay datos (cosa rara) salimos
+        if (extras == null) {
+            finish();
+            return;
+        }
+
         // Definir nuestro controlador
         walletController = new WalletController(ListarWalletsActivity.this);
 
         // Instanciar vistas
-        recyclerViewWallets = findViewById(R.id.recyclerViewWallets) ;
+        recyclerViewWallets = findViewById(R.id.recyclerViewWallets);
         fabAgregarWallet = findViewById(R.id.fabAgregarWallet);
 
         // Por defecto es una lista vacía,
@@ -58,48 +78,51 @@ public class ListarWalletsActivity extends AppCompatActivity {
         refrescarListaDeWallets();
         // Listener de los clicks en la lista WALLET.
         recyclerViewWallets.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewWallets, new RecyclerTouchListener.ClickListener() {
-            @Override // Un toque
+            @Override // Un toque Editar Wallet
             public void onClick(View view, int position) {
-                 // Pasar a la actividad ListaTransaccionesActivity.java
+                // Pasar a la actividad editarwallet
                 final Wallet walletNameActivo = listaDeWallets.get(position);
-               Intent intent = new Intent(ListarWalletsActivity.this, ListarTransaccionesActivity.class);
-               intent.putExtra("walletId", String.valueOf(walletNameActivo.getWalletId()));
-               intent.putExtra("walletName", String.valueOf(walletNameActivo.getNombre()));
-               //pasarActividad(String.valueOf(walletNameActivo.getNombre()));
-               startActivity(intent);
+
+
+                Intent intent = new Intent(ListarWalletsActivity.this, ListarTransaccionesActivity.class);
+                intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
+                intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
+                intent.putExtra("walletId", String.valueOf(walletNameActivo.getWalletId()));
+                intent.putExtra("walletName", String.valueOf(walletNameActivo.getNombre()));
+                startActivity(intent);
+
             }
 
-            @Override // Un toque largo
+            @Override // Un toque Largo Editar
             public void onLongClick(View view, int position) {
-                final Wallet walletParaEliminar = listaDeWallets.get(position);
-                AlertDialog dialog = new AlertDialog
-                        .Builder(ListarWalletsActivity.this)
-                        .setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                walletController.eliminarWallet(walletParaEliminar);
-                                refrescarListaDeWallets();
-                            }
-                        })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setTitle("Confirmar")
-                        .setMessage("¿Eliminar el Wallet " + walletParaEliminar.getDescripcion() + "?")
-                        .create();
-                dialog.show();
+                 // Pasar a la actividad editarwallet
+                final Wallet walletNameActivo = listaDeWallets.get(position);
+
+                Intent intent = new Intent(ListarWalletsActivity.this, EditarWalletActivity.class);
+                intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
+                intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
+                intent.putExtra("walletId", walletNameActivo.getWalletId());
+                intent.putExtra("walletName", walletNameActivo.getNombre());
+                intent.putExtra("etNombre", walletNameActivo.getNombre());
+                intent.putExtra("etDescripcion", walletNameActivo.getDescripcion());
+                intent.putExtra("etPropietarioId",walletNameActivo.getPropietarioId());
+
+                intent.putExtra("checkCompartir", String.valueOf(walletNameActivo.getCompartir()));
+
+                startActivity(intent);
+
             }
+
         }));
 
-        // Listener del FAB
+        // Listener Agregar Wallet Nuevo
         fabAgregarWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Simplemente cambiamos de actividad
                 Intent intent = new Intent(ListarWalletsActivity.this, AgregarWalletActivity.class);
+                intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
+                intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
                 startActivity(intent);
             }
         });

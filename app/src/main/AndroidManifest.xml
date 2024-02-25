@@ -24,6 +24,7 @@
        <activity android:name=".ListarTransaccionesActivity" />
        <activity android:name=".ListarWalletsActivity" />
         <activity android:name="AgregarWalletActivity" />
+        <activity android:name="EditarWalletActivity" />
         <activity android:name="ResolverDeudaActivity" />
     </application>
 
