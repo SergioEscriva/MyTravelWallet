@@ -111,7 +111,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 }
                 */
                 // Ya pasó la validación
-                Transaccion nuevaTransaccion = new Transaccion(descripcion, Integer.parseInt(importeString), pagador, participantesString, categoria, Integer.parseInt(fechaString), walletIdSelected);
+                Transaccion nuevaTransaccion = new Transaccion(descripcion, importeString, pagador, participantesString, categoria, Integer.parseInt(fechaString), walletIdSelected);
                 long id = transaccionController.nuevaTransaccion(nuevaTransaccion);
                 if (id == -1) {
                     // De alguna manera ocurrió un error

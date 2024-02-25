@@ -6,13 +6,13 @@ import me.spenades.mywallettravel.models.Transaccion;
 
 public class Operaciones {
         private List<Transaccion> listaDeTransaccions;
-        public int sumaTransacciones(List<Transaccion> listaTransacciones){
+        public String sumaTransacciones(List<Transaccion> listaTransacciones){
 
-            int total = 0;
+            float total = 0;
             for (Transaccion i : listaTransacciones){
-                total += i.getImporte();
+                total += Float.valueOf(i.getImporte());
             }
-            return total;
+            return String.valueOf(total);
         }
 }
 

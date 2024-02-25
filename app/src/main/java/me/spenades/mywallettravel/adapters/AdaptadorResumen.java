@@ -38,7 +38,7 @@ public class AdaptadorResumen extends RecyclerView.Adapter<AdaptadorResumen.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
          Operaciones objOperaciones = new Operaciones();
-         int totalTransacciones = objOperaciones.sumaTransacciones(listaDeTransaccions);
+        String totalTransacciones = objOperaciones.sumaTransacciones(listaDeTransaccions);
             myViewHolder.tvTotal.setText(String.valueOf(totalTransacciones) + "€");
     }
 

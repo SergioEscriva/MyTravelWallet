@@ -33,7 +33,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         // Rearmar la transacción
         String descripcionTransaccion = extras.getString("descripcionTransaccion");
-        int importeTransaccion = extras.getInt("importeTransaccion");
+        String importeTransaccion = extras.getString("importeTransaccion");
         String pagadorTransaccion = extras.getString("pagadorTransaccion");
         String participantesTransaccion = extras.getString("participantesTransaccion");
         String categoriaTransaccion = extras.getString("categoriaTransaccion");
@@ -55,7 +55,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         // Rellenar los EditText de la pantalla
         etDescripcion.setText(transaccion.getDescripcion());
-        etImporte.setText(String.valueOf(transaccion.getImporte()));
+        etImporte.setText(transaccion.getImporte());
         etPagador.setText(transaccion.getPagador());
         etParticipantes.setText(String.valueOf(transaccion.getParticipantes()));
         etCategoria.setText(transaccion.getCategoria());
@@ -136,7 +136,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
                  */
                 // Si llegamos hasta aquí es porque los datos ya están validados
-                Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion, Integer.parseInt(nuevoImporte), nuevoPagador, nuevosParticipantes, nuevaCategoria, Integer.parseInt(nuevaFecha), transaccion.getWalletId(), transaccion.getId());
+                Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion, nuevoImporte, nuevoPagador, nuevosParticipantes, nuevaCategoria, Integer.parseInt(nuevaFecha), transaccion.getWalletId(), transaccion.getId());
 
                 int filasModificadas = transaccionController.guardarCambios(transaccionConNuevosCambios);
                 if (filasModificadas != 1) {

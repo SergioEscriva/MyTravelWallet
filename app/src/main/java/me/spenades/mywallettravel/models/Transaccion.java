@@ -3,7 +3,7 @@ package me.spenades.mywallettravel.models;
 public class Transaccion {
 
     private String descripcion;
-    private int importe;
+    private String importe;
     private String pagador;
     private String participantes;
     private String categoria;
@@ -11,9 +11,9 @@ public class Transaccion {
     private long walletId; // El ID del Wallet
     //private long walletName; // El nombre del Wallet
     private long id; // El ID de la Transacción
-    private int total;
+    private float total;
 
-    public Transaccion(String descripcion, int importe, String pagador, String participantes, String categoria, int fecha, long walletId) {
+    public Transaccion(String descripcion, String importe, String pagador, String participantes, String categoria, int fecha, long walletId) {
         this.descripcion = descripcion;
         this.importe = importe;
         this.pagador = pagador;
@@ -24,7 +24,7 @@ public class Transaccion {
     }
 
     // Constructor para cuando instanciamos desde la BD
-    public Transaccion(String descripcion, int importe, String pagador, String participantes, String categoria, int fecha, long walletId, long id) {
+    public Transaccion(String descripcion, String importe, String pagador, String participantes, String categoria, int fecha, long walletId, long id) {
         this.descripcion = descripcion;
         this.importe = importe;
         this.pagador = pagador;
@@ -49,10 +49,10 @@ public class Transaccion {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public int getImporte() {
+    public String getImporte() {
         return importe;
     }
-    public void setImporte(int importe) {
+    public void setImporte(String importe) {
         this.importe = importe;
     }
     public String getPagador() {

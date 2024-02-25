@@ -38,7 +38,7 @@ public class AdaptadorTransacciones extends RecyclerView.Adapter<AdaptadorTransa
         // Obtener los datos de la lista
 
         String descripcionTransaccion = transaccion.getDescripcion();
-        int importeTransaccion = transaccion.getImporte();
+        String importeTransaccion = transaccion.getImporte();
         String pagadorTransaccion = transaccion.getPagador();
         String participantesTransaccion = transaccion.getParticipantes();
         String categoriaTransaccion = transaccion.getCategoria();

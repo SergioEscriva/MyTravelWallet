@@ -96,7 +96,7 @@ public class TransaccionController {
             // El 0 es el número de la columna, como seleccionamos
 
             String descripcionObtenidoDeBD = cursor.getString(0);
-            int importeObtenidaDeBD = cursor.getInt(1);
+            String importeObtenidaDeBD = cursor.getString(1);
             String pagadorObtenidoDeBD = cursor.getString(2);
             String participantesObtenidaDeBD = cursor.getString(3);
             String categoriaObtenidaDeBD = cursor.getString(4);
