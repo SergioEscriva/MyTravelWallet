@@ -25,7 +25,7 @@
         android:layout_width="5px"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:translationX="700px"
         android:visibility="invisible"
         tools:layout_editor_absoluteX="10dp"
@@ -45,7 +45,7 @@
 
 
     <EditText
-        android:id="@+id/etPropietario"
+        android:id="@+id/etPropietarioId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -53,9 +53,10 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Propietario"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etDescripcion" />
+        app:layout_constraintTop_toBottomOf="@id/etDescripcion"
+        tools:visibility="invisible" />
 
     <CheckBox
         android:id="@+id/checkBox_Compartir"
@@ -63,7 +64,7 @@
         android:layout_height="wrap_content"
         android:text="Compartir"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintTop_toBottomOf="@id/etPropietario"
+        app:layout_constraintTop_toBottomOf="@id/etPropietarioId"
         tools:layout_editor_absoluteX="8dp" />
 
     <EditText
@@ -93,6 +94,17 @@
         app:layout_constraintStart_toStartOf="@id/constraintLayout1"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Compartir" />
 
+
+    <Button
+        android:id="@+id/btnEliminarWallet"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
+        android:text="Eliminar"
+        app:layout_constraintLeft_toRightOf="@id/btn_agregar_wallet"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_Compartir" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_cancelar_nuevo_wallet"
@@ -136,7 +148,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnAgregarUsuario"
+        android:id="@+id/btnAgregarParticipante"
         android:layout_width="100px"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
