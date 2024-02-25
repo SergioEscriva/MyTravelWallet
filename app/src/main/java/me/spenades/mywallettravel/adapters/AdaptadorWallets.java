@@ -40,14 +40,15 @@ public class AdaptadorWallets extends RecyclerView.Adapter<AdaptadorWallets.MyVi
         // Obtener los datos de la lista
         String nombreWallet = wallet.getNombre();
         String descripcionWallet = wallet.getDescripcion();
-        Long WalletId = wallet.getWalletId();
-        String propietarioWallet = wallet.getPropietario();
+        //long propietarioIdWallet = wallet.getPropietarioId();
+        long walletId = wallet.getWalletId();
         int compartirWallet = wallet.getCompartir();
 
         // Y poner a los TextView los datos con setText
         myViewHolder.tvNombre.setText(nombreWallet);
         myViewHolder.tvDescripcion.setText(descripcionWallet);
-        myViewHolder.tvWalletId.setText(String.valueOf(WalletId)) ;
+        myViewHolder.tvWalletId.setText(String.valueOf(walletId));
+        //myViewHolder.tvPropietarioId.setText(String.valueOf(propietarioIdWallet));
 
         boolean checkbox_Compartir = (compartirWallet==1)? true:false;
 
@@ -60,14 +61,14 @@ public class AdaptadorWallets extends RecyclerView.Adapter<AdaptadorWallets.MyVi
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNombre, tvDescripcion, tvPropietario, tvWalletId;
+        TextView tvNombre, tvDescripcion, tvPropietarioId, tvWalletId;
         CheckBox checkbox_Compartir;
         MyViewHolder(View itemView) {
             super(itemView);
             this.tvNombre = itemView.findViewById(R.id.tvNombreWallet);
             this.tvDescripcion = itemView.findViewById(R.id.tvDescripcionWallet);
             this.tvWalletId = itemView.findViewById(R.id.tvWalletId);
-            //this.tvPropietario = itemView.findViewById(R.id.tvPropietario);
+            //this.tvPropietarioId = itemView.findViewById(R.id.tvPropietarioId);
             this.checkbox_Compartir = (CheckBox) itemView.findViewById(R.id.checkBox_Compartir);
         }
     }

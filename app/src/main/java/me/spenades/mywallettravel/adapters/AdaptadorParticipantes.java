@@ -11,19 +11,19 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.spenades.mywallettravel.R;
-import me.spenades.mywallettravel.models.Usuario;
+import me.spenades.mywallettravel.models.Participante;
 
 
-public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.MyViewHolder> {
+public class AdaptadorParticipantes extends RecyclerView.Adapter<AdaptadorParticipantes.MyViewHolder> {
 
-    private List<Usuario> listaDeUsuarios;
+    private List<Participante> listaDeParticipantes;
 
-    public void setListaDeUsuarios(List<Usuario> listaDeUsuarios) {
-        this.listaDeUsuarios = listaDeUsuarios;
+    public void setListaDeParticipantes(List<Participante> listaDeParticipantes) {
+        this.listaDeParticipantes = listaDeParticipantes;
     }
 
-    public AdaptadorUsuarios(List<Usuario> usuario) {
-        this.listaDeUsuarios = usuario;
+    public AdaptadorParticipantes(List<Participante> participante) {
+        this.listaDeParticipantes = participante;
     }
 
     @NonNull
@@ -36,30 +36,31 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         // Obtener la de nuestra lista gracias al índice i
-        Usuario usuario = listaDeUsuarios.get(i);
+        Participante participante = listaDeParticipantes.get(i);
 
         // Obtener los datos de la lista
-        String nombreUsuario = usuario.getNombre();
-        String apodoUsuario = usuario.getApodo();
-        Long UsuarioId = usuario.getId();
+        long walletId = participante.getWalletId();
+        long userId = participante.getUserId();
+        long ParticipanteId = participante.getId();
+        String nombre = participante.getNombre();
 
         // Y poner a los TextView los datos con setText
-        myViewHolder.tvUsuario.setText(nombreUsuario);
-       // myViewHolder.tvApodo.setText(apodoUsuario);
+        myViewHolder.tvParticipante.setText(String.valueOf(nombre));
+       // myViewHolder.tvApodo.setText(apodoParticipante);
 
     }
 
     @Override
     public int getItemCount() {
-        return listaDeUsuarios.size();
+        return listaDeParticipantes.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUsuario;
+        TextView tvParticipante;
         CheckBox checkbox_Compartir;
         MyViewHolder(View itemView) {
             super(itemView);
-           // this.tvUsuario = itemView.findViewById(R.id.tvUsuario);
+            this.tvParticipante = itemView.findViewById(R.id.tvParticipante);
         }
     }
 }

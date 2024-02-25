@@ -28,12 +28,15 @@ public class UsuarioController {
         // writable porque vamos a insertar
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
-        System.out.println("UsuarioController" + usuario.getNombre());
+
+        System.out.println("Lista Usuarios" + obtenerUsuarios(0));
+        // Recuperamos Valores
         valoresParaInsertar.put("nombre", usuario.getNombre());
         valoresParaInsertar.put("apodo", usuario.getApodo());
-
-        System.out.println("Usuario" + valoresParaInsertar);
-        return baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
+        // Agregamos a la BD
+        long usuarioId = baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
+        System.out.println("UsuarioController " + usuarioId);
+        return usuarioId;
     }
 
     public int guardarCambios(Usuario usuarioEditado) {
@@ -78,11 +81,10 @@ public class UsuarioController {
                 Salimos aquí porque hubo un error, regresar
                 lista vacía
              */
-            System.out.println("EEEEEEErrrror");
             return usuarios;
 
         }
-        //System.out.println("UUUUUUUUU " + cursor.getString(0));
+
         // Si no hay datos, igualmente regresamos la lista vacía
         if (!cursor.moveToFirst()) return usuarios;
 
@@ -96,7 +98,7 @@ public class UsuarioController {
 
             Usuario usuarioObtenidaDeBD = new Usuario(nombreObtenidoDeBD, apodoObtenidoDeBD, usuarioIdObtenidoDeBD);
             usuarios.add(usuarioObtenidaDeBD);
-            System.out.println("Usuario: " + usuarioIdObtenidoDeBD);
+
         } while (cursor.moveToNext());
 
         // Fin del ciclo. Cerramos cursor y regresamos la lista

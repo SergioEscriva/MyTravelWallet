@@ -4,12 +4,12 @@ public class Wallet {
 
     private String nombre;
     private String descripcion;
-    private String propietario;
+    private long propietario;
     private int compartir;
     private long WalletId; // El ID del Wallet
 
 
-    public Wallet(String nombre, String descripcion, String propietario, int compartir) {
+    public Wallet(String nombre, String descripcion, long propietario, int compartir) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.propietario = propietario;
@@ -18,7 +18,7 @@ public class Wallet {
     }
 
     // Constructor para cuando instanciamos desde la BD
-    public Wallet(String nombre, String descripcion, String propietario,  int compartir, long WalletId) {
+    public Wallet(String nombre, String descripcion, long propietario, int compartir, long WalletId) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.propietario = propietario;
@@ -46,10 +46,10 @@ public class Wallet {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public String getPropietario() {
+    public long getPropietarioId() {
         return propietario;
     }
-    public void setPropietario(String propietario) {
+    public void setPropietarioId(long propietario) {
         this.propietario = propietario;
     }
     public int getCompartir() {
@@ -61,7 +61,7 @@ public class Wallet {
     @Override
     public String toString() {
         return "Wallet{" +
-                "nombre='" + nombre + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", propietario='" + propietario + '\'' +
                 ", compartir='" + compartir +

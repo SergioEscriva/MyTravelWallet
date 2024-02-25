@@ -52,6 +52,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         btnCancelarEdicion = findViewById(R.id.btnCancelarEdicionTransaccion);
         btnGuardarCambios = findViewById(R.id.btnGuardarCambiosTransaccion);
 
+
         // Rellenar los EditText de la pantalla
         etDescripcion.setText(transaccion.getDescripcion());
         etImporte.setText(String.valueOf(transaccion.getImporte()));

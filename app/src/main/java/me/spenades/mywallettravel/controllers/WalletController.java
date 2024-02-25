@@ -17,10 +17,10 @@ public class WalletController {
     public WalletController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
     }
-    public int eliminarWallet(Wallet wallet) {
+    public int eliminarWallet(long walletId) {
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
-        String[] argumentos = {String.valueOf(wallet.getWalletId())};
+        String[] argumentos = {String.valueOf(walletId)}; // {String.valueOf(wallet.getWalletId())};
         return baseDeDatos.delete(NOMBRE_TABLA, "id = ?", argumentos);
     }
 
@@ -31,9 +31,9 @@ public class WalletController {
 
         valoresParaInsertar.put("nombre", wallet.getNombre());
         valoresParaInsertar.put("descripcion", wallet.getDescripcion());
-        valoresParaInsertar.put("propietario", wallet.getPropietario());
+        valoresParaInsertar.put("propietario", wallet.getPropietarioId());
         valoresParaInsertar.put("compartir", wallet.getCompartir());
-        System.out.println("Wallet" + valoresParaInsertar);
+
         return baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
     }
 
@@ -43,7 +43,7 @@ public class WalletController {
 
         valoresParaActualizar.put("nombre", walletEditado.getNombre());
         valoresParaActualizar.put("descripcion", walletEditado.getDescripcion());
-        valoresParaActualizar.put("propietario", walletEditado.getPropietario());
+        valoresParaActualizar.put("propietario", walletEditado.getPropietarioId());
         valoresParaActualizar.put("compartir", walletEditado.getCompartir());
 
         // where id...
@@ -86,13 +86,14 @@ public class WalletController {
 
             String nombreObtenidoDeBD = cursor.getString(0);
             String descripcionObtenidoDeBD = cursor.getString(1);
-            String propietarioObtenidaDeBD = cursor.getString(2);
+            long propietarioObtenidaDeBD = cursor.getLong(2);
             int compartirObtenidaDeBD = cursor.getInt(3);
             long walletIdObtenidoDeBD = cursor.getLong(4);
 
+
             Wallet walletObtenidaDeBD = new Wallet(nombreObtenidoDeBD, descripcionObtenidoDeBD, propietarioObtenidaDeBD, compartirObtenidaDeBD, walletIdObtenidoDeBD);
             wallets.add(walletObtenidaDeBD);
-            System.out.println("WAllet: " + walletIdObtenidoDeBD);
+
         } while (cursor.moveToNext());
 
         // Fin del ciclo. Cerramos cursor y regresamos la lista
