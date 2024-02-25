@@ -90,7 +90,7 @@ public class Transaccion {
     @Override
     public String toString() {
         return "Transaccion{" +
-                "descripcion='" + descripcion + '\'' +
+                ", descripcion='" + descripcion + '\'' +
                 ", importe='" + importe + '\'' +
                 ", pagador='" + pagador + '\'' +
                 ", participantes='" + participantes + '\'' +

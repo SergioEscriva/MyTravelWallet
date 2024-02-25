@@ -38,8 +38,8 @@ public class TransaccionController {
         valoresParaInsertar.put("categoria", transaccion.getCategoria());
         valoresParaInsertar.put("fecha", transaccion.getFecha());
         valoresParaInsertar.put("walletId", transaccion.getWalletId()+1);
-
-        return baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
+        long transaccionId = baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
+        return transaccionId;
     }
 
     public int guardarCambios(Transaccion transaccionEditada) {

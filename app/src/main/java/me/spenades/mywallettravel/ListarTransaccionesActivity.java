@@ -46,10 +46,8 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             return;
         }
 
-
-        // Recuperamos WalletId Activo
-        long walletIdSelected = extras.getInt("walletId");
         String walletNameSelected = extras.getString("walletName");
+        long walletIdSelected = extras.getInt("walletId");
 
         // Definir nuestro controlador
         transaccionController = new TransaccionController(ListarTransaccionesActivity.this);
@@ -61,8 +59,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         fabResolverDeudas = findViewById(R.id.fabResolverDeudas);
 
         // Por defecto es una lista vacía,
-
-
         listaDeTransaccions = new ArrayList<>();
         adaptadorTransacciones = new AdaptadorTransacciones(listaDeTransaccions);
 
@@ -202,7 +198,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             return false;
         }
     });
-
     }
 
 
