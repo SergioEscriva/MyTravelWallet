@@ -14,7 +14,6 @@ import java.util.List;
 
 import me.spenades.mywallettravel.adapters.AdaptadorUsuarios;
 import me.spenades.mywallettravel.controllers.UsuarioController;
-import me.spenades.mywallettravel.models.Participante;
 import me.spenades.mywallettravel.models.Usuario;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         listaDeUsuarios = new ArrayList<>();
         adaptadorUsuarios = new AdaptadorUsuarios(listaDeUsuarios);
         // Se envía el wallet 0 para poder recuperar todos los usuarios
-        listaDeUsuarios = usuarioController.obtenerUsuarios(0);
+        listaDeUsuarios = usuarioController.obtenerUsuarios();
         adaptadorUsuarios.setListaDeUsuarios(listaDeUsuarios);
         int cantidadUsuarios = adaptadorUsuarios.getItemCount();
 
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refrescarListaDeUsuarios() {
-        listaDeUsuarios = usuarioController.obtenerUsuarios(0);
+        listaDeUsuarios = usuarioController.obtenerUsuarios();
         adaptadorUsuarios.setListaDeUsuarios(listaDeUsuarios);
         adaptadorUsuarios.notifyDataSetChanged();
     }

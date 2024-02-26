@@ -37,14 +37,17 @@ public class EditarWalletActivity extends AppCompatActivity {
     private EditText etNombre, etDescripcion, etPropietarioId, etWalletId, etAddParticipante;
     private CheckBox checkBoxCompartir;
     private FloatingActionButton btnCancelarEdicion;
+    private long walletId;
+    private String nombreWallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_wallet);
-
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
+        this.walletId = Long.parseLong(extras.getString("walletId"));
+        this.nombreWallet = extras.getString("nombreWallet");
         if (extras == null) {
             finish();
             return;
@@ -56,13 +59,11 @@ public class EditarWalletActivity extends AppCompatActivity {
 
         // Recuperamos datos
         String nombreUsuario = extras.getString("nombreUsuario");
-        int usuarioId= extras.getInt("usuarioId");
-        long walletId = extras.getLong("walletId");
-        String nombreWallet = extras.getString("nombreWallet");
+        String usuarioId= extras.getString("usuarioId");
         String descripcion = extras.getString("descripcion");
-        long propietario = extras.getLong("propietarioId");
-        int compartir = extras.getInt("checkCompartir");
-        wallet = new Wallet(nombreWallet, descripcion, propietario, compartir, walletId);
+        String propietario = extras.getString("propietarioId");
+        String compartir = extras.getString("checkCompartir");
+        wallet = new Wallet(nombreWallet, descripcion, Integer.parseInt(propietario), Integer.parseInt(compartir), walletId);
 
         // Ahora declaramos las vistas
         recyclerViewParticipantes = findViewById(R.id.recyclerViewParticipantes) ;
@@ -91,7 +92,8 @@ public class EditarWalletActivity extends AppCompatActivity {
         etDescripcion.setText(wallet.getDescripcion());
         etPropietarioId.setText(String.valueOf(propietario));
         etWalletId.setText(String.valueOf(walletId));
-        Boolean compartirCheck = (compartir == 0) ? false : true;
+
+        Boolean compartirCheck = (compartir == "0") ? false : true;
         checkBoxCompartir.setChecked(compartirCheck);
 
         // Por defecto es una lista vacía,
@@ -162,7 +164,7 @@ public class EditarWalletActivity extends AppCompatActivity {
 
                 // Ya pasó la validación
 
-                Wallet editarWallet = new Wallet(nombre, descripcion, Long.parseLong(propietario), compartir);
+                Wallet editarWallet = new Wallet(nombre, descripcion, Long.parseLong(propietario), compartir, walletId);
                 long walletIdGuardado = walletController.guardarCambios(editarWallet);
                 etWalletId.setText(String.valueOf(walletIdGuardado));
                 if (walletIdGuardado == -1) {
@@ -170,7 +172,9 @@ public class EditarWalletActivity extends AppCompatActivity {
                     Toast.makeText(EditarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    refrescarListaDeParticipantes();
+                    Toast.makeText(EditarWalletActivity.this, "Guardado Wallet.", Toast.LENGTH_SHORT).show();
+
+                    refrescarListaDeWallets();
                     //finish();
                 }
             }

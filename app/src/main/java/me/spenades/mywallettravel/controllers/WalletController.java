@@ -45,12 +45,13 @@ public class WalletController {
         valoresParaActualizar.put("descripcion", walletEditado.getDescripcion());
         valoresParaActualizar.put("propietario", walletEditado.getPropietarioId());
         valoresParaActualizar.put("compartir", walletEditado.getCompartir());
-
+        System.out.println("MEEERDA" + walletEditado.getWalletId());
         // where id...
-        String campoParaActualizar = "id = ?";
-        // ... = idTransaccion
+        String walletParaActualizar = "id = ?";
+        // ... = idWallet
+
         String[] argumentosParaActualizar = {String.valueOf(walletEditado.getWalletId())};
-        return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
+        return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, walletParaActualizar, argumentosParaActualizar);
     }
 
     public ArrayList<Wallet> obtenerWallets() {

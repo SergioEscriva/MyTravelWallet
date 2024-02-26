@@ -29,7 +29,6 @@ public class UsuarioController {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
 
-        System.out.println("Lista Usuarios" + obtenerUsuarios(0));
         // Recuperamos Valores
         valoresParaInsertar.put("nombre", usuario.getNombre());
         valoresParaInsertar.put("apodo", usuario.getApodo());
@@ -53,23 +52,18 @@ public class UsuarioController {
         return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
     }
 
-    public ArrayList<Usuario> obtenerUsuarios(int walletIdSelected) {
+    public ArrayList<Usuario> obtenerUsuarios() {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
-        // Si el wallet recibido es 0 significa que no hay usuarios, y se insta a crearlo.
-        // En caso contrario se muestran los Wallets de usuario registrado en la app.
-
-        long walletId = Long.valueOf(walletIdSelected);
-        String walletIdInicial = "walletId = " + String.valueOf(walletId + 1);
-        String WalletIdAConsultar = (walletIdSelected == 0)? null : walletIdInicial;
+        // Los usuarios son de toda la app.
 
         String[] columnasAConsultar = {"nombre", "apodo", "id"};
         Cursor cursor = baseDeDatos.query(
                 NOMBRE_TABLA,//from usuario
                 columnasAConsultar,
-                WalletIdAConsultar,
+                null,
                 null,
                 null,
                 null,

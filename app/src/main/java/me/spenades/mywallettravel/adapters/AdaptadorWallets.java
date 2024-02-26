@@ -40,7 +40,6 @@ public class AdaptadorWallets extends RecyclerView.Adapter<AdaptadorWallets.MyVi
         // Obtener los datos de la lista
         String nombreWallet = wallet.getNombre();
         String descripcionWallet = wallet.getDescripcion();
-        //long propietarioIdWallet = wallet.getPropietarioId();
         long walletId = wallet.getWalletId();
         int compartirWallet = wallet.getCompartir();
 

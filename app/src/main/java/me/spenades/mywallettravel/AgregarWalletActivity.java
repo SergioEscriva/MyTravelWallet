@@ -36,104 +36,57 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_wallet);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_add_wallet);
 
-        // Recuperar datos que enviaron
-        Bundle extras = getIntent().getExtras();
-        String usuarioActivo = extras.getString("usuarioActivo");
-        Long userIdActivo= extras.getLong("usuarioIdActivo");
+            // Recuperar datos que enviaron
+            Bundle extras = getIntent().getExtras();
+            String usuarioActivo = extras.getString("usuarioActivo");
+            Long userIdActivo= extras.getLong("usuarioIdActivo");
 
-        // Si no hay datos (cosa rara) salimos
-        if (extras == null) {
-            finish();
-            return;
-        }
-
-        // Crear el controlador
-        walletController = new WalletController(AgregarWalletActivity.this);
-        participanteController = new ParticipanteController(AgregarWalletActivity.this);
-
-        // Instanciar vistas
-        recyclerViewParticipantes = findViewById(R.id.recyclerViewParticipantes) ;
-
-
-        etNombre = findViewById(R.id.etNombre);
-        etDescripcion = findViewById(R.id.etDescripcion);
-        etPropietarioId = findViewById(R.id.etPropietarioId);
-        etAddParticipante = findViewById(R.id.etAddParticipante);
-        etWaletId = findViewById(R.id.etWalletId);
-        CheckBox checkBoxCompartir = findViewById(R.id.checkBox_Compartir);
-        btnAgregarWallet = findViewById(R.id.btn_agregar_wallet);
-        btnCancelarNuevoWallet = findViewById(R.id.btn_cancelar_nuevo_wallet);
-        btnAgregarUsuario = findViewById(R.id.btnAgregarParticipante);
-        // Añade nuestro nombre de usuario rescatado del inicio
-        etPropietarioId.setText(String.valueOf(userIdActivo));
-        etPropietarioId.setVisibility(View.INVISIBLE);
-
-
-        // Por defecto es una lista vacía,
-        listaDeParticipantes = new ArrayList<>();
-        adaptadorParticipantes = new AdaptadorParticipantes(listaDeParticipantes);
-
-        // se la ponemos al adaptador y configuramos el recyclerView
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerViewParticipantes.setLayoutManager(mLayoutManager);
-        recyclerViewParticipantes.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewParticipantes.setAdapter(adaptadorParticipantes);
-
-        // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
-        refrescarListaDeParticipantes();
-
-        // Listener de los clicks en la lista Participantes
-        recyclerViewParticipantes.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewParticipantes, new RecyclerTouchListener.ClickListener() {
-            @Override // Un toque Será Editar Usuario
-            public void onClick(View view, int position) {
-                /* Pasar a la actividad EditarTransaccionesActivity.java
-                Transaccion transaccionSeleccionada = listaUsuarios.get(position);
-                Intent intent = new Intent(ListarTransaccionesActivity.this, EditarTransaccionesActivity.class);
-                intent.putExtra("idTransaccion", transaccionSeleccionada.getId());
-                intent.putExtra("descripcionTransaccion", transaccionSeleccionada.getDescripcion());
-                intent.putExtra("importeTransaccion", transaccionSeleccionada.getImporte());
-                intent.putExtra("pagadorTransaccion", transaccionSeleccionada.getPagador());
-                intent.putExtra("participantesTransaccion", transaccionSeleccionada.getParticipantes());
-                intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());
-                intent.putExtra("fechaTransaccion", transaccionSeleccionada.getFecha());
-                intent.putExtra("walletId", walletIdSelected);
-                startActivity(intent);
-
-                 */
+            // Si no hay datos (cosa rara) salimos
+            if (extras == null) {
+                finish();
+                return;
             }
 
-            @Override // Un toque largo Será borrar Usuario
-            public void onLongClick(View view, int position) {
-              /* final Transaccion transaccionParaEliminar = listaUsuarios.get(position);
-                AlertDialog dialog = new AlertDialog
-                        .Builder(ListarTransaccionesActivity.this)
-                        .setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                transaccionController.eliminarTransaccion(transaccionParaEliminar);
-                                refrescarListaDeUsuarios();
-                            }
-                        })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setTitle("Confirmar")
-                        .setMessage("¿Eliminar a la transacción " + transaccionParaEliminar.getDescripcion() + "?")
-                        .create();
-                dialog.show();
-                */
+            // Crear el controlador
+            walletController = new WalletController(AgregarWalletActivity.this);
+            participanteController = new ParticipanteController(AgregarWalletActivity.this);
 
-            }
+            // Instanciar vistas
+            recyclerViewParticipantes = findViewById(R.id.recyclerViewParticipantes) ;
 
-        }));
+
+            etNombre = findViewById(R.id.etNombre);
+            etDescripcion = findViewById(R.id.etDescripcion);
+            etPropietarioId = findViewById(R.id.etPropietarioId);
+            etAddParticipante = findViewById(R.id.etAddParticipante);
+            etWaletId = findViewById(R.id.etWalletId);
+            CheckBox checkBoxCompartir = findViewById(R.id.checkBox_Compartir);
+            btnAgregarWallet = findViewById(R.id.btn_agregar_wallet);
+            btnCancelarNuevoWallet = findViewById(R.id.btn_cancelar_nuevo_wallet);
+            btnAgregarUsuario = findViewById(R.id.btnAgregarParticipante);
+            // Añade nuestro nombre de usuario rescatado del inicio
+            etPropietarioId.setText(String.valueOf(userIdActivo));
+            etPropietarioId.setVisibility(View.INVISIBLE);
+
+
+            // Por defecto es una lista vacía,
+            listaDeParticipantes = new ArrayList<>();
+            adaptadorParticipantes = new AdaptadorParticipantes(listaDeParticipantes);
+
+            // se la ponemos al adaptador y configuramos el recyclerView
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            recyclerViewParticipantes.setLayoutManager(mLayoutManager);
+            recyclerViewParticipantes.setItemAnimator(new DefaultItemAnimator());
+            recyclerViewParticipantes.setAdapter(adaptadorParticipantes);
+
+            // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
+            refrescarListaDeParticipantes();
+
 
 
         // Agregar listener del botón de guardar Wallet
@@ -173,10 +126,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 // Ya pasó la validación
-
-
                 Wallet nuevoWallet = new Wallet(nombre, descripcion, propietarioId, compartir);
                 long walletId = walletController.nuevoWallet(nuevoWallet);
                 etWaletId.setText(String.valueOf(walletId));
@@ -186,6 +136,8 @@ public class AgregarWalletActivity extends AppCompatActivity {
                     Toast.makeText(AgregarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
 
                 } else {
+                    Toast.makeText(AgregarWalletActivity.this, "Wallet Guardada.", Toast.LENGTH_SHORT).show();
+
                     // Se agreta como participante al propietario de forma automática
                     Participante nuevoParticipante = new Participante(walletId, 0, propietarioName);
                     participanteController.nuevoParticipante(nuevoParticipante);
@@ -198,8 +150,8 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
                     //finish();
                 }
-            }
-        });
+
+        }});
 
         // El de cancelar simplemente cierra la actividad
         btnCancelarNuevoWallet.setOnClickListener(new View.OnClickListener() {
@@ -208,8 +160,59 @@ public class AgregarWalletActivity extends AppCompatActivity {
                 finish();
             }
         });
+        // Listener de los clicks en la lista Participantes
+        recyclerViewParticipantes.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewParticipantes, new RecyclerTouchListener.ClickListener() {
+            @Override // Un toque Será Editar Usuario
+            public void onClick(View view, int position) {
+                /* Pasar a la actividad EditarTransaccionesActivity.java
+                Transaccion transaccionSeleccionada = listaUsuarios.get(position);
+                Intent intent = new Intent(ListarTransaccionesActivity.this, EditarTransaccionesActivity.class);
+                intent.putExtra("idTransaccion", transaccionSeleccionada.getId());
+                intent.putExtra("descripcionTransaccion", transaccionSeleccionada.getDescripcion());
+                intent.putExtra("importeTransaccion", transaccionSeleccionada.getImporte());
+                intent.putExtra("pagadorTransaccion", transaccionSeleccionada.getPagador());
+                intent.putExtra("participantesTransaccion", transaccionSeleccionada.getParticipantes());
+                intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());
+                intent.putExtra("fechaTransaccion", transaccionSeleccionada.getFecha());
+                intent.putExtra("walletId", walletIdSelected);
+                startActivity(intent);
 
-        // Listener botón agregar participante y a su vez como usuario
+                 */
+            }
+
+            @Override // Un toque largo Será borrar Usuario
+            public void onLongClick(View view, int position) {
+
+                Toast.makeText(AgregarWalletActivity.this, "Esto borrará el Participante", Toast.LENGTH_SHORT).show();
+
+              /* final Transaccion transaccionParaEliminar = listaUsuarios.get(position);
+                AlertDialog dialog = new AlertDialog
+                        .Builder(ListarTransaccionesActivity.this)
+                        .setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                transaccionController.eliminarTransaccion(transaccionParaEliminar);
+                                refrescarListaDeUsuarios();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setTitle("Confirmar")
+                        .setMessage("¿Eliminar a la transacción " + transaccionParaEliminar.getDescripcion() + "?")
+                        .create();
+                dialog.show();
+                */
+
+            }
+
+        }));
+
+
+            // Listener botón agregar participante y a su vez como usuario
         btnAgregarUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,10 +238,6 @@ public class AgregarWalletActivity extends AppCompatActivity {
             etAddParticipante.requestFocus();
             return;
         }
-
-
-       // etWaletId = (findViewById(R.id.etWalletId));
-       // Long waletId = Long.parseLong(etWaletId.getText().toString());
 
         Participante nuevoParticipante = new Participante(walletId,String.valueOf(etAddParticipante));
 

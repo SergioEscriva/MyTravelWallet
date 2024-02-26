@@ -90,96 +90,78 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         etParticipantes.setText(String.valueOf(transaccion.getParticipantes()));
         etCategoria.setText(transaccion.getCategoria());
         etFecha.setText(String.valueOf(transaccion.getFecha()));
-        //etWalletId.setText(String.valueOf(transaccion.getWalletId()));
 
-        /*
-        // Listener del desplegable de participantes
-        spinnerParticipantes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = (String) spinnerParticipantes.getItemAtPosition(position);
-                Toast.makeText(EditarTransaccionesActivity.this, selected, Toast.LENGTH_SHORT).show();
-                //String nuevoPagador = selected;
-                nuevoPagador = selected;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-
-            });
-            */
 
             // Listener del click del botón para salir, simplemente cierra la actividad
-            btnCancelarEdicion.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        btnCancelarEdicion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        // Listener del click del botón que guarda cambios
+        btnGuardarCambios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Remover previos errores si existen
+                etDescripcion.setError(null);
+                etImporte.setError(null);
+                //spPagador.setError(null);
+                etParticipantes.setError(null);
+                etCategoria.setError(null);
+                etFecha.setError(null);
+                //etWalletId.setError(null);
+
+                // Crear la transaccion con los cambio y su id
+                String nuevaDescripcion = etDescripcion.getText().toString();
+                String nuevoImporte = etImporte.getText().toString();
+                String nuevoPagador = EditarTransaccionesActivity.this.nuevoPagador;
+                String nuevosParticipantes = etParticipantes.getText().toString();
+                String nuevaCategoria = etCategoria.getText().toString();
+                String nuevaFecha = etFecha.getText().toString();
+
+                if ("".equals(nuevaDescripcion)) {
+                    etDescripcion.setError("Escribe la descripción");
+                    etDescripcion.requestFocus();
+                    return;
+                }
+                if ("".equals(nuevoImporte)) {
+                    etImporte.setError("Escribe el importe");
+                    etImporte.requestFocus();
+                    return;
+                }
+
+                if ("".equals(nuevosParticipantes)) {
+                    etParticipantes.setError("Escribe número participantes");
+                    etParticipantes.requestFocus();
+                    return;
+                }
+                if ("".equals(nuevaCategoria)) {
+                    etCategoria.setError("Escribe nombre de la categoría de la compra");
+                    etCategoria.requestFocus();
+                    return;
+                }
+                if ("".equals(nuevaFecha)) {
+                    etFecha.setError("Escribe la fecha");
+                    etFecha.requestFocus();
+                    return;
+                }
+
+                // Si llegamos hasta aquí es porque los datos ya están validados
+                Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion, nuevoImporte, nuevoPagador, nuevosParticipantes, nuevaCategoria, Integer.parseInt(nuevaFecha), walletId, transaccion.getId());
+
+                int filasModificadas = transaccionController.guardarCambios(transaccionConNuevosCambios);
+                if (filasModificadas != 1) {
+                    // De alguna forma ocurrió un error porque se debió modificar únicamente una fila
+                    Toast.makeText(EditarTransaccionesActivity.this, "Error guardando cambios. Intente de nuevo.", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Si las cosas van bien, volvemos a la principal
+                    // cerrando esta actividad
                     finish();
                 }
-            });
-
-            // Listener del click del botón que guarda cambios
-            btnGuardarCambios.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Remover previos errores si existen
-                    etDescripcion.setError(null);
-                    etImporte.setError(null);
-                    //spPagador.setError(null);
-                    etParticipantes.setError(null);
-                    etCategoria.setError(null);
-                    etFecha.setError(null);
-                    //etWalletId.setError(null);
-
-                    // Crear la transaccion con los cambio y su id
-                    String nuevaDescripcion = etDescripcion.getText().toString();
-                    String nuevoImporte = etImporte.getText().toString();
-                    String nuevoPagador = EditarTransaccionesActivity.this.nuevoPagador;
-                    String nuevosParticipantes = etParticipantes.getText().toString();
-                    String nuevaCategoria = etCategoria.getText().toString();
-                    String nuevaFecha = etFecha.getText().toString();
-
-                    if ("".equals(nuevaDescripcion)) {
-                        etDescripcion.setError("Escribe la descripción");
-                        etDescripcion.requestFocus();
-                        return;
-                    }
-                    if ("".equals(nuevoImporte)) {
-                        etImporte.setError("Escribe el importe");
-                        etImporte.requestFocus();
-                        return;
-                    }
-
-                    if ("".equals(nuevosParticipantes)) {
-                        etParticipantes.setError("Escribe número participantes");
-                        etParticipantes.requestFocus();
-                        return;
-                    }
-                    if ("".equals(nuevaCategoria)) {
-                        etCategoria.setError("Escribe nombre de la categoría de la compra");
-                        etCategoria.requestFocus();
-                        return;
-                    }
-                    if ("".equals(nuevaFecha)) {
-                        etFecha.setError("Escribe la fecha");
-                        etFecha.requestFocus();
-                        return;
-                    }
-
-                    // Si llegamos hasta aquí es porque los datos ya están validados
-                    Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion, nuevoImporte, nuevoPagador, nuevosParticipantes, nuevaCategoria, Integer.parseInt(nuevaFecha), walletId, transaccion.getId());
-
-                    int filasModificadas = transaccionController.guardarCambios(transaccionConNuevosCambios);
-                    if (filasModificadas != 1) {
-                        // De alguna forma ocurrió un error porque se debió modificar únicamente una fila
-                        Toast.makeText(EditarTransaccionesActivity.this, "Error guardando cambios. Intente de nuevo.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // Si las cosas van bien, volvemos a la principal
-                        // cerrando esta actividad
-                        finish();
-                    }
-                }
-            });
+            }
+        });
 
     }
     public void refrescarListaDeParticipantes () {
