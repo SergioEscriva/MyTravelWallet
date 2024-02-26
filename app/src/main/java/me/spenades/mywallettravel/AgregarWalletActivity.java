@@ -32,6 +32,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
     private EditText etNombre, etDescripcion, etPropietarioId, etAddParticipante, etWaletId;
     private CheckBox checkBoxCompartir;
     private FloatingActionButton btnCancelarNuevoWallet;
+    private long walletId;
 
 
 
@@ -149,7 +150,8 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
                 String nombre = etNombre.getText().toString(),
                         descripcion = etDescripcion.getText().toString(),
-                        propietario = etPropietarioId.getText().toString();
+                        propietarioName = usuarioActivo;
+                long propietarioId = Long.parseLong(etPropietarioId.getText().toString());
 
                 Boolean checkBoxStateCompartir = checkBoxCompartir.isChecked();
 
@@ -165,7 +167,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
                     etDescripcion.requestFocus();
                     return;
                 }
-                if ("".equals(propietario)) {
+                if ("".equals(propietarioId)) {
                     etPropietarioId.setError("Escribe Nombre del propietario");
                     etPropietarioId.requestFocus();
                     return;
@@ -173,9 +175,9 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
 
                 // Ya pasó la validación
-                long propietarioLong =  Long.parseLong(propietario);
 
-                Wallet nuevoWallet = new Wallet(nombre, descripcion, propietarioLong, compartir);
+
+                Wallet nuevoWallet = new Wallet(nombre, descripcion, propietarioId, compartir);
                 long walletId = walletController.nuevoWallet(nuevoWallet);
                 etWaletId.setText(String.valueOf(walletId));
 
@@ -184,11 +186,11 @@ public class AgregarWalletActivity extends AppCompatActivity {
                     Toast.makeText(AgregarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    // Se quita el botón de Añadir Wallet nuevo y se hace visible los participantes.
-
-                    Participante nuevoParticipante = new Participante(walletId, propietario);
+                    // Se agreta como participante al propietario de forma automática
+                    Participante nuevoParticipante = new Participante(walletId, 0, propietarioName);
                     participanteController.nuevoParticipante(nuevoParticipante);
                     refrescarListaDeParticipantes();
+                    // Se quita el botón de Añadir Wallet nuevo y se hace visible los participantes.
                     btnAgregarWallet.setVisibility(View.INVISIBLE);
                     recyclerViewParticipantes.setVisibility(View.VISIBLE);
                     etAddParticipante.setVisibility(View.VISIBLE);
@@ -220,15 +222,12 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
     // Agrega participante al Wallet
     public void agregarParticipante(){
+
         // Resetear errores
         etAddParticipante.setError(null);
         String nuevoMiembro = etAddParticipante.getText().toString();
         System.out.println(nuevoMiembro);
-        //participanteController.obtenerParticipantes(0);
-        //listaDeParticipantes = participanteController.obtenerParticipantes(0);
 
-        //adaptadorParticipantes.setListaDeUsuarios(listaDeUsuarios);
-        //adaptadorUsuarios.notifyDataSetChanged();
         refrescarListaDeParticipantes();
 
         if ("".equals(nuevoMiembro)) {
@@ -236,21 +235,20 @@ public class AgregarWalletActivity extends AppCompatActivity {
             etAddParticipante.requestFocus();
             return;
         }
-        //AgregarWalletActivity walletIdActivo = new AgregarWalletActivity();
-       // walletIdActivo.onCreate(guardarWallet().wal);
-        etWaletId = (findViewById(R.id.etWalletId));
-        Long WaletId = Long.parseLong(etWaletId.getText().toString());
 
-        // Agregamos Participante y Refrescamos, la nueva transacción nos devuelve el id del nuevo participante.
-        //Participante nuevoParticipante = new Participante(1,1,String.valueOf(etAddParticipante));
-        Participante nuevoParticipante = new Participante(WaletId,String.valueOf(etAddParticipante));
-        //refrescarListaDeParticipantes();
+
+       // etWaletId = (findViewById(R.id.etWalletId));
+       // Long waletId = Long.parseLong(etWaletId.getText().toString());
+
+        Participante nuevoParticipante = new Participante(walletId,String.valueOf(etAddParticipante));
+
         long id = participanteController.nuevoParticipante(nuevoParticipante);
         if (id == -1) {
             // De alguna manera ocurrió un error
             refrescarListaDeParticipantes();
             Toast.makeText(AgregarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
         } else {
+
             refrescarListaDeParticipantes();
             Toast.makeText(AgregarWalletActivity.this, "Usuario añadido", Toast.LENGTH_SHORT).show();
 
@@ -260,10 +258,9 @@ public class AgregarWalletActivity extends AppCompatActivity {
     public void refrescarListaDeParticipantes() {
         if (adaptadorParticipantes == null) return;
 
-        listaDeParticipantes = participanteController.obtenerParticipantes(1);
+        listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
         adaptadorParticipantes.setListaDeParticipantes(listaDeParticipantes);
         adaptadorParticipantes.notifyDataSetChanged();
-
 
     }
 

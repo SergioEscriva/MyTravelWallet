@@ -105,7 +105,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewResumen"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -118,7 +119,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewTransacciones"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
 
         </ScrollView>
 

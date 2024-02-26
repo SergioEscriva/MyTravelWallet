@@ -55,13 +55,12 @@ public class EditarWalletActivity extends AppCompatActivity {
         participanteController = new ParticipanteController(EditarWalletActivity.this);
 
         // Recuperamos datos
-        String usuarioActivo = extras.getString("usuarioActivo");
-        int userIdActivo= extras.getInt("usuarioIdActivo");
+        String nombreUsuario = extras.getString("nombreUsuario");
+        int usuarioId= extras.getInt("usuarioId");
         long walletId = extras.getLong("walletId");
-        String walletName = extras.getString("walletName");
-        String nombreWallet = extras.getString("etNombre");
-        String descripcion = extras.getString("etDescripcion");
-        long propietario = extras.getLong("etPropietarioId");
+        String nombreWallet = extras.getString("nombreWallet");
+        String descripcion = extras.getString("descripcion");
+        long propietario = extras.getLong("propietarioId");
         int compartir = extras.getInt("checkCompartir");
         wallet = new Wallet(nombreWallet, descripcion, propietario, compartir, walletId);
 
@@ -165,7 +164,7 @@ public class EditarWalletActivity extends AppCompatActivity {
 
                 Wallet editarWallet = new Wallet(nombre, descripcion, Long.parseLong(propietario), compartir);
                 long walletIdGuardado = walletController.guardarCambios(editarWallet);
-                etWalletId.setText(String.valueOf(walletId));
+                etWalletId.setText(String.valueOf(walletIdGuardado));
                 if (walletIdGuardado == -1) {
                     // De alguna manera ocurrió un error
                     Toast.makeText(EditarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
@@ -184,7 +183,7 @@ public class EditarWalletActivity extends AppCompatActivity {
                 // Refrescamos la lista, Recuperamos WalletId y lo añadimos a Eliminar
                 refrescarListaDeWallets();
                 long walletId = extras.getLong("walletId");
-                String nombreWallet = extras.getString("walletName");
+                String nombreWallet = extras.getString("nombreWallet");
                 //Wallet walletParaEliminar = listaDeWallets.get((int) walletId);
 
                 AlertDialog dialog = new AlertDialog
@@ -220,7 +219,7 @@ public class EditarWalletActivity extends AppCompatActivity {
                     etAddParticipante.setError(null);
                     // Recuperar datos
                     String nuevoParticipante = etAddParticipante.getText().toString();
-                    long walletId = Long.parseLong(etWalletId.getText().toString()+1);
+                    //long walletId = Long.parseLong(etWalletId.getText().toString()+1);
 
                     // Listamos participantes del Wallet
                     participanteController.obtenerParticipantes(walletId);
@@ -244,6 +243,8 @@ public class EditarWalletActivity extends AppCompatActivity {
 
                     } else {
                         refrescarListaDeParticipantes();
+                        etAddParticipante.setText("");
+
                         Toast.makeText(EditarWalletActivity.this, "Participante añadido", Toast.LENGTH_SHORT).show();
 
                     }
