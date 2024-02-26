@@ -38,7 +38,7 @@ public class ParticipanteController {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
 
         // Rescatamos valores necesarios para guardar Participante
-        String walletId = String.valueOf(participante.getWalletId()+1);
+        String walletId = String.valueOf(participante.getWalletId());
         String nombreUsuario = String.valueOf(participante.getNombre());
        // long walletIdLong = Long.valueOf(walletId);
         long usuarioId = Long.valueOf(participante.getUserId());
@@ -49,12 +49,12 @@ public class ParticipanteController {
         long usuarioIdExiste = usuarioController.nuevoUsuario(nuevoUsuario);
 
         if (usuarioIdExiste == -1) {
-            // Como existe no lo agregamos y continuamos
+            // Como existe no lo agregamos  como usuario pero si como participante y rescatamos el Id que ya tiene
+            usuarioIdExiste = usuarioId + 1;
             System.out.println("Existe" + usuarioIdExiste);
-
         }
 
-        String guardarParticipante = "INSERT INTO 'WALLET_USUARIO' (wallet_id,usuario_id) VALUES (" + walletId+"," + usuarioIdExiste + ")";
+        String guardarParticipante = "INSERT INTO 'WALLET_USUARIO' (wallet_id,usuario_id) VALUES (" + walletId +"," + usuarioIdExiste + ")";
         Cursor cursorParticipantes = baseDeDatos.rawQuery(guardarParticipante, null);
         long participanteExiste = cursorParticipantes.getCount();
 
@@ -85,7 +85,7 @@ public class ParticipanteController {
         //long walletId = Long.valueOf(walletIdSelected);
         //String WalletIdAConsultar = "wallet_id = " + String.valueOf(walletId + 1);
         String walletIdString =  String.valueOf(walletId + 1);
-        String query ="SELECT wallet_id,usuario_id,nombre FROM WALLET_USUARIO INNER JOIN USUARIO ON usuario_id=USUARIO.id"; //" WHERE wallet_id =" + walletIdString;
+        String query ="SELECT wallet_id,usuario_id,nombre FROM WALLET_USUARIO INNER JOIN USUARIO ON usuario_id=USUARIO.id WHERE wallet_id =" + walletIdString;
         Cursor cursor = baseDeDatos.rawQuery(query, null);
 
         if (cursor == null) {

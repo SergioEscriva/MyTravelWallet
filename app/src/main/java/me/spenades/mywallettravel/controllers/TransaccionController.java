@@ -37,7 +37,7 @@ public class TransaccionController {
         valoresParaInsertar.put("participantes", transaccion.getParticipantes());
         valoresParaInsertar.put("categoria", transaccion.getCategoria());
         valoresParaInsertar.put("fecha", transaccion.getFecha());
-        valoresParaInsertar.put("walletId", transaccion.getWalletId()+1);
+        valoresParaInsertar.put("walletId", transaccion.getWalletId());
         long transaccionId = baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
         return transaccionId;
     }
@@ -51,7 +51,7 @@ public class TransaccionController {
         valoresParaActualizar.put("participantes", transaccionEditada.getParticipantes());
         valoresParaActualizar.put("categoria", transaccionEditada.getCategoria());
         valoresParaActualizar.put("fecha", transaccionEditada.getFecha());
-        valoresParaActualizar.put("walletId", transaccionEditada.getWalletId()+1);
+        valoresParaActualizar.put("walletId", transaccionEditada.getWalletId());
 
         // where id...
         String campoParaActualizar = "id = ?";
@@ -61,12 +61,12 @@ public class TransaccionController {
         return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
     }
 
-    public ArrayList<Transaccion> obtenerTransacciones(int walletIdSelected) {
+    public ArrayList<Transaccion> obtenerTransacciones(long walletIdSelected) {
         ArrayList<Transaccion> transaccions = new ArrayList<>();
 
         // readable porque no vamos a modificar, solamente leer
         long walletId = walletIdSelected;
-        String WalletIdAConsultar = "walletId = " + String.valueOf(walletId + 1);
+        String WalletIdAConsultar = "walletId = " + String.valueOf(walletId);
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
         // SELECT id del Wallet

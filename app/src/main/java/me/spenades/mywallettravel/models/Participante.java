@@ -10,26 +10,26 @@ public class Participante {
 
 
     public Participante(long walletId, long userId, String nombre) {
-        this.nombre = nombre;
        // this.apodo = apodo;
         this.walletId = walletId;
         this.userId = userId;
+        this.nombre = nombre;
     }
 
     public Participante(long walletId, String nombre) {
-        this.nombre = nombre;
         // this.apodo = apodo;
-        //this.walletId = walletId;
         //this.userId = userId;
+        this.walletId = walletId;
+        this.nombre = nombre;
     }
 
 
     // Constructor para cuando instanciamos desde la BD
     public Participante(long walletId, long userId, String nombre, long id) {
-        this.nombre = nombre;
-       // this.apodo = apodo;
+        // this.apodo = apodo;
         this.walletId = walletId;
         this.userId = userId;
+        this.nombre = nombre;
         this.id = id;
     }
 
@@ -46,16 +46,6 @@ public class Participante {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-     /*
-    public String getApodo() {
-        return apodo;
-    }
-    public void setApodo(String apodo) {
-        this.apodo = apodo;
-    }
-
-     */
-
 
     public long getUserId() {
         return userId;
@@ -67,10 +57,19 @@ public class Participante {
     public long getWalletId() {
         return walletId;
     }
+
     public void setWalletId(long walletId) {
         this.walletId = walletId;
     }
+    /*
+   public String getApodo() {
+       return apodo;
+   }
+   public void setApodo(String apodo) {
+       this.apodo = apodo;
+   }
 
+    */
 
      @Override
     public String toString(){

@@ -29,7 +29,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         }
 
         // Recuperamos WalletId Activo
-        int walletIdSelected = extras.getInt("walletId");
+        long walletIdSelected = extras.getLong("walletId");
 
 
 

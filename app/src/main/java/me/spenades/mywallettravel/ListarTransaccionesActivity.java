@@ -23,31 +23,32 @@ import me.spenades.mywallettravel.models.Transaccion;
 
 public class ListarTransaccionesActivity extends AppCompatActivity {
     private List<Transaccion> listaDeTransaccions;
-    private RecyclerView recyclerViewTransacciones;
-    private RecyclerView recyclerViewResumen;
+    private RecyclerView recyclerViewTransacciones, recyclerViewResumen;
     private AdaptadorTransacciones adaptadorTransacciones;
     private AdaptadorResumen adaptadorResumen;
     private TransaccionController transaccionController;
     private FloatingActionButton fabAgregarTransaccion;
     private FloatingActionButton fabResolverDeudas;
+    private long walletId;
+    private String walletName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // código es generado automáticamente
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_transactions);
-
-        // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
+        setContentView(R.layout.activity_main_transactions);
+        this.walletName = extras.getString("walletName");
+        this.walletId = Long.parseLong(extras.getString("walletId"));
+        // Recuperar datos que enviaron
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {
             finish();
             return;
         }
 
-        String walletNameSelected = extras.getString("walletName");
-        long walletIdSelected = extras.getInt("walletId");
+
 
         // Definir nuestro controlador
         transaccionController = new TransaccionController(ListarTransaccionesActivity.this);
@@ -70,7 +71,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         recyclerViewTransacciones.setAdapter(adaptadorTransacciones);
 
         RecyclerView.LayoutManager mLayoutManagerBottom = new LinearLayoutManager(getApplicationContext());
-        adaptadorResumen = new AdaptadorResumen(listaDeTransaccions, walletNameSelected);
+        adaptadorResumen = new AdaptadorResumen(listaDeTransaccions, walletId);
         recyclerViewResumen.setLayoutManager(mLayoutManagerBottom);
         recyclerViewResumen.setItemAnimator(new DefaultItemAnimator());
         recyclerViewResumen.setAdapter(adaptadorResumen);
@@ -93,7 +94,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                 intent.putExtra("participantesTransaccion", transaccionSeleccionada.getParticipantes());
                 intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());
                 intent.putExtra("fechaTransaccion", transaccionSeleccionada.getFecha());
-                intent.putExtra("walletId", walletIdSelected);
+                intent.putExtra("walletId", String.valueOf(walletId));
                 startActivity(intent);
             }
 
@@ -123,12 +124,13 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         }));
 
         // Listener del FABTransacciones
+
         fabAgregarTransaccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Simplemente cambiamos de actividad
+                // //Añadir transacción Nueva
                 Intent intent = new Intent(ListarTransaccionesActivity.this, AgregarTransaccionActivity.class);
-                intent.putExtra("walletId", walletIdSelected);
+                intent.putExtra("walletId", walletId);
                 startActivity(intent);
             }
         });
@@ -168,7 +170,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         public void onClick(View v) {
             // Simplemente cambiamos de actividad
             Intent intent = new Intent(ListarTransaccionesActivity.this, ResolverDeudaActivity.class);
-            intent.putExtra("walletId", walletIdSelected);
+            intent.putExtra("walletId", walletId);
             startActivity(intent);
         }
     });
@@ -208,23 +210,10 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     }
 
     public void refrescarListaDeTransacciones() {
-        if (adaptadorTransacciones == null) return;
-        // Recuperar datos que enviaron
-        Bundle extras = getIntent().getExtras();
-        // Si no hay datos (cosa rara) salimos
-        if (extras == null) {
-            finish();
-            return;
-        }
-
-        // Recuperamos WalletId Activo
-        int walletIdSelected = extras.getInt("walletId");
-        String walletNameSelected = extras.getString("walletName");
-
-        listaDeTransaccions = transaccionController.obtenerTransacciones(walletIdSelected);
+        listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
         adaptadorTransacciones.setListaDeTransacciones(listaDeTransaccions);
         adaptadorTransacciones.notifyDataSetChanged();
-        adaptadorResumen.setListaDeTransacciones(listaDeTransaccions, walletNameSelected);
+        adaptadorResumen.setListaDeTransacciones(listaDeTransaccions, walletId);
         adaptadorResumen.notifyDataSetChanged();
 
     }
