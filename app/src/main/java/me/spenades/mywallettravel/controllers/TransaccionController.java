@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.Settings;
 
 import java.util.ArrayList;
 
@@ -109,6 +108,7 @@ public class TransaccionController {
         } while (cursor.moveToNext());
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
+        System.out.println("Transacciones " + transaccions);
         return transaccions;
     }
 }

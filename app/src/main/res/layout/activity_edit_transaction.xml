@@ -1,6 +1,5 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -62,9 +61,7 @@
             android:id="@+id/recyclerViewPagadores"
             android:layout_width="290dp"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme">
-
-        </android.support.v7.widget.RecyclerView>
+            android:theme="@style/AppTheme"></android.support.v7.widget.RecyclerView>
     </ScrollView>
 
 
@@ -93,17 +90,21 @@
         app:layout_constraintTop_toBottomOf="@+id/etEditarCategoria" />
 
 
-    <EditText
-        android:id="@+id/etEditarParticipantes"
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clParticipan"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:ems="10"
-        android:hint="Participantes"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEditarFecha" />
+        android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toBottomOf="@+id/etEditarFecha">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewParticipan"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme"></android.support.v7.widget.RecyclerView>
+
+    </android.support.constraint.ConstraintLayout>
 
 
     <Button
@@ -117,7 +118,7 @@
         android:text="Guardar"
         app:layout_constraintEnd_toStartOf="@+id/btnCancelarEdicionTransaccion"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEditarFecha" />
+        app:layout_constraintTop_toBottomOf="@id/clParticipan" />
 
     <Button
         android:id="@+id/btnCancelarEdicionTransaccion"
@@ -131,5 +132,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.81"
         app:layout_constraintStart_toEndOf="@+id/btnGuardarCambiosTransaccion"
-        app:layout_constraintTop_toBottomOf="@+id/etEditarFecha" />
+        app:layout_constraintTop_toBottomOf="@id/clParticipan" />
 </android.support.constraint.ConstraintLayout>

@@ -9,18 +9,20 @@
     android:focusable="true"
     android:padding="5dp">
 
-    <TextView
+    <CheckBox
         android:id="@+id/cbParticipante"
         android:layout_width="172dp"
         android:layout_height="22dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:checked="true"
         android:text="Aquí Usuario"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <View
         android:id="@+id/divider3"

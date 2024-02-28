@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel;
+package me.spenades.mywallettravel.utilities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,12 +17,21 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.spenades.mywallettravel.AgregarWalletActivity;
+import me.spenades.mywallettravel.EditarWalletActivity;
+import me.spenades.mywallettravel.ListarTransaccionesActivity;
+import me.spenades.mywallettravel.R;
+import me.spenades.mywallettravel.RecyclerTouchListener;
 import me.spenades.mywallettravel.adapters.AdaptadorWallets;
+import me.spenades.mywallettravel.controllers.ParticipanteController;
+import me.spenades.mywallettravel.controllers.UsuarioController;
 import me.spenades.mywallettravel.controllers.WalletController;
+import me.spenades.mywallettravel.models.Participante;
+import me.spenades.mywallettravel.models.Usuario;
 import me.spenades.mywallettravel.models.Wallet;
 
 
-public class ListarWalletsActivity extends AppCompatActivity {
+public class PagadorUtility extends AppCompatActivity {
     private List<Wallet> listaDeWallets;
 
     private RecyclerView recyclerViewWallets, recyclerViewParticipantes;
@@ -30,6 +39,8 @@ public class ListarWalletsActivity extends AppCompatActivity {
     private AdaptadorWallets adaptadorWallets;
 
     private WalletController walletController;
+    private UsuarioController usuarioController;
+    private ParticipanteController participanteController;
 
     private FloatingActionButton fabAgregarWallet;
 
@@ -37,8 +48,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
     private EditText etAddParticipante;
     //private long walletId;
     private String nombreWallet;
-    private long walletId;
-    //private long walletId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +66,9 @@ public class ListarWalletsActivity extends AppCompatActivity {
         }
 
         // Definir nuestro controlador
-        walletController = new WalletController(ListarWalletsActivity.this);
+        walletController = new WalletController(PagadorUtility.this);
+        participanteController = new ParticipanteController(PagadorUtility.this);
+        usuarioController = new UsuarioController(PagadorUtility.this);
 
         // Instanciar vistas
         recyclerViewWallets = findViewById(R.id.recyclerViewWallets);
@@ -80,12 +91,13 @@ public class ListarWalletsActivity extends AppCompatActivity {
             public void onClick(View view, int position) {
                 // Pasar a la actividad editarwallet
                 final Wallet walletNameActivo = listaDeWallets.get(position);
+                String posicion = String.valueOf(position + 1);
+                //walletId = Long.parseLong(posicion);
                 nombreWallet = walletNameActivo.getNombre();
-                walletId = walletNameActivo.getWalletId();
-                Intent intent = new Intent(ListarWalletsActivity.this, ListarTransaccionesActivity.class);
+                Intent intent = new Intent(PagadorUtility.this, ListarTransaccionesActivity.class);
                 intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
-                intent.putExtra("walletId", String.valueOf(walletId));
+                intent.putExtra("walletId", String.valueOf(posicion));
                 intent.putExtra("nombreWallet", String.valueOf(nombreWallet));
 
                 startActivity(intent);
@@ -96,12 +108,12 @@ public class ListarWalletsActivity extends AppCompatActivity {
             public void onLongClick(View view, int position) {
                 // Pasar a la actividad editarwallet
                 final Wallet walletNameActivo = listaDeWallets.get(position);
+                String posicion = String.valueOf(position + 1);
                 nombreWallet = walletNameActivo.getNombre();
-                walletId = walletNameActivo.getWalletId();
-                Intent intent = new Intent(ListarWalletsActivity.this, EditarWalletActivity.class);
+                Intent intent = new Intent(PagadorUtility.this, EditarWalletActivity.class);
                 intent.putExtra("nombreUsuario", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioId", String.valueOf(usuarioIdActivo));
-                intent.putExtra("walletId", String.valueOf(walletId));
+                intent.putExtra("walletId", String.valueOf(posicion));
                 intent.putExtra("nombreWallet", String.valueOf(nombreWallet));
                 intent.putExtra("descripcion", String.valueOf(walletNameActivo.getDescripcion()));
                 intent.putExtra("propietarioId", String.valueOf(walletNameActivo.getPropietarioId()));
@@ -118,7 +130,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Simplemente cambiamos de actividad
-                Intent intent = new Intent(ListarWalletsActivity.this, AgregarWalletActivity.class);
+                Intent intent = new Intent(PagadorUtility.this, AgregarWalletActivity.class);
                 intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
                 startActivity(intent);
@@ -129,7 +141,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
         fabAgregarWallet.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                new AlertDialog.Builder(ListarWalletsActivity.this)
+                new AlertDialog.Builder(PagadorUtility.this)
                         .setTitle("Acerca de")
                         .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y plantilla código de www.parzibyte.me")
                         .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
@@ -164,6 +176,32 @@ public class ListarWalletsActivity extends AppCompatActivity {
         listaDeWallets = walletController.obtenerWallets();
         adaptadorWallets.setListaDeWallets(listaDeWallets);
         adaptadorWallets.notifyDataSetChanged();
+
+    }
+
+    public long nuevoParticipante(long walletId, String nuevoParticipante) {
+        ArrayList<Usuario> usuarioIdDb = new ArrayList<>();
+
+        //Instanciamos controlador TODO para poner en una clase sóla, pero no me funciona.
+        // usuarioController = new UsuarioController(UsuarioUtility.this);
+        // participanteController = new ParticipanteController(UsuarioUtility.this);
+
+        // Formateamos nombre
+        Usuario nuevoUsuario = new Usuario(nuevoParticipante, nuevoParticipante);
+
+
+        // Si No existe lo agregamos como usuario, y recuperamos su nuevo Id.
+        if (usuarioIdDb == null) {
+            // Añadimos Usuario
+            long usuarioIdExiste = usuarioController.nuevoUsuario(nuevoUsuario);
+            return usuarioIdExiste;
+        }
+
+        //Formateamos variables Para Participante
+        Participante nuevoParticipanteGuardar = new Participante(walletId, nuevoParticipante);
+        // Ahora lo añadimos como Participante, aquí existe como usuario.
+        long agregarParticipante = participanteController.nuevoParticipante(nuevoParticipanteGuardar);
+        return agregarParticipante;
 
     }
 }

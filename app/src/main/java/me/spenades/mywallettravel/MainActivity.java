@@ -1,8 +1,7 @@
 package me.spenades.mywallettravel;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private AdaptadorUsuarios adaptadorUsuarios;
     private Button btnEmpezar;
     private EditText etNombrePropietario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         listaDeUsuarios = usuarioController.obtenerUsuarios();
         adaptadorUsuarios.setListaDeUsuarios(listaDeUsuarios);
         int cantidadUsuarios = adaptadorUsuarios.getItemCount();
-
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeUsuarios();
@@ -69,17 +68,17 @@ public class MainActivity extends AppCompatActivity {
                         // De alguna manera ocurrió un error
                         Toast.makeText(MainActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
                     } else {
-                            continuar();
-                        }
+                        continuar();
+                    }
                 }
 
             });
-        }else{
+        } else {
             continuar();
         }
     }
 
-    private void continuar(){
+    private void continuar() {
         //cambiamos de actividad
         refrescarListaDeUsuarios();
         final Usuario usuario = listaDeUsuarios.get(0);

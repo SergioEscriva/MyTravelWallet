@@ -272,29 +272,35 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
     }
 
+
     //TODO esto debe pasar a una clase, pero no me funciona.
     public long agregarParticipante(long walletId, String nuevoParticipante) {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
+        ArrayList<Usuario> usuarios;
 
         // Busca el usuario y devuelve su ID, si es 0 es que no está
         Usuario usuarioNuevo = new Usuario(nuevoParticipante, nuevoParticipante);
-        usuarios = usuarioController.obtenerUsuarios();
-        System.out.println(usuarios);
+        usuarios = usuarioController.obtenerUsuariosId(usuarioNuevo);
 
-        long usuarioExiste = 0;
+        // Si la lista devuelta es 0, usuario no existe
+        long usuarioExiste = usuarios.size();
+
         // Si No existe lo agregamos como usuario, y recuperamos su nuevo Id.
         long usuarioIdDb = 0;
-        if (usuarioExiste == -1) {
+        if (usuarioExiste == 0) {
             // Añadimos Usuario
-            usuarioController.nuevoUsuario(usuarioNuevo);
-            Usuario usuarioExistente = new Usuario(nuevoParticipante, nuevoParticipante);
-            usuarioIdDb = usuarioExistente.getId();
+            long usuarioRevision = usuarioController.nuevoUsuario(usuarioNuevo);
+            // Ya tenemos el ID del nuevo usuario
+            usuarioIdDb = usuarioRevision;
+        } else {
+            // Si existe, recuperamos Variable con el Id del usuario Existente
+            usuarioIdDb = usuarios.get(0).getId();
         }
-
         //Formateamos variables Para Participant
+        System.out.println("EEEEEEEE" + usuarioIdDb);
         Participante nuevoParticipanteGuardar = new Participante(walletId, usuarioIdDb, nuevoParticipante);
         // Ahora lo añadimos como Participante, aquí existe como usuario si, o si.
         long agregarParticipante = participanteController.nuevoParticipante(nuevoParticipanteGuardar);
+        refrescarListaDeParticipantes();
         return agregarParticipante;
     }
 

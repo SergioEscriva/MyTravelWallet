@@ -49,13 +49,12 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         }
 
 
-
         // Definir nuestro controlador
         transaccionController = new TransaccionController(ListarTransaccionesActivity.this);
 
         // Instanciar vistas
         recyclerViewResumen = findViewById(R.id.recyclerViewResumen);
-        recyclerViewTransacciones = findViewById(R.id.recyclerViewTransacciones) ;
+        recyclerViewTransacciones = findViewById(R.id.recyclerViewTransacciones);
         fabAgregarTransaccion = findViewById(R.id.fabAgregarTransaccion);
         fabResolverDeudas = findViewById(R.id.fabResolverDeudas);
 
@@ -82,7 +81,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Listener de los clicks en la lista TRANSACCIONES
         recyclerViewTransacciones.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewTransacciones, new RecyclerTouchListener.ClickListener() {
-            @Override // Un toque
+            @Override // Un toque Editar
             public void onClick(View view, int position) {
                 // Pasar a la actividad EditarTransaccionesActivity.java
                 Transaccion transaccionSeleccionada = listaDeTransaccions.get(position);
@@ -162,44 +161,42 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         });
 
 
-
-
-    // Listener del FABResolverDeudas
+        // Listener del FABResolverDeudas
         fabResolverDeudas.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // Simplemente cambiamos de actividad
-            Intent intent = new Intent(ListarTransaccionesActivity.this, ResolverDeudaActivity.class);
-            intent.putExtra("walletId", walletId);
-            startActivity(intent);
-        }
-    });
+            @Override
+            public void onClick(View v) {
+                // Simplemente cambiamos de actividad
+                Intent intent = new Intent(ListarTransaccionesActivity.this, ResolverDeudaActivity.class);
+                intent.putExtra("walletId", walletId);
+                startActivity(intent);
+            }
+        });
 
-    // Créditos
+        // Créditos
         fabResolverDeudas.setOnLongClickListener(new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            new AlertDialog.Builder(ListarTransaccionesActivity.this)
-                    .setTitle("Acerca de")
-                    .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y plantilla código de www.parzibyte.me")
-                    .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogo, int which) {
-                            dialogo.dismiss();
-                        }
-                    })
-                    .setPositiveButton("Sitio web", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intentNavegador = new Intent(Intent.ACTION_VIEW, Uri.parse("https://universae.com"));
-                            startActivity(intentNavegador);
-                        }
-                    })
-                    .create()
-                    .show();
-            return false;
-        }
-    });
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(ListarTransaccionesActivity.this)
+                        .setTitle("Acerca de")
+                        .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y plantilla código de www.parzibyte.me")
+                        .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogo, int which) {
+                                dialogo.dismiss();
+                            }
+                        })
+                        .setPositiveButton("Sitio web", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intentNavegador = new Intent(Intent.ACTION_VIEW, Uri.parse("https://universae.com"));
+                                startActivity(intentNavegador);
+                            }
+                        })
+                        .create()
+                        .show();
+                return false;
+            }
+        });
     }
 
 

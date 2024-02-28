@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,12 +17,12 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
 
     private List<Usuario> listaDeUsuarios;
 
-    public void setListaDeUsuarios(List<Usuario> listaDeUsuarios) {
-        this.listaDeUsuarios = listaDeUsuarios;
-    }
-
     public AdaptadorUsuarios(List<Usuario> usuario) {
         this.listaDeUsuarios = usuario;
+    }
+
+    public void setListaDeUsuarios(List<Usuario> listaDeUsuarios) {
+        this.listaDeUsuarios = listaDeUsuarios;
     }
 
     @NonNull
@@ -45,7 +44,7 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
 
         // Y poner a los TextView los datos con setText
         myViewHolder.tvUsuario.setText(nombreUsuario);
-       // myViewHolder.tvApodo.setText(apodoUsuario);
+        // myViewHolder.tvApodo.setText(apodoUsuario);
 
     }
 
@@ -56,10 +55,10 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvUsuario;
-        CheckBox checkbox_Compartir;
+
         MyViewHolder(View itemView) {
             super(itemView);
-           // this.tvUsuario = itemView.findViewById(R.id.tvUsuario);
+            // this.tvUsuario = itemView.findViewById(R.id.tvUsuario);
         }
     }
 }

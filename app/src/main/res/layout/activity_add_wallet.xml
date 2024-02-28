@@ -91,7 +91,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginTop="25dp"
         android:text="Guardar"
-        app:layout_constraintStart_toStartOf="@id/constraintLayout1"
+        app:layout_constraintStart_toStartOf="@id/clParticipan"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Compartir" />
 
 
@@ -116,11 +116,11 @@
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/constraintLayout1"
-        app:layout_constraintStart_toStartOf="@id/constraintLayout1" />
+        app:layout_constraintStart_toEndOf="@id/clParticipan"
+        app:layout_constraintStart_toStartOf="@id/clParticipan" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout1"
+        android:id="@+id/clParticipan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"

@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.CheckBox;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ import me.spenades.mywallettravel.R;
 import me.spenades.mywallettravel.models.Participante;
 
 
-public class AdaptadorPagadores extends RecyclerView.Adapter<AdaptadorPagadores.MyViewHolder> {
+public class AdaptadorParticipan extends RecyclerView.Adapter<AdaptadorParticipan.MyViewHolder> {
 
     private List<Participante> listaDeParticipantes;
 
-    public AdaptadorPagadores(List<Participante> participante) {
+    public AdaptadorParticipan(List<Participante> participante) {
         this.listaDeParticipantes = participante;
     }
 
@@ -28,7 +28,7 @@ public class AdaptadorPagadores extends RecyclerView.Adapter<AdaptadorPagadores.
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participantes, viewGroup, false);
+        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participan, viewGroup, false);
         return new MyViewHolder(filaWallet);
     }
 
@@ -44,7 +44,7 @@ public class AdaptadorPagadores extends RecyclerView.Adapter<AdaptadorPagadores.
         String nombre = participante.getNombre();
 
         // Y poner a los TextView los datos con setText
-        myViewHolder.tvParticipante.setText(String.valueOf(nombre));
+        myViewHolder.cbParticipante.setText(String.valueOf(nombre));
         // myViewHolder.tvApodo.setText(apodoParticipante);
 
     }
@@ -55,12 +55,13 @@ public class AdaptadorPagadores extends RecyclerView.Adapter<AdaptadorPagadores.
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvParticipante;
 
+        CheckBox cbParticipante;
 
         MyViewHolder(View itemView) {
             super(itemView);
-            this.tvParticipante = itemView.findViewById(R.id.cbParticipante);
+            this.cbParticipante = (CheckBox) itemView.findViewById(R.id.cbParticipante);
+            // this.cbParticipante = itemView.findViewById(R.id.cbParticipante);
         }
     }
 }
