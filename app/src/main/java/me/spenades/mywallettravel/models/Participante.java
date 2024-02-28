@@ -6,7 +6,7 @@ public class Participante {
     // private String apodo;
     private long walletId;
     private long userId;
-    private long id; // El ID de la tabla user wallet
+    private long id; // El ID de la tabla user
 
     public Participante(long walletId, String nombre) {
 

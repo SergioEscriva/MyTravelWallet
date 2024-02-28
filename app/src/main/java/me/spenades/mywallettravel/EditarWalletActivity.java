@@ -124,7 +124,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         recyclerViewParticipantes.setLayoutManager(mLayoutManager);
         recyclerViewParticipantes.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipantes.setAdapter(adaptadorParticipantes);
-        refrescarListaDeParticipantes();
+        //refrescarListaDeParticipantes();
 
         // Cancelar o Salir de Editar
         btnCancelarEdicion.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +183,6 @@ public class EditarWalletActivity extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(EditarWalletActivity.this, "Guardado Wallet.", Toast.LENGTH_SHORT).show();
-
                     refrescarListaDeWallets();
                     //finish();
                 }
@@ -229,10 +228,8 @@ public class EditarWalletActivity extends AppCompatActivity {
                 String nuevoParticipante = etAddParticipante.getText().toString();
 
                 // Listamos participantes del Wallet
-                participanteController.obtenerParticipantes(walletId);
-                listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
-
-                refrescarListaDeParticipantes();
+                // participanteController.obtenerParticipantes(walletId);
+                // listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
 
                 if ("".equals(nuevoParticipante)) {
                     etAddParticipante.setError("Escribe tu Nombre");
@@ -247,11 +244,10 @@ public class EditarWalletActivity extends AppCompatActivity {
                 //long id = usuarioUtility.nuevoParticipante(walletId, nuevoParticipante);
                 if (id == -1) {
                     // Participante error
-                    refrescarListaDeParticipantes();
                     Toast.makeText(EditarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    refrescarListaDeParticipantes();
+
                     etAddParticipante.setText("");
                     Toast.makeText(EditarWalletActivity.this, "Participante añadido", Toast.LENGTH_SHORT).show();
 
@@ -294,20 +290,22 @@ public class EditarWalletActivity extends AppCompatActivity {
         long usuarioExiste = usuarios.size();
 
         // Si No existe lo agregamos como usuario, y recuperamos su nuevo Id.
-        long usuarioIdDb;
+        long usuarioIdDb = 0;
         if (usuarioExiste == 0) {
             // Añadimos Usuario
             long usuarioRevision = usuarioController.nuevoUsuario(usuarioNuevo);
-            Usuario usuarioExistente = new Usuario(nuevoParticipante, nuevoParticipante);
-            usuarioIdDb = usuarioExistente.getId();
+            // Ya tenemos el ID del nuevo usuario
+            usuarioIdDb = usuarioRevision;
         } else {
             // Si existe, recuperamos Variable con el Id del usuario Existente
             usuarioIdDb = usuarios.get(0).getId();
         }
         //Formateamos variables Para Participant
+        System.out.println("EEEEEEEE" + usuarioIdDb);
         Participante nuevoParticipanteGuardar = new Participante(walletId, usuarioIdDb, nuevoParticipante);
         // Ahora lo añadimos como Participante, aquí existe como usuario si, o si.
         long agregarParticipante = participanteController.nuevoParticipante(nuevoParticipanteGuardar);
+        refrescarListaDeParticipantes();
         return agregarParticipante;
     }
 

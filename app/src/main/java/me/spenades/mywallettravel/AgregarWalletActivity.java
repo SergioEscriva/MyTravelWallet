@@ -38,6 +38,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
     private CheckBox checkBoxCompartir;
     private FloatingActionButton btnCancelarNuevoWallet;
     private long walletId;
+    private long userId;
 
 
     @Override
@@ -48,7 +49,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
         String usuarioActivo = extras.getString("usuarioActivo");
-        Long userIdActivo = extras.getLong("usuarioIdActivo");
+        this.userId = extras.getLong("usuarioIdActivo");
 
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {
@@ -75,7 +76,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
         btnCancelarNuevoWallet = findViewById(R.id.btn_cancelar_nuevo_wallet);
         btnAgregarUsuario = findViewById(R.id.btnAgregarParticipante);
         // Añade nuestro nombre de usuario rescatado del inicio
-        etPropietarioId.setText(String.valueOf(userIdActivo));
+        etPropietarioId.setText(String.valueOf(userId));
         etPropietarioId.setVisibility(View.INVISIBLE);
 
 
@@ -140,8 +141,8 @@ public class AgregarWalletActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(AgregarWalletActivity.this, "Wallet Guardada.", Toast.LENGTH_SHORT).show();
 
-                    // Se agreta como participante al propietario de forma automática
-                    Participante nuevoParticipante = new Participante(walletId, 0, propietarioName);
+                    // Se agrega como participante al propietario de forma automática
+                    Participante nuevoParticipante = new Participante(walletId, userId, propietarioName);
                     participanteController.nuevoParticipante(nuevoParticipante);
                     refrescarListaDeParticipantes();
                     // Se quita el botón de Añadir Wallet nuevo y se hace visible los participantes.
@@ -252,7 +253,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
             Toast.makeText(AgregarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
         } else {
             refrescarListaDeParticipantes();
-            Toast.makeText(AgregarWalletActivity.this, "Usuario añadido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AgregarWalletActivity.this, "Participante añadido", Toast.LENGTH_SHORT).show();
         }
     }
 

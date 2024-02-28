@@ -37,23 +37,22 @@ public class ParticipanteController {
         String usuarioId = String.valueOf(participante.getUserId());
 
         // Buscamos si existe el Participante en esa tabla
-        String existeParticipante = "SELECT count(*) from 'WALLET_USUARIO' WHERE wallet_id = " + walletId + " AND usuario_id = " + usuarioId;
+        String existeParticipante = "SELECT * from 'WALLET_USUARIO' WHERE wallet_id = " + walletId + " AND usuario_id = " + usuarioId;
         Cursor cursorParticipante = baseDeDatos.rawQuery(existeParticipante, null);
-        long existe = cursorParticipante.getCount();
-        cursorParticipante.close();
-        System.out.println(cursorParticipante);
+        long participanteExisteDb = cursorParticipante.getCount();
 
         // Si no existe se añade
-        long participanteAgregado = 0;
-        if (existe == 0) {
+        long participanteYaExiste = 1;
+        if (participanteExisteDb == 0) {
+            participanteYaExiste = 0;
             String guardarParticipante = "INSERT INTO 'WALLET_USUARIO' (wallet_id,usuario_id) VALUES (" + walletId + "," + usuarioId + ")";
             Cursor cursorParticipantes = baseDeDatos.rawQuery(guardarParticipante, null);
-            participanteAgregado = cursorParticipantes.getCount();
+            participanteYaExiste = cursorParticipantes.getCount();
             cursorParticipantes.close();
         }
-        // Fin del ciclo. Cerramos cursor y regresamos la lista
-
-        return participanteAgregado;
+        // Fin del ciclo. Cerramos cursor
+        cursorParticipante.close();
+        return participanteYaExiste;
     }
 
     public int guardarCambios(Participante participanteEditado) {
@@ -76,9 +75,11 @@ public class ParticipanteController {
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
-        // hacemos un inner join para extraer los nombres por la id
+        // hacemos un inner join para extraer los nombres por la id     wallet_id,usuario_id,nombre
         String walletIdString = String.valueOf(walletId);
-        String query = "SELECT wallet_id,usuario_id,nombre FROM WALLET_USUARIO INNER JOIN USUARIO ON usuario_id=USUARIO.id WHERE wallet_id = " + walletIdString;
+        //String query = "SELECT wallet_id,usuario_id,nombre FROM 'WALLET_USUARIO' INNER JOIN 'USUARIO' ON usuario_id = USUARIO.id WHERE wallet_id = " + walletIdString;
+        String query = "SELECT wallet_id,usuario_id,nombre FROM 'WALLET_USUARIO' INNER JOIN 'USUARIO' ON usuario_id = USUARIO.id WHERE wallet_id = " + walletIdString;
+
         Cursor cursor = baseDeDatos.rawQuery(query, null);
 
         if (cursor == null) {
