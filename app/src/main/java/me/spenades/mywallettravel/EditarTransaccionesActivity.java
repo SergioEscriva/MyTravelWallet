@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,6 +32,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     private String nuevoPagador;
     private String walletName;
     private long walletId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +92,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         etFecha.setText(String.valueOf(transaccion.getFecha()));
 
 
-            // Listener del click del botón para salir, simplemente cierra la actividad
+        // Listener del click del botón para salir, simplemente cierra la actividad
         btnCancelarEdicion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,7 +164,8 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         });
 
     }
-    public void refrescarListaDeParticipantes () {
+
+    public void refrescarListaDeParticipantes() {
         listaDePagadores = participanteController.obtenerParticipantes(walletId);
         adaptadorPagadores.setListaDeParticipantes(listaDePagadores);
         adaptadorPagadores.notifyDataSetChanged();

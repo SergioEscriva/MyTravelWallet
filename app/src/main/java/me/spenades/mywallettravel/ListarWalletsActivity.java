@@ -17,7 +17,6 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.spenades.mywallettravel.adapters.AdaptadorResumen;
 import me.spenades.mywallettravel.adapters.AdaptadorWallets;
 import me.spenades.mywallettravel.controllers.WalletController;
 import me.spenades.mywallettravel.models.Wallet;
@@ -38,6 +37,8 @@ public class ListarWalletsActivity extends AppCompatActivity {
     private EditText etAddParticipante;
     //private long walletId;
     private String nombreWallet;
+    private long walletId;
+    //private long walletId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
             public void onClick(View view, int position) {
                 // Pasar a la actividad editarwallet
                 final Wallet walletNameActivo = listaDeWallets.get(position);
-                String posicion = String.valueOf(position +1);
+                String posicion = String.valueOf(position + 1);
                 //walletId = Long.parseLong(posicion);
                 nombreWallet = walletNameActivo.getNombre();
                 Intent intent = new Intent(ListarWalletsActivity.this, ListarTransaccionesActivity.class);
@@ -94,15 +95,16 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
             @Override // Un toque Largo Editar
             public void onLongClick(View view, int position) {
-                 // Pasar a la actividad editarwallet
+                // Pasar a la actividad editarwallet
                 final Wallet walletNameActivo = listaDeWallets.get(position);
-                String posicion = String.valueOf(position +1);
-
+                //String posicion = String.valueOf(position +1);
+                nombreWallet = walletNameActivo.getNombre();
+                walletId = walletNameActivo.getWalletId();
                 Intent intent = new Intent(ListarWalletsActivity.this, EditarWalletActivity.class);
                 intent.putExtra("nombreUsuario", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioId", String.valueOf(usuarioIdActivo));
-                intent.putExtra("walletId", String.valueOf(posicion));
-                intent.putExtra("nombreWallet", String.valueOf(walletNameActivo.getNombre()));
+                intent.putExtra("walletId", String.valueOf(walletId));
+                intent.putExtra("nombreWallet", String.valueOf(nombreWallet));
                 intent.putExtra("descripcion", String.valueOf(walletNameActivo.getDescripcion()));
                 intent.putExtra("propietarioId", String.valueOf(walletNameActivo.getPropietarioId()));
                 intent.putExtra("checkCompartir", String.valueOf(walletNameActivo.getCompartir()));
@@ -121,9 +123,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
                 Intent intent = new Intent(ListarWalletsActivity.this, AgregarWalletActivity.class);
                 intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
-                //intent.putExtra("walletId", String.valueOf(walletId));
-                //intent.putExtra("walletName", String.valueOf(nombreWallet));
-
                 startActivity(intent);
             }
         });

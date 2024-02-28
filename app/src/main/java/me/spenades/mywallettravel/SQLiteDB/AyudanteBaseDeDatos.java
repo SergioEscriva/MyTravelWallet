@@ -3,7 +3,6 @@ package me.spenades.mywallettravel.SQLiteDB;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
 
 //Crear Base de Datos Interna
 public class AyudanteBaseDeDatos extends SQLiteOpenHelper {
@@ -14,7 +13,6 @@ public class AyudanteBaseDeDatos extends SQLiteOpenHelper {
             NOMBRE_TABLA_CATEGORIAS = "categoria",
             NOMBRE_TABLA_WALLETS_USUARIOS = "wallet_usuario",
             NOMBRE_TABLA_TRANSACCIONES = "transaccion";
-
 
 
     private static final int VERSION_BASE_DE_DATOS = 1;
@@ -38,9 +36,6 @@ public class AyudanteBaseDeDatos extends SQLiteOpenHelper {
         db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, wallet_id int, usuario_id int)", NOMBRE_TABLA_WALLETS_USUARIOS));
 
         db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, categoria text unique)", NOMBRE_TABLA_CATEGORIAS));
-
-
-
     }
 
     @Override
