@@ -17,10 +17,11 @@ public class WalletController {
     public WalletController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
     }
+
     public int eliminarWallet(long walletId) {
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
-        String[] argumentos = {String.valueOf(walletId)}; // {String.valueOf(wallet.getWalletId())};
+        String[] argumentos = {String.valueOf(walletId)};
         return baseDeDatos.delete(NOMBRE_TABLA, "id = ?", argumentos);
     }
 
@@ -51,7 +52,10 @@ public class WalletController {
         // ... = idWallet
 
         String[] argumentosParaActualizar = {String.valueOf(walletEditado.getWalletId())};
-        return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, walletParaActualizar, argumentosParaActualizar);
+        return baseDeDatos.update(NOMBRE_TABLA,
+                valoresParaActualizar,
+                walletParaActualizar,
+                argumentosParaActualizar);
     }
 
     public ArrayList<Wallet> obtenerWallets() {

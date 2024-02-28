@@ -17,6 +17,7 @@ public class UsuarioController {
     public UsuarioController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
     }
+
     public int eliminarUsuario(Usuario usuario) {
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
@@ -32,10 +33,10 @@ public class UsuarioController {
         // Recuperamos Valores
         valoresParaInsertar.put("nombre", usuario.getNombre());
         valoresParaInsertar.put("apodo", usuario.getApodo());
+        //valoresParaInsertar.put("id", usuario.getId());
         // Agregamos a la BD
-        long usuarioId = baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
-        System.out.println("UsuarioController " + usuarioId);
-        return usuarioId;
+        long resultado = baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
+        return resultado;
     }
 
     public int guardarCambios(Usuario usuarioEditado) {
@@ -51,6 +52,7 @@ public class UsuarioController {
         String[] argumentosParaActualizar = {String.valueOf(usuarioEditado.getId())};
         return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
     }
+
 
     public ArrayList<Usuario> obtenerUsuarios() {
         ArrayList<Usuario> usuarios = new ArrayList<>();
@@ -94,9 +96,60 @@ public class UsuarioController {
             usuarios.add(usuarioObtenidaDeBD);
 
         } while (cursor.moveToNext());
-
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
         return usuarios;
     }
+
+    public ArrayList<Usuario> obtenerUsuariosId(Usuario usuario) {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        // readable porque no vamos a modificar, solamente leer
+        SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
+        String nombre = usuario.getNombre();
+        // Los usuarios son de toda la app.
+        String selection = "nombre= ?";
+        String[] selectionArgs = {nombre};
+        String[] columnasAConsultar = {"nombre", "apodo", "id"};
+
+        // Los usuarios son de toda la app.
+
+        Cursor cursor = baseDeDatos.query(
+                NOMBRE_TABLA,//from usuario
+                columnasAConsultar,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        if (cursor == null) {
+            /*
+                Salimos aquí porque hubo un error, regresar
+                lista vacía
+             */
+            return usuarios;
+
+        }
+
+        // Si no hay datos, igualmente regresamos la lista vacía
+        if (!cursor.moveToFirst()) return usuarios;
+
+        // En caso de que sí haya, iteramos y vamos agregando
+        do {
+            // El 0 es el número de la columna, como seleccionamos
+
+            String nombreObtenidoDeBD = cursor.getString(0);
+            String apodoObtenidoDeBD = cursor.getString(1);
+            long usuarioIdObtenidoDeBD = cursor.getLong(2);
+
+            Usuario usuarioObtenidaDeBD = new Usuario(nombreObtenidoDeBD, apodoObtenidoDeBD, usuarioIdObtenidoDeBD);
+            usuarios.add(usuarioObtenidaDeBD);
+
+        } while (cursor.moveToNext());
+        // Fin del ciclo. Cerramos cursor y regresamos la lista
+        cursor.close();
+        return usuarios;
+    }
+
 }

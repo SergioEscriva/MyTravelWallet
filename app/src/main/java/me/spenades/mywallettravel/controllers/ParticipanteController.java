@@ -4,17 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import me.spenades.mywallettravel.EditarWalletActivity;
 import me.spenades.mywallettravel.SQLiteDB.AyudanteBaseDeDatos;
-import me.spenades.mywallettravel.adapters.AdaptadorTransacciones;
 import me.spenades.mywallettravel.models.Participante;
-import me.spenades.mywallettravel.controllers.UsuarioController;
-import me.spenades.mywallettravel.models.Transaccion;
-import me.spenades.mywallettravel.models.Usuario;
 
 
 public class ParticipanteController {
@@ -26,6 +20,7 @@ public class ParticipanteController {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
         usuarioController = new UsuarioController(contexto);
     }
+
     public int eliminarParticipante(Participante participante) {
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
@@ -37,28 +32,28 @@ public class ParticipanteController {
         // writable porque vamos a insertar
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
 
-        // Rescatamos valores necesarios para guardar Participante
+        // Rescatamos valores necesarios para guardar Participante TODO
         String walletId = String.valueOf(participante.getWalletId());
-        String nombreUsuario = String.valueOf(participante.getNombre());
-       // long walletIdLong = Long.valueOf(walletId);
-        long usuarioId = Long.valueOf(participante.getUserId());
+        String usuarioId = String.valueOf(participante.getUserId());
 
-        // Comprobamos si el Nombre de Usuario existe
-        //Lo ingresamos y nos devuelve la posición será el ID y Existe pues
-        Usuario nuevoUsuario = new Usuario(nombreUsuario,nombreUsuario);
-        long usuarioIdExiste = usuarioController.nuevoUsuario(nuevoUsuario);
+        // Buscamos si existe el Participante en esa tabla
+        String existeParticipante = "SELECT count(*) from 'WALLET_USUARIO' WHERE wallet_id = " + walletId + " AND usuario_id = " + usuarioId;
+        Cursor cursorParticipante = baseDeDatos.rawQuery(existeParticipante, null);
+        long existe = cursorParticipante.getCount();
+        cursorParticipante.close();
+        System.out.println(cursorParticipante);
 
-        if (usuarioIdExiste == -1) {
-            // Como existe no lo agregamos  como usuario pero si como participante y rescatamos el Id que ya tiene
-            usuarioIdExiste = usuarioId + 1;
-            System.out.println("Existe" + usuarioIdExiste);
+        // Si no existe se añade
+        long participanteAgregado = 0;
+        if (existe == 0) {
+            String guardarParticipante = "INSERT INTO 'WALLET_USUARIO' (wallet_id,usuario_id) VALUES (" + walletId + "," + usuarioId + ")";
+            Cursor cursorParticipantes = baseDeDatos.rawQuery(guardarParticipante, null);
+            participanteAgregado = cursorParticipantes.getCount();
+            cursorParticipantes.close();
         }
+        // Fin del ciclo. Cerramos cursor y regresamos la lista
 
-        String guardarParticipante = "INSERT INTO 'WALLET_USUARIO' (wallet_id,usuario_id) VALUES (" + walletId +"," + usuarioIdExiste + ")";
-        Cursor cursorParticipantes = baseDeDatos.rawQuery(guardarParticipante, null);
-        long participanteExiste = cursorParticipantes.getCount();
-
-        return participanteExiste;
+        return participanteAgregado;
     }
 
     public int guardarCambios(Participante participanteEditado) {
@@ -76,16 +71,14 @@ public class ParticipanteController {
     }
 
     public ArrayList<Participante> obtenerParticipantes(long walletId) {
-    //public Cursor obtenerParticipantes(int walletIdSelected) {
+        //public Cursor obtenerParticipantes(int walletIdSelected) {
         ArrayList<Participante> participantes = new ArrayList<>();
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
-        // hacemos un inner para extraer los nombres por la id
-        //long walletId = Long.valueOf(walletIdSelected);
-        //String WalletIdAConsultar = "wallet_id = " + String.valueOf(walletId + 1);
-        String walletIdString =  String.valueOf(walletId + 1);
-        String query ="SELECT wallet_id,usuario_id,nombre FROM WALLET_USUARIO INNER JOIN USUARIO ON usuario_id=USUARIO.id WHERE wallet_id =" + walletIdString;
+        // hacemos un inner join para extraer los nombres por la id
+        String walletIdString = String.valueOf(walletId);
+        String query = "SELECT wallet_id,usuario_id,nombre FROM WALLET_USUARIO INNER JOIN USUARIO ON usuario_id=USUARIO.id WHERE wallet_id = " + walletIdString;
         Cursor cursor = baseDeDatos.rawQuery(query, null);
 
         if (cursor == null) {
@@ -108,7 +101,7 @@ public class ParticipanteController {
 
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
-        System.out.println("Lectura DB " + participantes);
+        System.out.println(participantes);
         return participantes;
 
     }

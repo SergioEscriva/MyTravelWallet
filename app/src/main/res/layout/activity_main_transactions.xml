@@ -35,7 +35,7 @@
         android:id="@+id/textView5"
         android:layout_width="127dp"
         android:layout_height="32dp"
-        android:text="Importe"
+        android:text="Participantes"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:translationX="350px"
         android:translationY="275px" />
@@ -62,7 +62,7 @@
         android:id="@+id/textView3"
         android:layout_width="127dp"
         android:layout_height="32dp"
-        android:text="Participantes"
+        android:text="Importe"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:translationX="350px"
         android:translationY="200px" />

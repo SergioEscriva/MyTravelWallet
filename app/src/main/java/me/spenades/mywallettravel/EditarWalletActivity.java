@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,9 +21,13 @@ import java.util.List;
 import me.spenades.mywallettravel.adapters.AdaptadorParticipantes;
 import me.spenades.mywallettravel.adapters.AdaptadorWallets;
 import me.spenades.mywallettravel.controllers.ParticipanteController;
+import me.spenades.mywallettravel.controllers.UsuarioController;
 import me.spenades.mywallettravel.controllers.WalletController;
 import me.spenades.mywallettravel.models.Participante;
+import me.spenades.mywallettravel.models.Usuario;
 import me.spenades.mywallettravel.models.Wallet;
+import me.spenades.mywallettravel.utilities.UsuarioUtility;
+
 
 public class EditarWalletActivity extends AppCompatActivity {
     private List<Wallet> listaDeWallets;
@@ -30,15 +35,20 @@ public class EditarWalletActivity extends AppCompatActivity {
     private List<Participante> listaDeParticipantes;
     private AdaptadorParticipantes adaptadorParticipantes;
     private WalletController walletController;
+
+    private UsuarioController usuarioController;
     private Wallet wallet;
+    private UsuarioUtility usuarioUtility;
     private ParticipanteController participanteController;
     private RecyclerView recyclerViewParticipantes;
     private Button btnGuardarCambios, btnAgregarParticipante, btnEliminarWallet;
     private EditText etNombre, etDescripcion, etPropietarioId, etWalletId, etAddParticipante;
     private CheckBox checkBoxCompartir;
     private FloatingActionButton btnCancelarEdicion;
+    private ScrollView ofScrollParticipantes;
     private long walletId;
     private String nombreWallet;
+    private long usuarioIdExiste;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +66,18 @@ public class EditarWalletActivity extends AppCompatActivity {
         // Instanciar el controlador
         walletController = new WalletController(EditarWalletActivity.this);
         participanteController = new ParticipanteController(EditarWalletActivity.this);
+        usuarioController = new UsuarioController(EditarWalletActivity.this);
 
         // Recuperamos datos
         String nombreUsuario = extras.getString("nombreUsuario");
-        String usuarioId= extras.getString("usuarioId");
+        String usuarioId = extras.getString("usuarioId");
         String descripcion = extras.getString("descripcion");
         String propietario = extras.getString("propietarioId");
         String compartir = extras.getString("checkCompartir");
         wallet = new Wallet(nombreWallet, descripcion, Integer.parseInt(propietario), Integer.parseInt(compartir), walletId);
 
         // Ahora declaramos las vistas
-        recyclerViewParticipantes = findViewById(R.id.recyclerViewParticipantes) ;
+        recyclerViewParticipantes = findViewById(R.id.recyclerViewParticipantes);
         etNombre = findViewById(R.id.etNombre);
         etDescripcion = findViewById(R.id.etDescripcion);
         etPropietarioId = findViewById(R.id.etPropietarioId);
@@ -75,8 +86,8 @@ public class EditarWalletActivity extends AppCompatActivity {
         CheckBox checkBoxCompartir = findViewById(R.id.checkBox_Compartir);
         btnGuardarCambios = findViewById(R.id.btn_agregar_wallet);
         btnCancelarEdicion = findViewById(R.id.btn_cancelar_nuevo_wallet);
-        btnAgregarParticipante = findViewById(R.id. btnAgregarParticipante);
-        btnEliminarWallet = findViewById(R.id. btnEliminarWallet);
+        btnAgregarParticipante = findViewById(R.id.btnAgregarParticipante);
+        btnEliminarWallet = findViewById(R.id.btnEliminarWallet);
         etPropietarioId.setVisibility(View.INVISIBLE);
 
 
@@ -86,6 +97,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         etAddParticipante.setVisibility(View.VISIBLE);
         btnAgregarParticipante.setVisibility(View.VISIBLE);
         btnEliminarWallet.setVisibility(View.VISIBLE);
+
 
         // Rellenar los EditText de la pantalla
         etNombre.setText(wallet.getNombre());
@@ -107,21 +119,18 @@ public class EditarWalletActivity extends AppCompatActivity {
         //refrescarListaDeWallets();
 
 
-
         // se la ponemos al adaptador y configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewParticipantes.setLayoutManager(mLayoutManager);
         recyclerViewParticipantes.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipantes.setAdapter(adaptadorParticipantes);
-        System.out.println("EditarWalletActi " + recyclerViewParticipantes);
-        // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeParticipantes();
 
         // Cancelar o Salir de Editar
         btnCancelarEdicion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    finish();
+                finish();
             }
         });
 
@@ -167,6 +176,7 @@ public class EditarWalletActivity extends AppCompatActivity {
                 Wallet editarWallet = new Wallet(nombre, descripcion, Long.parseLong(propietario), compartir, walletId);
                 long walletIdGuardado = walletController.guardarCambios(editarWallet);
                 etWalletId.setText(String.valueOf(walletIdGuardado));
+                walletId = walletIdGuardado;
                 if (walletIdGuardado == -1) {
                     // De alguna manera ocurrió un error
                     Toast.makeText(EditarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
@@ -179,16 +189,10 @@ public class EditarWalletActivity extends AppCompatActivity {
                 }
             }
         });
-        // Eliminar Wallet siempre que estén saldadas las cuentas.
+        // Eliminar Wallet siempre que estén saldadas las cuentas. TODO
         btnEliminarWallet.setOnClickListener(new View.OnClickListener() {
             @Override // Un toque Eliminamos Wallet
             public void onClick(View view) {
-
-                // Refrescamos la lista, Recuperamos WalletId y lo añadimos a Eliminar
-                refrescarListaDeWallets();
-                long walletId = extras.getLong("walletId");
-                String nombreWallet = extras.getString("nombreWallet");
-                //Wallet walletParaEliminar = listaDeWallets.get((int) walletId);
 
                 AlertDialog dialog = new AlertDialog
                         .Builder(EditarWalletActivity.this)
@@ -208,79 +212,103 @@ public class EditarWalletActivity extends AppCompatActivity {
                         .setTitle("Confirmar")
                         .setMessage("¿Eliminar el Wallet " + nombreWallet + "?")
                         .create();
-                        refrescarListaDeWallets();
+                refrescarListaDeWallets();
                 dialog.show();
             }
         });
 
 
-            // Listener botón agregar participante y a su vez como usuario
+        // Listener botón agregar participante y a su vez como usuario
         btnAgregarParticipante.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-                    // Resetear errores
-                    etAddParticipante.setError(null);
-                    // Recuperar datos
-                    String nuevoParticipante = etAddParticipante.getText().toString();
-                    //long walletId = Long.parseLong(etWalletId.getText().toString()+1);
+                // Resetear errores
+                etAddParticipante.setError(null);
+                // Recuperar datos
+                String nuevoParticipante = etAddParticipante.getText().toString();
 
-                    // Listamos participantes del Wallet
-                    participanteController.obtenerParticipantes(walletId);
-                    listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
+                // Listamos participantes del Wallet
+                participanteController.obtenerParticipantes(walletId);
+                listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
 
-                    refrescarListaDeParticipantes();
+                refrescarListaDeParticipantes();
 
-                    if ("".equals(nuevoParticipante)) {
-                        etAddParticipante.setError("Escribe tu Nombre");
-                        etAddParticipante.requestFocus();
-                        return;
-                    }
-
-                    // Agregamos Participante y Refrescamos, la nueva transacción nos devuelve el id del nuevo participante.
-                    Participante nuevoParticipanteGuardar = new Participante(walletId,String.valueOf(nuevoParticipante));
-                    long id = participanteController.nuevoParticipante(nuevoParticipanteGuardar);
-                    if (id == -1) {
-                        // Participante error
-                        refrescarListaDeParticipantes();
-                        Toast.makeText(EditarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        refrescarListaDeParticipantes();
-                        etAddParticipante.setText("");
-
-                        Toast.makeText(EditarWalletActivity.this, "Participante añadido", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                   // agregarParticipante();
+                if ("".equals(nuevoParticipante)) {
+                    etAddParticipante.setError("Escribe tu Nombre");
+                    etAddParticipante.requestFocus();
+                    return;
                 }
-            });
 
+                // Agregamos Participante y Refrescamos, la nueva transacción nos devuelve el id del nuevo participante.
+
+                //TODO HAY QUE INTENTAR SACARLO A OTRA CLASE
+                long id = agregarParticipante(walletId, nuevoParticipante);
+                //long id = usuarioUtility.nuevoParticipante(walletId, nuevoParticipante);
+                if (id == -1) {
+                    // Participante error
+                    refrescarListaDeParticipantes();
+                    Toast.makeText(EditarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    refrescarListaDeParticipantes();
+                    etAddParticipante.setText("");
+                    Toast.makeText(EditarWalletActivity.this, "Participante añadido", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refrescarListaDeParticipantes();
     }
 
     public void refrescarListaDeParticipantes() {
         if (adaptadorParticipantes == null) return;
-        // Recuperar datos que enviaron
-        Bundle extras = getIntent().getExtras();
-        // Si no hay datos (cosa rara) salimos
-        if (extras == null) {
-            finish();
-            return;
-        }
-
-        // Recuperamos WalletId Activo
-        int walletIdSelected = extras.getInt("walletId");
-        String walletNameSelected = extras.getString("walletName");
-
-        listaDeParticipantes = participanteController.obtenerParticipantes(walletIdSelected);
+        listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
         adaptadorParticipantes.setListaDeParticipantes(listaDeParticipantes);
         adaptadorParticipantes.notifyDataSetChanged();
     }
 
-    public void refrescarListaDeWallets(){
+    public void refrescarListaDeWallets() {
         listaDeWallets = walletController.obtenerWallets();
         adaptadorWallets.setListaDeWallets(listaDeWallets);
         adaptadorWallets.notifyDataSetChanged();
     }
+
+
+    //TODO esto debe pasar a una clase, pero no me funciona.
+    public long agregarParticipante(long walletId, String nuevoParticipante) {
+        ArrayList<Usuario> usuarios;
+
+        // Busca el usuario y devuelve su ID, si es 0 es que no está
+        Usuario usuarioNuevo = new Usuario(nuevoParticipante, nuevoParticipante);
+        usuarios = usuarioController.obtenerUsuariosId(usuarioNuevo);
+
+        // Si la lista devuelta es 0, usuario no existe
+        long usuarioExiste = usuarios.size();
+
+        // Si No existe lo agregamos como usuario, y recuperamos su nuevo Id.
+        long usuarioIdDb;
+        if (usuarioExiste == 0) {
+            // Añadimos Usuario
+            long usuarioRevision = usuarioController.nuevoUsuario(usuarioNuevo);
+            Usuario usuarioExistente = new Usuario(nuevoParticipante, nuevoParticipante);
+            usuarioIdDb = usuarioExistente.getId();
+        } else {
+            // Si existe, recuperamos Variable con el Id del usuario Existente
+            usuarioIdDb = usuarios.get(0).getId();
+        }
+        //Formateamos variables Para Participant
+        Participante nuevoParticipanteGuardar = new Participante(walletId, usuarioIdDb, nuevoParticipante);
+        // Ahora lo añadimos como Participante, aquí existe como usuario si, o si.
+        long agregarParticipante = participanteController.nuevoParticipante(nuevoParticipanteGuardar);
+        return agregarParticipante;
+    }
+
 }

@@ -23,7 +23,7 @@
         android:layout_width="278dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="Descripción"
         android:inputType="textPersonName"
@@ -35,57 +35,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="Importe"
         android:inputType="number|numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etEditarDescripcion" />
 
-
-
-    <EditText
-        android:id="@+id/etEditarParticipantes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:hint="Participantes"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEditarImporte" />
-
-    <EditText
-        android:id="@+id/etEditarCategoria"
-        android:layout_width="278dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:hint="Nombre de la Categoría"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEditarParticipantes" />
-
-    <EditText
-        android:id="@+id/etEditarFecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:ems="10"
-        android:hint="Fecha"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEditarCategoria" />
-
-
     <ScrollView
+        android:id="@+id/idScrollPagador"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_marginStart="16dp"
 
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="150dp"
         android:layout_marginRight="150dp"
         android:background="@android:drawable/btn_dropdown"
@@ -94,26 +56,67 @@
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEditarFecha">
+        app:layout_constraintTop_toBottomOf="@+id/etEditarImporte">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewPagadores"
             android:layout_width="290dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme">
 
         </android.support.v7.widget.RecyclerView>
     </ScrollView>
 
 
+    <EditText
+        android:id="@+id/etEditarCategoria"
+        android:layout_width="278dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="Nombre de la Categoría"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/idScrollPagador" />
+
+    <EditText
+        android:id="@+id/etEditarFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="Fecha"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEditarCategoria" />
+
+
+    <EditText
+        android:id="@+id/etEditarParticipantes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="Participantes"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEditarFecha" />
+
+
     <Button
         android:id="@+id/btnGuardarCambiosTransaccion"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="112dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="104dp"
-        android:layout_marginEnd="212dp"
         android:text="Guardar"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancelarEdicionTransaccion"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etEditarFecha" />
 
     <Button
@@ -121,12 +124,12 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="104dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
         android:text="Cancelar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintHorizontal_bias="0.81"
         app:layout_constraintStart_toEndOf="@+id/btnGuardarCambiosTransaccion"
         app:layout_constraintTop_toBottomOf="@+id/etEditarFecha" />
 </android.support.constraint.ConstraintLayout>
