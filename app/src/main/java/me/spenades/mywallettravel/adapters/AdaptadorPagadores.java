@@ -28,7 +28,7 @@ public class AdaptadorPagadores extends RecyclerView.Adapter<AdaptadorPagadores.
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participantes, viewGroup, false);
+        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_pagador, viewGroup, false);
         return new MyViewHolder(filaWallet);
     }
 
@@ -38,13 +38,13 @@ public class AdaptadorPagadores extends RecyclerView.Adapter<AdaptadorPagadores.
         Participante participante = listaDeParticipantes.get(i);
 
         // Obtener los datos de la lista
-        long walletId = participante.getWalletId();
-        long userId = participante.getUserId();
-        long ParticipanteId = participante.getId();
+        // long walletId = participante.getWalletId();
+        // long userId = participante.getUserId();
+        // long ParticipanteId = participante.getId();
         String nombre = participante.getNombre();
 
         // Y poner a los TextView los datos con setText
-        myViewHolder.tvParticipante.setText(String.valueOf(nombre));
+        myViewHolder.cbPagador.setText(String.valueOf(nombre));
         // myViewHolder.tvApodo.setText(apodoParticipante);
 
     }
@@ -55,12 +55,13 @@ public class AdaptadorPagadores extends RecyclerView.Adapter<AdaptadorPagadores.
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvParticipante;
+        TextView cbPagador, cbPagadorId;
 
 
         MyViewHolder(View itemView) {
             super(itemView);
-            this.tvParticipante = itemView.findViewById(R.id.cbParticipante);
+            this.cbPagador = itemView.findViewById(R.id.cbPagador);
+            this.cbPagadorId = itemView.findViewById(R.id.cbPagadorId);
         }
     }
 }

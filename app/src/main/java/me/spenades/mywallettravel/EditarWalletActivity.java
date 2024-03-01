@@ -26,20 +26,18 @@ import me.spenades.mywallettravel.controllers.WalletController;
 import me.spenades.mywallettravel.models.Participante;
 import me.spenades.mywallettravel.models.Usuario;
 import me.spenades.mywallettravel.models.Wallet;
-import me.spenades.mywallettravel.utilities.UsuarioUtility;
 
 
 public class EditarWalletActivity extends AppCompatActivity {
+    public ParticipanteController participanteController;
+    public UsuarioController usuarioController;
     private List<Wallet> listaDeWallets;
     private AdaptadorWallets adaptadorWallets;
     private List<Participante> listaDeParticipantes;
     private AdaptadorParticipantes adaptadorParticipantes;
     private WalletController walletController;
-
-    private UsuarioController usuarioController;
     private Wallet wallet;
-    private UsuarioUtility usuarioUtility;
-    private ParticipanteController participanteController;
+
     private RecyclerView recyclerViewParticipantes;
     private Button btnGuardarCambios, btnAgregarParticipante, btnEliminarWallet;
     private EditText etNombre, etDescripcion, etPropietarioId, etWalletId, etAddParticipante;
@@ -227,9 +225,6 @@ public class EditarWalletActivity extends AppCompatActivity {
                 // Recuperar datos
                 String nuevoParticipante = etAddParticipante.getText().toString();
 
-                // Listamos participantes del Wallet
-                // participanteController.obtenerParticipantes(walletId);
-                // listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
 
                 if ("".equals(nuevoParticipante)) {
                     etAddParticipante.setError("Escribe tu Nombre");
@@ -269,6 +264,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
         adaptadorParticipantes.setListaDeParticipantes(listaDeParticipantes);
         adaptadorParticipantes.notifyDataSetChanged();
+
     }
 
     public void refrescarListaDeWallets() {
@@ -279,6 +275,7 @@ public class EditarWalletActivity extends AppCompatActivity {
 
 
     //TODO esto debe pasar a una clase, pero no me funciona.
+
     public long agregarParticipante(long walletId, String nuevoParticipante) {
         ArrayList<Usuario> usuarios;
 
@@ -303,7 +300,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         //Formateamos variables Para Participant
         System.out.println("EEEEEEEE" + usuarioIdDb);
         Participante nuevoParticipanteGuardar = new Participante(walletId, usuarioIdDb, nuevoParticipante);
-        // Ahora lo añadimos como Participante, aquí existe como usuario si, o si.
+        // Ahora lo añadimos como Participante, aquí existe como usuario seguro.
         long agregarParticipante = participanteController.nuevoParticipante(nuevoParticipanteGuardar);
         refrescarListaDeParticipantes();
         return agregarParticipante;

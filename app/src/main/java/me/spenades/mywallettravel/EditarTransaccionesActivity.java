@@ -24,7 +24,14 @@ import me.spenades.mywallettravel.models.Participante;
 import me.spenades.mywallettravel.models.Transaccion;
 
 public class EditarTransaccionesActivity extends AppCompatActivity {
-    private EditText etDescripcion, etImporte, spPagador, etParticipantes, etCategoria, etFecha, etWalletId;
+    static int A = 3;
+    static int B = 30;
+    static int vectorA[] = new int[A];
+    static int vectorB[] = new int[B];
+    static int elemA = 0;
+    static int elemB = 0;
+    static int z = 0;
+    private EditText etDescripcion, etImporte, spPagador, etParticipantes, etCategoria, etFecha, etWalletId, tvTransaccionId;
     private Button btnGuardarCambios, btnCancelarEdicion;
     private ConstraintLayout clParticipan;
     private Transaccion transaccion;//La transacción que vamos a estar editando
@@ -34,14 +41,14 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     private ParticipanteController participanteController;
     private ParticipanController participanController;
     private AdaptadorPagadores adaptadorPagadores;
-
     private AdaptadorParticipan adaptadorParticipan;
     private List<Participante> listaDeParticipantes;
-    private List<Participan> listaParticipan;
+    private List<Participante> listaDeParticipan;
     private RecyclerView recyclerViewPagadores, recyclerViewParticipan;
     private String nuevoPagador;
     private String walletName;
     private long walletId;
+    private long transaccionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         this.walletName = extras.getString("walletName");
         this.walletId = Long.parseLong(extras.getString("walletId"));
+        this.transaccionId = Long.parseLong(extras.getString("transaccionId"));
         // Si no hay datos salimos
         if (extras == null) {
             finish();
@@ -70,17 +78,18 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         etImporte = findViewById(R.id.etEditarImporte);
         etCategoria = findViewById(R.id.etEditarCategoria);
         etFecha = findViewById(R.id.etEditarFecha);
+
         btnCancelarEdicion = findViewById(R.id.btnCancelarEdicionTransaccion);
         btnGuardarCambios = findViewById(R.id.btnGuardarCambiosTransaccion);
 
+        System.out.println(transaccionId);
         // Rearmar la transacción
         String descripcionTransaccion = extras.getString("descripcionTransaccion");
         String importeTransaccion = extras.getString("importeTransaccion");
         String pagadorTransaccion = extras.getString("pagadorTransaccion");
         String participantesTransaccion = extras.getString("participantesTransaccion"); //TODO recuperar participan de una lista
-        String categoriaTransaccion = extras.getString("categoriaTransaccion");
         int fechaTransaccion = extras.getInt("fechaTransaccion");
-        long transaccionId = extras.getLong("transaccionId");
+        String categoriaTransaccion = extras.getString("categoriaTransaccion");
         transaccion = new Transaccion(descripcionTransaccion, importeTransaccion, pagadorTransaccion, participantesTransaccion, categoriaTransaccion, fechaTransaccion, walletId, transaccionId);
 
         // Lista Pagadores Por defecto es una lista vacía,
@@ -93,8 +102,8 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         recyclerViewPagadores.setAdapter(adaptadorPagadores);
 
         // Lista Participan Por defecto es una lista vacía,
-        listaParticipan = new ArrayList<>();
-        adaptadorParticipan = new AdaptadorParticipan(listaDeParticipantes);
+        listaDeParticipan = new ArrayList<>();
+        adaptadorParticipan = new AdaptadorParticipan(listaDeParticipantes, listaDeParticipan);
         // Ponemos la lista al adaptador y configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManagerParticipan = new LinearLayoutManager(getApplicationContext());
         recyclerViewParticipan.setLayoutManager(mLayoutManagerParticipan);
@@ -104,6 +113,9 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         //Refrescamos datos del RecycleView
         refrescarListaDeParticipantes();
+        adaptadorParticipan = new AdaptadorParticipan(listaDeParticipantes, listaDeParticipan);
+        adaptadorPagadores = new AdaptadorPagadores(listaDeParticipantes);
+
 
         // Rellenar los EditText de la pantalla
         etDescripcion.setText(transaccion.getDescripcion());
@@ -112,8 +124,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         etCategoria.setText(transaccion.getCategoria());
         etFecha.setText(String.valueOf(transaccion.getFecha()));
 
-        listaParticipan = participanController.obtenerParticipan(walletId);
-        System.out.println("Lista Partician " + listaParticipan);
         // Listener del click del botón para salir, simplemente cierra la actividad
         btnCancelarEdicion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,19 +140,17 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 etDescripcion.setError(null);
                 etImporte.setError(null);
                 //spPagador.setError(null);
-                etParticipantes.setError(null);
+                //etParticipantes.setError(null);
                 etCategoria.setError(null);
                 etFecha.setError(null);
                 //etWalletId.setError(null);
-
-                participan();
 
 
                 // Crear la transaccion con los cambio y su id
                 String nuevaDescripcion = etDescripcion.getText().toString();
                 String nuevoImporte = etImporte.getText().toString();
                 String nuevoPagador = EditarTransaccionesActivity.this.nuevoPagador;
-                String nuevosParticipantes = etParticipantes.getText().toString();
+                String nuevosParticipantes = etParticipantes.getText().toString(); //TODO PARTICIPANTES
                 String nuevaCategoria = etCategoria.getText().toString();
                 String nuevaFecha = etFecha.getText().toString();
 
@@ -162,6 +170,8 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                     etParticipantes.requestFocus();
                     return;
                 }
+
+
                 if ("".equals(nuevaCategoria)) {
                     etCategoria.setError("Escribe nombre de la categoría de la compra");
                     etCategoria.requestFocus();
@@ -192,24 +202,20 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
     public void refrescarListaDeParticipantes() {
         listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
+        listaDeParticipan = participanController.obtenerParticipan(walletId);
+
         adaptadorPagadores.setListaDeParticipantes(listaDeParticipantes);
         adaptadorPagadores.notifyDataSetChanged();
 
-        adaptadorParticipan.setListaDeParticipantes(listaDeParticipantes);
+
+        adaptadorParticipan.setListaDeParticipan(listaDeParticipantes);
         adaptadorParticipan.notifyDataSetChanged();
-
-
-        ;
+        System.out.println("ListaDeParticipantes " + listaDeParticipantes);
+        System.out.println("ListaDeParticipan " + listaDeParticipan);
+        listaDeParticipantes.removeAll(listaDeParticipan);
+        for (Participante p : listaDeParticipantes) {
+            System.out.println("Salida " + p.getNombre());
+        }
 
     }
-
-    public void participan() {
-
-
-        // Boolean checkBoxStateCompartir = cbparticipan.isChecked();
-
-        //   int compartir = (checkBoxStateCompartir) ? 1 : 0;
-        return;
-    }
-
 }

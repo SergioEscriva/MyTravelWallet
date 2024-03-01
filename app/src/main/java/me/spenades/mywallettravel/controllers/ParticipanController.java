@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import me.spenades.mywallettravel.SQLiteDB.AyudanteBaseDeDatos;
-import me.spenades.mywallettravel.models.Participan;
 import me.spenades.mywallettravel.models.Participante;
+import me.spenades.mywallettravel.models.Usuario;
 
 
 public class ParticipanController {
@@ -33,7 +33,7 @@ public class ParticipanController {
         // writable porque vamos a insertar
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
 
-        // Rescatamos valores necesarios para guardar Participante TODO
+        // Rescatamos valores necesarios para guardar Participante
         String walletId = String.valueOf(participante.getWalletId());
         String usuarioId = String.valueOf(participante.getUserId());
 
@@ -70,140 +70,52 @@ public class ParticipanController {
         return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
     }
 
-    public ArrayList<Participan> obtenerParticipan(long walletId) {
-        //public Cursor obtenerParticipantes(int walletIdSelected) {
-        ArrayList<Participan> participan = new ArrayList<>();
+    public ArrayList<Participante> obtenerParticipan(long transaccionId) {
+        //ArrayList<Participan> participan = new ArrayList<>();
+        //ArrayList<String> participaDb = new ArrayList<>();
+        ArrayList<Usuario> usuarioCompletoLista = new ArrayList<>();
+        ArrayList<Participante> participanFinal = new ArrayList<>();
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
-        // hacemos busqueda nombre y particpantes del wallet.
-        String walletIdString = "1"; //String.valueOf(walletId);
-        String query = "SELECT participantes FROM TRANSACCION WHERE id = " + walletIdString;
+        // hacemos busqueda nombre y los que participan del wallet.
+        String transaccionIdString = String.valueOf(transaccionId);
+        String query = "SELECT participantes FROM TRANSACCION WHERE id = " + transaccionIdString;
         Cursor cursor = baseDeDatos.rawQuery(query, null);
-        //String lista = cursor.getString(0);
-        //System.out.println("Participan: Listo: " + lista);
 
-
-        if (cursor == null) {
+        System.out.println(cursor.getCount());
+        cursor.moveToFirst();
+        if (cursor == null || cursor.getCount() <= 1) {
             /*
                 Salimos aquí porque hubo un error, regresar
                 lista vacía
              */
-            return participan;
+            return participanFinal;
+        }
+        // Si no hay datos, igualmente regresamos la lista vacía
+        if (!cursor.moveToFirst()) return participanFinal;
+
+        //Recuperamos participan en el pago por su ID y lo iteramos para recuperar su nombre.
+
+        String participaDb1 = String.valueOf(cursor.getString(0));
+        String[] participaLista = String.valueOf(participaDb1).split(",");
+
+        for (String usuarioIdDbParticipa : participaLista) {
+            // Pasamos a Long el id
+            Long participanteLong = Long.parseLong(usuarioIdDbParticipa);
+            // Formateamos el Id
+            Usuario usuarioIdParticipa = new Usuario(participanteLong);
+            // Recuperamos el nombre del id
+            usuarioCompletoLista = usuarioController.obtenerUsuarioNombre(usuarioIdParticipa);
+            // Extraemos nombre el id
+            Usuario usuarioCompleto = usuarioCompletoLista.get(0);
+            String usuarioNombre = usuarioCompleto.getNombre();
+            long usuarioId = usuarioCompleto.getId();
+            Participante usuarioObtenidaDeBD = new Participante(usuarioId, usuarioNombre);
+            participanFinal.add(usuarioObtenidaDeBD);
 
         }
-
-        // Si no hay datos, igualmente regresamos la lista vacía
-        if (!cursor.moveToFirst()) return participan;
-
-        // En caso de que sí haya, iteramos y vamos agregando
-        do {
-            // El 0 es el número de la columna, como seleccionamos
-
-            //long nombreObtenidoDeBD = cursor.getLong(0);
-            String apodoObtenidoDeBD = cursor.getString(0);
-
-
-            Participan usuarioObtenidaDeBD = new Participan(apodoObtenidoDeBD);
-            participan.add(usuarioObtenidaDeBD);
-
-        } while (cursor.moveToNext());
-        // Fin del ciclo. Cerramos cursor y regresamos la lista
-        cursor.close();
-        System.out.println(participan);
-        return participan;
-
-
-
-
-
-
-
-        /*
-        // hacemos un inner join para extraer los nombres por la id     wallet_id,usuario_id,nombre
-        //String walletIdString = String.valueOf(walletId);
-        //String query = "SELECT wallet_id,usuario_id,nombre FROM 'WALLET_USUARIO' INNER JOIN 'USUARIO' ON usuario_id = USUARIO.id WHERE wallet_id = " + walletIdString;
-        String query = "SELECT wallet_id,usuario_id,nombre FROM 'WALLET_USUARIO' INNER JOIN 'USUARIO' ON usuario_id = USUARIO.id WHERE wallet_id = " + walletIdString;
-
-        Cursor cursor = baseDeDatos.rawQuery(query, null);
-
-        if (cursor == null) {
-            return participantes;
-        }
-
-        // Si no hay datos, igualmente regresamos la lista vacía
-        if (!cursor.moveToFirst()) return participantes;
-
-        // En caso de que sí haya, iteramos y vamos agregando
-        do {
-            long wallet_idObtenidoDeBD = cursor.getLong(0);
-            long user_idObtenidoDeBD = cursor.getLong(1);
-            String nombreObtenidoDeBD = cursor.getString(2);
-
-            Participante participanteObtenidaDeBD = new Participante(wallet_idObtenidoDeBD, user_idObtenidoDeBD, nombreObtenidoDeBD);
-            participantes.add(participanteObtenidaDeBD);
-
-        } while (cursor.moveToNext());
-
-        // Fin del ciclo. Cerramos cursor y regresamos la lista
-        cursor.close();
-        System.out.println(participantes);
-        return participantes;
-
-    }
-
-    public ArrayList<Usuario> obtenerUsuariosId(Usuario usuario) {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        // readable porque no vamos a modificar, solamente leer
-        SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
-        String nombre = usuario.getNombre();
-        // Los usuarios son de toda la app.
-        String selection = "nombre= ?";
-        String[] selectionArgs = {nombre};
-        String[] columnasAConsultar = {"nombre", "apodo", "id"};
-
-        // Los usuarios son de toda la app.
-
-        Cursor cursor = baseDeDatos.query(
-                NOMBRE_TABLA,//from usuario
-                columnasAConsultar,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-
-        if (cursor == null) {
-            /*
-                Salimos aquí porque hubo un error, regresar
-                lista vacía
-
-            return usuarios;
-            */  /*
-        }
-
-        // Si no hay datos, igualmente regresamos la lista vacía
-        if (!cursor.moveToFirst()) return usuarios;
-
-        // En caso de que sí haya, iteramos y vamos agregando
-        do {
-            // El 0 es el número de la columna, como seleccionamos
-
-            String nombreObtenidoDeBD = cursor.getString(0);
-            String apodoObtenidoDeBD = cursor.getString(1);
-            long usuarioIdObtenidoDeBD = cursor.getLong(2);
-
-            Usuario usuarioObtenidaDeBD = new Usuario(nombreObtenidoDeBD, apodoObtenidoDeBD, usuarioIdObtenidoDeBD);
-            usuarios.add(usuarioObtenidaDeBD);
-
-        } while (cursor.moveToNext());
-        // Fin del ciclo. Cerramos cursor y regresamos la lista
-        cursor.close();
-
-        return usuarios;
-
-    */
+        return participanFinal;
     }
 
 }

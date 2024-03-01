@@ -92,7 +92,6 @@ public class TransaccionController {
 
         // En caso de que sí haya, iteramos y vamos agregando
         do {
-            // El 0 es el número de la columna, como seleccionamos
 
             String descripcionObtenidoDeBD = cursor.getString(0);
             String importeObtenidaDeBD = cursor.getString(1);
@@ -102,7 +101,6 @@ public class TransaccionController {
             int fechaObtenidoDeBD = cursor.getInt(5);
             long walletIdObtenidoDeBD = cursor.getInt(6);
             long idTransaccion = cursor.getLong(7);
-
             Transaccion transaccionObtenidaDeBD = new Transaccion(descripcionObtenidoDeBD, importeObtenidaDeBD, pagadorObtenidoDeBD, participantesObtenidaDeBD, categoriaObtenidaDeBD, fechaObtenidoDeBD, walletIdObtenidoDeBD, idTransaccion);
             transaccions.add(transaccionObtenidaDeBD);
         } while (cursor.moveToNext());

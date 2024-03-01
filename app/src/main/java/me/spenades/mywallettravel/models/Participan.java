@@ -2,16 +2,23 @@ package me.spenades.mywallettravel.models;
 
 public class Participan {
 
-    private String participan;
+    private String nombre;
     // private String apodo;
     private long walletId;
     private long userId;
     private long id; // El ID de la tabla user
 
-    public Participan(String participan) {
+    public Participan(String nombre) {
 
         //this.walletId = walletId;
-        this.participan = participan;
+        this.nombre = nombre;
+    }
+
+    public Participan(String nombre, long userId) {
+
+        //this.walletId = walletId;
+        this.nombre = nombre;
+        this.userId = userId;
     }
 
     // Constructor para cuando instanciamos desde la BD
@@ -19,7 +26,7 @@ public class Participan {
 
         this.walletId = walletId;
         this.userId = userId;
-        this.participan = nombre;
+        this.nombre = nombre;
     }
 
 
@@ -28,7 +35,7 @@ public class Participan {
 
         this.walletId = walletId;
         this.userId = userId;
-        this.participan = nombre;
+        this.nombre = nombre;
         this.id = id;
     }
 
@@ -40,12 +47,12 @@ public class Participan {
         this.id = id;
     }
 
-    public String getParticipan() {
-        return participan;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setParticipan(String participan) {
-        this.participan = participan;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public long getUserId() {
@@ -75,9 +82,10 @@ public class Participan {
 
     @Override
     public String toString() {
-        return "Participan{" +
-                ", participan='" + participan + '\'' +
-                ", walletId='" + walletId +
+        return "Participante{" +
+                ", nombre='" + nombre + '\'' +
+                ", walletId='" + walletId + '\'' +
+                ", userId='" + userId +
                 "'}";
 
     }

@@ -17,35 +17,36 @@ public class AdaptadorParticipan extends RecyclerView.Adapter<AdaptadorParticipa
 
     private List<Participante> listaDeParticipantes;
 
-    public AdaptadorParticipan(List<Participante> participante) {
-        this.listaDeParticipantes = participante;
+    public AdaptadorParticipan(List<Participante> participantes, List<Participante> participan) {
+        this.listaDeParticipantes = participantes;
     }
 
-    public void setListaDeParticipantes(List<Participante> listaDeParticipantes) {
+    public void setListaDeParticipan(List<Participante> listaDeParticipantes) {
         this.listaDeParticipantes = listaDeParticipantes;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participan, viewGroup, false);
+        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participa, viewGroup, false);
+
         return new MyViewHolder(filaWallet);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         // Obtener la de nuestra lista gracias al índice i
-        Participante participante = listaDeParticipantes.get(i);
+        Participante participan = listaDeParticipantes.get(i);
 
         // Obtener los datos de la lista
-        long walletId = participante.getWalletId();
-        long userId = participante.getUserId();
-        long ParticipanteId = participante.getId();
-        String nombre = participante.getNombre();
+        long walletId = participan.getWalletId();
+        long userId = participan.getUserId();
+        long ParticipanteId = participan.getId();
+        String nombre = participan.getNombre();
 
         // Y poner a los TextView los datos con setText
-        myViewHolder.cbParticipante.setText(String.valueOf(nombre));
-        // myViewHolder.tvApodo.setText(apodoParticipante);
+        myViewHolder.cbParticipa.setText(String.valueOf(nombre));
+
 
     }
 
@@ -56,11 +57,11 @@ public class AdaptadorParticipan extends RecyclerView.Adapter<AdaptadorParticipa
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        CheckBox cbParticipante;
+        CheckBox cbParticipa;
 
         MyViewHolder(View itemView) {
             super(itemView);
-            this.cbParticipante = (CheckBox) itemView.findViewById(R.id.cbParticipante);
+            this.cbParticipa = (CheckBox) itemView.findViewById(R.id.cbParticipa);
             // this.cbParticipante = itemView.findViewById(R.id.cbParticipante);
         }
     }

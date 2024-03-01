@@ -28,7 +28,7 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participantes, viewGroup, false);
+        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participante, viewGroup, false);
         return new MyViewHolder(filaWallet);
     }
 
@@ -40,11 +40,11 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
         // Obtener los datos de la lista
         String nombreUsuario = usuario.getNombre();
         String apodoUsuario = usuario.getApodo();
-        Long UsuarioId = usuario.getId();
+        long usuarioId = usuario.getId();
 
         // Y poner a los TextView los datos con setText
         myViewHolder.tvUsuario.setText(nombreUsuario);
-        // myViewHolder.tvApodo.setText(apodoUsuario);
+        myViewHolder.tvUsuarioId.setText(String.valueOf(usuarioId));
 
     }
 
@@ -54,11 +54,12 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.My
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUsuario;
+        TextView tvUsuario, tvUsuarioId;
 
         MyViewHolder(View itemView) {
             super(itemView);
-            // this.tvUsuario = itemView.findViewById(R.id.tvUsuario);
+            //this.tvUsuario = itemView.findViewById(R.id.tvUsuario);
+            //this.tvUsuarioId = itemView.findViewById(R.id.tvUsuarioId);
         }
     }
 }

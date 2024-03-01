@@ -85,14 +85,15 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             public void onClick(View view, int position) {
                 // Pasar a la actividad EditarTransaccionesActivity.java
                 Transaccion transaccionSeleccionada = listaDeTransaccions.get(position);
+                String transaccionId = String.valueOf(transaccionSeleccionada.getId());
                 Intent intent = new Intent(ListarTransaccionesActivity.this, EditarTransaccionesActivity.class);
-                intent.putExtra("idTransaccion", transaccionSeleccionada.getId());
+                intent.putExtra("transaccionId", transaccionId);
                 intent.putExtra("descripcionTransaccion", transaccionSeleccionada.getDescripcion());
                 intent.putExtra("importeTransaccion", transaccionSeleccionada.getImporte());
                 intent.putExtra("pagadorTransaccion", transaccionSeleccionada.getPagador());
                 intent.putExtra("participantesTransaccion", transaccionSeleccionada.getParticipantes());
-                intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());
                 intent.putExtra("fechaTransaccion", transaccionSeleccionada.getFecha());
+                intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());
                 intent.putExtra("walletId", String.valueOf(walletId));
                 startActivity(intent);
             }

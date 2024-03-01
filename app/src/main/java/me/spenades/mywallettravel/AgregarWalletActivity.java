@@ -22,7 +22,6 @@ import me.spenades.mywallettravel.controllers.WalletController;
 import me.spenades.mywallettravel.models.Participante;
 import me.spenades.mywallettravel.models.Usuario;
 import me.spenades.mywallettravel.models.Wallet;
-import me.spenades.mywallettravel.utilities.UsuarioUtility;
 
 public class AgregarWalletActivity extends AppCompatActivity {
 
@@ -31,7 +30,6 @@ public class AgregarWalletActivity extends AppCompatActivity {
     private WalletController walletController;
     private UsuarioController usuarioController;
     private ParticipanteController participanteController;
-    private UsuarioUtility usuarioUtility;
     private RecyclerView recyclerViewParticipantes;
     private Button btnAgregarWallet, btnAgregarUsuario;
     private EditText etNombre, etDescripcion, etPropietarioId, etAddParticipante, etWaletId;
@@ -298,7 +296,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
         //Formateamos variables Para Participant
         System.out.println("EEEEEEEE" + usuarioIdDb);
         Participante nuevoParticipanteGuardar = new Participante(walletId, usuarioIdDb, nuevoParticipante);
-        // Ahora lo añadimos como Participante, aquí existe como usuario si, o si.
+        // Ahora lo añadimos como Participante, aquí existe como usuario seguro.
         long agregarParticipante = participanteController.nuevoParticipante(nuevoParticipanteGuardar);
         refrescarListaDeParticipantes();
         return agregarParticipante;

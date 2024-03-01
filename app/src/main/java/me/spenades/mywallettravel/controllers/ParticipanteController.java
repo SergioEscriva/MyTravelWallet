@@ -102,17 +102,7 @@ public class ParticipanteController {
 
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
-        //*****
-        SQLiteDatabase baseDeDatos1 = ayudanteBaseDeDatos.getWritableDatabase();
-        ContentValues valoresParaActualizar1 = new ContentValues();
-        valoresParaActualizar1.put("participantes", "1,2,3,4,5");
-        // where id...
-        String campoParaActualizar = "id = 1";
-        // ... = idParticipante
-        //String[] argumentosParaActualizar = {String.valueOf(participanteEditado.getId())};
-        //long retorno = baseDeDatos1.update("TRANSACCION", valoresParaActualizar1, campoParaActualizar, null);
-        // System.out.println("Participan Lista " + retorno);
-        //****
+     
         System.out.println("Participantes " + participantes);
         return participantes;
 

@@ -46,7 +46,7 @@ public class WalletController {
         valoresParaActualizar.put("descripcion", walletEditado.getDescripcion());
         valoresParaActualizar.put("propietario", walletEditado.getPropietarioId());
         valoresParaActualizar.put("compartir", walletEditado.getCompartir());
-        System.out.println("MEEERDA" + walletEditado.getWalletId());
+
         // where id...
         String walletParaActualizar = "id = ?";
         // ... = idWallet

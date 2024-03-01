@@ -6,6 +6,9 @@ public class Usuario {
     private String apodo;
     private long id; // El ID del Usuario
 
+    public Usuario(long id) {
+        this.id = id;
+    }
 
     public Usuario(String nombre, String apodo) {
         this.nombre = nombre;
@@ -47,7 +50,6 @@ public class Usuario {
     public String toString() {
         return "Usuario{" +
                 ", nombre='" + nombre + '\'' +
-                ", id='" + id + '\'' +
                 ", apodo='" + apodo +
                 "'}";
 

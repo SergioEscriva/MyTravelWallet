@@ -46,42 +46,55 @@ public class Transaccion {
     public String getDescripcion() {
         return descripcion;
     }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
     public String getImporte() {
         return importe;
     }
+
     public void setImporte(String importe) {
         this.importe = importe;
     }
+
     public String getPagador() {
         return pagador;
     }
+
     public void setPagador(String pagador) {
         this.pagador = pagador;
     }
+
     public String getParticipantes() {
         return participantes;
     }
+
     public void setParticipantes(String participantes) {
         this.participantes = participantes;
     }
+
     public String getCategoria() {
         return categoria;
     }
+
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
+
     public int getFecha() {
         return fecha;
     }
+
     public void setFecha(int fecha) {
         this.fecha = fecha;
     }
+
     public long getWalletId() {
         return walletId;
     }
+
     public void setWalletId(long walletId) {
         this.walletId = walletId;
     }
@@ -96,8 +109,9 @@ public class Transaccion {
                 ", participantes='" + participantes + '\'' +
                 ", categoria='" + categoria + '\'' +
                 ", fecha='" + fecha + '\'' +
+                ", transaccionId='" + id + '\'' +
                 ", walletId='" + walletId +
                 "'}";
     }
 
-}
+}//        ", transaccionId='" + id + '\'' +

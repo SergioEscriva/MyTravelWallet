@@ -28,7 +28,7 @@ public class AdaptadorParticipantes extends RecyclerView.Adapter<AdaptadorPartic
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participantes, viewGroup, false);
+        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participante, viewGroup, false);
         return new MyViewHolder(filaWallet);
     }
 
@@ -55,12 +55,14 @@ public class AdaptadorParticipantes extends RecyclerView.Adapter<AdaptadorPartic
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvParticipante;
+        TextView tvParticipante, tvParticipanteId;
 
 
         MyViewHolder(View itemView) {
             super(itemView);
             this.tvParticipante = itemView.findViewById(R.id.cbParticipante);
+            this.tvParticipanteId = itemView.findViewById(R.id.cbParticipanteId);
+
         }
     }
 }

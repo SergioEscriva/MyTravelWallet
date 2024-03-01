@@ -136,6 +136,59 @@ public class UsuarioController {
         if (!cursor.moveToFirst()) return usuarios;
 
         // En caso de que sí haya, iteramos y vamos agregando
+        //do {
+        // El 0 es el número de la columna, como seleccionamos
+
+
+        String nombreObtenidoDeBD = String.valueOf(cursor.getString(0));
+        String apodoObtenidoDeBD = String.valueOf(cursor.getString(1));
+        long usuarioIdObtenidoDeBD = (cursor.getLong(2));
+        // String participaDb1 = String.valueOf(cursor.getString(0));
+        Usuario usuarioObtenidaDeBD = new Usuario(nombreObtenidoDeBD, apodoObtenidoDeBD, usuarioIdObtenidoDeBD);
+        usuarios.add(usuarioObtenidaDeBD);
+
+        //} while (cursor.moveToNext());
+        // Fin del ciclo. Cerramos cursor y regresamos la lista
+        cursor.close();
+        return usuarios;
+    }
+
+    // TODO borrar
+    public ArrayList<Usuario> obtenerUsuarioNombre(Usuario usuario) {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        // readable porque no vamos a modificar, solamente leer
+        SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
+        String id = String.valueOf(usuario.getId());
+        // Los usuarios son de toda la app.
+        String selection = "id= ?";
+        String[] selectionArgs = {id};
+        String[] columnasAConsultar = {"nombre", "apodo", "id"};
+
+        // Los usuarios son de toda la app.
+
+        Cursor cursor = baseDeDatos.query(
+                NOMBRE_TABLA,//from usuario
+                columnasAConsultar,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        if (cursor == null) {
+            /*
+                Salimos aquí porque hubo un error, regresar
+                lista vacía
+             */
+            return usuarios;
+
+        }
+
+        // Si no hay datos, igualmente regresamos la lista vacía
+        if (!cursor.moveToFirst()) return usuarios;
+
+        // En caso de que sí haya, iteramos y vamos agregando
         do {
             // El 0 es el número de la columna, como seleccionamos
 
