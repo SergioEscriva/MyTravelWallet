@@ -16,6 +16,7 @@ public class ParticipanController {
     private UsuarioController usuarioController;
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
     private String NOMBRE_TABLA = "wallet_usuario";
+    //private String NOMBRE_TABLA_TRANSACCION = "transaccion";
 
     public ParticipanController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
@@ -71,21 +72,23 @@ public class ParticipanController {
     }
 
     public ArrayList<Participante> obtenerParticipan(long transaccionId) {
-        //ArrayList<Participan> participan = new ArrayList<>();
-        //ArrayList<String> participaDb = new ArrayList<>();
+
         ArrayList<Usuario> usuarioCompletoLista = new ArrayList<>();
         ArrayList<Participante> participanFinal = new ArrayList<>();
+
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
         // hacemos busqueda nombre y los que participan del wallet.
-        String transaccionIdString = String.valueOf(transaccionId);
-        String query = "SELECT participantes FROM TRANSACCION WHERE id = " + transaccionIdString;
-        Cursor cursor = baseDeDatos.rawQuery(query, null);
+        String transaccionIdLong = String.valueOf(transaccionId);
+        String participanSql = "SELECT participantes FROM 'TRANSACCION' WHERE id = " + transaccionIdLong;
+        Cursor cursor = baseDeDatos.rawQuery(participanSql, null);
 
-        System.out.println(cursor.getCount());
-        cursor.moveToFirst();
-        if (cursor == null || cursor.getCount() <= 1) {
+        System.out.println("ListaCrear Otra " + cursor.getCount());
+        //Cursor cursor1 = cursor.getColumnNames();
+        //cursor.moveToFirst();
+        cursor.moveToNext();
+        if (cursor == null || cursor.getCount() < 1) {
             /*
                 Salimos aquí porque hubo un error, regresar
                 lista vacía
@@ -101,7 +104,8 @@ public class ParticipanController {
         String[] participaLista = String.valueOf(participaDb1).split(",");
 
         for (String usuarioIdDbParticipa : participaLista) {
-            // Pasamos a Long el id
+
+
             Long participanteLong = Long.parseLong(usuarioIdDbParticipa);
             // Formateamos el Id
             Usuario usuarioIdParticipa = new Usuario(participanteLong);
@@ -111,10 +115,13 @@ public class ParticipanController {
             Usuario usuarioCompleto = usuarioCompletoLista.get(0);
             String usuarioNombre = usuarioCompleto.getNombre();
             long usuarioId = usuarioCompleto.getId();
-            Participante usuarioObtenidaDeBD = new Participante(usuarioId, usuarioNombre);
+            Participante usuarioObtenidaDeBD = new Participante(usuarioNombre, usuarioId);
             participanFinal.add(usuarioObtenidaDeBD);
 
         }
+        // Fin del ciclo. Cerramos cursor y regresamos la lista
+        cursor.close();
+        System.out.println("ÑÑÑÑÑÑÑÑÑÑ" + participanFinal);
         return participanFinal;
     }
 
