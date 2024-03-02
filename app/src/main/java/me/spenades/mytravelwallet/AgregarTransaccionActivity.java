@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel;
+package me.spenades.mytravelwallet;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import me.spenades.mywallettravel.controllers.TransaccionController;
-import me.spenades.mywallettravel.models.Transaccion;
+import me.spenades.mytravelwallet.controllers.TransaccionController;
+import me.spenades.mytravelwallet.models.Transaccion;
 
 public class AgregarTransaccionActivity extends AppCompatActivity {
     private Button btnAgregarTransaccion, btnCancelarNuevaTransaccion;
@@ -30,7 +30,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
         // Recuperamos WalletId Activo
         long walletIdSelected = extras.getLong("walletId");
-
 
 
         // Instanciar vistas
@@ -66,7 +65,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                         participantesString = etParticipantes.getText().toString(),
                         categoria = etCategoria.getText().toString(),
                         fechaString = etFecha.getText().toString();
-
 
 
                 if ("".equals(descripcion)) {

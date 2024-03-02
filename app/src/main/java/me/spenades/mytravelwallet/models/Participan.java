@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.models;
+package me.spenades.mytravelwallet.models;
 
 public class Participan {
 
@@ -82,7 +82,7 @@ public class Participan {
 
     @Override
     public String toString() {
-        return "Participante{" +
+        return "Participan{" +
                 ", nombre='" + nombre + '\'' +
                 ", walletId='" + walletId + '\'' +
                 ", userId='" + userId +

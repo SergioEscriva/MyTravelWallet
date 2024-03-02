@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel;
+package me.spenades.mytravelwallet;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,9 +17,9 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.spenades.mywallettravel.adapters.AdaptadorWallets;
-import me.spenades.mywallettravel.controllers.WalletController;
-import me.spenades.mywallettravel.models.Wallet;
+import me.spenades.mytravelwallet.adapters.WalletsAdapters;
+import me.spenades.mytravelwallet.controllers.WalletController;
+import me.spenades.mytravelwallet.models.Wallet;
 
 
 public class ListarWalletsActivity extends AppCompatActivity {
@@ -27,7 +27,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewWallets, recyclerViewParticipantes;
 
-    private AdaptadorWallets adaptadorWallets;
+    private WalletsAdapters walletsAdapters;
 
     private WalletController walletController;
 
@@ -66,11 +66,11 @@ public class ListarWalletsActivity extends AppCompatActivity {
         // Por defecto es una lista vacía,
         // se la ponemos al adaptador y configuramos el recyclerView
         listaDeWallets = new ArrayList<>();
-        adaptadorWallets = new AdaptadorWallets(listaDeWallets);
+        walletsAdapters = new WalletsAdapters(listaDeWallets);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewWallets.setLayoutManager(mLayoutManager);
         recyclerViewWallets.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewWallets.setAdapter(adaptadorWallets);
+        recyclerViewWallets.setAdapter(walletsAdapters);
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeWallets();
@@ -160,10 +160,10 @@ public class ListarWalletsActivity extends AppCompatActivity {
     }
 
     public void refrescarListaDeWallets() {
-        if (adaptadorWallets == null) return;
+        if (walletsAdapters == null) return;
         listaDeWallets = walletController.obtenerWallets();
-        adaptadorWallets.setListaDeWallets(listaDeWallets);
-        adaptadorWallets.notifyDataSetChanged();
+        walletsAdapters.setListaDeWallets(listaDeWallets);
+        walletsAdapters.notifyDataSetChanged();
 
     }
 }

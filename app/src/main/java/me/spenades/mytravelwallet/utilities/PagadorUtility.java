@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.utilities;
+package me.spenades.mytravelwallet.utilities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,18 +17,18 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.spenades.mywallettravel.AgregarWalletActivity;
-import me.spenades.mywallettravel.EditarWalletActivity;
-import me.spenades.mywallettravel.ListarTransaccionesActivity;
-import me.spenades.mywallettravel.R;
-import me.spenades.mywallettravel.RecyclerTouchListener;
-import me.spenades.mywallettravel.adapters.AdaptadorWallets;
-import me.spenades.mywallettravel.controllers.ParticipanteController;
-import me.spenades.mywallettravel.controllers.UsuarioController;
-import me.spenades.mywallettravel.controllers.WalletController;
-import me.spenades.mywallettravel.models.Participante;
-import me.spenades.mywallettravel.models.Usuario;
-import me.spenades.mywallettravel.models.Wallet;
+import me.spenades.mytravelwallet.AgregarWalletActivity;
+import me.spenades.mytravelwallet.EditarWalletActivity;
+import me.spenades.mytravelwallet.ListarTransaccionesActivity;
+import me.spenades.mytravelwallet.R;
+import me.spenades.mytravelwallet.RecyclerTouchListener;
+import me.spenades.mytravelwallet.adapters.WalletsAdapters;
+import me.spenades.mytravelwallet.controllers.ParticipanteController;
+import me.spenades.mytravelwallet.controllers.UsuarioController;
+import me.spenades.mytravelwallet.controllers.WalletController;
+import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Usuario;
+import me.spenades.mytravelwallet.models.Wallet;
 
 
 public class PagadorUtility extends AppCompatActivity {
@@ -36,7 +36,7 @@ public class PagadorUtility extends AppCompatActivity {
 
     private RecyclerView recyclerViewWallets, recyclerViewParticipantes;
 
-    private AdaptadorWallets adaptadorWallets;
+    private WalletsAdapters walletsAdapters;
 
     private WalletController walletController;
     private UsuarioController usuarioController;
@@ -77,11 +77,11 @@ public class PagadorUtility extends AppCompatActivity {
         // Por defecto es una lista vacía,
         // se la ponemos al adaptador y configuramos el recyclerView
         listaDeWallets = new ArrayList<>();
-        adaptadorWallets = new AdaptadorWallets(listaDeWallets);
+        walletsAdapters = new WalletsAdapters(listaDeWallets);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewWallets.setLayoutManager(mLayoutManager);
         recyclerViewWallets.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewWallets.setAdapter(adaptadorWallets);
+        recyclerViewWallets.setAdapter(walletsAdapters);
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeWallets();
@@ -172,10 +172,10 @@ public class PagadorUtility extends AppCompatActivity {
     }
 
     public void refrescarListaDeWallets() {
-        if (adaptadorWallets == null) return;
+        if (walletsAdapters == null) return;
         listaDeWallets = walletController.obtenerWallets();
-        adaptadorWallets.setListaDeWallets(listaDeWallets);
-        adaptadorWallets.notifyDataSetChanged();
+        walletsAdapters.setListaDeWallets(listaDeWallets);
+        walletsAdapters.notifyDataSetChanged();
 
     }
 

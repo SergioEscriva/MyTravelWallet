@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.SQLiteDB;
+package me.spenades.mytravelwallet.SQLiteDB;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,7 +27,7 @@ public class AyudanteBaseDeDatos extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, nombre text unique, descripcion text, propietario int, compartir int)", NOMBRE_TABLA_WALLETS));
+        db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, nombre text unique, descripcion text, propietario int, compartir inte)", NOMBRE_TABLA_WALLETS));
 
         db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, descripcion text, importe real, pagador int, participantes text, categoria txt, fecha int, walletId int)", NOMBRE_TABLA_TRANSACCIONES));
 

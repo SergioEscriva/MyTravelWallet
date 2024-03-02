@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.controllers;
+package me.spenades.mytravelwallet.controllers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
-import me.spenades.mywallettravel.SQLiteDB.AyudanteBaseDeDatos;
-import me.spenades.mywallettravel.models.Participante;
-import me.spenades.mywallettravel.models.Usuario;
+import me.spenades.mytravelwallet.SQLiteDB.AyudanteBaseDeDatos;
+import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Usuario;
 
 
 public class ParticipanController {
@@ -84,9 +84,6 @@ public class ParticipanController {
         String participanSql = "SELECT participantes FROM 'TRANSACCION' WHERE id = " + transaccionIdLong;
         Cursor cursor = baseDeDatos.rawQuery(participanSql, null);
 
-        System.out.println("ListaCrear Otra " + cursor.getCount());
-        //Cursor cursor1 = cursor.getColumnNames();
-        //cursor.moveToFirst();
         cursor.moveToNext();
         if (cursor == null || cursor.getCount() < 1) {
             /*
@@ -99,12 +96,11 @@ public class ParticipanController {
         if (!cursor.moveToFirst()) return participanFinal;
 
         //Recuperamos participan en el pago por su ID y lo iteramos para recuperar su nombre.
-
         String participaDb1 = String.valueOf(cursor.getString(0));
         String[] participaLista = String.valueOf(participaDb1).split(",");
 
-        for (String usuarioIdDbParticipa : participaLista) {
 
+        for (String usuarioIdDbParticipa : participaLista) {
 
             Long participanteLong = Long.parseLong(usuarioIdDbParticipa);
             // Formateamos el Id
@@ -121,7 +117,6 @@ public class ParticipanController {
         }
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
-        System.out.println("ÑÑÑÑÑÑÑÑÑÑ" + participanFinal);
         return participanFinal;
     }
 

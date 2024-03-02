@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.adapters;
+package me.spenades.mytravelwallet.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,15 +9,15 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import me.spenades.mywallettravel.R;
-import me.spenades.mywallettravel.models.Participante;
+import me.spenades.mytravelwallet.R;
+import me.spenades.mytravelwallet.models.Participante;
 
 
-public class AdaptadorParticipantes extends RecyclerView.Adapter<AdaptadorParticipantes.MyViewHolder> {
+public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.MyViewHolder> {
 
     private List<Participante> listaDeParticipantes;
 
-    public AdaptadorParticipantes(List<Participante> participante) {
+    public PagadoresAdapters(List<Participante> participante) {
         this.listaDeParticipantes = participante;
     }
 
@@ -28,7 +28,7 @@ public class AdaptadorParticipantes extends RecyclerView.Adapter<AdaptadorPartic
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participante, viewGroup, false);
+        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_pagador, viewGroup, false);
         return new MyViewHolder(filaWallet);
     }
 
@@ -38,13 +38,13 @@ public class AdaptadorParticipantes extends RecyclerView.Adapter<AdaptadorPartic
         Participante participante = listaDeParticipantes.get(i);
 
         // Obtener los datos de la lista
-        long walletId = participante.getWalletId();
-        long userId = participante.getUserId();
-        long ParticipanteId = participante.getId();
+        // long walletId = participante.getWalletId();
+        // long userId = participante.getUserId();
+        // long ParticipanteId = participante.getId();
         String nombre = participante.getNombre();
 
         // Y poner a los TextView los datos con setText
-        myViewHolder.tvParticipante.setText(String.valueOf(nombre));
+        myViewHolder.cbPagador.setText(String.valueOf(nombre));
         // myViewHolder.tvApodo.setText(apodoParticipante);
 
     }
@@ -55,14 +55,13 @@ public class AdaptadorParticipantes extends RecyclerView.Adapter<AdaptadorPartic
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvParticipante, tvParticipanteId;
+        TextView cbPagador, cbPagadorId;
 
 
         MyViewHolder(View itemView) {
             super(itemView);
-            this.tvParticipante = itemView.findViewById(R.id.cbParticipante);
-            this.tvParticipanteId = itemView.findViewById(R.id.cbParticipanteId);
-
+            this.cbPagador = itemView.findViewById(R.id.cbPagador);
+            this.cbPagadorId = itemView.findViewById(R.id.cbPagadorId);
         }
     }
 }

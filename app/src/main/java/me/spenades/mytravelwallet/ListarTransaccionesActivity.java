@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel;
+package me.spenades.mytravelwallet;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,17 +15,17 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.spenades.mywallettravel.adapters.AdaptadorResumen;
-import me.spenades.mywallettravel.adapters.AdaptadorTransacciones;
-import me.spenades.mywallettravel.controllers.TransaccionController;
-import me.spenades.mywallettravel.models.Transaccion;
+import me.spenades.mytravelwallet.adapters.ResumenAdapters;
+import me.spenades.mytravelwallet.adapters.TransaccionesAdapters;
+import me.spenades.mytravelwallet.controllers.TransaccionController;
+import me.spenades.mytravelwallet.models.Transaccion;
 
 
 public class ListarTransaccionesActivity extends AppCompatActivity {
     private List<Transaccion> listaDeTransaccions;
     private RecyclerView recyclerViewTransacciones, recyclerViewResumen;
-    private AdaptadorTransacciones adaptadorTransacciones;
-    private AdaptadorResumen adaptadorResumen;
+    private TransaccionesAdapters transaccionesAdapters;
+    private ResumenAdapters resumenAdapters;
     private TransaccionController transaccionController;
     private FloatingActionButton fabAgregarTransaccion;
     private FloatingActionButton fabResolverDeudas;
@@ -60,20 +60,20 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Por defecto es una lista vacía,
         listaDeTransaccions = new ArrayList<>();
-        adaptadorTransacciones = new AdaptadorTransacciones(listaDeTransaccions);
+        transaccionesAdapters = new TransaccionesAdapters(listaDeTransaccions);
 
         // se la ponemos al adaptador y configuramos el recyclerView
 
         RecyclerView.LayoutManager mLayoutManagerTop = new LinearLayoutManager(getApplicationContext());
         recyclerViewTransacciones.setLayoutManager(mLayoutManagerTop);
         recyclerViewTransacciones.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewTransacciones.setAdapter(adaptadorTransacciones);
+        recyclerViewTransacciones.setAdapter(transaccionesAdapters);
 
         RecyclerView.LayoutManager mLayoutManagerBottom = new LinearLayoutManager(getApplicationContext());
-        adaptadorResumen = new AdaptadorResumen(listaDeTransaccions, walletId);
+        resumenAdapters = new ResumenAdapters(listaDeTransaccions, walletId);
         recyclerViewResumen.setLayoutManager(mLayoutManagerBottom);
         recyclerViewResumen.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewResumen.setAdapter(adaptadorResumen);
+        recyclerViewResumen.setAdapter(resumenAdapters);
 
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
@@ -209,10 +209,10 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
     public void refrescarListaDeTransacciones() {
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
-        adaptadorTransacciones.setListaDeTransacciones(listaDeTransaccions);
-        adaptadorTransacciones.notifyDataSetChanged();
-        adaptadorResumen.setListaDeTransacciones(listaDeTransaccions, walletId);
-        adaptadorResumen.notifyDataSetChanged();
+        transaccionesAdapters.setListaDeTransacciones(listaDeTransaccions);
+        transaccionesAdapters.notifyDataSetChanged();
+        resumenAdapters.setListaDeTransacciones(listaDeTransaccions, walletId);
+        resumenAdapters.notifyDataSetChanged();
 
     }
 

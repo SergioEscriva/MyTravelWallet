@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.adapters;
+package me.spenades.mytravelwallet.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,21 +9,27 @@ import android.widget.CheckBox;
 
 import java.util.List;
 
-import me.spenades.mywallettravel.R;
-import me.spenades.mywallettravel.models.Participante;
+import me.spenades.mytravelwallet.R;
+import me.spenades.mytravelwallet.models.Participante;
 
 
-public class AdaptadorParticipan extends RecyclerView.Adapter<AdaptadorParticipan.MyViewHolder> {
+public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.MyViewHolder> {
 
     private List<Participante> listaDeParticipantes;
+    private List<Participante> listaDeParticipan;
 
-    public AdaptadorParticipan(List<Participante> participantes, List<Participante> participan) {
+    public ParticipanAdapters(List<Participante> participan, List<Participante> participantes) {
         this.listaDeParticipantes = participantes;
+        this.listaDeParticipan = participan;
+
     }
 
-    public void setListaDeParticipan(List<Participante> listaDeParticipantes) {
+
+    public void setListaDeParticipan(List<Participante> listaDeParticipan, List<Participante> listaDeParticipantes) {
         this.listaDeParticipantes = listaDeParticipantes;
+        this.listaDeParticipan = listaDeParticipan;
     }
+
 
     @NonNull
     @Override
@@ -43,16 +49,28 @@ public class AdaptadorParticipan extends RecyclerView.Adapter<AdaptadorParticipa
         long userId = participan.getUserId();
         long ParticipanteId = participan.getId();
         String nombre = participan.getNombre();
-
-        // Y poner a los TextView los datos con setText
-        myViewHolder.cbParticipa.setText(String.valueOf(nombre));
-
-
+        boolean paticipaOno = participaExiste(userId);
+        myViewHolder.cbParticipa.setText(nombre);
+        // Se envía para iterar si existe como Participa en la transacción
+        myViewHolder.cbParticipa.setChecked(paticipaOno);
     }
 
     @Override
     public int getItemCount() {
         return listaDeParticipantes.size();
+
+    }
+
+    //TODO SACAR A UNA CLASE
+    public boolean participaExiste(Long participanteId) {
+
+        // Si existe se añade el Check
+        for (Participante participa : listaDeParticipan) {
+            if (participa.getUserId() == participanteId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +80,7 @@ public class AdaptadorParticipan extends RecyclerView.Adapter<AdaptadorParticipa
         MyViewHolder(View itemView) {
             super(itemView);
             this.cbParticipa = (CheckBox) itemView.findViewById(R.id.cbParticipa);
-            // this.cbParticipante = itemView.findViewById(R.id.cbParticipante);
         }
     }
+
 }
