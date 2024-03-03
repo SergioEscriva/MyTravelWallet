@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.models;
+package me.spenades.mytravelwallet.models;
 
 public class Wallet {
 
@@ -37,27 +37,35 @@ public class Wallet {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public String getDescripcion() {
         return descripcion;
     }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
     public long getPropietarioId() {
         return propietario;
     }
+
     public void setPropietarioId(long propietario) {
         this.propietario = propietario;
     }
+
     public int getCompartir() {
         return compartir;
     }
+
     public void setCompartir(int compartir) {
         this.compartir = compartir;
     }
+
     @Override
     public String toString() {
         return "Wallet{" +

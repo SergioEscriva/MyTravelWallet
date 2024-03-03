@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel;
+package me.spenades.mytravelwallet;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +11,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.spenades.mywallettravel.adapters.AdaptadorUsuarios;
-import me.spenades.mywallettravel.controllers.UsuarioController;
-import me.spenades.mywallettravel.models.Usuario;
+import me.spenades.mytravelwallet.adapters.UsuariosAdapters;
+import me.spenades.mytravelwallet.controllers.UsuarioController;
+import me.spenades.mytravelwallet.models.Usuario;
 
 public class MainActivity extends AppCompatActivity {
     private UsuarioController usuarioController;
     private List<Usuario> listaDeUsuarios;
-    private AdaptadorUsuarios adaptadorUsuarios;
+    private UsuariosAdapters usuariosAdapters;
     private Button btnEmpezar;
     private EditText etNombrePropietario;
 
@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Recuperamos lista de usuarios
         listaDeUsuarios = new ArrayList<>();
-        adaptadorUsuarios = new AdaptadorUsuarios(listaDeUsuarios);
+        usuariosAdapters = new UsuariosAdapters(listaDeUsuarios);
         // Se envía el wallet 0 para poder recuperar todos los usuarios
         listaDeUsuarios = usuarioController.obtenerUsuarios();
-        adaptadorUsuarios.setListaDeUsuarios(listaDeUsuarios);
-        int cantidadUsuarios = adaptadorUsuarios.getItemCount();
+        usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
+        int cantidadUsuarios = usuariosAdapters.getItemCount();
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeUsuarios();
@@ -99,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void refrescarListaDeUsuarios() {
         listaDeUsuarios = usuarioController.obtenerUsuarios();
-        adaptadorUsuarios.setListaDeUsuarios(listaDeUsuarios);
-        adaptadorUsuarios.notifyDataSetChanged();
+        usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
+        usuariosAdapters.notifyDataSetChanged();
     }
 
 }

@@ -1,7 +1,7 @@
 package me.spenades.mytravelwallet;
 
 import android.content.Context;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -33,6 +32,7 @@ public class PopUpClassPagador extends PopupWindow {
 
 
         LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
+
         View popupView = inflater.inflate(R.layout.activity_pagador, null);
 
 
@@ -52,18 +52,22 @@ public class PopUpClassPagador extends PopupWindow {
 
         //Initialize the elements of our window, install the handler
         recyclerViewPagadores = popupView.findViewById(R.id.recyclerViewPagadores);
-        buttonEdit = popupView.findViewById(R.id.messageButton);
+
 
         // recyclerview tamaño fijo y linear layout
-        recyclerViewPagadores.setHasFixedSize(true);
-        recyclerViewPagadores.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        recyclerViewPagadores.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+        //recyclerViewPagadores.setHasFixedSize(true);
+        //recyclerViewPagadores.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        //recyclerViewPagadores.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
 
 
         //listaDeParticipantes = new ArrayList<>();
         pagadoresAdapters = new PagadoresAdapters(listaDeParticipantes);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(popupView.getContext()); //.getApplicationContext());
+        recyclerViewPagadores.setLayoutManager(mLayoutManager);
+        recyclerViewPagadores.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPagadores.setAdapter(pagadoresAdapters);
         setContentView(view);
+
 
         /*
         // Adaptador pagadores
@@ -71,7 +75,7 @@ public class PopUpClassPagador extends PopupWindow {
         pagadoresAdapters = new PagadoresAdapters(listaDeParticipantes);
 
         // configuramos el recyclerView
-        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewPagadores.setLayoutManager(mLayoutManager);
         recyclerViewPagadores.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPagadores.setAdapter(pagadoresAdapters);
@@ -84,23 +88,25 @@ public class PopUpClassPagador extends PopupWindow {
         //Inicializamos  Popup y el botón.
 
 
-         */
+        buttonEdit = popupView.findViewById(R.id.btn
+        )
 
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                System.out.println();
                 //final Participante pagadorActivo = listaDeParticipantes.get(position);
                 //String pagador = pagadorActivo.getNombre();
                 //long pagadorId = pagadorActivo.getUserId();
                 //nuevoPagador = String.valueOf(pagadorId);
                 //As an example, display the message
                 Toast.makeText(view.getContext(), "Wow, popup action button", Toast.LENGTH_SHORT).show();
+                ;
 
             }
         });
 
-
+        */
         //Handler for clicking on the inactive zone of the window
 
         popupView.setOnTouchListener(new View.OnTouchListener() {

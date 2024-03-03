@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.adapters;
+package me.spenades.mytravelwallet.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,19 +10,19 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import me.spenades.mywallettravel.R;
-import me.spenades.mywallettravel.models.Wallet;
+import me.spenades.mytravelwallet.R;
+import me.spenades.mytravelwallet.models.Wallet;
 
-public class AdaptadorWallets extends RecyclerView.Adapter<AdaptadorWallets.MyViewHolder> {
+public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyViewHolder> {
 
     private List<Wallet> listaDeWallets;
 
-    public void setListaDeWallets(List<Wallet> listaDeWallets) {
-        this.listaDeWallets = listaDeWallets;
+    public WalletsAdapters(List<Wallet> wallets) {
+        this.listaDeWallets = wallets;
     }
 
-    public AdaptadorWallets(List<Wallet> wallets) {
-        this.listaDeWallets = wallets;
+    public void setListaDeWallets(List<Wallet> listaDeWallets) {
+        this.listaDeWallets = listaDeWallets;
     }
 
     @NonNull
@@ -49,7 +49,7 @@ public class AdaptadorWallets extends RecyclerView.Adapter<AdaptadorWallets.MyVi
         myViewHolder.tvWalletId.setText(String.valueOf(walletId));
         //myViewHolder.tvPropietarioId.setText(String.valueOf(propietarioIdWallet));
 
-        boolean checkbox_Compartir = (compartirWallet==1)? true:false;
+        boolean checkbox_Compartir = (compartirWallet == 1) ? true : false;
 
 
     }
@@ -62,6 +62,7 @@ public class AdaptadorWallets extends RecyclerView.Adapter<AdaptadorWallets.MyVi
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvNombre, tvDescripcion, tvPropietarioId, tvWalletId;
         CheckBox checkbox_Compartir;
+
         MyViewHolder(View itemView) {
             super(itemView);
             this.tvNombre = itemView.findViewById(R.id.tvNombreWallet);

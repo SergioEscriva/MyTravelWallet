@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.models;
+package me.spenades.mytravelwallet.models;
 
 public class Transaccion {
 

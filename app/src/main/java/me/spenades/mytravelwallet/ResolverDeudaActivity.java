@@ -1,10 +1,7 @@
-package me.spenades.mywallettravel;
+package me.spenades.mytravelwallet;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-import me.spenades.mywallettravel.controllers.TransaccionController;
 
 public class ResolverDeudaActivity extends AppCompatActivity {
     @Override

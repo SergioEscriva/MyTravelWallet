@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.controllers;
+package me.spenades.mytravelwallet.controllers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
-import me.spenades.mywallettravel.SQLiteDB.AyudanteBaseDeDatos;
-import me.spenades.mywallettravel.models.Transaccion;
+import me.spenades.mytravelwallet.SQLiteDB.AyudanteBaseDeDatos;
+import me.spenades.mytravelwallet.models.Transaccion;
 
 public class TransaccionController {
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
@@ -106,7 +106,6 @@ public class TransaccionController {
         } while (cursor.moveToNext());
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
-        System.out.println("Transacciones " + transaccions);
         return transaccions;
     }
 }

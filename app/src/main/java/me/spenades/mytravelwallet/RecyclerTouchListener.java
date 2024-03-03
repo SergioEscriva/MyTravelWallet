@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel;
+package me.spenades.mytravelwallet;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

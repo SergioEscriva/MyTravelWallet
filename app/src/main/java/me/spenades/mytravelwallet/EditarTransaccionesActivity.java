@@ -48,6 +48,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_transaction);
+
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
         this.walletName = extras.getString("walletName");
@@ -68,7 +69,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
 
         // Ahora declaramos las vistas
-
+        recyclerViewPagadores = findViewById(R.id.recyclerViewParticipan);
         recyclerViewParticipan = findViewById(R.id.recyclerViewParticipan);
         etDescripcion = findViewById(R.id.etEditarDescripcion);
         etImporte = findViewById(R.id.etEditarImporte);
@@ -101,10 +102,9 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         recyclerViewParticipan.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipan.setAdapter(participanAdapters);
 
-
         //Refrescamos datos del RecycleView
         refrescarListaDeParticipantes();
-        participanAdapters = new ParticipanAdapters(listaDeParticipantes, listaDeParticipan);
+        //participanAdapters = new ParticipanAdapters(listaDeParticipantes, listaDeParticipan);
 
 
         // Rellenar los EditText de la pantalla
@@ -122,7 +122,8 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 PopUpClassPagador popUpClassPagador = new PopUpClassPagador();
                 popUpClassPagador.showPopupWindow(v, listaDeParticipantes);
-                return false;
+                // recyclerview tamaño fijo y linear layout
+                return true;
             }
 
         });
@@ -204,15 +205,14 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
     }
 
-    public List<Participante> refrescarListaDeParticipantes() {
+    public void refrescarListaDeParticipantes() {
         // Rellenamos la lista
         listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
         listaDeParticipan = participanController.obtenerParticipan(transaccionId);
 
         //Adaptador Participa Lista total
+
         participanAdapters.setListaDeParticipan(listaDeParticipan, listaDeParticipantes);
         participanAdapters.notifyDataSetChanged();
-
-        return listaDeParticipantes;
     }
 }

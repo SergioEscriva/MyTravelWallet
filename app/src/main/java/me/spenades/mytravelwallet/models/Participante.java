@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.models;
+package me.spenades.mytravelwallet.models;
 
 public class Participante {
 
@@ -11,6 +11,12 @@ public class Participante {
     public Participante(long walletId, String nombre) {
 
         this.walletId = walletId;
+        this.nombre = nombre;
+    }
+
+    public Participante(String nombre, long userId) {
+
+        this.userId = userId;
         this.nombre = nombre;
     }
 

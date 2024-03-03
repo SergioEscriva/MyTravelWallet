@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.adapters;
+package me.spenades.mytravelwallet.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import me.spenades.mywallettravel.R;
-import me.spenades.mywallettravel.models.Transaccion;
+import me.spenades.mytravelwallet.R;
+import me.spenades.mytravelwallet.models.Transaccion;
 
-public class AdaptadorTransacciones extends RecyclerView.Adapter<AdaptadorTransacciones.MyViewHolder> {
+public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAdapters.MyViewHolder> {
 
     private List<Transaccion> listaDeTransaccions;
 
-    public AdaptadorTransacciones(List<Transaccion> transaccions) {
+    public TransaccionesAdapters(List<Transaccion> transaccions) {
         this.listaDeTransaccions = transaccions;
     }
 

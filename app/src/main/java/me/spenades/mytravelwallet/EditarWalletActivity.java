@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel;
+package me.spenades.mytravelwallet;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -18,23 +18,23 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.spenades.mywallettravel.adapters.AdaptadorParticipantes;
-import me.spenades.mywallettravel.adapters.AdaptadorWallets;
-import me.spenades.mywallettravel.controllers.ParticipanteController;
-import me.spenades.mywallettravel.controllers.UsuarioController;
-import me.spenades.mywallettravel.controllers.WalletController;
-import me.spenades.mywallettravel.models.Participante;
-import me.spenades.mywallettravel.models.Usuario;
-import me.spenades.mywallettravel.models.Wallet;
+import me.spenades.mytravelwallet.adapters.ParticipantesAdapters;
+import me.spenades.mytravelwallet.adapters.WalletsAdapters;
+import me.spenades.mytravelwallet.controllers.ParticipanteController;
+import me.spenades.mytravelwallet.controllers.UsuarioController;
+import me.spenades.mytravelwallet.controllers.WalletController;
+import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Usuario;
+import me.spenades.mytravelwallet.models.Wallet;
 
 
 public class EditarWalletActivity extends AppCompatActivity {
     public ParticipanteController participanteController;
     public UsuarioController usuarioController;
     private List<Wallet> listaDeWallets;
-    private AdaptadorWallets adaptadorWallets;
+    private WalletsAdapters walletsAdapters;
     private List<Participante> listaDeParticipantes;
-    private AdaptadorParticipantes adaptadorParticipantes;
+    private ParticipantesAdapters participantesAdapters;
     private WalletController walletController;
     private Wallet wallet;
 
@@ -108,12 +108,12 @@ public class EditarWalletActivity extends AppCompatActivity {
 
         // Por defecto es una lista vacía,
         listaDeParticipantes = new ArrayList<>();
-        adaptadorParticipantes = new AdaptadorParticipantes(listaDeParticipantes);
+        participantesAdapters = new ParticipantesAdapters(listaDeParticipantes);
 
         listaDeWallets = new ArrayList<>();
-        adaptadorWallets = new AdaptadorWallets(listaDeWallets);
-        adaptadorWallets.setListaDeWallets(listaDeWallets);
-        adaptadorWallets.notifyDataSetChanged();
+        walletsAdapters = new WalletsAdapters(listaDeWallets);
+        walletsAdapters.setListaDeWallets(listaDeWallets);
+        walletsAdapters.notifyDataSetChanged();
         //refrescarListaDeWallets();
 
 
@@ -121,7 +121,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewParticipantes.setLayoutManager(mLayoutManager);
         recyclerViewParticipantes.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewParticipantes.setAdapter(adaptadorParticipantes);
+        recyclerViewParticipantes.setAdapter(participantesAdapters);
         //refrescarListaDeParticipantes();
 
         // Cancelar o Salir de Editar
@@ -260,17 +260,17 @@ public class EditarWalletActivity extends AppCompatActivity {
     }
 
     public void refrescarListaDeParticipantes() {
-        if (adaptadorParticipantes == null) return;
+        if (participantesAdapters == null) return;
         listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
-        adaptadorParticipantes.setListaDeParticipantes(listaDeParticipantes);
-        adaptadorParticipantes.notifyDataSetChanged();
+        participantesAdapters.setListaDeParticipantes(listaDeParticipantes);
+        participantesAdapters.notifyDataSetChanged();
 
     }
 
     public void refrescarListaDeWallets() {
         listaDeWallets = walletController.obtenerWallets();
-        adaptadorWallets.setListaDeWallets(listaDeWallets);
-        adaptadorWallets.notifyDataSetChanged();
+        walletsAdapters.setListaDeWallets(listaDeWallets);
+        walletsAdapters.notifyDataSetChanged();
     }
 
 
@@ -298,7 +298,6 @@ public class EditarWalletActivity extends AppCompatActivity {
             usuarioIdDb = usuarios.get(0).getId();
         }
         //Formateamos variables Para Participant
-        System.out.println("EEEEEEEE" + usuarioIdDb);
         Participante nuevoParticipanteGuardar = new Participante(walletId, usuarioIdDb, nuevoParticipante);
         // Ahora lo añadimos como Participante, aquí existe como usuario seguro.
         long agregarParticipante = participanteController.nuevoParticipante(nuevoParticipanteGuardar);

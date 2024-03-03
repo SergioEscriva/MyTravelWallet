@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel;
+package me.spenades.mytravelwallet;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,18 +15,18 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.spenades.mywallettravel.adapters.AdaptadorParticipantes;
-import me.spenades.mywallettravel.controllers.ParticipanteController;
-import me.spenades.mywallettravel.controllers.UsuarioController;
-import me.spenades.mywallettravel.controllers.WalletController;
-import me.spenades.mywallettravel.models.Participante;
-import me.spenades.mywallettravel.models.Usuario;
-import me.spenades.mywallettravel.models.Wallet;
+import me.spenades.mytravelwallet.adapters.ParticipantesAdapters;
+import me.spenades.mytravelwallet.controllers.ParticipanteController;
+import me.spenades.mytravelwallet.controllers.UsuarioController;
+import me.spenades.mytravelwallet.controllers.WalletController;
+import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Usuario;
+import me.spenades.mytravelwallet.models.Wallet;
 
 public class AgregarWalletActivity extends AppCompatActivity {
 
     private List<Participante> listaDeParticipantes;
-    private AdaptadorParticipantes adaptadorParticipantes;
+    private ParticipantesAdapters participantesAdapters;
     private WalletController walletController;
     private UsuarioController usuarioController;
     private ParticipanteController participanteController;
@@ -80,13 +80,13 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
         // Por defecto es una lista vacía,
         listaDeParticipantes = new ArrayList<>();
-        adaptadorParticipantes = new AdaptadorParticipantes(listaDeParticipantes);
+        participantesAdapters = new ParticipantesAdapters(listaDeParticipantes);
 
         // se la ponemos al adaptador y configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewParticipantes.setLayoutManager(mLayoutManager);
         recyclerViewParticipantes.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewParticipantes.setAdapter(adaptadorParticipantes);
+        recyclerViewParticipantes.setAdapter(participantesAdapters);
         refrescarListaDeParticipantes();
 
 
@@ -231,7 +231,6 @@ public class AgregarWalletActivity extends AppCompatActivity {
         // Resetear errores
         etAddParticipante.setError(null);
         String nuevoMiembro = etAddParticipante.getText().toString();
-        System.out.println(nuevoMiembro);
 
         refrescarListaDeParticipantes();
 
@@ -262,11 +261,11 @@ public class AgregarWalletActivity extends AppCompatActivity {
     }
 
     public void refrescarListaDeParticipantes() {
-        if (adaptadorParticipantes == null) return;
+        if (participantesAdapters == null) return;
 
         listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
-        adaptadorParticipantes.setListaDeParticipantes(listaDeParticipantes);
-        adaptadorParticipantes.notifyDataSetChanged();
+        participantesAdapters.setListaDeParticipantes(listaDeParticipantes);
+        participantesAdapters.notifyDataSetChanged();
 
     }
 
@@ -294,7 +293,6 @@ public class AgregarWalletActivity extends AppCompatActivity {
             usuarioIdDb = usuarios.get(0).getId();
         }
         //Formateamos variables Para Participant
-        System.out.println("EEEEEEEE" + usuarioIdDb);
         Participante nuevoParticipanteGuardar = new Participante(walletId, usuarioIdDb, nuevoParticipante);
         // Ahora lo añadimos como Participante, aquí existe como usuario seguro.
         long agregarParticipante = participanteController.nuevoParticipante(nuevoParticipanteGuardar);

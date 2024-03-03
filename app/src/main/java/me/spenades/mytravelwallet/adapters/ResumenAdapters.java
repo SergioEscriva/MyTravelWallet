@@ -1,4 +1,4 @@
-package me.spenades.mywallettravel.adapters;
+package me.spenades.mytravelwallet.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,22 +9,22 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import me.spenades.mywallettravel.utilities.Operaciones;
-import me.spenades.mywallettravel.R;
-import me.spenades.mywallettravel.models.Transaccion;
+import me.spenades.mytravelwallet.R;
+import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.utilities.Operaciones;
 
-public class AdaptadorResumen extends RecyclerView.Adapter<AdaptadorResumen.MyViewHolder> {
+public class ResumenAdapters extends RecyclerView.Adapter<ResumenAdapters.MyViewHolder> {
 
     private List<Transaccion> listaDeTransaccions;
     private long walletId;
 
-    public void setListaDeTransacciones(List<Transaccion> listaDeTransaccions, long walletId) {
-        this.listaDeTransaccions = listaDeTransaccions;
+    public ResumenAdapters(List<Transaccion> transaccions, long walletId) {
+        this.listaDeTransaccions = transaccions;
         this.walletId = walletId;
     }
 
-    public AdaptadorResumen(List<Transaccion> transaccions, long walletId) {
-        this.listaDeTransaccions = transaccions;
+    public void setListaDeTransacciones(List<Transaccion> listaDeTransaccions, long walletId) {
+        this.listaDeTransaccions = listaDeTransaccions;
         this.walletId = walletId;
     }
 
@@ -37,9 +37,9 @@ public class AdaptadorResumen extends RecyclerView.Adapter<AdaptadorResumen.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-         Operaciones objOperaciones = new Operaciones();
+        Operaciones objOperaciones = new Operaciones();
         String totalTransacciones = objOperaciones.sumaTransacciones(listaDeTransaccions);
-            myViewHolder.tvTotal.setText(String.valueOf(totalTransacciones) + "€");
+        myViewHolder.tvTotal.setText(String.valueOf(totalTransacciones) + "€");
     }
 
     @Override
@@ -49,7 +49,7 @@ public class AdaptadorResumen extends RecyclerView.Adapter<AdaptadorResumen.MyVi
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTotal ;
+        TextView tvTotal;
 
         MyViewHolder(View itemView) {
             super(itemView);
