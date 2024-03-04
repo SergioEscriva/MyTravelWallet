@@ -199,8 +199,8 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 // Si llegamos hasta aquí es porque los datos ya están validados
                 Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion, nuevoImporte, nuevoIdPagadorId, nuevosParticipantes, nuevaCategoria, Integer.parseInt(nuevaFecha), walletId, transaccion.getId());
 
-                //int filasModificadas = transaccionController.guardarCambios(transaccionConNuevosCambios);
-                int filasModificadas = 1;
+                int filasModificadas = transaccionController.guardarCambios(transaccionConNuevosCambios);
+                //int filasModificadas = 1;
                 if (filasModificadas != 1) {
                     // De alguna forma ocurrió un error porque se debió modificar únicamente una fila
                     Toast.makeText(EditarTransaccionesActivity.this, "Error guardando cambios. Intente de nuevo.", Toast.LENGTH_SHORT).show();

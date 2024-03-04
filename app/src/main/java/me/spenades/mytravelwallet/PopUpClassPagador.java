@@ -21,7 +21,7 @@ public class PopUpClassPagador extends PopupWindow {
 
     private static TextView etPagadorId, etNombrePagador;
     public String nombrePagador;
-    public long pagadorId;
+    public String pagadorId;
     //PopupWindow display method
     private RecyclerView recyclerViewPagadores;
     private PagadoresAdapters pagadoresAdapters;
@@ -68,7 +68,7 @@ public class PopUpClassPagador extends PopupWindow {
         recyclerViewPagadores.setLayoutManager(mLayoutManager);
         recyclerViewPagadores.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPagadores.setAdapter(pagadoresAdapters);
-        setContentView(view);
+        //setContentView(view);
 
 
         // Seleccionar pagador de la lista
@@ -80,13 +80,13 @@ public class PopUpClassPagador extends PopupWindow {
                 // Pasar a la actividad editarwallet con el nombre elegido.
                 final Participante pagadorActivo = listaDeParticipantes.get(position);
                 nombrePagador = pagadorActivo.getNombre();
-                pagadorId = pagadorActivo.getId();
+                pagadorId = String.valueOf(pagadorActivo.getUserId());
 
                 // Recuperamos el textview de EditarTransaccionesActivity y le ponemos el valor.
                 EditarTransaccionesActivity editarTransaccionesActivity = new EditarTransaccionesActivity();
                 TextView erNombrePagador = editarTransaccionesActivity.retornaNombrePagador();
                 TextView erPagadorId = editarTransaccionesActivity.retornaPagadorId();
-                erPagadorId.setText(String.valueOf(pagadorId));
+                erPagadorId.setText(pagadorId);
                 erNombrePagador.setText(nombrePagador);
                 popupWindow.dismiss();
             }
