@@ -19,6 +19,7 @@ import me.spenades.mytravelwallet.adapters.ResumenAdapters;
 import me.spenades.mytravelwallet.adapters.TransaccionesAdapters;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
 
 public class ListarTransaccionesActivity extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     private TransaccionesAdapters transaccionesAdapters;
     private ResumenAdapters resumenAdapters;
     private TransaccionController transaccionController;
+    private UsuarioUtility usuarioUtility;
     private FloatingActionButton fabAgregarTransaccion;
     private FloatingActionButton fabResolverDeudas;
     private long walletId;
@@ -51,6 +53,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Definir nuestro controlador
         transaccionController = new TransaccionController(ListarTransaccionesActivity.this);
+
 
         // Instanciar vistas
         recyclerViewResumen = findViewById(R.id.recyclerViewResumen);
@@ -86,11 +89,13 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                 // Pasar a la actividad EditarTransaccionesActivity.java
                 Transaccion transaccionSeleccionada = listaDeTransaccions.get(position);
                 String transaccionId = String.valueOf(transaccionSeleccionada.getId());
+
                 Intent intent = new Intent(ListarTransaccionesActivity.this, EditarTransaccionesActivity.class);
                 intent.putExtra("transaccionId", transaccionId);
                 intent.putExtra("descripcionTransaccion", transaccionSeleccionada.getDescripcion());
                 intent.putExtra("importeTransaccion", transaccionSeleccionada.getImporte());
-                intent.putExtra("pagadorTransaccion", transaccionSeleccionada.getPagador());
+                intent.putExtra("nombrePagadorTransaccion", transaccionSeleccionada.getNombrePagador());
+                intent.putExtra("pagadorIdTransaccion", transaccionSeleccionada.getPagadorId());
                 intent.putExtra("participantesTransaccion", transaccionSeleccionada.getParticipantes());
                 intent.putExtra("fechaTransaccion", transaccionSeleccionada.getFecha());
                 intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());

@@ -6,11 +6,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -19,17 +19,24 @@ import me.spenades.mytravelwallet.models.Participante;
 
 public class PopUpClassPagador extends PopupWindow {
 
+    private static TextView etPagadorId, etNombrePagador;
+    public String nombrePagador;
+    public long pagadorId;
     //PopupWindow display method
     private RecyclerView recyclerViewPagadores;
     private PagadoresAdapters pagadoresAdapters;
     private Participante participante;
     private List<Participante> listaDeParticipantes;
     private Button buttonEdit;
+    private TextView pagadorEle;
     private Context context;
 
     public void showPopupWindow(final View view, List<Participante> listaDeParticipantes) {
         //Create a View object yourself through inflater
 
+
+        this.nombrePagador = nombrePagador;
+        this.pagadorId = pagadorId;
 
         LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
 
@@ -53,14 +60,9 @@ public class PopUpClassPagador extends PopupWindow {
         //Initialize the elements of our window, install the handler
         recyclerViewPagadores = popupView.findViewById(R.id.recyclerViewPagadores);
 
+        EditarTransaccionesActivity obj = new EditarTransaccionesActivity();
 
-        // recyclerview tamaño fijo y linear layout
-        //recyclerViewPagadores.setHasFixedSize(true);
-        //recyclerViewPagadores.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        //recyclerViewPagadores.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
-
-
-        //listaDeParticipantes = new ArrayList<>();
+        // listaDeParticipantes en el popupView
         pagadoresAdapters = new PagadoresAdapters(listaDeParticipantes);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(popupView.getContext()); //.getApplicationContext());
         recyclerViewPagadores.setLayoutManager(mLayoutManager);
@@ -69,45 +71,49 @@ public class PopUpClassPagador extends PopupWindow {
         setContentView(view);
 
 
+        // Seleccionar pagador de la lista
+
+        recyclerViewPagadores.addOnItemTouchListener(new RecyclerTouchListener(popupView.getContext(), recyclerViewPagadores, new RecyclerTouchListener.ClickListener() {
+            @Override // Un toque para seleccionar pagador
+            public void onClick(View view, int position) {
+
+                // Pasar a la actividad editarwallet con el nombre elegido.
+                final Participante pagadorActivo = listaDeParticipantes.get(position);
+                nombrePagador = pagadorActivo.getNombre();
+                pagadorId = pagadorActivo.getId();
+
+                // Recuperamos el textview de EditarTransaccionesActivity y le ponemos el valor.
+                EditarTransaccionesActivity editarTransaccionesActivity = new EditarTransaccionesActivity();
+                TextView erNombrePagador = editarTransaccionesActivity.retornaNombrePagador();
+                TextView erPagadorId = editarTransaccionesActivity.retornaPagadorId();
+                erPagadorId.setText(String.valueOf(pagadorId));
+                erNombrePagador.setText(nombrePagador);
+                popupWindow.dismiss();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                popupWindow.dismiss();
+
+            }
+        }));
+
         /*
-        // Adaptador pagadores
-        listaDeParticipantes = new ArrayList<>();
-        pagadoresAdapters = new PagadoresAdapters(listaDeParticipantes);
-
-        // configuramos el recyclerView
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerViewPagadores.setLayoutManager(mLayoutManager);
-        recyclerViewPagadores.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewPagadores.setAdapter(pagadoresAdapters);
-
-        // Refrescamos
-        refrescarListaDeWallets();
-
-        // TextView test2 = popupView.findViewById(R.id.titleText);
-        //test2.setText(R.string.textTitle);
-        //Inicializamos  Popup y el botón.
-
-
-        buttonEdit = popupView.findViewById(R.id.btn
-        )
-
+        // botón general del popup
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println();
-                //final Participante pagadorActivo = listaDeParticipantes.get(position);
-                //String pagador = pagadorActivo.getNombre();
-                //long pagadorId = pagadorActivo.getUserId();
-                //nuevoPagador = String.valueOf(pagadorId);
-                //As an example, display the message
-                Toast.makeText(view.getContext(), "Wow, popup action button", Toast.LENGTH_SHORT).show();
-                ;
+                nombrePagador = pagadorEle.getText().toString();
+                //collectInput(nombrePagador);
+                popupWindow.dismiss();
+                Toast.makeText(view.getContext(), "Cerrado, popup action button", Toast.LENGTH_SHORT).show();
 
             }
-        });
 
-        */
-        //Handler for clicking on the inactive zone of the window
+    });
+    */
+        /*
+        // clickven parte inactiva de la pantalla popup
 
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -118,13 +124,10 @@ public class PopUpClassPagador extends PopupWindow {
                 return true;
             }
         });
-    }
 
-    public void refrescarListaDeWallets() {
-        if (pagadoresAdapters == null) return;
-        pagadoresAdapters.setListaDeParticipantes(listaDeParticipantes);
-        pagadoresAdapters.notifyDataSetChanged();
+         */
 
     }
+
 
 }

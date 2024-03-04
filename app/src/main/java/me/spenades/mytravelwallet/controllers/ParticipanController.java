@@ -104,9 +104,9 @@ public class ParticipanController {
 
             Long participanteLong = Long.parseLong(usuarioIdDbParticipa);
             // Formateamos el Id
-            Usuario usuarioIdParticipa = new Usuario(participanteLong);
+            //Usuario usuarioIdParticipa = new Usuario(participanteLong);
             // Recuperamos el nombre del id
-            usuarioCompletoLista = usuarioController.obtenerUsuarioNombre(usuarioIdParticipa);
+            usuarioCompletoLista = usuarioController.obtenerUsuarioNombre(participanteLong);
             // Extraemos nombre el id
             Usuario usuarioCompleto = usuarioCompletoLista.get(0);
             String usuarioNombre = usuarioCompleto.getNombre();

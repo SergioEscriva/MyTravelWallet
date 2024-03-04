@@ -12,7 +12,7 @@ import me.spenades.mytravelwallet.models.Transaccion;
 
 public class AgregarTransaccionActivity extends AppCompatActivity {
     private Button btnAgregarTransaccion, btnCancelarNuevaTransaccion;
-    private EditText etDescripcion, etImporte, etPagador, etParticipantes, etCategoria, etFecha;
+    private EditText etDescripcion, etImporte, etPagadorId, etNombrePagador, etParticipantes, etCategoria, etFecha;
     private TransaccionController transaccionController;
 
     @Override
@@ -35,7 +35,8 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         // Instanciar vistas
         etDescripcion = findViewById(R.id.etDescripcion);
         etImporte = findViewById(R.id.etImporte);
-        etPagador = findViewById(R.id.etPagador);
+        etNombrePagador = findViewById(R.id.etNombrePagador);
+        etPagadorId = findViewById(R.id.etPagadorId);
         etParticipantes = findViewById(R.id.etParticipantes);
         etCategoria = findViewById(R.id.etCategoria);
         etFecha = findViewById(R.id.etFecha);
@@ -53,7 +54,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 // Resetear errores
                 etDescripcion.setError(null);
                 etImporte.setError(null);
-                etPagador.setError(null);
+                etPagadorId.setError(null);
                 etParticipantes.setError(null);
                 etCategoria.setError(null);
                 etFecha.setError(null);
@@ -61,11 +62,13 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
                 String descripcion = etDescripcion.getText().toString(),
                         importeString = etImporte.getText().toString(),
-                        pagador = etPagador.getText().toString(),
+                        //pagadorId = etPagadorId.getText().toString(),
+                        nombrePagador = etNombrePagador.getText().toString(),
                         participantesString = etParticipantes.getText().toString(),
                         categoria = etCategoria.getText().toString(),
                         fechaString = etFecha.getText().toString();
-
+                //TODO PARA QUE FUNCIONA HASTA ELECCION POR MENU
+                String pagadorId = "1";
 
                 if ("".equals(descripcion)) {
                     etDescripcion.setError("Escribe la descripción");
@@ -77,9 +80,9 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                     etImporte.requestFocus();
                     return;
                 }
-                if ("".equals(pagador)) {
-                    etPagador.setError("Escribe Nombre del que efectua el pago");
-                    etPagador.requestFocus();
+                if ("".equals(nombrePagador)) {
+                    etPagadorId.setError("Escribe Nombre del que efectua el pago");
+                    etPagadorId.requestFocus();
                     return;
                 }
                 if ("".equals(participantesString)) {
@@ -109,7 +112,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 }
                 */
                 // Ya pasó la validación
-                Transaccion nuevaTransaccion = new Transaccion(descripcion, importeString, pagador, participantesString, categoria, Integer.parseInt(fechaString), walletIdSelected);
+                Transaccion nuevaTransaccion = new Transaccion(descripcion, importeString, Long.parseLong(pagadorId), participantesString, categoria, Integer.parseInt(fechaString), walletIdSelected);
                 long id = transaccionController.nuevaTransaccion(nuevaTransaccion);
                 if (id == -1) {
                     // De alguna manera ocurrió un error

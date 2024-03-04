@@ -13,7 +13,6 @@ import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.models.Transaccion;
 
 public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAdapters.MyViewHolder> {
-
     private List<Transaccion> listaDeTransaccions;
 
     public TransaccionesAdapters(List<Transaccion> transaccions) {
@@ -41,18 +40,22 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
 
         String descripcionTransaccion = transaccion.getDescripcion();
         String importeTransaccion = transaccion.getImporte();
-        String pagadorTransaccion = transaccion.getPagador();
-        String participantesTransaccion = transaccion.getParticipantes();
+        long pagadorIdTransaccion = transaccion.getPagadorId();
+        String nombrePagadorTransaccion = transaccion.getNombrePagador();
+        //String participantesTransaccion = transaccion.getParticipantes();
         String categoriaTransaccion = transaccion.getCategoria();
         int fechaTransaccion = transaccion.getFecha();
         long transaccionId = transaccion.getId();
 
-        // Y poner a los TextView los datos con setText
 
+        // Y poner a los TextView los datos con setText
         myViewHolder.tvDescripcion.setText(descripcionTransaccion);
         myViewHolder.tvImporte.setText(String.valueOf(importeTransaccion) + "€");
-        myViewHolder.tvPagador.setText(pagadorTransaccion);
-        myViewHolder.tvParticipantes.setText(String.valueOf(participantesTransaccion));
+        //myViewHolder.tvPagador.setText(String.valueOf(pagadorTransaccion));
+
+        myViewHolder.tvPagadorId.setText(String.valueOf(pagadorIdTransaccion));
+        myViewHolder.tvNombrePagador.setText(String.valueOf(nombrePagadorTransaccion));
+        //myViewHolder.tvParticipantes.setText(String.valueOf(participantesTransaccion));
         myViewHolder.tvCategoria.setText(String.valueOf(categoriaTransaccion));
         myViewHolder.tvFecha.setText(String.valueOf(fechaTransaccion));
         myViewHolder.tvTransaccionId.setText(String.valueOf(transaccionId));
@@ -63,15 +66,17 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
         return listaDeTransaccions.size();
     }
 
+
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDescripcion, tvImporte, tvPagador, tvParticipantes, tvCategoria, tvFecha, tvTransaccionId;
+        TextView tvDescripcion, tvImporte, tvNombrePagador, tvPagadorId, tvParticipantes, tvCategoria, tvFecha, tvTransaccionId;
 
         MyViewHolder(View itemView) {
             super(itemView);
             this.tvDescripcion = itemView.findViewById(R.id.tvDescripcionWallet);
             this.tvImporte = itemView.findViewById(R.id.tvImporte);
-            this.tvPagador = itemView.findViewById(R.id.tvPagador);
-            this.tvParticipantes = itemView.findViewById(R.id.tvParticipantes);
+            this.tvNombrePagador = itemView.findViewById(R.id.tvNombrePagador);
+            this.tvPagadorId = itemView.findViewById(R.id.tvPagadorId);
+            //this.tvParticipantes = itemView.findViewById(R.id.tvParticipantes);
             this.tvCategoria = itemView.findViewById(R.id.tvCategoria);
             this.tvFecha = itemView.findViewById(R.id.tvFecha);
             this.tvTransaccionId = itemView.findViewById(R.id.tvTransaccionId);

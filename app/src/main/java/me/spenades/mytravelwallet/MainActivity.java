@@ -16,6 +16,7 @@ import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.models.Usuario;
 
 public class MainActivity extends AppCompatActivity {
+
     private UsuarioController usuarioController;
     private List<Usuario> listaDeUsuarios;
     private UsuariosAdapters usuariosAdapters;

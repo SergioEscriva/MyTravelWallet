@@ -101,11 +101,14 @@ public class UsuarioController {
         return usuarios;
     }
 
-    public ArrayList<Usuario> obtenerUsuariosId(Usuario usuario) {
+    public ArrayList<Usuario> obtenerUsuarioId(String usuario) {
         ArrayList<Usuario> usuarios = new ArrayList<>();
+
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
-        String nombre = usuario.getNombre();
+        String nombre = usuario;
+
+        //String nombre = usuario.getNombre();
         // Los usuarios son de toda la app.
         String selection = "nombre= ?";
         String[] selectionArgs = {nombre};
@@ -114,7 +117,7 @@ public class UsuarioController {
         // Los usuarios son de toda la app.
 
         Cursor cursor = baseDeDatos.query(
-                NOMBRE_TABLA,//from usuario
+                NOMBRE_TABLA,
                 columnasAConsultar,
                 selection,
                 selectionArgs,
@@ -150,24 +153,25 @@ public class UsuarioController {
         //} while (cursor.moveToNext());
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
+
         return usuarios;
     }
 
-    // TODO borrar
-    public ArrayList<Usuario> obtenerUsuarioNombre(Usuario usuario) {
+
+    public ArrayList<Usuario> obtenerUsuarioNombre(long usuario) {
         ArrayList<Usuario> usuarios = new ArrayList<>();
+        
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
-        String id = String.valueOf(usuario.getId());
+        String id = String.valueOf(usuario);
+
         // Los usuarios son de toda la app.
         String selection = "id= ?";
         String[] selectionArgs = {id};
         String[] columnasAConsultar = {"nombre", "apodo", "id"};
 
-        // Los usuarios son de toda la app.
-
         Cursor cursor = baseDeDatos.query(
-                NOMBRE_TABLA,//from usuario
+                NOMBRE_TABLA,
                 columnasAConsultar,
                 selection,
                 selectionArgs,
@@ -202,6 +206,7 @@ public class UsuarioController {
         } while (cursor.moveToNext());
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
+
         return usuarios;
     }
 

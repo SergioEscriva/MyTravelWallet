@@ -32,7 +32,7 @@ public class TransaccionController {
         ContentValues valoresParaInsertar = new ContentValues();
         valoresParaInsertar.put("descripcion", transaccion.getDescripcion());
         valoresParaInsertar.put("importe", transaccion.getImporte());
-        valoresParaInsertar.put("pagador", transaccion.getPagador());
+        valoresParaInsertar.put("pagadorId", transaccion.getPagadorId());
         valoresParaInsertar.put("participantes", transaccion.getParticipantes());
         valoresParaInsertar.put("categoria", transaccion.getCategoria());
         valoresParaInsertar.put("fecha", transaccion.getFecha());
@@ -41,12 +41,13 @@ public class TransaccionController {
         return transaccionId;
     }
 
+    //descripcion text, importe real, pagador int, participantes text, categoria txt, fecha int, walletId int
     public int guardarCambios(Transaccion transaccionEditada) {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();
         valoresParaActualizar.put("descripcion", transaccionEditada.getDescripcion());
         valoresParaActualizar.put("importe", transaccionEditada.getImporte());
-        valoresParaActualizar.put("pagador", transaccionEditada.getPagador());
+        valoresParaActualizar.put("pagadorId", transaccionEditada.getPagadorId());
         valoresParaActualizar.put("participantes", transaccionEditada.getParticipantes());
         valoresParaActualizar.put("categoria", transaccionEditada.getCategoria());
         valoresParaActualizar.put("fecha", transaccionEditada.getFecha());
@@ -69,7 +70,7 @@ public class TransaccionController {
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
-        String query = "SELECT descripcion,importe,pagador,participantes,categoria,fecha,walletId,TRANSACCION.id,nombre FROM 'TRANSACCION' INNER JOIN 'USUARIO' ON pagador = USUARIO.id WHERE walletId = " + WalletIdAConsultar;
+        String query = "SELECT descripcion,importe,pagadorId,participantes,categoria,fecha,walletId,TRANSACCION.id,nombre FROM 'TRANSACCION' INNER JOIN 'USUARIO' ON pagadorId = USUARIO.id WHERE walletId = " + WalletIdAConsultar;
 
         Cursor cursor = baseDeDatos.rawQuery(query, null);
 
@@ -89,15 +90,15 @@ public class TransaccionController {
 
             String descripcionObtenidoDeBD = cursor.getString(0);
             String importeObtenidaDeBD = cursor.getString(1);
-            long pagadorObtenidoDeBD = cursor.getLong(2);
+            long pagadorIdObtenidoDeBD = cursor.getLong(2);
             String participantesObtenidaDeBD = cursor.getString(3);
             String categoriaObtenidaDeBD = cursor.getString(4);
             int fechaObtenidoDeBD = cursor.getInt(5);
             long walletIdObtenidoDeBD = cursor.getInt(6);
             long idTransaccion = cursor.getLong(7);
-            //String nombrePagador = utility
+            String nombrePagador = cursor.getString(8);
 
-            Transaccion transaccionObtenidaDeBD = new Transaccion(descripcionObtenidoDeBD, importeObtenidaDeBD, pagadorObtenidoDeBD, participantesObtenidaDeBD, categoriaObtenidaDeBD, fechaObtenidoDeBD, walletIdObtenidoDeBD, idTransaccion);
+            Transaccion transaccionObtenidaDeBD = new Transaccion(descripcionObtenidoDeBD, importeObtenidaDeBD, pagadorIdObtenidoDeBD, nombrePagador, participantesObtenidaDeBD, categoriaObtenidaDeBD, fechaObtenidoDeBD, walletIdObtenidoDeBD, idTransaccion);
             transaccions.add(transaccionObtenidaDeBD);
         } while (cursor.moveToNext());
         // Fin del ciclo. Cerramos cursor y regresamos la lista
