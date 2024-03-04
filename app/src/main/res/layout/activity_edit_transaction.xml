@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etEditarDescripcion" />
 
     <EditText
-        android:id="@+id/etPagador"
+        android:id="@+id/etNombrePagador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -53,11 +53,29 @@
         android:focusableInTouchMode="false"
         android:hint="Quién paga"
         android:inputType="textPersonName"
-        android:text="EditText"
+        android:text="Pagador"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etEditarImporte" />
 
+
+    <EditText
+        android:id="@+id/etPagadorId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:editable="false"
+        android:ems="10"
+        android:focusableInTouchMode="false"
+        android:hint="Quién paga"
+        android:inputType="textPersonName"
+
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEditarImporte" />
 
     <EditText
         android:id="@+id/etEditarCategoria"
@@ -69,7 +87,7 @@
         android:hint="Nombre de la Categoría"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etPagador" />
+        app:layout_constraintTop_toBottomOf="@id/etNombrePagador" />
 
     <EditText
         android:id="@+id/etEditarFecha"

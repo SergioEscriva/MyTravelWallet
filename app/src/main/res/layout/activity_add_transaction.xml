@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@id/etDescripcion" />
 
     <EditText
-        android:id="@+id/etPagador"
+        android:id="@+id/etNombrePagador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -40,6 +40,19 @@
         android:ems="10"
         android:hint="Pagador"
         android:inputType="textPersonName"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etImporte" />
+
+    <EditText
+        android:id="@+id/etPagadorId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etImporte" />
 
@@ -53,7 +66,7 @@
         android:hint="Participantes en la transacción"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etPagador" />
+        app:layout_constraintTop_toBottomOf="@id/etNombrePagador" />
 
     <EditText
         android:id="@+id/etCategoria"

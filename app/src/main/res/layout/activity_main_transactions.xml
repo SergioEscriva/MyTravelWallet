@@ -32,15 +32,6 @@
         android:translationY="200px" />
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="127dp"
-        android:layout_height="32dp"
-        android:text="Participantes"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="350px"
-        android:translationY="275px" />
-
-    <TextView
         android:id="@+id/textView4"
         android:layout_width="127dp"
         android:layout_height="32dp"
@@ -79,10 +70,10 @@
         android:id="@+id/fabAgregarTransaccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fabSize="normal"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_white_24dp" />
+        android:src="@drawable/ic_add_white_24dp"
+        app:fabSize="normal" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabResolverDeudas"
@@ -105,8 +96,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewResumen"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -119,8 +109,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewTransacciones"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
         </ScrollView>
 

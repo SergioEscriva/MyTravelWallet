@@ -49,17 +49,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvParticipantes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="4dp"
-        android:text="Aquí Participantes"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvImporte" />
-
-    <TextView
-        android:id="@+id/tvPagador"
+        android:id="@+id/tvNombrePagador"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginStart="300dp"
@@ -87,6 +77,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="300dp"
         android:text="Id"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPagadorId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="350dp"
+        android:layout_marginLeft="350dp"
+        android:text="Id"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
