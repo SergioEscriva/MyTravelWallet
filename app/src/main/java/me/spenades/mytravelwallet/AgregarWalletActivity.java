@@ -47,8 +47,8 @@ public class AgregarWalletActivity extends AppCompatActivity {
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
         String usuarioActivo = extras.getString("usuarioActivo");
-        this.userId = extras.getLong("usuarioIdActivo");
-
+        userId = extras.getLong("usuarioIdActivo");
+        userId = userId + 1;
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {
             finish();
@@ -133,17 +133,18 @@ public class AgregarWalletActivity extends AppCompatActivity {
                 etWaletId.setText(String.valueOf(walletId));
 
                 if (walletId == -1) {
+
                     // De alguna manera ocurrió un error
                     Toast.makeText(AgregarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(AgregarWalletActivity.this, "Wallet Guardada.", Toast.LENGTH_SHORT).show();
 
-                    // Se agrega como participante al propietario de forma automática
-                    Participante nuevoParticipante = new Participante(walletId, userId, propietarioName);
-                    participanteController.nuevoParticipante(nuevoParticipante);
-                    refrescarListaDeParticipantes();
+                    // Agrega al propietario del Wallet como Participante
+                    agregarParticipante(walletId, propietarioName);
+
                     // Se quita el botón de Añadir Wallet nuevo y se hace visible los participantes.
+
                     btnAgregarWallet.setVisibility(View.INVISIBLE);
                     recyclerViewParticipantes.setVisibility(View.VISIBLE);
                     etAddParticipante.setVisibility(View.VISIBLE);
@@ -218,41 +219,36 @@ public class AgregarWalletActivity extends AppCompatActivity {
         btnAgregarUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                agregarParticipante();
+                // Resetear errores
+                etAddParticipante.setError(null);
+                // Recuperar datos
+                String nuevoParticipante = etAddParticipante.getText().toString();
+
+
+                if ("".equals(nuevoParticipante)) {
+                    etAddParticipante.setError("Escribe tu Nombre");
+                    etAddParticipante.requestFocus();
+                    return;
+                }
+
+                // Agregamos Participante y Refrescamos, la nueva transacción nos devuelve el id del nuevo participante.
+
+                //TODO HAY QUE INTENTAR SACARLO A OTRA CLASE
+                long id = agregarParticipante(walletId, nuevoParticipante);
+                if (id == -1) {
+                    // Participante error
+                    Toast.makeText(AgregarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    etAddParticipante.setText("");
+                    Toast.makeText(AgregarWalletActivity.this, "Participante añadido", Toast.LENGTH_SHORT).show();
+
+                }
             }
 
         });
     }
 
-
-    // Agrega participante al Wallet
-    public void agregarParticipante() {
-
-        // Resetear errores
-        etAddParticipante.setError(null);
-        String nuevoMiembro = etAddParticipante.getText().toString();
-
-        refrescarListaDeParticipantes();
-
-        if ("".equals(nuevoMiembro)) {
-            etAddParticipante.setError("Escribe tu Nombre");
-            etAddParticipante.requestFocus();
-            return;
-        }
-
-        String nuevoParticipante = String.valueOf(etAddParticipante);
-
-        //TODO hay que sacarlo a una clase
-        long id = agregarParticipante(walletId, nuevoParticipante);
-        if (id == -1) {
-            // De alguna manera ocurrió un error
-            refrescarListaDeParticipantes();
-            Toast.makeText(AgregarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
-        } else {
-            refrescarListaDeParticipantes();
-            Toast.makeText(AgregarWalletActivity.this, "Participante añadido", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -271,12 +267,13 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
 
     //TODO esto debe pasar a una clase, pero no me funciona.
+
     public long agregarParticipante(long walletId, String nuevoParticipante) {
         ArrayList<Usuario> usuarios;
 
         // Busca el usuario y devuelve su ID, si es 0 es que no está
         Usuario usuarioNuevo = new Usuario(nuevoParticipante, nuevoParticipante);
-        usuarios = usuarioController.obtenerUsuariosId(usuarioNuevo);
+        usuarios = usuarioController.obtenerUsuarioId(nuevoParticipante);
 
         // Si la lista devuelta es 0, usuario no existe
         long usuarioExiste = usuarios.size();

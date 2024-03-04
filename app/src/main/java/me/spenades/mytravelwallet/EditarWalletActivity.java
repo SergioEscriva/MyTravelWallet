@@ -281,7 +281,7 @@ public class EditarWalletActivity extends AppCompatActivity {
 
         // Busca el usuario y devuelve su ID, si es 0 es que no está
         Usuario usuarioNuevo = new Usuario(nuevoParticipante, nuevoParticipante);
-        usuarios = usuarioController.obtenerUsuariosId(usuarioNuevo);
+        usuarios = usuarioController.obtenerUsuarioId(nuevoParticipante);
 
         // Si la lista devuelta es 0, usuario no existe
         long usuarioExiste = usuarios.size();

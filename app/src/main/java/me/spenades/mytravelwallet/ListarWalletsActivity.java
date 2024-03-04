@@ -106,7 +106,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
                 intent.putExtra("descripcion", String.valueOf(walletNameActivo.getDescripcion()));
                 intent.putExtra("propietarioId", String.valueOf(walletNameActivo.getPropietarioId()));
                 intent.putExtra("checkCompartir", String.valueOf(walletNameActivo.getCompartir()));
-
                 startActivity(intent);
 
             }
@@ -131,7 +130,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(ListarWalletsActivity.this)
                         .setTitle("Acerca de")
-                        .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y plantilla código de www.parzibyte.me")
+                        .setMessage("My Wallet Travel, una aplicación fin proyecto DAM para Universae\n\nIcons www.flaticon.com, y plantilla código de www.parzibyte.me")
                         .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogo, int which) {
