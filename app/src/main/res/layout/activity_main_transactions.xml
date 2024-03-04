@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wallet Activo"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:translationX="10dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -19,7 +20,7 @@
         android:layout_height="32dp"
         android:text="Categoría"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="20px"
+        android:translationX="10dp"
         android:translationY="275px" />
 
     <TextView
@@ -28,7 +29,7 @@
         android:layout_height="32dp"
         android:text="Descripción"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="20px"
+        android:translationX="10dp"
         android:translationY="200px" />
 
     <TextView
@@ -37,7 +38,7 @@
         android:layout_height="32dp"
         android:text="Pagador"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="750px"
+        android:translationX="280dp"
         android:translationY="200px" />
 
     <TextView
@@ -46,17 +47,20 @@
         android:layout_height="32dp"
         android:text="Fecha"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="750px"
+        android:translationX="280dp"
         android:translationY="275px" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="127dp"
         android:layout_height="32dp"
+        android:gravity="center"
         android:text="Importe"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="26sp"
+        android:textStyle="bold"
         android:translationX="350px"
-        android:translationY="200px" />
+        android:translationY="85dp" />
 
 
     <View

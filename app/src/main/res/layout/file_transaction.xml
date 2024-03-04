@@ -12,12 +12,13 @@
     <TextView
         android:id="@+id/tvDescripcionWallet"
         android:layout_width="172dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="16dp"
         android:text="Aquí Descripción"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,24 +27,27 @@
         android:id="@+id/tvCategoria"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:text="Aquí Categoría"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDescripcionWallet" />
 
     <TextView
         android:id="@+id/tvImporte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginLeft="170dp"
         android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
         android:text="Aquí Importe"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +56,8 @@
         android:id="@+id/tvNombrePagador"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
-        android:layout_marginStart="300dp"
+        android:layout_marginStart="280dp"
+        android:layout_marginLeft="280dp"
         android:layout_marginTop="18dp"
         android:text="Aquí Pagador"
         android:textColor="@color/colorPrimaryDark"
@@ -65,11 +70,12 @@
         android:id="@+id/tvFecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="280dp"
+        android:layout_marginLeft="280dp"
+        android:layout_marginTop="2dp"
         android:text="Aquí Fecha"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNombrePagador" />
 
     <TextView
         android:id="@+id/tvTransaccionId"
