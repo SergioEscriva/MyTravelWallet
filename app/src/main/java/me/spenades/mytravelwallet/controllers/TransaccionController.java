@@ -65,20 +65,14 @@ public class TransaccionController {
 
         // readable porque no vamos a modificar, solamente leer
         long walletId = walletIdSelected;
-        String WalletIdAConsultar = "walletId = " + String.valueOf(walletId);
+        String WalletIdAConsultar = String.valueOf(walletId);
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
-        // SELECT id del Wallet
-        String[] columnasAConsultar = {"descripcion", "importe", "pagador", "participantes", "categoria", "fecha", "walletId", "id"};
-        Cursor cursor = baseDeDatos.query(
-                NOMBRE_TABLA, // Transaccion
-                columnasAConsultar,
-                WalletIdAConsultar,
-                null,
-                null,
-                null,
-                null
-        );
+
+        String query = "SELECT descripcion,importe,pagador,participantes,categoria,fecha,walletId,TRANSACCION.id,nombre FROM 'TRANSACCION' INNER JOIN 'USUARIO' ON pagador = USUARIO.id WHERE walletId = " + WalletIdAConsultar;
+
+        Cursor cursor = baseDeDatos.rawQuery(query, null);
+
 
         if (cursor == null) {
             /*
@@ -95,12 +89,14 @@ public class TransaccionController {
 
             String descripcionObtenidoDeBD = cursor.getString(0);
             String importeObtenidaDeBD = cursor.getString(1);
-            String pagadorObtenidoDeBD = cursor.getString(2);
+            long pagadorObtenidoDeBD = cursor.getLong(2);
             String participantesObtenidaDeBD = cursor.getString(3);
             String categoriaObtenidaDeBD = cursor.getString(4);
             int fechaObtenidoDeBD = cursor.getInt(5);
             long walletIdObtenidoDeBD = cursor.getInt(6);
             long idTransaccion = cursor.getLong(7);
+            //String nombrePagador = utility
+
             Transaccion transaccionObtenidaDeBD = new Transaccion(descripcionObtenidoDeBD, importeObtenidaDeBD, pagadorObtenidoDeBD, participantesObtenidaDeBD, categoriaObtenidaDeBD, fechaObtenidoDeBD, walletIdObtenidoDeBD, idTransaccion);
             transaccions.add(transaccionObtenidaDeBD);
         } while (cursor.moveToNext());
