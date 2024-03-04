@@ -77,9 +77,7 @@ public class ParticipanteController {
 
         // hacemos un inner join para extraer los nombres por la id     wallet_id,usuario_id,nombre
         String walletIdString = String.valueOf(walletId);
-        //String query = "SELECT wallet_id,usuario_id,nombre FROM 'WALLET_USUARIO' INNER JOIN 'USUARIO' ON usuario_id = USUARIO.id WHERE wallet_id = " + walletIdString;
         String query = "SELECT wallet_id,usuario_id,nombre FROM 'WALLET_USUARIO' INNER JOIN 'USUARIO' ON usuario_id = USUARIO.id WHERE wallet_id = " + walletIdString;
-
         Cursor cursor = baseDeDatos.rawQuery(query, null);
 
         if (cursor == null) {

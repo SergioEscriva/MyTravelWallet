@@ -68,7 +68,7 @@ public class PopUpClassPagador extends PopupWindow {
         recyclerViewPagadores.setLayoutManager(mLayoutManager);
         recyclerViewPagadores.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPagadores.setAdapter(pagadoresAdapters);
-        //setContentView(view);
+        //setContentView(view); //Quitado momentaneamente y funciona
 
 
         // Seleccionar pagador de la lista

@@ -104,9 +104,11 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         String categoriaTransaccion = extras.getString("categoriaTransaccion");
         transaccion = new Transaccion(descripcionTransaccion, importeTransaccion, pagadorIdTransaccion, nombrePagadorTransaccion, participantesTransaccion, categoriaTransaccion, fechaTransaccion, walletId, transaccionId);
         nuevosParticipan = participantesTransaccion;
+
         // Lista Participan Por defecto es una lista vacía,
         listaDeParticipan = new ArrayList<>();
         participanAdapters = new ParticipanAdapters(listaDeParticipantes, listaDeParticipan);
+
         // Ponemos la lista al adaptador y configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManagerParticipan = new LinearLayoutManager(getApplicationContext());
         recyclerViewParticipan.setLayoutManager(mLayoutManagerParticipan);
