@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeUsuarios();
 
+
         // Si la lista está vacía se insta a añadir usuario Propietario
         if (cantidadUsuarios == 0) {
 

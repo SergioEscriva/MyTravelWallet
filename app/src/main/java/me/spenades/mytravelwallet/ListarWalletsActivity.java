@@ -75,6 +75,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeWallets();
         // Listener de los clicks en la lista WALLET.
+
         recyclerViewWallets.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewWallets, new RecyclerTouchListener.ClickListener() {
             @Override // Un toque Entrar en el Wallet y sus transacciones
             public void onClick(View view, int position) {
