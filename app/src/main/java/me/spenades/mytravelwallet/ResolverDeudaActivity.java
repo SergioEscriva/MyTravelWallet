@@ -134,8 +134,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                 long participanteId = Long.parseLong(key.toString());
                 long iterar = participanteId;
 
-                //for (long i = 0 ; i <= key. ; i++){
-
                 // Suma todas las keys values
                 DoubleSummaryStatistics sumaValoresImporte =
                         (DoubleSummaryStatistics) gastoParticipantes
@@ -191,19 +189,46 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     public void resolucionDeudaWallet() {
         System.out.println("resolución");
         gastosParticipantesTransacciones();
-/*
-        ArrayList<Map> deudas = transaccionesDivision();
-        Map deudasMap = deudas.get(0);
-        Iteramos sobre cada paticipante y separamos lo que le deben y lo que debe.
-        for (long i = 1; i <= deudasMap.size(); i++) {
-            double participante = Double.valueOf(deudasMap.get(i).toString());
-            if (participante <= 0) {
-                double pagar = participante;
-            } else {
-                double recibir = participante;
-            }
+        //Iniciamos variables
+        ArrayList<Map> aPagar = new ArrayList<>();
+        ArrayList<Map> aRecibir = new ArrayList<>();
+        Map pagarParticipante = new HashMap<>();
+        Map recibirParticipante = new HashMap<>();
+
+        // Recuperamos deudas por Wallet
+        ArrayList<Map> deudas = gastosParticipantesTransacciones();
+
+        // Iteramos sobre cada paticipante y separamos lo que le deben y lo que debe.
+        for (int i = 0; i < deudas.size(); i++) {
+
+            int deudaIterador = i;
+            // Extrae las Keys de las transacciones
+            deudas.get(i).keySet().forEach((key) -> {
+                double pagar = 0;
+                double recibir = 0;
+                long participanteId = Long.parseLong(key.toString());
+                long iterarKey = participanteId;
+                double participante =
+                        Double.valueOf(deudas.get(deudaIterador).get(iterarKey).toString());
+
+                // Separamos
+                if (participante > 0) {
+                    pagar = participante;
+                } else if (participante < 0) {
+                    recibir = participante;
+                }
+                pagarParticipante.put(participanteId, pagar);
+                recibirParticipante.put(participanteId, recibir);
+            });
+            aPagar.add(pagarParticipante);
+            aRecibir.add(recibirParticipante);
+            System.out.println("Pagar " + aPagar);
+            System.out.println("Recibir " + aRecibir);
         }
-/**/
+
+
+        ;
+        /**/
         //List deudasMap = deudas.  .get(0);
         // for (int i = 0; i <= deudasMap.size(); i++) {
         //pagar.get(1);
