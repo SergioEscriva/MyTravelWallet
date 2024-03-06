@@ -11,64 +11,75 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wallet Activo"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:translationX="10dp" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="125dp"
-        android:layout_height="32dp"
-        android:text="Categoría"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="10dp"
-        android:translationY="275px" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="127dp"
-        android:layout_height="32dp"
-        android:text="Descripción"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="10dp"
-        android:translationY="200px" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="127dp"
-        android:layout_height="32dp"
-        android:text="Pagador"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="280dp"
-        android:translationY="200px" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="127dp"
-        android:layout_height="32dp"
-        android:text="Fecha"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:translationX="280dp"
-        android:translationY="275px" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="127dp"
-        android:layout_height="32dp"
+        android:layout_height="30dp"
         android:gravity="center"
         android:text="Importe"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="26sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:translationX="350px"
-        android:translationY="85dp" />
+        android:translationY="60dp" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="127dp"
+        android:layout_height="30dp"
+        android:text="Descripción"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="16sp"
+        android:translationX="10dp"
+        android:translationY="60dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="125dp"
+        android:layout_height="30dp"
+        android:text="Categoría"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="14sp"
+        android:translationX="10dp"
+        android:translationY="80dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="127dp"
+        android:layout_height="30dp"
+        android:text="Pagador"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="16sp"
+        android:translationX="280dp"
+        android:translationY="60dp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="127dp"
+        android:layout_height="30dp"
+        android:text="Fecha"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="14sp"
+        android:translationX="280dp"
+        android:translationY="80dp" />
 
     <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="6dp"
         android:background="?android:attr/listDivider"
-        android:translationY="200px" />
+        android:translationY="55dp" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="?android:attr/listDivider"
+        android:translationY="100dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAgregarTransaccion"
@@ -94,7 +105,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="632dp"
-        android:translationY="350px"
+        android:translationY="110dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView

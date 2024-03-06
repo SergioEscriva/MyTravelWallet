@@ -12,13 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:text="Wallets"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+
     <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="8dp"
         android:background="?android:attr/listDivider"
-        android:translationY="250px" />
+        android:translationY="55dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAgregarWallet"
@@ -34,7 +35,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="648dp"
-        android:translationY="225px"
+        android:translationY="58dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -57,7 +58,6 @@
 
 
     </android.support.constraint.ConstraintLayout>
-
 
 
 </android.support.design.widget.CoordinatorLayout>
