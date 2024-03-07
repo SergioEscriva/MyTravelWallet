@@ -7,6 +7,7 @@ import me.spenades.mytravelwallet.models.Transaccion;
 
 
 public class Operaciones {
+
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
     private List<Transaccion> listaDeTransaccions;
 
@@ -18,6 +19,7 @@ public class Operaciones {
         }
         return String.valueOf(total);
     }
+
 
 }
 

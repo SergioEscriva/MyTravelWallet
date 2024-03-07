@@ -5,10 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import me.spenades.mytravelwallet.controllers.ParticipanController;
@@ -28,14 +33,35 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private ParticipanteController participanteController;
     private ParticipanController participanController;
     private WalletController walletController;
+
     private long walletId;
-    private TextView tvResuelto;
+    private TextView tvResuelto, tvResuelto2;
+
+
+    static <Long, Double extends Comparable<? super Double>> SortedSet<Map.Entry<Long, Double>> entriesSortedByValuesMasMenos(Map<Long, Double> map) {
+        Map<Long, Double> partiPagarYa = new HashMap<>();
+
+        SortedSet<Map.Entry<Long, Double>> sortedEntries =
+                new TreeSet<Map.Entry<Long, Double>>(new Comparator<Map.Entry<Long, Double>>() {
+
+                    @Override
+                    public int compare(Map.Entry<Long, Double> e2, Map.Entry<Long, Double> e1) {
+                        int res = e1.getValue().compareTo(e2.getValue());
+                        return res != 0 ? res : 1;
+                    }
+                });
+
+
+        sortedEntries.addAll(map.entrySet());
+        return sortedEntries;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resolver_deuda);
-        System.out.println("Empiezaaaaaaaaaaaaaaaaaaaa");
+
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
         long usuarioIdActivo = extras.getInt("usuarioIdActivo");
@@ -56,6 +82,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         // Ahora declaramos las vistas
 
         tvResuelto = findViewById(R.id.tvResuelto);
+        tvResuelto2 = findViewById(R.id.tvResuelto2);
 
         // Creamos listas vacías.
         listaDeTransaccions = new ArrayList<>();
@@ -65,6 +92,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         resolucionDeudaWallet();
 
     }
+
 
     public ArrayList<Map> gastosParticipantesTransacciones() {
         ArrayList<Map> gastoParticipantes = new ArrayList<>();
@@ -95,35 +123,34 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                     double saldoDecimales = pagado - aPagarPorParticipante;
                     saldo = redondearDosDecimales(saldoDecimales);
                     deudas.put(participanteId, saldo);
-                    System.out.println(participanteId + " primero " + saldo + " xCabeza " + aPagarPorParticipante);
 
                     // SI pagado la transacción y está en ella
                 } else if (pagado > 0.0 && existeEnListas1 >= 0) {
                     double saldoDecimales = pagado - aPagarPorParticipante;
                     saldo = redondearDosDecimales(saldoDecimales);
                     deudas.put(participanteId, saldo);
-                    System.out.println(participanteId + " segundo " + saldo + " xCabeza " + aPagarPorParticipante);
 
                     // No está en la transacción
                 } else {
                     saldo = pagado;
-                    System.out.println(participanteId + " tercero " + pagado + " No participa");
+
                 }
                 deudas.put(participanteId, saldo);
             }
             gastoParticipantes.add(deudas);
         }
-        // System.out.println("1" + gastoParticipantes);
+
         tvResuelto.setText(gastoParticipantes.toString());
+
         return gastoParticipantes;
     }
 
-    private ArrayList<Map> unificaGastoParticipanteWallet() {
+
+    private Map<Long, Double> unificaGastoParticipanteWallet() {
         ArrayList<Map> gastoParticipantes = gastosParticipantesTransacciones();
 
-        //System.out.println("2" + gastoParticipantes);
+
         Map<Long, Double> gastosParticianTotalesWallet = new HashMap<Long, Double>();
-        ArrayList<Map> resultadoDeudaParticipantes = new ArrayList();
 
         // Iteramos en busca de las keys
         for (long l = 0; l < gastoParticipantes.get(0).size(); l++) {
@@ -134,30 +161,31 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                 long participanteId = Long.parseLong(key.toString());
                 long iterar = participanteId;
 
-                // Suma todas las keys values
+                // Suma todas las keys values del mismo Participante
                 DoubleSummaryStatistics sumaValoresImporte =
                         (DoubleSummaryStatistics) gastoParticipantes
                                 .stream()
-                                .collect(
-                                        Collectors.summarizingDouble(
+                                .collect(Collectors.summarizingDouble(
                                                 e -> Double.valueOf(((Map) e).get(iterar).toString())
                                         )
+
                                 );
+
 
                 double importeTotal = sumaValoresImporte.getSum();
                 gastosParticianTotalesWallet.put(iterar, importeTotal);
 
             });
 
+
         }
-        resultadoDeudaParticipantes.add(gastosParticianTotalesWallet);
+        System.out.println("Final Oredenado:: " + gastosParticianTotalesWallet);
 
-        System.out.println("Final:: " + resultadoDeudaParticipantes);
 
-        return resultadoDeudaParticipantes;
+        return gastosParticianTotalesWallet;
     }
 
-    //TODo Bien
+
     public Map<Long, Double> pagadoPorCadaParticipante(Transaccion transaccion) {
         long transaccionId = transaccion.getId();
         listaDeParticipan = participanController.obtenerParticipan(transaccionId);
@@ -172,11 +200,10 @@ public class ResolverDeudaActivity extends AppCompatActivity {
             datos.put(nombreIdIndividual, importeCero);
         }
         datos.put(nombreId, importe);
-        System.out.println("UUUUUU " + datos);
         return datos;
     }
 
-    // Todo Bien
+
     public double aPagarPorParticipante(Transaccion transaccion) {
 
         // Calculamos la deuda total
@@ -186,60 +213,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         return importePorParticipante;
     }
 
-    public void resolucionDeudaWallet() {
-        System.out.println("resolución");
-        gastosParticipantesTransacciones();
-        //Iniciamos variables
-        ArrayList<Map> aPagar = new ArrayList<>();
-        ArrayList<Map> aRecibir = new ArrayList<>();
-        Map pagarParticipante = new HashMap<>();
-        Map recibirParticipante = new HashMap<>();
-
-        // Recuperamos deudas por Wallet
-        ArrayList<Map> deudas = gastosParticipantesTransacciones();
-
-        // Iteramos sobre cada paticipante y separamos lo que le deben y lo que debe.
-        for (int i = 0; i < deudas.size(); i++) {
-
-            int deudaIterador = i;
-            // Extrae las Keys de las transacciones
-            deudas.get(i).keySet().forEach((key) -> {
-                double pagar = 0;
-                double recibir = 0;
-                long participanteId = Long.parseLong(key.toString());
-                long iterarKey = participanteId;
-                double participante =
-                        Double.valueOf(deudas.get(deudaIterador).get(iterarKey).toString());
-
-                // Separamos
-                if (participante > 0) {
-                    pagar = participante;
-                } else if (participante < 0) {
-                    recibir = participante;
-                }
-                pagarParticipante.put(participanteId, pagar);
-                recibirParticipante.put(participanteId, recibir);
-            });
-            aPagar.add(pagarParticipante);
-            aRecibir.add(recibirParticipante);
-            System.out.println("Pagar " + aPagar);
-            System.out.println("Recibir " + aRecibir);
-        }
-
-
-        ;
-        /**/
-        //List deudasMap = deudas.  .get(0);
-        // for (int i = 0; i <= deudasMap.size(); i++) {
-        //pagar.get(1);
-        //if (pagar )
-
-        // }
-
-        //List pagar =
-
-
-    }
 
     public double redondearDosDecimales(double numero) {
 
@@ -255,4 +228,80 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
 
     }
+
+
+    public void resolucionDeudaWallet() {
+
+
+        //Iniciamos variables
+        Map<Long, Double> pagarParticipante = new HashMap<>();
+        Map<Long, Double> recibirParticipante = new HashMap<>();
+
+        // Recuperamos deudas por Wallet
+        Map deudas = unificaGastoParticipanteWallet();
+
+        // Extrae las Keys de las transacciones para los cálculos y rellenamos variables.
+        deudas.keySet().forEach((key) -> {
+            double pagar = 0L;
+            double recibir = 0L;
+            long participanteId = Long.parseLong(key.toString());
+            long iterarKey = participanteId;
+            double cantidadParticipa = Double.valueOf(String.valueOf(deudas.get(iterarKey)));
+
+            // Separamos pagar y recibir en dos listas.
+            if (cantidadParticipa >= 0L) {
+                double pagarDecimales = cantidadParticipa;
+                pagar = redondearDosDecimales(pagarDecimales);
+            } else if (cantidadParticipa != 0L) {
+                double recibirDecimales = cantidadParticipa;
+                recibir = redondearDosDecimales(recibirDecimales);
+            }
+            pagarParticipante.put(participanteId, pagar);
+            recibirParticipante.put(participanteId, recibir);
+        });
+
+        // Ordenamos pagos de mayor a menor
+        // Java 8 Stream (https://www.techiedelight.com/es/sort-map-by-values-java/)
+        //https://www.techiedelight.com/es/sort-map-java-reverse-ordering-keys/
+        Map<Long, Double> sortedMapPagar = new LinkedHashMap<>();
+
+        pagarParticipante.entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .forEachOrdered(entry -> sortedMapPagar.put(entry.getKey(), entry.getValue()))
+        ;
+
+        // Ordenamos recibir de menos a mayor.
+        // Java 8 Stream (https://www.techiedelight.com/es/sort-map-by-values-java/)
+        Map<Long, Double> sortedMapRecibir = new LinkedHashMap<>();
+
+        recibirParticipante.entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .forEachOrdered(entry -> sortedMapRecibir.put(entry.getKey(), entry.getValue()));
+
+
+        /*
+        SortedSet<Map.Entry<Object, Comparable>> pagarOrdenado =
+                entriesSortedByValuesMasMenos(pagarParticipante);
+
+        SortedSet<Map.Entry<Object, Comparable>> recibirOrdenado =
+                entriesSortedByValuesMasMenos(recibirParticipante);
+        */
+
+        System.out.println("Ordenado Pagar" + sortedMapPagar);
+        System.out.println("Ordenado Recibir" + sortedMapRecibir);
+
+        tvResuelto2.setText(sortedMapPagar.toString() + " " + sortedMapRecibir.toString());
+
+        //Map<String, List<Item>> itemMap = new HashMap<>();
+        // SortedSet<Map.Entry<Object, Comparable>> recibirOrdenadoMap =
+        //       entriesSortedByValuesMasMenos(recibirParticipante);
+
+
+        // Creamos un diccionario para almacenar las soluciones
+
+
+    }
+
 }

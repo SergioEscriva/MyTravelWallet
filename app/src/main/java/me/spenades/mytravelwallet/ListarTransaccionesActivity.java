@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
 
 public class ListarTransaccionesActivity extends AppCompatActivity {
+
     private List<Transaccion> listaDeTransaccions;
     private RecyclerView recyclerViewTransacciones, recyclerViewResumen;
     private TransaccionesAdapters transaccionesAdapters;
@@ -33,6 +35,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     private FloatingActionButton fabResolverDeudas;
     private long walletId;
     private String walletName;
+    private TextView tvWalletActivo;
 
 
     @Override
@@ -41,7 +44,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         setContentView(R.layout.activity_main_transactions);
-        this.walletName = extras.getString("walletName");
+        this.walletName = extras.getString("nombreWallet");
         this.walletId = Long.parseLong(extras.getString("walletId"));
         // Recuperar datos que enviaron
         // Si no hay datos (cosa rara) salimos
@@ -60,6 +63,8 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         recyclerViewTransacciones = findViewById(R.id.recyclerViewTransacciones);
         fabAgregarTransaccion = findViewById(R.id.fabAgregarTransaccion);
         fabResolverDeudas = findViewById(R.id.fabResolverDeudas);
+        tvWalletActivo = findViewById(R.id.tvWalletActivo);
+
 
         // Por defecto es una lista vacía,
         listaDeTransaccions = new ArrayList<>();
@@ -67,36 +72,42 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // se la ponemos al adaptador y configuramos el recyclerView
 
-        RecyclerView.LayoutManager mLayoutManagerTop = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManagerTop =
+                new LinearLayoutManager(getApplicationContext());
         recyclerViewTransacciones.setLayoutManager(mLayoutManagerTop);
         recyclerViewTransacciones.setItemAnimator(new DefaultItemAnimator());
         recyclerViewTransacciones.setAdapter(transaccionesAdapters);
 
-        RecyclerView.LayoutManager mLayoutManagerBottom = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManagerBottom =
+                new LinearLayoutManager(getApplicationContext());
         resumenAdapters = new ResumenAdapters(listaDeTransaccions, walletId);
         recyclerViewResumen.setLayoutManager(mLayoutManagerBottom);
         recyclerViewResumen.setItemAnimator(new DefaultItemAnimator());
         recyclerViewResumen.setAdapter(resumenAdapters);
-
+        tvWalletActivo.setText("Wallet " + this.walletName);
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeTransacciones();
 
         // Listener de los clicks en la lista TRANSACCIONES
         recyclerViewTransacciones.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewTransacciones, new RecyclerTouchListener.ClickListener() {
+
             @Override // Un toque Editar
             public void onClick(View view, int position) {
                 // Pasar a la actividad EditarTransaccionesActivity.java
                 Transaccion transaccionSeleccionada = listaDeTransaccions.get(position);
                 String transaccionId = String.valueOf(transaccionSeleccionada.getId());
 
-                Intent intent = new Intent(ListarTransaccionesActivity.this, EditarTransaccionesActivity.class);
+                Intent intent = new Intent(ListarTransaccionesActivity.this,
+                        EditarTransaccionesActivity.class);
                 intent.putExtra("transaccionId", transaccionId);
                 intent.putExtra("descripcionTransaccion", transaccionSeleccionada.getDescripcion());
                 intent.putExtra("importeTransaccion", transaccionSeleccionada.getImporte());
-                intent.putExtra("nombrePagadorTransaccion", transaccionSeleccionada.getNombrePagador());
+                intent.putExtra("nombrePagadorTransaccion",
+                        transaccionSeleccionada.getNombrePagador());
                 intent.putExtra("pagadorIdTransaccion", transaccionSeleccionada.getPagadorId());
-                intent.putExtra("participantesTransaccion", transaccionSeleccionada.getParticipantes());
+                intent.putExtra("participantesTransaccion",
+                        transaccionSeleccionada.getParticipantes());
                 intent.putExtra("fechaTransaccion", transaccionSeleccionada.getFecha());
                 intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());
                 intent.putExtra("walletId", String.valueOf(walletId));
@@ -109,6 +120,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                 AlertDialog dialog = new AlertDialog
                         .Builder(ListarTransaccionesActivity.this)
                         .setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 transaccionController.eliminarTransaccion(transaccionParaEliminar);
@@ -116,6 +128,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                             }
                         })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -131,10 +144,12 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         // Listener del FABTransacciones
 
         fabAgregarTransaccion.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 // //Añadir transacción Nueva
-                Intent intent = new Intent(ListarTransaccionesActivity.this, AgregarTransaccionActivity.class);
+                Intent intent = new Intent(ListarTransaccionesActivity.this,
+                        AgregarTransaccionActivity.class);
                 intent.putExtra("walletId", walletId);
                 startActivity(intent);
             }
@@ -142,21 +157,26 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Créditos
         fabAgregarTransaccion.setOnLongClickListener(new View.OnLongClickListener() {
+
             @Override
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(ListarTransaccionesActivity.this)
                         .setTitle("Acerca de")
-                        .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y plantilla código de www.parzibyte.me")
+                        .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y " +
+                                "plantilla código de www.parzibyte.me")
                         .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialogo, int which) {
                                 dialogo.dismiss();
                             }
                         })
                         .setPositiveButton("Sitio web", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intentNavegador = new Intent(Intent.ACTION_VIEW, Uri.parse("https://universae.com"));
+                                Intent intentNavegador = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://universae.com"));
                                 startActivity(intentNavegador);
                             }
                         })
@@ -169,10 +189,12 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Listener del FABResolverDeudas
         fabResolverDeudas.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 // Simplemente cambiamos de actividad
-                Intent intent = new Intent(ListarTransaccionesActivity.this, ResolverDeudaActivity.class);
+                Intent intent = new Intent(ListarTransaccionesActivity.this,
+                        ResolverDeudaActivity.class);
                 intent.putExtra("walletId", walletId);
                 startActivity(intent);
             }
@@ -180,21 +202,26 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Créditos
         fabResolverDeudas.setOnLongClickListener(new View.OnLongClickListener() {
+
             @Override
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(ListarTransaccionesActivity.this)
                         .setTitle("Acerca de")
-                        .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y plantilla código de www.parzibyte.me")
+                        .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y " +
+                                "plantilla código de www.parzibyte.me")
                         .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialogo, int which) {
                                 dialogo.dismiss();
                             }
                         })
                         .setPositiveButton("Sitio web", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intentNavegador = new Intent(Intent.ACTION_VIEW, Uri.parse("https://universae.com"));
+                                Intent intentNavegador = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://universae.com"));
                                 startActivity(intentNavegador);
                             }
                         })
