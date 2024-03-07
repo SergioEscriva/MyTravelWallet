@@ -38,36 +38,36 @@
         android:id="@+id/tvImporte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="170dp"
         android:gravity="center_horizontal"
         android:text="Aquí Importe"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvNombrePagador"
         android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_marginStart="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:text="Aquí Pagador"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvFecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="280dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="10dp"
         android:text="Aquí Fecha"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNombrePagador" />
 
     <TextView
@@ -93,7 +93,7 @@
 
     <View
         android:id="@+id/divider3"
-        android:layout_width="409dp"
+        android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:layout_marginTop="5dp"
         android:background="?android:attr/listDivider"
