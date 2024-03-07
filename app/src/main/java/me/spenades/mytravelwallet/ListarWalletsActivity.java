@@ -23,6 +23,7 @@ import me.spenades.mytravelwallet.models.Wallet;
 
 
 public class ListarWalletsActivity extends AppCompatActivity {
+
     private List<Wallet> listaDeWallets;
 
     private RecyclerView recyclerViewWallets, recyclerViewParticipantes;
@@ -38,7 +39,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
     //private long walletId;
     private String nombreWallet;
     private long walletId;
-    //private long walletId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +64,13 @@ public class ListarWalletsActivity extends AppCompatActivity {
         recyclerViewWallets = findViewById(R.id.recyclerViewWallets);
         fabAgregarWallet = findViewById(R.id.fabAgregarWallet);
 
+
         // Por defecto es una lista vacía,
         // se la ponemos al adaptador y configuramos el recyclerView
         listaDeWallets = new ArrayList<>();
         walletsAdapters = new WalletsAdapters(listaDeWallets);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager =
+                new LinearLayoutManager(getApplicationContext());
         recyclerViewWallets.setLayoutManager(mLayoutManager);
         recyclerViewWallets.setItemAnimator(new DefaultItemAnimator());
         recyclerViewWallets.setAdapter(walletsAdapters);
@@ -77,13 +80,15 @@ public class ListarWalletsActivity extends AppCompatActivity {
         // Listener de los clicks en la lista WALLET.
 
         recyclerViewWallets.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewWallets, new RecyclerTouchListener.ClickListener() {
+
             @Override // Un toque Entrar en el Wallet y sus transacciones
             public void onClick(View view, int position) {
                 // Pasar a la actividad editarwallet
                 final Wallet walletNameActivo = listaDeWallets.get(position);
                 nombreWallet = walletNameActivo.getNombre();
                 walletId = walletNameActivo.getWalletId();
-                Intent intent = new Intent(ListarWalletsActivity.this, ListarTransaccionesActivity.class);
+                Intent intent = new Intent(ListarWalletsActivity.this,
+                        ListarTransaccionesActivity.class);
                 intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
                 intent.putExtra("walletId", String.valueOf(walletId));
@@ -92,6 +97,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
                 startActivity(intent);
 
             }
+
 
             @Override // Un toque Largo Editar
             public void onLongClick(View view, int position) {
@@ -105,7 +111,8 @@ public class ListarWalletsActivity extends AppCompatActivity {
                 intent.putExtra("walletId", String.valueOf(walletId));
                 intent.putExtra("nombreWallet", String.valueOf(nombreWallet));
                 intent.putExtra("descripcion", String.valueOf(walletNameActivo.getDescripcion()));
-                intent.putExtra("propietarioId", String.valueOf(walletNameActivo.getPropietarioId()));
+                intent.putExtra("propietarioId",
+                        String.valueOf(walletNameActivo.getPropietarioId()));
                 intent.putExtra("checkCompartir", String.valueOf(walletNameActivo.getCompartir()));
                 startActivity(intent);
 
@@ -115,6 +122,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
         // Listener Agregar Wallet Nuevo
         fabAgregarWallet.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 // Simplemente cambiamos de actividad
@@ -127,21 +135,27 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
         // Créditos
         fabAgregarWallet.setOnLongClickListener(new View.OnLongClickListener() {
+
             @Override
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(ListarWalletsActivity.this)
                         .setTitle("Acerca de")
-                        .setMessage("My Wallet Travel, una aplicación fin proyecto DAM para Universae\n\nIcons www.flaticon.com, y plantilla código de www.parzibyte.me")
+                        .setMessage("My Wallet Travel, una aplicación fin proyecto DAM para " +
+                                "Universae\n\nIcons www.flaticon.com, y plantilla código de www" +
+                                ".parzibyte.me")
                         .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialogo, int which) {
                                 dialogo.dismiss();
                             }
                         })
                         .setPositiveButton("Sitio web", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intentNavegador = new Intent(Intent.ACTION_VIEW, Uri.parse("https://universae.com"));
+                                Intent intentNavegador = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://universae.com"));
                                 startActivity(intentNavegador);
                             }
                         })
@@ -153,11 +167,13 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         refrescarListaDeWallets();
     }
+
 
     public void refrescarListaDeWallets() {
         if (walletsAdapters == null) return;
