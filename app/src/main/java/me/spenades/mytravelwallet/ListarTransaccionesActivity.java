@@ -46,6 +46,9 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_transactions);
         this.walletName = extras.getString("nombreWallet");
         this.walletId = Long.parseLong(extras.getString("walletId"));
+        long usuarioIdActivo = extras.getInt("usuarioIdActivo");
+        String usuarioActivo = extras.getString("usuarioActivo");
+
         // Recuperar datos que enviaron
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {
@@ -111,8 +114,12 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                 intent.putExtra("fechaTransaccion", transaccionSeleccionada.getFecha());
                 intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());
                 intent.putExtra("walletId", String.valueOf(walletId));
+                intent.putExtra("walletName", walletName);
+                intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
+                intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
                 startActivity(intent);
             }
+
 
             @Override // Un toque largo
             public void onLongClick(View view, int position) {
@@ -139,7 +146,13 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                         .create();
                 dialog.show();
             }
-        }));
+        }) {
+
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+        });
 
         // Listener del FABTransacciones
 
@@ -150,7 +163,10 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                 // //Añadir transacción Nueva
                 Intent intent = new Intent(ListarTransaccionesActivity.this,
                         AgregarTransaccionActivity.class);
-                intent.putExtra("walletId", walletId);
+                intent.putExtra("walletId", String.valueOf(walletId));
+                intent.putExtra("walletName", walletName);
+                intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
+                intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
                 startActivity(intent);
             }
         });
@@ -238,6 +254,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         super.onResume();
         refrescarListaDeTransacciones();
     }
+
 
     public void refrescarListaDeTransacciones() {
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);

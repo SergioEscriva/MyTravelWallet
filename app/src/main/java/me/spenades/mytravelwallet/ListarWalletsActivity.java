@@ -36,6 +36,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
     private Button btnAgregarWallet, btnAgregarUsuario;
     private EditText etAddParticipante;
+
     //private long walletId;
     private String nombreWallet;
     private long walletId;
@@ -115,10 +116,17 @@ public class ListarWalletsActivity extends AppCompatActivity {
                         String.valueOf(walletNameActivo.getPropietarioId()));
                 intent.putExtra("checkCompartir", String.valueOf(walletNameActivo.getCompartir()));
                 startActivity(intent);
-
             }
 
-        }));
+
+        }) {
+
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+        });
+
 
         // Listener Agregar Wallet Nuevo
         fabAgregarWallet.setOnClickListener(new View.OnClickListener() {

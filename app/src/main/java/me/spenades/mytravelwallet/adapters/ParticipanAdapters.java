@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.spenades.mytravelwallet.AgregarTransaccionActivity;
 import me.spenades.mytravelwallet.EditarTransaccionesActivity;
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.models.Participante;
@@ -29,19 +30,25 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
 
     }
 
-    public void setListaDeParticipan(List<Participante> listaDeParticipan, List<Participante> listaDeParticipantes) {
+
+    public void setListaDeParticipan(List<Participante> listaDeParticipan,
+                                     List<Participante> listaDeParticipantes) {
         this.listaDeParticipantes = listaDeParticipantes;
         this.listaDeParticipan = listaDeParticipan;
     }
 
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participa, viewGroup, false);
+        View filaWallet =
+                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participa,
+                        viewGroup, false);
 
         return new MyViewHolder(filaWallet);
 
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
@@ -67,6 +74,7 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
 
         // Listener del Checkbox de participan.
         myViewHolder.cbParticipa.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -78,19 +86,25 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
                     listaParticipa.remove(String.valueOf(userId));
                 }
                 // Enviamos el resultado a EditarTransacciones
-                EditarTransaccionesActivity editarTransaccionesActivity = new EditarTransaccionesActivity();
+                EditarTransaccionesActivity editarTransaccionesActivity =
+                        new EditarTransaccionesActivity();
                 editarTransaccionesActivity.paticipanCheck(listaParticipa);
+                AgregarTransaccionActivity agregarTransaccionActivity =
+                        new AgregarTransaccionActivity();
+                agregarTransaccionActivity.paticipanCheck(listaParticipa);
             }
 
         });
 
     }
 
+
     @Override
     public int getItemCount() {
         return listaDeParticipantes.size();
 
     }
+
 
     // TODO SACAR A UNA CLASE
     public boolean participaExiste(Long participanteId) {
@@ -108,6 +122,7 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         CheckBox cbParticipa;
+
 
         MyViewHolder(View itemView) {
             super(itemView);

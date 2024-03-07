@@ -30,17 +30,24 @@ public class PopUpClassPagador extends PopupWindow {
     private Button buttonEdit;
     private TextView pagadorEle;
     private Context context;
+    private String pagador;
+    private String activiry; // esto es para poder mostrar como editor como nuevo
 
-    public void showPopupWindow(final View view, List<Participante> listaDeParticipantes) {
-        //Create a View object yourself through inflater
+
+    public void showPopupWindow(final View view, List<Participante> listaDeParticipantes,
+                                String activity) {
 
 
         this.nombrePagador = nombrePagador;
         this.pagadorId = pagadorId;
 
-        LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
+        //Create a View object yourself through inflater
+        LayoutInflater inflater =
+                (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
 
-        View popupView = inflater.inflate(R.layout.activity_pagador, null);
+        View popupView = inflater.inflate(R.layout.activity_pagador, null); // edición
+        View activityTransactionView = inflater.inflate(R.layout.activity_transaction, null);
+        //agregar
 
 
         //Specify the length and width through constants
@@ -59,12 +66,14 @@ public class PopUpClassPagador extends PopupWindow {
 
         //Initialize the elements of our window, install the handler
         recyclerViewPagadores = popupView.findViewById(R.id.recyclerViewPagadores);
-
-        EditarTransaccionesActivity obj = new EditarTransaccionesActivity();
+        etNombrePagador = activityTransactionView.findViewById(R.id.etNombrePagador);
+        String pagador = etNombrePagador.getText().toString();
+        System.out.println("pasa por aquí " + pagador);
 
         // listaDeParticipantes en el popupView
         pagadoresAdapters = new PagadoresAdapters(listaDeParticipantes);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(popupView.getContext()); //.getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager =
+                new LinearLayoutManager(popupView.getContext()); //.getApplicationContext());
         recyclerViewPagadores.setLayoutManager(mLayoutManager);
         recyclerViewPagadores.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPagadores.setAdapter(pagadoresAdapters);
@@ -74,6 +83,7 @@ public class PopUpClassPagador extends PopupWindow {
         // Seleccionar pagador de la lista
 
         recyclerViewPagadores.addOnItemTouchListener(new RecyclerTouchListener(popupView.getContext(), recyclerViewPagadores, new RecyclerTouchListener.ClickListener() {
+
             @Override // Un toque para seleccionar pagador
             public void onClick(View view, int position) {
 
@@ -82,31 +92,57 @@ public class PopUpClassPagador extends PopupWindow {
                 nombrePagador = pagadorActivo.getNombre();
                 pagadorId = String.valueOf(pagadorActivo.getUserId());
 
-                // Recuperamos el textview de EditarTransaccionesActivity y le ponemos el valor.
-                EditarTransaccionesActivity editarTransaccionesActivity = new EditarTransaccionesActivity();
-                TextView erNombrePagador = editarTransaccionesActivity.retornaNombrePagador();
-                TextView erPagadorId = editarTransaccionesActivity.retornaPagadorId();
-                erPagadorId.setText(pagadorId);
-                erNombrePagador.setText(nombrePagador);
+                if (activity == "agregar") {
+                    //Recuperamos el textview de ActivarTransaccionesActivity y le ponemos el valor.
+                    AgregarTransaccionActivity agregarTransaccionesActivity =
+                            new AgregarTransaccionActivity();
+                    TextView erNombrePagador = agregarTransaccionesActivity.retornaNombrePagador();
+                    TextView erPagadorId = agregarTransaccionesActivity.retornaPagadorId();
+                    erPagadorId.setText(pagadorId);
+                    erNombrePagador.setText(nombrePagador);
+                    System.out.println("agreggar");
+                    popupWindow.dismiss();
+                } else {
+                    System.out.println("editar");
+                    // Recuperamos el textview de EditarTransaccionesActivity y le ponemos el valor.
+                    EditarTransaccionesActivity editarTransaccionesActivity =
+                            new EditarTransaccionesActivity();
+                    TextView erNombrePagador = editarTransaccionesActivity.retornaNombrePagador();
+                    TextView erPagadorId = editarTransaccionesActivity.retornaPagadorId();
+                    erPagadorId.setText(pagadorId);
+                    erNombrePagador.setText(nombrePagador);
+                    popupWindow.dismiss();
+                }
                 popupWindow.dismiss();
+
             }
+
 
             @Override
             public void onLongClick(View view, int position) {
                 popupWindow.dismiss();
 
+                popupWindow.dismiss();
             }
-        }));
+        }) {
+
+            @Override
+            public void onClick(View view, int position) {
+                popupWindow.dismiss();
+            }
+        });
 
         /*
         // botón general del popup
         buttonEdit.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 nombrePagador = pagadorEle.getText().toString();
                 //collectInput(nombrePagador);
                 popupWindow.dismiss();
-                Toast.makeText(view.getContext(), "Cerrado, popup action button", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Cerrado, popup action button", Toast
+                        .LENGTH_SHORT).show();
 
             }
 

@@ -1,7 +1,9 @@
 package me.spenades.mytravelwallet;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -23,10 +25,14 @@ public class MainActivity extends AppCompatActivity {
     private Button btnEmpezar;
     private EditText etNombrePropietario;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        int permissionCheck = ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         // Definir nuestro controlador
         usuarioController = new UsuarioController(MainActivity.this);
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             btnEmpezar = findViewById(R.id.btnEmpezar);
 
             btnEmpezar.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
                     // Resetear errores
@@ -66,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
                     Usuario nuevoPropietario = new Usuario(nombrePropietario, nombrePropietario);
 
                     long id = usuarioController.nuevoUsuario(nuevoPropietario);
-                    if (id == -1) {
+                    if (id == - 1) {
                         // De alguna manera ocurrió un error
-                        Toast.makeText(MainActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Error al guardar. Intenta de nuevo",
+                                Toast.LENGTH_SHORT).show();
                     } else {
                         continuar();
                     }
@@ -79,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             continuar();
         }
     }
+
 
     private void continuar() {
         //cambiamos de actividad
@@ -93,18 +102,37 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         refrescarListaDeUsuarios();
     }
 
+
     public void refrescarListaDeUsuarios() {
         listaDeUsuarios = usuarioController.obtenerUsuarios();
         usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
         usuariosAdapters.notifyDataSetChanged();
     }
+    /*
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[]
+    grantResults){
+        switch (requestCode){
+            case{
+                if (grantResults.length >0) grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    //Código permiso Aceptado
+            }else{
+                    //Código Permiso denegado
+            }
+                return;
+            }
+        }
 
+     */
 }
+
+
+
 
 
