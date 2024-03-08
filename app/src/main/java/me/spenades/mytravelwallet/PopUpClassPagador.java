@@ -68,7 +68,6 @@ public class PopUpClassPagador extends PopupWindow {
         recyclerViewPagadores = popupView.findViewById(R.id.recyclerViewPagadores);
         etNombrePagador = activityTransactionView.findViewById(R.id.etNombrePagador);
         String pagador = etNombrePagador.getText().toString();
-        System.out.println("pasa por aquí " + pagador);
 
         // listaDeParticipantes en el popupView
         pagadoresAdapters = new PagadoresAdapters(listaDeParticipantes);
@@ -100,10 +99,8 @@ public class PopUpClassPagador extends PopupWindow {
                     TextView erPagadorId = agregarTransaccionesActivity.retornaPagadorId();
                     erPagadorId.setText(pagadorId);
                     erNombrePagador.setText(nombrePagador);
-                    System.out.println("agreggar");
                     popupWindow.dismiss();
                 } else {
-                    System.out.println("editar");
                     // Recuperamos el textview de EditarTransaccionesActivity y le ponemos el valor.
                     EditarTransaccionesActivity editarTransaccionesActivity =
                             new EditarTransaccionesActivity();
