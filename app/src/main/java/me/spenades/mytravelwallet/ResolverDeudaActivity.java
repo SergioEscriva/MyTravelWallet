@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
@@ -121,13 +120,13 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                 // NO ha pagado esta transacción pero está en ella
                 if (pagado == 0.0 && existeEnListas1 >= 0) {
                     double saldoDecimales = pagado - aPagarPorParticipante;
-                    saldo = redondearDosDecimales(saldoDecimales);
+                    saldo = numeroDosDecimales(saldoDecimales);
                     deudas.put(participanteId, saldo);
 
                     // SI pagado la transacción y está en ella
                 } else if (pagado > 0.0 && existeEnListas1 >= 0) {
                     double saldoDecimales = pagado - aPagarPorParticipante;
-                    saldo = redondearDosDecimales(saldoDecimales);
+                    saldo = numeroDosDecimales(saldoDecimales);
                     deudas.put(participanteId, saldo);
 
                     // No está en la transacción
@@ -171,17 +170,11 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
                                 );
 
-
                 double importeTotal = sumaValoresImporte.getSum();
                 gastosParticianTotalesWallet.put(iterar, importeTotal);
 
             });
-
-
         }
-        System.out.println("Final Oredenado:: " + gastosParticianTotalesWallet);
-
-
         return gastosParticianTotalesWallet;
     }
 
@@ -214,9 +207,10 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     }
 
 
-    public double redondearDosDecimales(double numero) {
-
+    public double numeroDosDecimales(double numero) {
+        // dos decimales y número absoluto.
         double numero2decimales = Math.round(numero * 100.0) / 100.0;
+        //double numeroLimpio = Math.abs(numero2decimales);
         return numero2decimales;
     }
 
@@ -251,10 +245,10 @@ public class ResolverDeudaActivity extends AppCompatActivity {
             // Separamos pagar y recibir en dos listas.
             if (cantidadParticipa >= 0L) {
                 double pagarDecimales = cantidadParticipa;
-                pagar = redondearDosDecimales(pagarDecimales);
+                pagar = pagarDecimales;
             } else if (cantidadParticipa != 0L) {
                 double recibirDecimales = cantidadParticipa;
-                recibir = redondearDosDecimales(recibirDecimales);
+                recibir = recibirDecimales;
             }
             pagarParticipante.put(participanteId, pagar);
             recibirParticipante.put(participanteId, recibir);
@@ -263,45 +257,68 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         // Ordenamos pagos de mayor a menor
         // Java 8 Stream (https://www.techiedelight.com/es/sort-map-by-values-java/)
         //https://www.techiedelight.com/es/sort-map-java-reverse-ordering-keys/
-        Map<Long, Double> sortedMapPagar = new LinkedHashMap<>();
-
-        pagarParticipante.entrySet()
-                .stream()
-                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-                .forEachOrdered(entry -> sortedMapPagar.put(entry.getKey(), entry.getValue()))
-        ;
+        Map<Long, Double> sortedMapRecibir = new LinkedHashMap<>();
 
         // Ordenamos recibir de menos a mayor.
         // Java 8 Stream (https://www.techiedelight.com/es/sort-map-by-values-java/)
-        Map<Long, Double> sortedMapRecibir = new LinkedHashMap<>();
+        Map<Long, Double> sortedMapPagar = new LinkedHashMap<>();
 
         recibirParticipante.entrySet()
                 .stream()
-                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-                .forEachOrdered(entry -> sortedMapRecibir.put(entry.getKey(), entry.getValue()));
+                .sorted(Map.Entry.comparingByValue())
+                .forEachOrdered(entry -> sortedMapPagar.put(entry.getKey(), entry.getValue()));
+
+        pagarParticipante.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEachOrdered(entry -> sortedMapRecibir.put(entry.getKey(), entry.getValue()))
+        ;
 
 
-        /*
-        SortedSet<Map.Entry<Object, Comparable>> pagarOrdenado =
-                entriesSortedByValuesMasMenos(pagarParticipante);
+        System.out.println("Recibir " + sortedMapRecibir);
+        System.out.println("Pagar " + sortedMapPagar);
 
-        SortedSet<Map.Entry<Object, Comparable>> recibirOrdenado =
-                entriesSortedByValuesMasMenos(recibirParticipante);
-        */
+        // Creamos un diccionario para almacenar las soluciones
+        ArrayList<ArrayList> soluciones = new ArrayList<>();
+
+        // Iteramos sobre la lista de los que tienen que pagar
+        for (long pagarId : sortedMapPagar.keySet()) {
+            double cantidadAPagar = sortedMapPagar.get(pagarId);
+            long pagadorId = pagarId;
+
+            // Iteramos sobre la lista de los que tienen que recibir
+            while (Math.abs(cantidadAPagar) > 0) {
+                for (long recibirId : sortedMapRecibir.keySet()) {
+                    double cantidadARecibir = sortedMapRecibir.get(recibirId);
+                    System.out.println("num " + cantidadAPagar + " abs " + Math.abs
+                            (cantidadAPagar) + " num " + cantidadAPagar);
+                    System.out.println(cantidadARecibir > Math.abs(cantidadAPagar));
+                    long cobrador = recibirId;
+                    // Si el receptor debe recibir más de lo que el pagador tiene que pagar
+                    if (cantidadARecibir > Math.abs(cantidadAPagar)) {
+                        double cantidadAPagarIni = cantidadAPagar;
+                        // El pagador paga la cantidad que debe al receptor
+                        ArrayList<String> pagadorAcobrador = new ArrayList<>();
+                        pagadorAcobrador.add(String.valueOf(pagadorId));
+                        pagadorAcobrador.add(String.valueOf(cobrador));
+                        pagadorAcobrador.add(String.valueOf(cantidadAPagar));
+                        soluciones.add(pagadorAcobrador);
+                        //Actualizamos la cantidad que el receptor tiene que recibir
+                        //sortedMapRecibir.put(recibirId, (cantidadARecibir - cantidadAPagar));
+                        double recibirCalculado = cantidadARecibir + cantidadAPagar;
+                        sortedMapRecibir.replace(recibirId, recibirCalculado);
+                        System.out.println("Actualizacion " + sortedMapRecibir);
+                        System.out.println("Final Beta " + soluciones);
+
+                    }
+                }
+            }
+        }
+
 
         System.out.println("Ordenado Pagar" + sortedMapPagar);
         System.out.println("Ordenado Recibir" + sortedMapRecibir);
-
         tvResuelto2.setText(sortedMapPagar.toString() + " " + sortedMapRecibir.toString());
-
-        //Map<String, List<Item>> itemMap = new HashMap<>();
-        // SortedSet<Map.Entry<Object, Comparable>> recibirOrdenadoMap =
-        //       entriesSortedByValuesMasMenos(recibirParticipante);
-
-
-        // Creamos un diccionario para almacenar las soluciones
-
-
     }
 
 }
