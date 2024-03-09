@@ -71,6 +71,13 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
         if (paticipaOno == true) {
             listaParticipa.add(String.valueOf(userId));
         }
+        // Enviamos el resultado a EditarTransacciones
+        EditarTransaccionesActivity editarTransaccionesActivity =
+                new EditarTransaccionesActivity();
+        editarTransaccionesActivity.paticipanCheck(listaParticipa);
+        AgregarTransaccionActivity agregarTransaccionActivity =
+                new AgregarTransaccionActivity();
+        agregarTransaccionActivity.paticipanCheck(listaParticipa);
 
         // Listener del Checkbox de participan.
         myViewHolder.cbParticipa.setOnClickListener(new View.OnClickListener() {
