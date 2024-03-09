@@ -1,9 +1,7 @@
 package me.spenades.mytravelwallet;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -31,61 +29,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int permissionCheck = ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
         // Definir nuestro controlador
         usuarioController = new UsuarioController(MainActivity.this);
 
-        // Recuperamos lista de usuarios
-        listaDeUsuarios = new ArrayList<>();
-        usuariosAdapters = new UsuariosAdapters(listaDeUsuarios);
-        // Se envía el wallet 0 para poder recuperar todos los usuarios
-        listaDeUsuarios = usuarioController.obtenerUsuarios();
-        usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
-        int cantidadUsuarios = usuariosAdapters.getItemCount();
+        // Instanciamos vistas
+        etNombrePropietario = findViewById(R.id.etNombrePropietario);
+        btnEmpezar = findViewById(R.id.btnEmpezar);
+        //String nombrePropietario = etNombrePropietario.getText().toString();
+        iniciar();
 
-        // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
-        refrescarListaDeUsuarios();
-
-
-        // Si la lista está vacía se insta a añadir usuario Propietario
-        if (cantidadUsuarios == 0) {
-
-            // Instanciamos vistas
-            etNombrePropietario = findViewById(R.id.etNombrePropietario);
-            btnEmpezar = findViewById(R.id.btnEmpezar);
-
-            btnEmpezar.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    // Resetear errores
-                    etNombrePropietario.setError(null);
-                    String nombrePropietario = etNombrePropietario.getText().toString();
-
-                    if ("".equals(nombrePropietario)) {
-                        etNombrePropietario.setError("Escribe tu Nombre");
-                        etNombrePropietario.requestFocus();
-                        return;
-                    }
-
-                    Usuario nuevoPropietario = new Usuario(nombrePropietario, nombrePropietario);
-
-                    long id = usuarioController.nuevoUsuario(nuevoPropietario);
-                    if (id == - 1) {
-                        // De alguna manera ocurrió un error
-                        Toast.makeText(MainActivity.this, "Error al guardar. Intenta de nuevo",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        continuar();
-                    }
-                }
-
-            });
-        } else {
-            continuar();
-        }
     }
 
 
@@ -105,8 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        iniciar();
         super.onResume();
-        refrescarListaDeUsuarios();
+
     }
 
 
@@ -115,21 +68,66 @@ public class MainActivity extends AppCompatActivity {
         usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
         usuariosAdapters.notifyDataSetChanged();
     }
-    /*
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[]
-    grantResults){
-        switch (requestCode){
-            case{
-                if (grantResults.length >0) grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    //Código permiso Aceptado
-            }else{
-                    //Código Permiso denegado
-            }
-                return;
-            }
+
+
+    public void usuarioNuevoInicial() {
+        // Resetear errores
+        etNombrePropietario.setError(null);
+        String nombrePropietario = etNombrePropietario.getText().toString();
+
+        if ("".equals(nombrePropietario)) {
+            etNombrePropietario.setError("Escribe tu Nombre");
+            etNombrePropietario.requestFocus();
+            return;
         }
 
-     */
+        Usuario nuevoPropietario = new Usuario(nombrePropietario, nombrePropietario);
+
+        long id = usuarioController.nuevoUsuario(nuevoPropietario);
+        if (id == - 1) {
+            // De alguna manera ocurrió un error
+            Toast.makeText(MainActivity.this, "Error al guardar. Intenta de nuevo",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            continuar();
+        }
+    }
+
+
+    public int usuarioExiste() {
+        // Recuperamos lista de usuarios
+        listaDeUsuarios = new ArrayList<>();
+        usuariosAdapters = new UsuariosAdapters(listaDeUsuarios);
+        // Se envía el wallet 0 para poder recuperar todos los usuarios
+        listaDeUsuarios = usuarioController.obtenerUsuarios();
+        usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
+        int cantidadUsuarios = usuariosAdapters.getItemCount();
+        // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
+        refrescarListaDeUsuarios();
+        return cantidadUsuarios;
+    }
+
+
+    public void iniciar() {
+        int cantidadUsuarios = usuarioExiste();
+
+        // Si la lista está vacía se insta a añadir usuario Propietario
+        if (cantidadUsuarios == 0) {
+
+
+            btnEmpezar.setOnClickListener(new View.OnClickListener() {
+
+                // Añadimos Usuario Nuevo Inicial
+                @Override
+                public void onClick(View v) {
+                    usuarioNuevoInicial();
+                }
+
+            });
+        } else {
+            continuar();
+        }
+    }
 }
 
 
