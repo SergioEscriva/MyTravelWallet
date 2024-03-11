@@ -52,9 +52,11 @@ public class ResumenAdapters extends RecyclerView.Adapter<ResumenAdapters.MyView
         Operaciones objOperaciones = new Operaciones();
         String totalTransacciones = objOperaciones.sumaTransacciones(listaDeTransaccions,
                 listaDeParticipantes);
+        List<String> miembros = objOperaciones.listaDeMiembros();
         List<String> siguientePagador = objOperaciones.proximoPagador();
         myViewHolder.tvTotal.setText(String.valueOf(totalTransacciones) + "€");
         myViewHolder.tvDeberiaPagar.setText(String.valueOf(siguientePagador.get(1)));
+        myViewHolder.tvMiembros.setText(String.valueOf(miembros));
     }
 
 
@@ -66,12 +68,13 @@ public class ResumenAdapters extends RecyclerView.Adapter<ResumenAdapters.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTotal, tvDeberiaPagar;
+        TextView tvTotal, tvDeberiaPagar, tvMiembros;
 
 
         MyViewHolder(View itemView) {
             super(itemView);
             this.tvTotal = itemView.findViewById(R.id.tvTotal);
+            this.tvMiembros = itemView.findViewById(R.id.tvMiembros);
             this.tvDeberiaPagar = itemView.findViewById(R.id.tvDeberiaPagar);
         }
     }

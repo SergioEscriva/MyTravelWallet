@@ -96,33 +96,6 @@ public class Operaciones {
         return ordenarDiccionario;
     }
 
-/*
-    public Map<Long, Double> pagadoPorCadaParticipante1() {
-        System.out.println(4);
-
-        Map<Long, Double> datos = new HashMap<Long, Double>();
-        for (Transaccion transaccion : listaTransacciones) {
-            long transaccionId = transaccion.getId();
-
-            // Creamos un diccionario con lo que ha pagado cada participante de esta transacción
-
-            long nombreId = transaccion.getPagadorId();
-            double importe = Double.valueOf(transaccion.getImporte().toString());
-            for (Participante unNombre : listaParticipantes) {
-                long nombreIdIndividual = unNombre.getUserId();
-                double importeCero = 0.0;
-                datos.put(nombreIdIndividual, importeCero);
-            }
-            datos.put(nombreId, importe);
-        }
-
-        System.out.println("pagadoPorCadaParticipante  " + datos);
-        System.out.println("4");
-        return datos;
-    }
-
- */
-
 
     public Map<Long, Double> listaParticipantesACero() {
         //Añade participantes y les pone valor 0.0
@@ -224,101 +197,6 @@ public class Operaciones {
         return gastoParticipantes;
     }
 
-/*
-    // Suma todos los pagos por participante
-    private Map<Long, Double> unificaGastoParticipanteWallet() {
-        ArrayList<Map> gastoParticipantes = gastosParticipantesTransacciones();
-
-
-        Map<Long, Double> gastosParticianTotalesWallet = new HashMap<Long, Double>();
-
-        // Iteramos en busca de las keys
-        for (long l = 0; l < gastoParticipantes.get(0).size(); l++) {
-
-            // Extrae las Keys de las transacciones
-
-            gastoParticipantes.get(0).keySet().forEach((key) -> {
-                long participanteId = Long.parseLong(key.toString());
-                long iterar = participanteId;
-
-                // Suma todas las keys values del mismo Participante
-                DoubleSummaryStatistics sumaValoresImporte =
-                        (DoubleSummaryStatistics) gastoParticipantes
-                                .stream()
-                                .collect(Collectors.summarizingDouble(
-                                                e -> Double.valueOf(((Map) e).get(iterar)
-                                                .toString())
-                                        )
-
-                                );
-
-                double importeTotal = sumaValoresImporte.getSum();
-                gastosParticianTotalesWallet.put(iterar, importeTotal);
-
-            });
-        }
-        System.out.println(gastosParticianTotalesWallet);
-        return gastosParticianTotalesWallet;
-    }
-
- */
-
-
-/*
-    public ArrayList<Map> gastosParticipantesTransacciones() {
-        ArrayList<Map> gastoParticipantes = new ArrayList<>();
-
-        // iteramos transacciones sacamos a lo que sale cada participante
-        for (Transaccion unaTransaccion : listaDeTransaccions) {
-
-            Map<Long, Double> pagadoPorParticipante = pagadoPorCadaParticipante(unaTransaccion);
-            double deudaTotal = Double.valueOf(unaTransaccion.getImporte());
-            double aPagarPorParticipante = aPagarPorParticipante(unaTransaccion);
-
-            // Extraemos lo que ha pagado cada participante
-            Map<Long, Double> deudas = new HashMap<Long, Double>();
-            for (int n = 0; n < listaDeParticipantes.size(); n++) {
-                long participanteId = listaDeParticipantes.get(n).getUserId();
-                double pagado = pagadoPorParticipante.get(participanteId);
-
-                // segun se haya pagado o no una cantidad se resta
-                // Comprueba si existe en la lista de participantes y asigna importes, los demás
-                // a cero
-                String listado = unaTransaccion.getParticipantes();
-                String participanteIdInt = String.valueOf(participanteId);
-                int existeEnListas1 = listado.indexOf(participanteIdInt);
-
-                double saldo = pagado;
-                // NO ha pagado esta transacción pero está en ella
-                if (pagado == 0.0 && existeEnListas1 >= 0) {
-                    double saldoDecimales =
-                            bigDecimal(bigDecimal(pagado) - bigDecimal(aPagarPorParticipante));
-                    saldo = bigDecimal(saldoDecimales);
-                    deudas.put(participanteId, saldo);
-
-                    // SI pagado la transacción y está en ella
-                } else if (pagado > 0.0 && existeEnListas1 >= 0) {
-                    double saldoDecimales =
-                            bigDecimal(bigDecimal(pagado) - bigDecimal(aPagarPorParticipante));
-                    saldo = bigDecimal(saldoDecimales);
-                    deudas.put(participanteId, saldo);
-
-                    // No está en la transacción
-                } else {
-                    saldo = pagado;
-
-                }
-                deudas.put(participanteId, saldo);
-            }
-            gastoParticipantes.add(deudas);
-        }
-        return gastoParticipantes;
-    }
-
- */
-    // Sumamos con precisión gracias a BigDecimal y redondeamos a 2 decimales.
-    //https://oracle-max.com/bigdecimal/
-
 
     public double bigDecimal(double numero) {
         if (numero < 0) {
@@ -328,6 +206,16 @@ public class Operaciones {
             return resultadoSuma;
         }
         return numero;
+    }
+
+
+    public List<String> listaDeMiembros() {
+        List<String> lista = new ArrayList<>();
+        for (Participante listaCompleta : listaParticipan) {
+            String nombre = listaCompleta.getNombre();
+            lista.add(nombre);
+        }
+        return lista;
     }
 
 
