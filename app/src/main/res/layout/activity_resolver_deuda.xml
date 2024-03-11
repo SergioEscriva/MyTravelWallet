@@ -9,9 +9,10 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pantalla Resolver Deudas"
+        android:layout_marginStart="10dp"
+        android:text="Resolución de Deudas"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        tools:layout_editor_absoluteX="13dp"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="324dp" />
 
     <TextView
@@ -20,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="19dp"
         android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@+id/textView7"
         tools:layout_editor_absoluteX="159dp" />
 
@@ -28,9 +30,13 @@
         android:id="@+id/tvResuelto2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="26dp"
+        android:layout_marginEnd="15dp"
         android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintTop_toBottomOf="@+id/tvResuelto"
-        tools:layout_editor_absoluteX="159dp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResuelto" />
 </android.support.constraint.ConstraintLayout>

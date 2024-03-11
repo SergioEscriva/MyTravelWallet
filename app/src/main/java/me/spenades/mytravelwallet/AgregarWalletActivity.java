@@ -83,7 +83,8 @@ public class AgregarWalletActivity extends AppCompatActivity {
         participantesAdapters = new ParticipantesAdapters(listaDeParticipantes);
 
         // se la ponemos al adaptador y configuramos el recyclerView
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager =
+                new LinearLayoutManager(getApplicationContext());
         recyclerViewParticipantes.setLayoutManager(mLayoutManager);
         recyclerViewParticipantes.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipantes.setAdapter(participantesAdapters);
@@ -92,6 +93,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
         // Listener del Crear Wallet Nuevo
         btnAgregarWallet.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 // Resetear errores
@@ -132,22 +134,26 @@ public class AgregarWalletActivity extends AppCompatActivity {
                 long walletId = walletController.nuevoWallet(nuevoWallet);
                 etWaletId.setText(String.valueOf(walletId));
 
-                if (walletId == -1) {
+                if (walletId == - 1) {
 
                     // De alguna manera ocurrió un error
-                    Toast.makeText(AgregarWalletActivity.this, "Error al guardar. Intenta de nuevo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AgregarWalletActivity.this, "Error al guardar. Intenta de " +
+                            "nuevo", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(AgregarWalletActivity.this, "Wallet Guardada.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AgregarWalletActivity.this, "Wallet Guardada.",
+                            Toast.LENGTH_SHORT).show();
 
                     // Agrega al propietario del Wallet como Participante
-                    Participante nuevoParticipanteGuardar = new Participante(walletId, userId, usuarioActivo);
+                    Participante nuevoParticipanteGuardar = new Participante(walletId, userId,
+                            usuarioActivo);
 
                     // Ahora lo añadimos como Participante, aquí existe como usuario seguro.
                     participanteController.nuevoParticipante(nuevoParticipanteGuardar);
 
                     // Seguimos en Editar Wallet
-                    Intent intent = new Intent(AgregarWalletActivity.this, EditarWalletActivity.class);
+                    Intent intent = new Intent(AgregarWalletActivity.this,
+                            EditarWalletActivity.class);
                     intent.putExtra("nombreUsuario", String.valueOf(usuarioActivo));
                     intent.putExtra("usuarioId", String.valueOf(userId));
                     intent.putExtra("walletId", String.valueOf(walletId));
@@ -163,8 +169,10 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
         // El de cancelar simplemente cierra la actividad
         btnCancelarNuevoWallet.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
                 finish();
             }
         });

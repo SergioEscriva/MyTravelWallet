@@ -37,10 +37,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
     private Button btnAgregarWallet, btnAgregarUsuario;
     private EditText etAddParticipante;
 
-    //private long walletId;
-    private String nombreWallet;
-    private long walletId;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +82,13 @@ public class ListarWalletsActivity extends AppCompatActivity {
             public void onClick(View view, int position) {
                 // Pasar a la actividad editarwallet
                 final Wallet walletNameActivo = listaDeWallets.get(position);
-                nombreWallet = walletNameActivo.getNombre();
-                walletId = walletNameActivo.getWalletId();
+                String nombreWallet = walletNameActivo.getNombre();
+                long walletId = walletNameActivo.getWalletId();
                 Intent intent = new Intent(ListarWalletsActivity.this,
                         ListarTransaccionesActivity.class);
                 intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
-                intent.putExtra("walletId", String.valueOf(walletId));
+                intent.putExtra("walletId", Long.valueOf(walletId));
                 intent.putExtra("nombreWallet", String.valueOf(nombreWallet));
 
                 startActivity(intent);
@@ -104,8 +100,8 @@ public class ListarWalletsActivity extends AppCompatActivity {
             public void onLongClick(View view, int position) {
                 // Pasar a la actividad editarwallet
                 final Wallet walletNameActivo = listaDeWallets.get(position);
-                nombreWallet = walletNameActivo.getNombre();
-                walletId = walletNameActivo.getWalletId();
+                String nombreWallet = walletNameActivo.getNombre();
+                long walletId = walletNameActivo.getWalletId();
                 Intent intent = new Intent(ListarWalletsActivity.this, EditarWalletActivity.class);
                 intent.putExtra("nombreUsuario", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioId", String.valueOf(usuarioIdActivo));

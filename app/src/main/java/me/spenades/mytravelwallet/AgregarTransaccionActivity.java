@@ -23,6 +23,7 @@ import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
 public class AgregarTransaccionActivity extends AppCompatActivity {
@@ -60,7 +61,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         this.walletName = extras.getString("walletName");
         this.walletId = Long.parseLong(extras.getString("walletId"));
         long usuarioIdActivo = extras.getInt("usuarioIdActivo") + 1;
-        System.out.println(usuarioIdActivo);
         String usuarioActivo = extras.getString("usuarioActivo");
 
         // Si no hay datos salimos
@@ -106,6 +106,9 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         //Refrescamos datos del RecycleView
         refrescarListaDeParticipantes();
 
+        Operaciones operarFecha = new Operaciones();
+
+
         // Listener del PopUp para elegir pagador.
         etNombrePagador.setOnTouchListener(new View.OnTouchListener() {
 
@@ -123,6 +126,8 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
+
                 finish();
             }
         });

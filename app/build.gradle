@@ -4,11 +4,11 @@ android {
     namespace 'me.spenades.mytravelwallet'
     compileSdk 33
     defaultConfig {
-        applicationId "com.android.application"
+        applicationId "me.spenades.mytravelwallet"
         minSdkVersion defaultMinSdkVersion
         targetSdkVersion 31
         versionCode 1
-        versionName "2.0"
+        versionName "beta3.0"
         resConfigs "es_ES"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

@@ -18,7 +18,9 @@ import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.ResumenAdapters;
 import me.spenades.mytravelwallet.adapters.TransaccionesAdapters;
+import me.spenades.mytravelwallet.controllers.ParticipanteController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
+import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
@@ -26,10 +28,12 @@ import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 public class ListarTransaccionesActivity extends AppCompatActivity {
 
     private List<Transaccion> listaDeTransaccions;
+    private List<Participante> listaDeParticipantes;
     private RecyclerView recyclerViewTransacciones, recyclerViewResumen;
     private TransaccionesAdapters transaccionesAdapters;
     private ResumenAdapters resumenAdapters;
     private TransaccionController transaccionController;
+    private ParticipanteController participanteController;
     private UsuarioUtility usuarioUtility;
     private FloatingActionButton fabAgregarTransaccion;
     private FloatingActionButton fabResolverDeudas;
@@ -45,7 +49,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         setContentView(R.layout.activity_main_transactions);
         this.walletName = extras.getString("nombreWallet");
-        this.walletId = Long.parseLong(extras.getString("walletId"));
+        this.walletId = extras.getLong("walletId");
         long usuarioIdActivo = extras.getInt("usuarioIdActivo");
         String usuarioActivo = extras.getString("usuarioActivo");
 
@@ -59,6 +63,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Definir nuestro controlador
         transaccionController = new TransaccionController(ListarTransaccionesActivity.this);
+        participanteController = new ParticipanteController(ListarTransaccionesActivity.this);
 
 
         // Instanciar vistas
@@ -72,6 +77,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         // Por defecto es una lista vacía,
         listaDeTransaccions = new ArrayList<>();
         transaccionesAdapters = new TransaccionesAdapters(listaDeTransaccions);
+        listaDeParticipantes = new ArrayList<>();
 
         // se la ponemos al adaptador y configuramos el recyclerView
 
@@ -83,7 +89,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         RecyclerView.LayoutManager mLayoutManagerBottom =
                 new LinearLayoutManager(getApplicationContext());
-        resumenAdapters = new ResumenAdapters(listaDeTransaccions, walletId);
+        resumenAdapters = new ResumenAdapters(listaDeTransaccions, walletId, listaDeParticipantes);
         recyclerViewResumen.setLayoutManager(mLayoutManagerBottom);
         recyclerViewResumen.setItemAnimator(new DefaultItemAnimator());
         recyclerViewResumen.setAdapter(resumenAdapters);
@@ -154,7 +160,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             }
         });
 
-        // Listener del FABTransacciones
+        // Listener del Añadir transacción
 
         fabAgregarTransaccion.setOnClickListener(new View.OnClickListener() {
 
@@ -257,12 +263,15 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
 
     public void refrescarListaDeTransacciones() {
+        listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
         transaccionesAdapters.setListaDeTransacciones(listaDeTransaccions);
         transaccionesAdapters.notifyDataSetChanged();
-        resumenAdapters.setListaDeTransacciones(listaDeTransaccions, walletId);
+        resumenAdapters.setListaDeTransacciones(listaDeTransaccions, walletId,
+                listaDeParticipantes);
         resumenAdapters.notifyDataSetChanged();
 
     }
+
 
 }

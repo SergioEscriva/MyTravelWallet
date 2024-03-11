@@ -61,9 +61,9 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
         myViewHolder.tvWalletId.setText(String.valueOf(walletId));
         Operaciones objOperaciones = new Operaciones();
 
-        String totalTransacciones = objOperaciones.sumaTransaccionesWallet(walletId);
+        //String totalTransacciones = objOperaciones.sumaTransaccionesWallet(walletId);
 
-        myViewHolder.tvImporteW.setText(String.valueOf(totalTransacciones) + "€");
+        //myViewHolder.tvImporteW.setText(String.valueOf(totalTransacciones) + "€");
 
         boolean checkbox_Compartir = (compartirWallet == 1) ? true : false;
 
