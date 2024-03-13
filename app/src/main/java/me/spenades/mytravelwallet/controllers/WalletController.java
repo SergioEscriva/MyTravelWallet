@@ -6,17 +6,22 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import me.spenades.mytravelwallet.SQLiteDB.AyudanteBaseDeDatos;
 import me.spenades.mytravelwallet.models.Wallet;
 
 public class WalletController {
+
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
     private String NOMBRE_TABLA = "wallet";
+
 
     public WalletController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
     }
+
 
     public int eliminarWallet(long walletId) {
 
@@ -24,6 +29,7 @@ public class WalletController {
         String[] argumentos = {String.valueOf(walletId)};
         return baseDeDatos.delete(NOMBRE_TABLA, "id = ?", argumentos);
     }
+
 
     public long nuevoWallet(Wallet wallet) {
         // writable porque vamos a insertar
@@ -37,6 +43,7 @@ public class WalletController {
 
         return baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
     }
+
 
     public int guardarCambios(Wallet walletEditado) {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
@@ -58,11 +65,24 @@ public class WalletController {
                 argumentosParaActualizar);
     }
 
+
     public ArrayList<Wallet> obtenerWallets() {
         ArrayList<Wallet> wallets = new ArrayList<>();
+        ArrayList<ArrayList> importeTransaccion = new ArrayList<>();
+        Map<Long, Double> resultado = new HashMap<>();
+        ArrayList<Map> resultadoList = new ArrayList<>();
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
-        // SELECT todo
+
+        // String query = "SELECT wallet_id,usuario_id,nombre FROM 'WALLET_USUARIO' INNER JOIN 'USUARIO' ON usuario_id = USUARIO.id WHERE wallet_id
+        // = " + walletIdString;
+
+        String query = "SELECT nombre,wallet.descripcion,propietario,compartir,wallet.id,importe FROM 'WALLET' INNER JOIN 'transaccion' ON WALLET" +
+                ".id = transaccion.walletId";
+        Cursor cursor = baseDeDatos.rawQuery(query, null);
+
+
+        /*
         String[] columnasAConsultar = {"nombre", "descripcion", "propietario", "compartir", "id"};
         Cursor cursor = baseDeDatos.query(
                 NOMBRE_TABLA,//from wallets
@@ -74,6 +94,8 @@ public class WalletController {
                 null
         );
 
+         */
+
         if (cursor == null) {
             /*
                 Salimos aquí porque hubo un error, regresar
@@ -83,7 +105,7 @@ public class WalletController {
 
         }
         // Si no hay datos, igualmente regresamos la lista vacía
-        if (!cursor.moveToFirst()) return wallets;
+        if (! cursor.moveToFirst()) return wallets;
 
         // En caso de que sí haya, iteramos y vamos agregando
         do {
@@ -94,15 +116,45 @@ public class WalletController {
             long propietarioObtenidaDeBD = cursor.getLong(2);
             int compartirObtenidaDeBD = cursor.getInt(3);
             long walletIdObtenidoDeBD = cursor.getLong(4);
+            double importeWalletId = cursor.getLong(5);
 
 
-            Wallet walletObtenidaDeBD = new Wallet(nombreObtenidoDeBD, descripcionObtenidoDeBD, propietarioObtenidaDeBD, compartirObtenidaDeBD, walletIdObtenidoDeBD);
+            Wallet walletObtenidaDeBD = new Wallet(nombreObtenidoDeBD, descripcionObtenidoDeBD, propietarioObtenidaDeBD, compartirObtenidaDeBD,
+                    walletIdObtenidoDeBD);
             wallets.add(walletObtenidaDeBD);
+
+            // Creamos un diccionario con los wallets repetidos tantas veces como importe de cada transacción
+            ArrayList<String> listaImporte = new ArrayList<>();
+            listaImporte.add(String.valueOf(walletIdObtenidoDeBD));
+            listaImporte.add(String.valueOf(importeWalletId));
+            importeTransaccion.add(listaImporte);
 
         } while (cursor.moveToNext());
 
+        // iteramos los wallets y creamos una lista con cada wallet y el total de la suma de sus transacciones
+        ArrayList<Wallet> walletsImporte = new ArrayList<>();
+        for (Wallet wallet : wallets) {
+            long walletId = wallet.getWalletId();
+            double importeViejo = 0;
+            for (ArrayList lista : importeTransaccion) {
+                long walletIdTransaccion = Long.parseLong(lista.get(0).toString());
+                if (walletId == walletIdTransaccion) {
+                    double importeUnaTransaccion = Double.valueOf(lista.get(1).toString());
+                    importeViejo += importeUnaTransaccion;
+                }
+                resultado.put(walletId, importeViejo);
+            }
+
+            resultadoList.add(resultado);
+        }
+
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
-        return wallets;
+        // Unimos el Arraylist de wallets y el Map de importe en un Arraylist.
+        ArrayList<ArrayList> walletsImportesTotales = new ArrayList<>();
+        walletsImportesTotales.add(wallets);
+        walletsImportesTotales.add(resultadoList);
+        return walletsImportesTotales;
     }
+
 }

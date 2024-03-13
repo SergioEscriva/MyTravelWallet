@@ -12,6 +12,7 @@ import java.util.Set;
 import me.spenades.mytravelwallet.SQLiteDB.AyudanteBaseDeDatos;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.models.Wallet;
 
 
 public class Operaciones {
@@ -21,6 +22,7 @@ public class Operaciones {
     private static List<Participante> listaParticipantes;
     private static List<Participante> listaParticipan;
     private static long walletId;
+    private Wallet wallet;
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
 
 
@@ -49,18 +51,16 @@ public class Operaciones {
     }
 
 
-    public String sumaTransaccionesWallet(Long walletId) {
-        System.out.println("2");
-        this.walletId = walletId;
+    public List<String> sumaTransaccionesWallet(Long walletId, List<Wallet> listaDeWallets) {
+        List<String> importeFinalWallet = new ArrayList<>();
 
-        System.out.println("9898898" + listaTransacciones);
-        float total = 0;
-        for (Transaccion i : listaTransacciones) {
-            total += Float.valueOf(i.getImporte());
+        for (Wallet walletActivo : listaDeWallets) {
+            for (Transaccion listaTransacciones : listaTransacciones) {
+                listaTransacciones.getImporte();
+                importeFinalWallet.add(listaTransacciones.getImporte());
+            }
         }
-        System.out.println("sumaTransaccionesWallet " + listaTransacciones);
-        System.out.println("2");
-        return String.valueOf(total);
+        return importeFinalWallet;
     }
 
 
@@ -77,7 +77,6 @@ public class Operaciones {
                 siguientePagador.add(participantes.getNombre());
             }
         }
-        System.out.println("ProximoPagador " + siguientePagador);
         return siguientePagador;
     }
 
@@ -193,7 +192,6 @@ public class Operaciones {
             }
             gastoParticipantes.add(deudas);
         }
-        System.out.println("GastosParticipantes " + gastoParticipantes);
         return gastoParticipantes;
     }
 
@@ -211,6 +209,7 @@ public class Operaciones {
 
     public List<String> listaDeMiembros() {
         List<String> lista = new ArrayList<>();
+
         for (Participante listaCompleta : listaParticipan) {
             String nombre = listaCompleta.getNombre();
             lista.add(nombre);

@@ -52,8 +52,8 @@ public class ResumenAdapters extends RecyclerView.Adapter<ResumenAdapters.MyView
         Operaciones objOperaciones = new Operaciones();
         String totalTransacciones = objOperaciones.sumaTransacciones(listaDeTransaccions,
                 listaDeParticipantes);
-        List<String> miembros = objOperaciones.listaDeMiembros();
         List<String> siguientePagador = objOperaciones.proximoPagador();
+        List<String> miembros = objOperaciones.listaDeMiembros();
         myViewHolder.tvTotal.setText(String.valueOf(totalTransacciones) + "€");
         myViewHolder.tvDeberiaPagar.setText(String.valueOf(siguientePagador.get(1)));
         myViewHolder.tvMiembros.setText(String.valueOf(miembros));

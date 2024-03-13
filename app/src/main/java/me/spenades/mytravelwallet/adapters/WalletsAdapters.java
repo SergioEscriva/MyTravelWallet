@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import me.spenades.mytravelwallet.ListarWalletsActivity;
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.models.Wallet;
-import me.spenades.mytravelwallet.utilities.Operaciones;
 
 public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyViewHolder> {
 
@@ -59,14 +59,16 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
         myViewHolder.tvNombre.setText(nombreWallet);
         myViewHolder.tvDescripcion.setText(descripcionWallet);
         myViewHolder.tvWalletId.setText(String.valueOf(walletId));
-        Operaciones objOperaciones = new Operaciones();
-
-        //String totalTransacciones = objOperaciones.sumaTransaccionesWallet(walletId);
-
-        //myViewHolder.tvImporteW.setText(String.valueOf(totalTransacciones) + "€");
-
         boolean checkbox_Compartir = (compartirWallet == 1) ? true : false;
 
+        // importes Totales de los Wallets
+        System.out.println("INICIOOOOOOOOOOOO " + listaDeWallets);
+        ListarWalletsActivity listarWalletsActivity = new ListarWalletsActivity();
+
+        // TODO Faltan las transacciones
+        List<Double> importeTotalWallets = listarWalletsActivity.transaccionesImporteWallet(listaDeWallets);
+        //myViewHolder.tvImporteW.setText(String.valueOf(importeTotalWallets.get(i)) + "€");
+        myViewHolder.tvImporteW.setText(String.valueOf(1.1 + "€"));
 
     }
 
