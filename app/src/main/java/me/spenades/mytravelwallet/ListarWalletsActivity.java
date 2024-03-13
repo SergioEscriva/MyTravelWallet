@@ -25,6 +25,7 @@ import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.WalletController;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.models.Wallet;
+import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
 
 
 public class ListarWalletsActivity extends AppCompatActivity {

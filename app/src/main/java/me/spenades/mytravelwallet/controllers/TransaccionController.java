@@ -102,7 +102,7 @@ public class TransaccionController {
             long pagadorIdObtenidoDeBD = cursor.getLong(2);
             String participantesObtenidaDeBD = cursor.getString(3);
             String categoriaObtenidaDeBD = cursor.getString(4);
-            int fechaObtenidoDeBD = cursor.getInt(5);
+            String fechaObtenidoDeBD = cursor.getString(5);
             long walletIdObtenidoDeBD = cursor.getInt(6);
             long idTransaccion = cursor.getLong(7);
             String nombrePagador = cursor.getString(8);

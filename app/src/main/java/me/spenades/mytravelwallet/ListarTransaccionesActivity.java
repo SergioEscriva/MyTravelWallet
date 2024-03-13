@@ -22,6 +22,8 @@ import me.spenades.mytravelwallet.controllers.ParticipanteController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
+import me.spenades.mytravelwallet.utilities.ResolverDeudaActivity;
 import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
 
@@ -99,7 +101,8 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         refrescarListaDeTransacciones();
 
         // Listener de los clicks en la lista TRANSACCIONES
-        recyclerViewTransacciones.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewTransacciones, new RecyclerTouchListener.ClickListener() {
+        recyclerViewTransacciones.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewTransacciones,
+                new RecyclerTouchListener.ClickListener() {
 
             @Override // Un toque Editar
             public void onClick(View view, int position) {

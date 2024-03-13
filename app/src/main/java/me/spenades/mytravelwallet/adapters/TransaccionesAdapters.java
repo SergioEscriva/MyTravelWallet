@@ -13,15 +13,19 @@ import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.models.Transaccion;
 
 public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAdapters.MyViewHolder> {
+
     private List<Transaccion> listaDeTransaccions;
+
 
     public TransaccionesAdapters(List<Transaccion> transaccions) {
         this.listaDeTransaccions = transaccions;
     }
 
+
     public void setListaDeTransacciones(List<Transaccion> listaDeTransaccions) {
         this.listaDeTransaccions = listaDeTransaccions;
     }
+
 
     @NonNull
     @Override
@@ -30,6 +34,7 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
 
         return new MyViewHolder(filaTransaccion);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
@@ -44,7 +49,7 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
         String nombrePagadorTransaccion = transaccion.getNombrePagador();
         //String participantesTransaccion = transaccion.getParticipantes();
         String categoriaTransaccion = transaccion.getCategoria();
-        int fechaTransaccion = transaccion.getFecha();
+        String fechaTransaccion = transaccion.getFecha();
         long transaccionId = transaccion.getId();
 
 
@@ -61,6 +66,7 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
         myViewHolder.tvTransaccionId.setText(String.valueOf(transaccionId));
     }
 
+
     @Override
     public int getItemCount() {
         return listaDeTransaccions.size();
@@ -68,7 +74,9 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+
         TextView tvDescripcion, tvImporte, tvNombrePagador, tvPagadorId, tvParticipantes, tvCategoria, tvFecha, tvTransaccionId;
+
 
         MyViewHolder(View itemView) {
             super(itemView);

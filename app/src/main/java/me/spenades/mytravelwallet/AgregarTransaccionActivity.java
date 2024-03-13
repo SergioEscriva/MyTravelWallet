@@ -1,5 +1,6 @@
 package me.spenades.mytravelwallet;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +25,9 @@ import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.utilities.DatePickerFragment;
 import me.spenades.mytravelwallet.utilities.Operaciones;
+import me.spenades.mytravelwallet.utilities.PopUpClassPagador;
 import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
 public class AgregarTransaccionActivity extends AppCompatActivity {
@@ -32,7 +36,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     private static String nuevosParticipan;
     public PopUpClassPagador f;
 
-    private EditText etDescripcion, etImporte, etCategoria, etFecha;
+    private EditText etDescripcion, etImporte, etCategoria, etTransaccionFecha;
     private TextView evTransaccionTitulo;
     private Button btnGuardarTransaccion, btnCancelarTransaccion;
     private TransaccionController transaccionController;
@@ -83,7 +87,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         evTransaccionTitulo = findViewById(R.id.evTransaccionDescripcion);
         etImporte = findViewById(R.id.etTransaccionImporte);
         etCategoria = findViewById(R.id.etTransaccionCategoria);
-        etFecha = findViewById(R.id.etTransaccionFecha);
+        etTransaccionFecha = findViewById(R.id.etTransaccionFecha);
         etNombrePagador = findViewById(R.id.etNombrePagador);
         etPagadorId = findViewById(R.id.etPagadorId);
         btnCancelarTransaccion = findViewById(R.id.btnCancelarTransaccion);
@@ -121,6 +125,19 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
         });
 
+        // Creamos el picker de fecha
+        // https://programacionymas.com/blog/como-pedir-fecha-android-usando-date-picker
+        etTransaccionFecha.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog();
+
+            }
+
+        });
+
+
         // El de cancelar simplemente cierra la actividad
         btnCancelarTransaccion.setOnClickListener(new View.OnClickListener() {
 
@@ -153,14 +170,14 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 etNombrePagador.setError(null);
                 etPagadorId.setError(null);
                 etCategoria.setError(null);
-                etFecha.setError(null);
+                etTransaccionFecha.setError(null);
 
                 // Crear la transaccion con los cambios y su id
                 String nuevaDescripcion = etDescripcion.getText().toString();
                 String nuevoImporte = etImporte.getText().toString();
                 String nuevosParticipantes = nuevosParticipan;
                 String nuevaCategoria = etCategoria.getText().toString();
-                String nuevaFecha = etFecha.getText().toString();
+                String nuevaFecha = etTransaccionFecha.getText().toString();
                 String nuevoPagador = etNombrePagador.getText().toString();
                 String nuevoPagadorId = etPagadorId.getText().toString();
 
@@ -188,8 +205,8 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                     return;
                 }
                 if ("".equals(nuevaFecha)) {
-                    etFecha.setError("Escribe la fecha");
-                    etFecha.requestFocus();
+                    etTransaccionFecha.setError("Escribe la fecha");
+                    etTransaccionFecha.requestFocus();
                     return;
                 }
                 // Conversión de nombre de pagador a id para DB
@@ -199,7 +216,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 // Si llegamos hasta aquí es porque los datos ya están validados
                 Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion,
                         nuevoImporte, nuevoIdPagadorId, nuevosParticipantes, nuevaCategoria,
-                        Integer.parseInt(nuevaFecha), walletId);
+                        nuevaFecha, walletId);
 
                 long transaccionId =
                         transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
@@ -250,5 +267,22 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         // Convertimos de lista a String para poder guardar en DB
         this.nuevosParticipan = String.join(",", participaCheck);
         return this.nuevosParticipan;
+    }
+
+
+    // Muestra el picker para la fecha
+    private void showDatePickerDialog() {
+        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                // +1 Enero es 0
+                final String selectedDate = day + " / " + (month + 1) + " / " + year;
+                etTransaccionFecha.setText(selectedDate);
+                System.out.println(selectedDate);
+            }
+        });
+
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }

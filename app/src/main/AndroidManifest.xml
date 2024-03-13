@@ -29,8 +29,8 @@
         <activity android:name=".ListarWalletsActivity" />
         <activity android:name="AgregarWalletActivity" />
         <activity android:name="EditarWalletActivity" />
-        <activity android:name="ResolverDeudaActivity" />
-        <activity android:name="PopUpClassPagador" />
+        <activity android:name=".utilities.ResolverDeudaActivity" />
+        <activity android:name=".utilities.PopUpClassPagador" />
     </application>
 
 </manifest>
