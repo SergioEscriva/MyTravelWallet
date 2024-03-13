@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -114,6 +116,14 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         recyclerViewParticipan.setLayoutManager(mLayoutManagerParticipan);
         recyclerViewParticipan.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipan.setAdapter(participanAdapters);
+
+        //Adaptador del autoCompletado de Categoria
+        AutoCompleteTextView textView = (AutoCompleteTextView) etCategoria;
+        String[] countries = getResources().getStringArray(R.array.countries_array);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, countries);
+        textView.setAdapter(adapter);
+
 
         //Refrescamos datos del RecycleView
         refrescarListaDeParticipantes();
