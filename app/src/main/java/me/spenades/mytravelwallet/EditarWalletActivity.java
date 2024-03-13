@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import me.spenades.mytravelwallet.adapters.ParticipantesAdapters;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
@@ -33,6 +34,7 @@ public class EditarWalletActivity extends AppCompatActivity {
     public ParticipanteController participanteController;
     public UsuarioController usuarioController;
     private List<Wallet> listaDeWallets;
+    private ArrayList<Map> listaDeImportes;
     private WalletsAdapters walletsAdapters;
     private List<Participante> listaDeParticipantes;
     private ParticipantesAdapters participantesAdapters;
@@ -115,8 +117,9 @@ public class EditarWalletActivity extends AppCompatActivity {
         participantesAdapters = new ParticipantesAdapters(listaDeParticipantes);
 
         listaDeWallets = new ArrayList<>();
+        listaDeImportes = new ArrayList<>();
         walletsAdapters = new WalletsAdapters(listaDeWallets);
-        walletsAdapters.setListaDeWallets(listaDeWallets);
+        walletsAdapters.setListaDeWallets(listaDeWallets, listaDeImportes);
         walletsAdapters.notifyDataSetChanged();
         //refrescarListaDeWallets();
 
@@ -290,7 +293,8 @@ public class EditarWalletActivity extends AppCompatActivity {
 
     public void refrescarListaDeWallets() {
         listaDeWallets = walletController.obtenerWallets();
-        walletsAdapters.setListaDeWallets(listaDeWallets);
+        listaDeImportes = walletController.obtenerWalletsImporte();
+        walletsAdapters.setListaDeWallets(listaDeWallets, listaDeImportes);
         walletsAdapters.notifyDataSetChanged();
     }
 

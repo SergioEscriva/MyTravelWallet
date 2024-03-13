@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import me.spenades.mytravelwallet.ListarWalletsActivity;
 import me.spenades.mytravelwallet.R;
@@ -17,6 +19,7 @@ import me.spenades.mytravelwallet.models.Wallet;
 public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyViewHolder> {
 
     private List<Wallet> listaDeWallets;
+    private ArrayList<Map> listaDeImportes;
 
 
     public WalletsAdapters(List<Wallet> wallets) {
@@ -24,8 +27,9 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
     }
 
 
-    public void setListaDeWallets(List<Wallet> listaDeWallets) {
+    public void setListaDeWallets(List<Wallet> listaDeWallets, ArrayList<Map> listaDeImportes) {
         this.listaDeWallets = listaDeWallets;
+        this.listaDeImportes = listaDeImportes;
     }
 
 
@@ -62,13 +66,9 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
         boolean checkbox_Compartir = (compartirWallet == 1) ? true : false;
 
         // importes Totales de los Wallets
-        System.out.println("INICIOOOOOOOOOOOO " + listaDeWallets);
         ListarWalletsActivity listarWalletsActivity = new ListarWalletsActivity();
-
-        // TODO Faltan las transacciones
-        List<Double> importeTotalWallets = listarWalletsActivity.transaccionesImporteWallet(listaDeWallets);
-        //myViewHolder.tvImporteW.setText(String.valueOf(importeTotalWallets.get(i)) + "€");
-        myViewHolder.tvImporteW.setText(String.valueOf(1.1 + "€"));
+        Map importe = listaDeImportes.get(0);
+        myViewHolder.tvImporteW.setText(String.valueOf(importe.get(walletId) + "€"));
 
     }
 

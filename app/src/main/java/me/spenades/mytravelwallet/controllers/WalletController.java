@@ -14,6 +14,7 @@ import me.spenades.mytravelwallet.models.Wallet;
 
 public class WalletController {
 
+    public ArrayList<Map> resultadolist;
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
     private String NOMBRE_TABLA = "wallet";
 
@@ -66,7 +67,7 @@ public class WalletController {
     }
 
 
-    public ArrayList<Wallet> obtenerWallets() {
+    public ArrayList<Map> obtenerWalletsImporte() {
         ArrayList<Wallet> wallets = new ArrayList<>();
         ArrayList<ArrayList> importeTransaccion = new ArrayList<>();
         Map<Long, Double> resultado = new HashMap<>();
@@ -81,31 +82,20 @@ public class WalletController {
                 ".id = transaccion.walletId";
         Cursor cursor = baseDeDatos.rawQuery(query, null);
 
-
-        /*
-        String[] columnasAConsultar = {"nombre", "descripcion", "propietario", "compartir", "id"};
-        Cursor cursor = baseDeDatos.query(
-                NOMBRE_TABLA,//from wallets
-                columnasAConsultar,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
-         */
-
         if (cursor == null) {
             /*
                 Salimos aquí porque hubo un error, regresar
                 lista vacía
              */
-            return wallets;
+            System.out.println("ERROR NULL");
+
 
         }
         // Si no hay datos, igualmente regresamos la lista vacía
-        if (! cursor.moveToFirst()) return wallets;
+        if (! cursor.moveToFirst()) {
+            System.out.println("ERROR SIN DATOS");
+        }
+
 
         // En caso de que sí haya, iteramos y vamos agregando
         do {
@@ -150,11 +140,72 @@ public class WalletController {
 
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
+
+        /*
         // Unimos el Arraylist de wallets y el Map de importe en un Arraylist.
         ArrayList<ArrayList> walletsImportesTotales = new ArrayList<>();
         walletsImportesTotales.add(wallets);
         walletsImportesTotales.add(resultadoList);
-        return walletsImportesTotales;
+
+         */
+
+
+        return resultadoList;
+    }
+
+
+    public ArrayList<Wallet> obtenerWallets() {
+        ArrayList<Wallet> wallets = new ArrayList<>();
+        ArrayList<ArrayList> importeTransaccion = new ArrayList<>();
+        Map<Long, Double> resultado = new HashMap<>();
+        ArrayList<Map> resultadoList = new ArrayList<>();
+        // readable porque no vamos a modificar, solamente leer
+        SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
+
+        String[] columnasAConsultar = {"nombre", "descripcion", "propietario", "compartir", "id"};
+        Cursor cursor = baseDeDatos.query(
+                NOMBRE_TABLA,//from wallets
+                columnasAConsultar,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+
+        if (cursor == null) {
+            /*
+                Salimos aquí porque hubo un error, regresar
+                lista vacía
+             */
+            return wallets;
+
+        }
+        // Si no hay datos, igualmente regresamos la lista vacía
+        if (! cursor.moveToFirst()) return wallets;
+
+        // En caso de que sí haya, iteramos y vamos agregando
+        do {
+            // El 0 es el número de la columna, como seleccionamos
+
+            String nombreObtenidoDeBD = cursor.getString(0);
+            String descripcionObtenidoDeBD = cursor.getString(1);
+            long propietarioObtenidaDeBD = cursor.getLong(2);
+            int compartirObtenidaDeBD = cursor.getInt(3);
+            long walletIdObtenidoDeBD = cursor.getLong(4);
+
+
+            Wallet walletObtenidaDeBD = new Wallet(nombreObtenidoDeBD, descripcionObtenidoDeBD, propietarioObtenidaDeBD, compartirObtenidaDeBD,
+                    walletIdObtenidoDeBD);
+            wallets.add(walletObtenidaDeBD);
+
+        } while (cursor.moveToNext());
+
+        // Fin del ciclo. Cerramos cursor y regresamos la lista
+        cursor.close();
+
+        return wallets;
     }
 
 }

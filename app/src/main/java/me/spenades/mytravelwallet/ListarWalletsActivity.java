@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import me.spenades.mytravelwallet.adapters.TransaccionesAdapters;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
@@ -30,6 +31,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
     private long walletId;
     private List<Wallet> listaDeWallets;
+    private ArrayList<Map> listaDeImportes;
     private List<Transaccion> listaDeTransaccionesWalletId;
     private RecyclerView recyclerViewWallets, recyclerViewParticipantes;
     private WalletsAdapters walletsAdapters;
@@ -74,6 +76,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
         // se la ponemos al adaptador y configuramos el recyclerView
         listaDeTransaccionesWalletId = new ArrayList<>();
         listaDeWallets = new ArrayList<>();
+        listaDeImportes = new ArrayList<>();
         walletsAdapters = new WalletsAdapters(listaDeWallets);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getApplicationContext());
@@ -195,49 +198,10 @@ public class ListarWalletsActivity extends AppCompatActivity {
         if (walletsAdapters == null) return;
 
         listaDeWallets = walletController.obtenerWallets();
-        walletsAdapters.setListaDeWallets(listaDeWallets);
+        listaDeImportes = walletController.obtenerWalletsImporte();
+        walletsAdapters.setListaDeWallets(listaDeWallets, listaDeImportes);
         walletsAdapters.notifyDataSetChanged();
-        System.out.println("refrescar " + walletId);
-        System.out.println("refrescar s " + this.walletId);
-        listaDeTransaccionesWalletId = transaccionController.obtenerTransacciones(walletId);
-        System.out.println("LLesta " + listaDeTransaccionesWalletId);
-    }
 
-
-    // TODO hay que recuperar las transacciones
-    public List<Double> transaccionesImporteWallet(List<Wallet> listaDeWallets) {
-        System.out.println("transaccionesImporteWallet1");
-        System.out.println("transaccionesImporteWallet2 " + listaDeWallets);
-        List<Double> importeTotalWallet = new ArrayList<>();
-        double total = 0.1;
-        long walletIdActivo = 0;
-        for (Wallet wallet : listaDeWallets) {
-            walletIdActivo = wallet.getWalletId();
-            //total = sumarTransacciones(walletIdActivo);
-            walletId = walletIdActivo;
-            refrescarListaDeWallets();
-        }
-        importeTotalWallet.add(total);
-        System.out.println("transaccionesImporteWallet3 " + walletId);
-
-
-        return importeTotalWallet;
-    }
-
-
-    public Double sumarTransacciones(long walletIdTransaccion) {
-        System.out.println("sumarTransacciones1");
-        //List<Transaccion> listaDeTransaccionesWalletId = new ArrayList<>();
-        //TransaccionController transaccionController = new TransaccionController(ListarWalletsActivity.this);
-
-        System.out.println("sumarTransacciones2 " + listaDeTransaccionesWalletId);
-        double total = 0.0;
-        for (Transaccion transaccion : listaDeTransaccionesWalletId) {
-            total += Double.valueOf(transaccion.getImporte());
-        }
-        //totales.add(total);
-        System.out.println("sumarTransacciones2 " + total);
-        return total;
     }
 
 }
