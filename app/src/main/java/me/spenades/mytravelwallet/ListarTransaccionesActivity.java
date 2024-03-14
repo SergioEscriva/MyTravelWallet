@@ -16,12 +16,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.spenades.mytravelwallet.adapters.ResumenAdapters;
 import me.spenades.mytravelwallet.adapters.TransaccionesAdapters;
 import me.spenades.mytravelwallet.controllers.ParticipanteController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
 import me.spenades.mytravelwallet.utilities.ResolverDeudaActivity;
 import me.spenades.mytravelwallet.utilities.UsuarioUtility;
@@ -31,9 +31,9 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
     private List<Transaccion> listaDeTransaccions;
     private List<Participante> listaDeParticipantes;
-    private RecyclerView recyclerViewTransacciones, recyclerViewResumen;
+    private RecyclerView recyclerViewTransacciones;
+    // private FrameLayout frameLResumen;
     private TransaccionesAdapters transaccionesAdapters;
-    private ResumenAdapters resumenAdapters;
     private TransaccionController transaccionController;
     private ParticipanteController participanteController;
     private UsuarioUtility usuarioUtility;
@@ -41,7 +41,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     private FloatingActionButton fabResolverDeudas;
     private long walletId;
     private String walletName;
-    private TextView tvWalletActivo;
+    private TextView tvWalletActivo, tvTotal, tvDeberiaPagar, tvMiembros;
 
 
     @Override
@@ -69,12 +69,13 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
 
         // Instanciar vistas
-        recyclerViewResumen = findViewById(R.id.recyclerViewResumen);
         recyclerViewTransacciones = findViewById(R.id.recyclerViewTransacciones);
         fabAgregarTransaccion = findViewById(R.id.fabAgregarTransaccion);
         fabResolverDeudas = findViewById(R.id.fabResolverDeudas);
         tvWalletActivo = findViewById(R.id.tvWalletActivo);
-
+        tvTotal = findViewById(R.id.tvTotal);
+        tvDeberiaPagar = findViewById(R.id.tvDeberiaPagar);
+        tvMiembros = findViewById(R.id.tvMiembros);
 
         // Por defecto es una lista vacía,
         listaDeTransaccions = new ArrayList<>();
@@ -89,73 +90,82 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         recyclerViewTransacciones.setItemAnimator(new DefaultItemAnimator());
         recyclerViewTransacciones.setAdapter(transaccionesAdapters);
 
-        RecyclerView.LayoutManager mLayoutManagerBottom =
-                new LinearLayoutManager(getApplicationContext());
-        resumenAdapters = new ResumenAdapters(listaDeTransaccions, walletId, listaDeParticipantes);
-        recyclerViewResumen.setLayoutManager(mLayoutManagerBottom);
-        recyclerViewResumen.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewResumen.setAdapter(resumenAdapters);
         tvWalletActivo.setText("Wallet " + this.walletName);
+
+        //resumenAdapters = new ResumenAdapters(listaDeTransaccions, walletId, listaDeParticipantes);
+        // resumenAdapters.notifyDataSetChanged(); //setLayoutManager(frameLayout);
+        // resumenAdapters.setItemAnimator(new DefaultItemAnimator());
+        // resumenAdapters.setAdapter(resumenAdapters);
+
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeTransacciones();
 
+        Operaciones objOperaciones = new Operaciones();
+        String totalTransacciones = objOperaciones.sumaTransacciones(listaDeTransaccions,
+                listaDeParticipantes);
+        List<String> siguientePagador = objOperaciones.proximoPagador();
+        List<String> miembros = objOperaciones.listaDeMiembros();
+        String importeTotal = totalTransacciones + "€";
+        tvTotal.setText(importeTotal);
+        tvDeberiaPagar.setText(String.valueOf(siguientePagador.get(1)));
+        tvMiembros.setText(String.valueOf(miembros));
         // Listener de los clicks en la lista TRANSACCIONES
         recyclerViewTransacciones.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewTransacciones,
                 new RecyclerTouchListener.ClickListener() {
 
-            @Override // Un toque Editar
-            public void onClick(View view, int position) {
-                // Pasar a la actividad EditarTransaccionesActivity.java
-                Transaccion transaccionSeleccionada = listaDeTransaccions.get(position);
-                String transaccionId = String.valueOf(transaccionSeleccionada.getId());
+                    @Override // Un toque Editar
+                    public void onClick(View view, int position) {
+                        // Pasar a la actividad EditarTransaccionesActivity.java
+                        Transaccion transaccionSeleccionada = listaDeTransaccions.get(position);
+                        String transaccionId = String.valueOf(transaccionSeleccionada.getId());
 
-                Intent intent = new Intent(ListarTransaccionesActivity.this,
-                        EditarTransaccionesActivity.class);
-                intent.putExtra("transaccionId", transaccionId);
-                intent.putExtra("descripcionTransaccion", transaccionSeleccionada.getDescripcion());
-                intent.putExtra("importeTransaccion", transaccionSeleccionada.getImporte());
-                intent.putExtra("nombrePagadorTransaccion",
-                        transaccionSeleccionada.getNombrePagador());
-                intent.putExtra("pagadorIdTransaccion", transaccionSeleccionada.getPagadorId());
-                intent.putExtra("participantesTransaccion",
-                        transaccionSeleccionada.getParticipantes());
-                intent.putExtra("fechaTransaccion", transaccionSeleccionada.getFecha());
-                intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());
-                intent.putExtra("walletId", String.valueOf(walletId));
-                intent.putExtra("walletName", walletName);
-                intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
-                intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
-                startActivity(intent);
-            }
+                        Intent intent = new Intent(ListarTransaccionesActivity.this,
+                                EditarTransaccionesActivity.class);
+                        intent.putExtra("transaccionId", transaccionId);
+                        intent.putExtra("descripcionTransaccion", transaccionSeleccionada.getDescripcion());
+                        intent.putExtra("importeTransaccion", transaccionSeleccionada.getImporte());
+                        intent.putExtra("nombrePagadorTransaccion",
+                                transaccionSeleccionada.getNombrePagador());
+                        intent.putExtra("pagadorIdTransaccion", transaccionSeleccionada.getPagadorId());
+                        intent.putExtra("participantesTransaccion",
+                                transaccionSeleccionada.getParticipantes());
+                        intent.putExtra("fechaTransaccion", transaccionSeleccionada.getFecha());
+                        intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());
+                        intent.putExtra("walletId", String.valueOf(walletId));
+                        intent.putExtra("walletName", walletName);
+                        intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
+                        intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
+                        startActivity(intent);
+                    }
 
 
-            @Override // Un toque largo
-            public void onLongClick(View view, int position) {
-                final Transaccion transaccionParaEliminar = listaDeTransaccions.get(position);
-                AlertDialog dialog = new AlertDialog
-                        .Builder(ListarTransaccionesActivity.this)
-                        .setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
+                    @Override // Un toque largo
+                    public void onLongClick(View view, int position) {
+                        final Transaccion transaccionParaEliminar = listaDeTransaccions.get(position);
+                        AlertDialog dialog = new AlertDialog
+                                .Builder(ListarTransaccionesActivity.this)
+                                .setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                transaccionController.eliminarTransaccion(transaccionParaEliminar);
-                                refrescarListaDeTransacciones();
-                            }
-                        })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        transaccionController.eliminarTransaccion(transaccionParaEliminar);
+                                        refrescarListaDeTransacciones();
+                                    }
+                                })
+                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setTitle("Confirmar")
-                        .setMessage("¿Eliminar a la transacción " + transaccionParaEliminar.getDescripcion() + "?")
-                        .create();
-                dialog.show();
-            }
-        }) {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setTitle("Confirmar")
+                                .setMessage("¿Eliminar a la transacción " + transaccionParaEliminar.getDescripcion() + "?")
+                                .create();
+                        dialog.show();
+                    }
+                }) {
 
             @Override
             public void onClick(View view, int position) {
@@ -270,10 +280,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
         transaccionesAdapters.setListaDeTransacciones(listaDeTransaccions);
         transaccionesAdapters.notifyDataSetChanged();
-        resumenAdapters.setListaDeTransacciones(listaDeTransaccions, walletId,
-                listaDeParticipantes);
-        resumenAdapters.notifyDataSetChanged();
-
     }
 
 

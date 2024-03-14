@@ -20,7 +20,7 @@ import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.PagadoresAdapters;
 import me.spenades.mytravelwallet.models.Participante;
 
-public class PopUpClassPagador extends PopupWindow {
+public class PopUpPagadorActivity extends PopupWindow {
 
     private static TextView etPagadorId, etNombrePagador;
     public String nombrePagador;
@@ -50,6 +50,7 @@ public class PopUpClassPagador extends PopupWindow {
 
         View popupView = inflater.inflate(R.layout.activity_pagador, null); // edición
         View activityTransactionView = inflater.inflate(R.layout.activity_transaction, null);
+
         //agregar
 
 
@@ -87,45 +88,45 @@ public class PopUpClassPagador extends PopupWindow {
         recyclerViewPagadores.addOnItemTouchListener(new RecyclerTouchListener(popupView.getContext(), recyclerViewPagadores,
                 new RecyclerTouchListener.ClickListener() {
 
-            @Override // Un toque para seleccionar pagador
-            public void onClick(View view, int position) {
+                    @Override // Un toque para seleccionar pagador
+                    public void onClick(View view, int position) {
 
-                // Pasar a la actividad editarwallet con el nombre elegido.
-                final Participante pagadorActivo = listaDeParticipantes.get(position);
-                nombrePagador = pagadorActivo.getNombre();
-                pagadorId = String.valueOf(pagadorActivo.getUserId());
+                        // Pasar a la actividad editarwallet con el nombre elegido.
+                        final Participante pagadorActivo = listaDeParticipantes.get(position);
+                        nombrePagador = pagadorActivo.getNombre();
+                        pagadorId = String.valueOf(pagadorActivo.getUserId());
 
-                if (activity == "agregar") {
-                    //Recuperamos el textview de ActivarTransaccionesActivity y le ponemos el valor.
-                    AgregarTransaccionActivity agregarTransaccionesActivity =
-                            new AgregarTransaccionActivity();
-                    TextView erNombrePagador = agregarTransaccionesActivity.retornaNombrePagador();
-                    TextView erPagadorId = agregarTransaccionesActivity.retornaPagadorId();
-                    erPagadorId.setText(pagadorId);
-                    erNombrePagador.setText(nombrePagador);
-                    popupWindow.dismiss();
-                } else {
-                    // Recuperamos el textview de EditarTransaccionesActivity y le ponemos el valor.
-                    EditarTransaccionesActivity editarTransaccionesActivity =
-                            new EditarTransaccionesActivity();
-                    TextView erNombrePagador = editarTransaccionesActivity.retornaNombrePagador();
-                    TextView erPagadorId = editarTransaccionesActivity.retornaPagadorId();
-                    erPagadorId.setText(pagadorId);
-                    erNombrePagador.setText(nombrePagador);
-                    popupWindow.dismiss();
-                }
-                popupWindow.dismiss();
+                        if (activity == "agregar") {
+                            //Recuperamos el textview de ActivarTransaccionesActivity y le ponemos el valor.
+                            AgregarTransaccionActivity agregarTransaccionesActivity =
+                                    new AgregarTransaccionActivity();
+                            TextView erNombrePagador = agregarTransaccionesActivity.retornaNombrePagador();
+                            TextView erPagadorId = agregarTransaccionesActivity.retornaPagadorId();
+                            erPagadorId.setText(pagadorId);
+                            erNombrePagador.setText(nombrePagador);
+                            popupWindow.dismiss();
+                        } else {
+                            // Recuperamos el textview de EditarTransaccionesActivity y le ponemos el valor.
+                            EditarTransaccionesActivity editarTransaccionesActivity =
+                                    new EditarTransaccionesActivity();
+                            TextView erNombrePagador = editarTransaccionesActivity.retornaNombrePagador();
+                            TextView erPagadorId = editarTransaccionesActivity.retornaPagadorId();
+                            erPagadorId.setText(pagadorId);
+                            erNombrePagador.setText(nombrePagador);
+                            popupWindow.dismiss();
+                        }
+                        popupWindow.dismiss();
 
-            }
+                    }
 
 
-            @Override
-            public void onLongClick(View view, int position) {
-                popupWindow.dismiss();
+                    @Override
+                    public void onLongClick(View view, int position) {
+                        popupWindow.dismiss();
 
-                popupWindow.dismiss();
-            }
-        }) {
+                        popupWindow.dismiss();
+                    }
+                }) {
 
             @Override
             public void onClick(View view, int position) {

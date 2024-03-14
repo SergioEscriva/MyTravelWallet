@@ -30,7 +30,7 @@
         <activity android:name="AgregarWalletActivity" />
         <activity android:name="EditarWalletActivity" />
         <activity android:name=".utilities.ResolverDeudaActivity" />
-        <activity android:name=".utilities.PopUpClassPagador" />
+        <activity android:name=".utilities.PopUpPagadorActivity" />
     </application>
 
 </manifest>

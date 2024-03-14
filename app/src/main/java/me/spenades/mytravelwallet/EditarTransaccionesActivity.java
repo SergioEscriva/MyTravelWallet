@@ -26,14 +26,14 @@ import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.utilities.DatePickerFragment;
-import me.spenades.mytravelwallet.utilities.PopUpClassPagador;
+import me.spenades.mytravelwallet.utilities.PopUpPagadorActivity;
 import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
 public class EditarTransaccionesActivity extends AppCompatActivity {
 
     private static EditText etPagadorId, etNombrePagador;
     private static String nuevosParticipan;
-    public PopUpClassPagador f;
+    public PopUpPagadorActivity f;
 
     private EditText etDescripcion, etImporte, etCategoria, etTransaccionFecha;
     private TextView evTransaccionTitulo;
@@ -57,7 +57,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
-        f = new PopUpClassPagador();
+        f = new PopUpPagadorActivity();
 
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
@@ -142,8 +142,8 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                PopUpClassPagador popUpClassPagador = new PopUpClassPagador();
-                popUpClassPagador.showPopupWindow(v, listaDeParticipantes, "editar");
+                PopUpPagadorActivity popUpPagadorActivity = new PopUpPagadorActivity();
+                popUpPagadorActivity.showPopupWindow(v, listaDeParticipantes, "editar");
                 //return true;
             }
         });

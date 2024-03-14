@@ -68,7 +68,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         refrescarListaDeTransacciones();
 
         // Ahora declaramos las vistas
-        tvResuelto = findViewById(R.id.tvResuelto);
         tvResuelto2 = findViewById(R.id.tvResuelto2);
         solucionFinal();
     }
