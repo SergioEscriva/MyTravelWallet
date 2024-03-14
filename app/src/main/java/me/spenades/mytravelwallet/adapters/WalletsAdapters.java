@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import me.spenades.mytravelwallet.ListarWalletsActivity;
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.models.Wallet;
 
@@ -66,7 +65,7 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
         boolean checkbox_Compartir = (compartirWallet == 1) ? true : false;
 
         // importes Totales de los Wallets
-        ListarWalletsActivity listarWalletsActivity = new ListarWalletsActivity();
+        // ListarWalletsActivity listarWalletsActivity = new ListarWalletsActivity();
         Map importe = listaDeImportes.get(0);
         myViewHolder.tvImporteW.setText(String.valueOf(importe.get(walletId) + "€"));
 

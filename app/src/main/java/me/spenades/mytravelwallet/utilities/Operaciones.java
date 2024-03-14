@@ -50,7 +50,7 @@ public class Operaciones {
         return String.valueOf(total);
     }
 
-
+/*
     public List<String> sumaTransaccionesWallet(Long walletId, List<Wallet> listaDeWallets) {
         List<String> importeFinalWallet = new ArrayList<>();
 
@@ -62,6 +62,8 @@ public class Operaciones {
         }
         return importeFinalWallet;
     }
+
+ */
 
 
     public List<String> proximoPagador() {
@@ -131,7 +133,7 @@ public class Operaciones {
         return datos;
     }
 
-
+/*
     public double aPagarPorParticipante(Transaccion transaccion) {
 
         // Calculamos la deuda total
@@ -143,7 +145,9 @@ public class Operaciones {
         return importePorParticipante;
     }
 
+ */
 
+/*
     // Se suma que ha pagado cada participante
     public ArrayList<Map> gastosParticipantesTransacciones() {
         ArrayList<Map> gastoParticipantes = new ArrayList<>();
@@ -195,6 +199,8 @@ public class Operaciones {
         return gastoParticipantes;
     }
 
+ */
+
 
     public double bigDecimal(double numero) {
         if (numero < 0) {
@@ -216,29 +222,5 @@ public class Operaciones {
         }
         return lista;
     }
-
-
-     /*
-    public void fecha() {
-
-        GregorianCalendar dd = new GregorianCalendar();
-        //SI NO SETEO LA FECHA EL CONSTRUCTOR POR DEFECTO
-        //LE PONE LA FECHA ACTUAL
-        dd.set(GregorianCalendar.DATE, 15);
-        dd.set(GregorianCalendar.MONTH, 11);
-        dd.set(GregorianCalendar.YEAR, 1980);
-        //EL MES SE CUENTA DE 0 A 11, DICIEMBRE ES EL 11 ETC.
-        System.out.println(dd.getTime());
-        System.out.println("día:" + dd.get(GregorianCalendar.DATE));
-        System.out.println("mes:" + (dd.get(GregorianCalendar.MONTH) + 1));
-        System.out.println("año:" + dd.get(GregorianCalendar.YEAR));
-
-
-        //Fijate que el mes se cuenta de 0 a 11 y hay que sumar 1
-    }
-
-      */
-
-
 }
 

@@ -106,7 +106,7 @@ public class WalletController {
             long propietarioObtenidaDeBD = cursor.getLong(2);
             int compartirObtenidaDeBD = cursor.getInt(3);
             long walletIdObtenidoDeBD = cursor.getLong(4);
-            double importeWalletId = cursor.getLong(5);
+            double importeWalletId = cursor.getDouble(5);
 
 
             Wallet walletObtenidaDeBD = new Wallet(nombreObtenidoDeBD, descripcionObtenidoDeBD, propietarioObtenidaDeBD, compartirObtenidaDeBD,
@@ -125,7 +125,7 @@ public class WalletController {
         ArrayList<Wallet> walletsImporte = new ArrayList<>();
         for (Wallet wallet : wallets) {
             long walletId = wallet.getWalletId();
-            double importeViejo = 0;
+            double importeViejo = 0.0;
             for (ArrayList lista : importeTransaccion) {
                 long walletIdTransaccion = Long.parseLong(lista.get(0).toString());
                 if (walletId == walletIdTransaccion) {
