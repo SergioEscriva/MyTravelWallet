@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -138,18 +137,17 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         etNombrePagador.setText(String.valueOf(transaccion.getNombrePagador()));
         evTransaccionTitulo.setText("Wallet " + walletName);
 
-
         // Listener del PopUp para elegir pagador.
-        etNombrePagador.setOnTouchListener(new View.OnTouchListener() {
+        etNombrePagador.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 PopUpClassPagador popUpClassPagador = new PopUpClassPagador();
                 popUpClassPagador.showPopupWindow(v, listaDeParticipantes, "editar");
-                return true;
+                //return true;
             }
-
         });
+
 
         // Creamos el picker de fecha
         // https://programacionymas.com/blog/como-pedir-fecha-android-usando-date-picker
