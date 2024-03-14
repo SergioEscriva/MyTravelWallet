@@ -9,7 +9,7 @@ android {
         targetSdkVersion 31
         versionCode 1
         versionName "beta3.0"
-        resConfigs "es_ES"
+        resourceConfigurations += ['es_ES']
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
