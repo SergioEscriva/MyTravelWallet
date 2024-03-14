@@ -3,17 +3,4 @@
 
 <resources>
     <string name="app_name">My Travel Wallet</string>
-
-
-    <string-array name="countries_array">
-        <item>Alimentación</item>
-        <item>Bebidas</item>
-        <item>Gasolina</item>
-        <item>Restaurante</item>
-        <item>Comida</item>
-        <item>Cena</item>
-        <item>Transporte</item>
-        <item>Otros</item>
-        ...
-    </string-array>
 </resources>

@@ -80,6 +80,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         etPagadorId.setText(String.valueOf(usuarioIdActivo));
         String transaccionTitulo = "Wallet" + walletName;
         evTransaccionTitulo.setText(transaccionTitulo);
+        etCategoria.setText("Varios");
 
         // Lista Participan Por defecto es una lista vacía,
         participanAdapters = new ParticipanAdapters(listaDeParticipantes, listaDeParticipantes);
@@ -90,11 +91,14 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         recyclerViewParticipan.setLayoutManager(mLayoutManagerParticipan);
         recyclerViewParticipan.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipan.setAdapter(participanAdapters);
+
+        //TODO Categoria
         //Adaptador del autoCompletado de Categoria
         AutoCompleteTextView textView = (AutoCompleteTextView) etCategoria;
-        String[] countries = getResources().getStringArray(R.array.countries_array);
+        String[] categorias = {"Bebida", "Restaurante", "Comida", "Cena", "Gasolina", "Supermercado"};
+        String[] categoria = categorias;
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, countries);
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categoria);
         textView.setAdapter(adapter);
 
         //Refrescamos datos del RecycleView

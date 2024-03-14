@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -76,11 +77,10 @@ public class PopUpPagadorActivity extends PopupWindow {
         // listaDeParticipantes en el popupView
         pagadoresAdapters = new PagadoresAdapters(listaDeParticipantes);
         RecyclerView.LayoutManager mLayoutManager =
-                new LinearLayoutManager(popupView.getContext()); //.getApplicationContext());
+                new LinearLayoutManager(popupView.getContext());
         recyclerViewPagadores.setLayoutManager(mLayoutManager);
         recyclerViewPagadores.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPagadores.setAdapter(pagadoresAdapters);
-        //setContentView(view); //Quitado momentaneamente y funciona
 
 
         // Seleccionar pagador de la lista
@@ -150,10 +150,11 @@ public class PopUpPagadorActivity extends PopupWindow {
 
     });
     */
-        /*
-        // clickven parte inactiva de la pantalla popup
+
+        // click en parte inactiva de la pantalla popup
 
         popupView.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
             public boolean onTouch(View view, MotionEvent event) {
 
@@ -163,7 +164,6 @@ public class PopUpPagadorActivity extends PopupWindow {
             }
         });
 
-         */
 
     }
 

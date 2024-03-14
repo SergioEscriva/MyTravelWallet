@@ -116,11 +116,13 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         recyclerViewParticipan.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipan.setAdapter(participanAdapters);
 
+        //TODO Categoria
         //Adaptador del autoCompletado de Categoria
         AutoCompleteTextView textView = (AutoCompleteTextView) etCategoria;
-        String[] countries = getResources().getStringArray(R.array.countries_array);
+        String[] categorias = {"Bebida", "Restaurante", "Comida", "Cena", "Gasolina", "Supermercado"};
+        String[] categoria = categorias;
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, countries);
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categoria);
         textView.setAdapter(adapter);
 
 
