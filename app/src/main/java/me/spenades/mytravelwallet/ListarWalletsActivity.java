@@ -153,9 +153,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(ListarWalletsActivity.this)
                         .setTitle("Acerca de")
-                        .setMessage("My Wallet Travel, una aplicación fin proyecto DAM para " +
-                                "Universae\n\nIcons www.flaticon.com, y plantilla código de www" +
-                                ".parzibyte.me")
+                        .setMessage("My Wallet Travel, una aplicación fin proyecto DAM para Universae")
                         .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
 
                             @Override

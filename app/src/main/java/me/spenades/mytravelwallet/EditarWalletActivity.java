@@ -1,6 +1,7 @@
 package me.spenades.mytravelwallet;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -26,6 +27,7 @@ import me.spenades.mytravelwallet.controllers.WalletController;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Usuario;
 import me.spenades.mytravelwallet.models.Wallet;
+import me.spenades.mytravelwallet.utilities.ResolverDeudaActivity;
 
 
 public class EditarWalletActivity extends AppCompatActivity {
@@ -192,34 +194,68 @@ public class EditarWalletActivity extends AppCompatActivity {
             }
         });
 
+
         // Eliminar Wallet siempre que estén saldadas las cuentas. TODO
         btnEliminarWallet.setOnClickListener(new View.OnClickListener() {
 
             @Override // Un toque Eliminamos Wallet
             public void onClick(View view) {
+                ArrayList<Map> importe = walletController.obtenerWalletsImporte();
+                // Iteramos sobre la lista de importes la pasamos a String y luego a Double.
+                double importeWallet = Double.valueOf(importe.iterator().next().get(walletId).toString());
+                if (importeWallet > 0) {
+                    AlertDialog dialog = new AlertDialog
+                            .Builder(EditarWalletActivity.this)
+                            .setPositiveButton("Resolver Deuda", new DialogInterface.OnClickListener() {
 
-                AlertDialog dialog = new AlertDialog
-                        .Builder(EditarWalletActivity.this)
-                        .setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Simplemente cambiamos de actividad
+                                    Intent intent = new Intent(EditarWalletActivity.this,
+                                            ResolverDeudaActivity.class);
+                                    intent.putExtra("walletId", walletId);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                walletController.eliminarWallet(walletId);
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setTitle("Borrar")
+                            .setMessage("El Wallet " + nombreWallet + " solo se puede eliminar \n si las dedudas están RESUELTAS.")
+                            .create();
+                    refrescarListaDeWallets();
+                    dialog.show();
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setTitle("Confirmar")
-                        .setMessage("¿Eliminar el Wallet " + nombreWallet + "?")
-                        .create();
-                refrescarListaDeWallets();
-                dialog.show();
+
+                } else {
+                    AlertDialog dialog = new AlertDialog
+                            .Builder(EditarWalletActivity.this)
+                            .setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    walletController.eliminarWallet(walletId);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setTitle("Confirmar")
+                            .setMessage("¿Eliminar el Wallet " + nombreWallet + "?")
+                            .create();
+
+                    refrescarListaDeWallets();
+                    dialog.show();
+                }
             }
         });
 

@@ -104,6 +104,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="25dp"
+        android:clickable="true"
+        android:contentDescription="Eliminar solo si están saldadas las cuentas."
         android:text="Eliminar"
         app:layout_constraintLeft_toRightOf="@id/btn_agregar_wallet"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Compartir" />

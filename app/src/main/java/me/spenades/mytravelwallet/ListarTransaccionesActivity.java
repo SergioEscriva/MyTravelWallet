@@ -220,7 +220,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                
+
                 // Simplemente cambiamos de actividad
                 Intent intent = new Intent(ListarTransaccionesActivity.this,
                         ResolverDeudaActivity.class);
@@ -236,8 +236,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(ListarTransaccionesActivity.this)
                         .setTitle("Acerca de")
-                        .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y " +
-                                "plantilla código de www.parzibyte.me")
+                        .setMessage("My Wallet Travel, una aplicación fin proyecto DAM para Universae")
                         .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
 
                             @Override
