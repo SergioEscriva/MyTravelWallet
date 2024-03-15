@@ -33,7 +33,6 @@ public class AgregarWalletActivity extends AppCompatActivity {
     private RecyclerView recyclerViewParticipantes;
     private Button btnAgregarWallet, btnAgregarUsuario;
     private EditText etNombre, etDescripcion, etPropietarioId, etAddParticipante, etWaletId;
-    private CheckBox checkBoxCompartir;
     private FloatingActionButton btnCancelarNuevoWallet;
     private long walletId;
     private long userId;

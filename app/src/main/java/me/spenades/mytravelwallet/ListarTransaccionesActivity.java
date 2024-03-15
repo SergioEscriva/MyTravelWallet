@@ -46,7 +46,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // código es generado automáticamente
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         setContentView(R.layout.activity_main_transactions);
@@ -56,7 +55,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         String usuarioActivo = extras.getString("usuarioActivo");
 
         // Recuperar datos que enviaron
-        // Si no hay datos (cosa rara) salimos
         if (extras == null) {
             finish();
             return;
@@ -92,12 +90,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         tvWalletActivo.setText("Wallet " + this.walletName);
 
-        //resumenAdapters = new ResumenAdapters(listaDeTransaccions, walletId, listaDeParticipantes);
-        // resumenAdapters.notifyDataSetChanged(); //setLayoutManager(frameLayout);
-        // resumenAdapters.setItemAnimator(new DefaultItemAnimator());
-        // resumenAdapters.setAdapter(resumenAdapters);
-
-
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeTransacciones();
 
@@ -110,12 +102,14 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         tvTotal.setText(importeTotal);
         tvDeberiaPagar.setText(String.valueOf(siguientePagador.get(1)));
         tvMiembros.setText(String.valueOf(miembros));
+
         // Listener de los clicks en la lista TRANSACCIONES
         recyclerViewTransacciones.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewTransacciones,
                 new RecyclerTouchListener.ClickListener() {
 
                     @Override // Un toque Editar
                     public void onClick(View view, int position) {
+
                         // Pasar a la actividad EditarTransaccionesActivity.java
                         Transaccion transaccionSeleccionada = listaDeTransaccions.get(position);
                         String transaccionId = String.valueOf(transaccionSeleccionada.getId());
@@ -174,7 +168,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         });
 
         // Listener del Añadir transacción
-
         fabAgregarTransaccion.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -227,6 +220,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                
                 // Simplemente cambiamos de actividad
                 Intent intent = new Intent(ListarTransaccionesActivity.this,
                         ResolverDeudaActivity.class);

@@ -18,23 +18,18 @@ import android.widget.Toast;
 import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.ParticipanAdapters;
-import me.spenades.mytravelwallet.controllers.ParticipanController;
 import me.spenades.mytravelwallet.controllers.ParticipanteController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
-import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.utilities.DatePickerFragment;
-import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.PopUpPagadorActivity;
-import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
 public class AgregarTransaccionActivity extends AppCompatActivity {
 
     private static EditText etPagadorId, etNombrePagador;
     private static String nuevosParticipan;
-    public PopUpPagadorActivity f;
-
+    public PopUpPagadorActivity popUp;
     private EditText etDescripcion, etImporte, etCategoria, etTransaccionFecha;
     private TransaccionController transaccionController;
     private ParticipanteController participanteController;
@@ -46,9 +41,9 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_add_transaction);
+
         setContentView(R.layout.activity_transaction); //Se utiliza el mismo layer en edit/add
-        f = new PopUpPagadorActivity();
+        popUp = new PopUpPagadorActivity();
 
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
@@ -60,12 +55,8 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         // Definir el controlador
         transaccionController = new TransaccionController(AgregarTransaccionActivity.this);
         participanteController = new ParticipanteController(AgregarTransaccionActivity.this);
-        ParticipanController participanController = new ParticipanController(AgregarTransaccionActivity.this);
-        UsuarioController usuarioController = new UsuarioController(AgregarTransaccionActivity.this);
-        UsuarioUtility usuarioUtility = new UsuarioUtility();
 
         // Ahora declaramos las vistas
-        RecyclerView recyclerViewPagadores = findViewById(R.id.recyclerViewParticipan);
         RecyclerView recyclerViewParticipan = findViewById(R.id.recyclerViewParticipan);
         etDescripcion = findViewById(R.id.etTransaccionDescripcion);
         TextView evTransaccionTitulo = findViewById(R.id.evTransaccionDescripcion);
@@ -104,9 +95,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         //Refrescamos datos del RecycleView
         refrescarListaDeParticipantes();
 
-        Operaciones operarFecha = new Operaciones();
-
-
         // Listener del PopUp para elegir pagador.
         etNombrePagador.setOnClickListener(new View.OnClickListener() {
 
@@ -114,7 +102,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 PopUpPagadorActivity popUpPagadorActivity = new PopUpPagadorActivity();
                 popUpPagadorActivity.showPopupWindow(v, listaDeParticipantes, "agregar");
-                //return true;
             }
         });
 
@@ -125,9 +112,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showDatePickerDialog();
-
             }
-
         });
 
 
@@ -136,12 +121,9 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
-
                 finish();
             }
         });
-
 
         // Listener del click del botón para salir, simplemente cierra la actividad
         btnCancelarTransaccion.setOnClickListener(new View.OnClickListener() {
@@ -273,7 +255,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 System.out.println(selectedDate);
             }
         });
-
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }

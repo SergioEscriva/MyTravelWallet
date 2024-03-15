@@ -13,15 +13,17 @@ import me.spenades.mytravelwallet.models.Usuario;
 
 
 public class ParticipanController {
+
     private UsuarioController usuarioController;
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
     private String NOMBRE_TABLA = "wallet_usuario";
-    //private String NOMBRE_TABLA_TRANSACCION = "transaccion";
+
 
     public ParticipanController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
         usuarioController = new UsuarioController(contexto);
     }
+
 
     public int eliminarParticipante(Participante participante) {
 
@@ -29,6 +31,7 @@ public class ParticipanController {
         String[] argumentos = {String.valueOf(participante.getId())};
         return baseDeDatos.delete(NOMBRE_TABLA, "id = ?", argumentos);
     }
+
 
     public long nuevoParticipante(Participante participante) {
         // writable porque vamos a insertar
@@ -57,6 +60,7 @@ public class ParticipanController {
         return participanteYaExiste;
     }
 
+
     public int guardarCambios(Participante participanteEditado) {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();
@@ -70,6 +74,7 @@ public class ParticipanController {
         String[] argumentosParaActualizar = {String.valueOf(participanteEditado.getId())};
         return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
     }
+
 
     public ArrayList<Participante> obtenerParticipan(long transaccionId) {
 
@@ -93,7 +98,7 @@ public class ParticipanController {
             return participanFinal;
         }
         // Si no hay datos, igualmente regresamos la lista vacía
-        if (!cursor.moveToFirst()) return participanFinal;
+        if (! cursor.moveToFirst()) return participanFinal;
 
         //Recuperamos participan en el pago por su ID y lo iteramos para recuperar su nombre.
         String participaDb1 = String.valueOf(cursor.getString(0));

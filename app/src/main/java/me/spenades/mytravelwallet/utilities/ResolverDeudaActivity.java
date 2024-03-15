@@ -18,7 +18,6 @@ import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.controllers.ParticipanController;
 import me.spenades.mytravelwallet.controllers.ParticipanteController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
-import me.spenades.mytravelwallet.controllers.WalletController;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
 
@@ -31,10 +30,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private TransaccionController transaccionController;
     private ParticipanteController participanteController;
     private ParticipanController participanController;
-    private WalletController walletController;
-    private Participante participante;
-
-
     private long walletId;
     private TextView tvResuelto, tvResuelto2;
 
@@ -49,6 +44,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         long usuarioIdActivo = extras.getInt("usuarioIdActivo");
         String usuarioActivo = extras.getString("usuarioActivo");
         this.walletId = extras.getInt("walletId") + 1;
+
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {
             finish();
@@ -182,7 +178,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         // Calculamos la deuda total
         int numeroParticipantes = listaDeParticipan.size();
         double importeTransaccion = Double.valueOf(transaccion.getImporte());
-        //double importePorParticipante = bigDecimal(importeTransaccion / numeroParticipantes);
         double importePorParticipante =
                 bigDecimal(bigDecimal(importeTransaccion) / bigDecimal(numeroParticipantes + 0.0));
         return importePorParticipante;
@@ -244,6 +239,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                     // Si el receptor debe recibir más de lo que el pagador tiene que pagar
                     if (cantidadARecibir > Math.abs(cantidadAPagar)) {
                         double cantidadAPagarIni = cantidadAPagar;
+
                         // El pagador paga la cantidad que debe al receptor
                         ArrayList<String> resoluciones = new ArrayList<>();
                         resoluciones.add(String.valueOf(pagador));
@@ -252,6 +248,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                         resoluciones.add(String.valueOf(usuarioIdNombbre.get(cobrador)));
                         resoluciones.add(String.valueOf(cantidadAPagar));
                         soluciones.add(resoluciones);
+
                         //Actualizamos la cantidad que el receptor tiene que recibir
                         double recibirCalculado =
                                 bigDecimal(cantidadARecibir + cantidadAPagar);
@@ -270,6 +267,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                     }
                     if (Math.abs(cantidadAPagar) > 0) {
                         double cantidadAPagarIni = cantidadAPagar;
+
                         // El pagador paga la cantidad que el receptor tiene que recibir
                         ArrayList<String> resoluciones = new ArrayList<>();
                         resoluciones.add(String.valueOf(pagador));
@@ -309,9 +307,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         for (ArrayList solucionFinal : soluciones) {
             double importe = bigDecimal(Math.abs(Double.valueOf(solucionFinal.get(4).toString())));
             if (importe != 0) {
-
                 System.out.println(solucionFinal.get(0) + " le debe " + importe + " a " + solucionFinal.get(1));
-
                 solu += String.valueOf("\n" + solucionFinal.get(1)) + " debe " + importe + "€" +
                         " a " + solucionFinal.get(3) + "\n";
             }
@@ -321,8 +317,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
 
     public void refrescarListaDeTransacciones() {
-
-
         listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
 

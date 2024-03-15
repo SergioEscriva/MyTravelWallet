@@ -56,11 +56,8 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
         // Y poner a los TextView los datos con setText
         myViewHolder.tvDescripcion.setText(descripcionTransaccion);
         myViewHolder.tvImporte.setText(String.valueOf(importeTransaccion) + "€");
-        //myViewHolder.tvPagador.setText(String.valueOf(pagadorTransaccion));
-
         myViewHolder.tvPagadorId.setText(String.valueOf(pagadorIdTransaccion));
         myViewHolder.tvNombrePagador.setText(String.valueOf(nombrePagadorTransaccion));
-        //myViewHolder.tvParticipantes.setText(String.valueOf(participantesTransaccion));
         myViewHolder.tvCategoria.setText(String.valueOf(categoriaTransaccion));
         myViewHolder.tvFecha.setText(String.valueOf(fechaTransaccion));
         myViewHolder.tvTransaccionId.setText(String.valueOf(transaccionId));
@@ -84,7 +81,6 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
             this.tvImporte = itemView.findViewById(R.id.tvImporte);
             this.tvNombrePagador = itemView.findViewById(R.id.tvNombrePagador);
             this.tvPagadorId = itemView.findViewById(R.id.tvPagadorId);
-            //this.tvParticipantes = itemView.findViewById(R.id.tvParticipantes);
             this.tvCategoria = itemView.findViewById(R.id.tvCategoria);
             this.tvFecha = itemView.findViewById(R.id.tvFecha);
             this.tvTransaccionId = itemView.findViewById(R.id.tvTransaccionId);

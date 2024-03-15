@@ -17,13 +17,16 @@ public class UsuariosAdapters extends RecyclerView.Adapter<UsuariosAdapters.MyVi
 
     private List<Usuario> listaDeUsuarios;
 
+
     public UsuariosAdapters(List<Usuario> usuario) {
         this.listaDeUsuarios = usuario;
     }
 
+
     public void setListaDeUsuarios(List<Usuario> listaDeUsuarios) {
         this.listaDeUsuarios = listaDeUsuarios;
     }
+
 
     @NonNull
     @Override
@@ -31,6 +34,7 @@ public class UsuariosAdapters extends RecyclerView.Adapter<UsuariosAdapters.MyVi
         View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participante, viewGroup, false);
         return new MyViewHolder(filaWallet);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
@@ -48,18 +52,20 @@ public class UsuariosAdapters extends RecyclerView.Adapter<UsuariosAdapters.MyVi
 
     }
 
+
     @Override
     public int getItemCount() {
         return listaDeUsuarios.size();
     }
 
+
     class MyViewHolder extends RecyclerView.ViewHolder {
+
         TextView tvUsuario, tvUsuarioId;
+
 
         MyViewHolder(View itemView) {
             super(itemView);
-            //this.tvUsuario = itemView.findViewById(R.id.tvUsuario);
-            //this.tvUsuarioId = itemView.findViewById(R.id.tvUsuarioId);
         }
     }
 }

@@ -11,15 +11,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import me.spenades.mytravelwallet.adapters.TransaccionesAdapters;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.WalletController;
@@ -30,7 +26,6 @@ import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
 
 public class ListarWalletsActivity extends AppCompatActivity {
 
-    private long walletId;
     private List<Wallet> listaDeWallets;
     private ArrayList<Map> listaDeImportes;
     private List<Transaccion> listaDeTransaccionesWalletId;
@@ -38,15 +33,12 @@ public class ListarWalletsActivity extends AppCompatActivity {
     private WalletsAdapters walletsAdapters;
     private WalletController walletController;
     private TransaccionController transaccionController;
-    private TransaccionesAdapters transaccionesAdapters;
     private FloatingActionButton fabAgregarWallet;
-    private Button btnAgregarWallet, btnAgregarUsuario;
-    private EditText etAddParticipante;
-    private TextView tvImporteW;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         // código es generado automáticamente
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_wallets);
@@ -75,6 +67,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
         // Por defecto es una lista vacía,
         // se la ponemos al adaptador y configuramos el recyclerView
+
         listaDeTransaccionesWalletId = new ArrayList<>();
         listaDeWallets = new ArrayList<>();
         listaDeImportes = new ArrayList<>();
@@ -90,12 +83,12 @@ public class ListarWalletsActivity extends AppCompatActivity {
         refrescarListaDeWallets();
 
         // Listener de los clicks en la lista WALLET.
-
         recyclerViewWallets.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewWallets,
                 new RecyclerTouchListener.ClickListener() {
 
                     @Override // Un toque Entrar en el Wallet y sus transacciones
                     public void onClick(View view, int position) {
+
                         // Pasar a la actividad editarwallet
                         final Wallet walletNameActivo = listaDeWallets.get(position);
                         String nombreWallet = walletNameActivo.getNombre();
@@ -114,6 +107,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
                     @Override // Un toque Largo Editar
                     public void onLongClick(View view, int position) {
+
                         // Pasar a la actividad editarwallet
                         final Wallet walletNameActivo = listaDeWallets.get(position);
                         String nombreWallet = walletNameActivo.getNombre();
@@ -138,7 +132,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
             }
         });
-
 
         // Listener Agregar Wallet Nuevo
         fabAgregarWallet.setOnClickListener(new View.OnClickListener() {
@@ -204,6 +197,5 @@ public class ListarWalletsActivity extends AppCompatActivity {
         walletsAdapters.notifyDataSetChanged();
 
     }
-
 }
 

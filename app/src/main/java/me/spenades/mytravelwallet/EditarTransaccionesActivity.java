@@ -235,11 +235,13 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                         transaccionController.guardarCambios(transaccionConNuevosCambios);
                 //int filasModificadas = 1;
                 if (filasModificadas != 1) {
+
                     // De alguna forma ocurrió un error porque se debió modificar únicamente una
                     // fila
                     Toast.makeText(EditarTransaccionesActivity.this, "Error guardando cambios. " +
                             "Intente de nuevo.", Toast.LENGTH_SHORT).show();
                 } else {
+
                     // Si las cosas van bien, volvemos a la principal
                     // cerrando esta actividad
                     finish();
@@ -251,6 +253,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
 
     public void refrescarListaDeParticipantes() {
+
         // Rellenamos la lista
         listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
         listaDeParticipan = participanController.obtenerParticipan(transaccionId);
@@ -274,6 +277,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
 
     public String paticipanCheck(List<String> participaCheck) {
+
         // Convertimos de lista a String para poder guardar en DB
         this.nuevosParticipan = String.join(",", participaCheck);
         return this.nuevosParticipan;

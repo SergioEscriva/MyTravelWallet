@@ -12,14 +12,17 @@ import me.spenades.mytravelwallet.models.Participante;
 
 
 public class ParticipanteController {
+
     private UsuarioController usuarioController;
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
     private String NOMBRE_TABLA = "wallet_usuario";
+
 
     public ParticipanteController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
         usuarioController = new UsuarioController(contexto);
     }
+
 
     public int eliminarParticipante(Participante participante) {
 
@@ -27,6 +30,7 @@ public class ParticipanteController {
         String[] argumentos = {String.valueOf(participante.getId())};
         return baseDeDatos.delete(NOMBRE_TABLA, "id = ?", argumentos);
     }
+
 
     public long nuevoParticipante(Participante participante) {
         // writable porque vamos a insertar
@@ -55,6 +59,7 @@ public class ParticipanteController {
         return participanteYaExiste;
     }
 
+
     public int guardarCambios(Participante participanteEditado) {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();
@@ -69,15 +74,16 @@ public class ParticipanteController {
         return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
     }
 
+
     public ArrayList<Participante> obtenerParticipantes(long walletId) {
-        //public Cursor obtenerParticipantes(int walletIdSelected) {
         ArrayList<Participante> participantes = new ArrayList<>();
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
         // hacemos un inner join para extraer los nombres por la id     wallet_id,usuario_id,nombre
         String walletIdString = String.valueOf(walletId);
-        String query = "SELECT wallet_id,usuario_id,nombre FROM 'WALLET_USUARIO' INNER JOIN 'USUARIO' ON usuario_id = USUARIO.id WHERE wallet_id = " + walletIdString;
+        String query = "SELECT wallet_id,usuario_id,nombre FROM 'WALLET_USUARIO' INNER JOIN 'USUARIO' ON usuario_id = USUARIO.id WHERE wallet_id = "
+                + walletIdString;
         Cursor cursor = baseDeDatos.rawQuery(query, null);
 
         if (cursor == null) {
@@ -85,7 +91,7 @@ public class ParticipanteController {
         }
 
         // Si no hay datos, igualmente regresamos la lista vacía
-        if (!cursor.moveToFirst()) return participantes;
+        if (! cursor.moveToFirst()) return participantes;
 
         // En caso de que sí haya, iteramos y vamos agregando
         do {

@@ -30,6 +30,7 @@ public class TransaccionController {
 
 
     public long nuevaTransaccion(Transaccion transaccion) {
+
         // writable porque vamos a insertar
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
@@ -45,8 +46,6 @@ public class TransaccionController {
     }
 
 
-    //descripcion text, importe real, pagador int, participantes text, categoria txt, fecha int,
-    // walletId int
     public int guardarCambios(Transaccion transaccionEditada) {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();

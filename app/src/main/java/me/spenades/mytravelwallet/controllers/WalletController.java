@@ -75,9 +75,6 @@ public class WalletController {
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
-        // String query = "SELECT wallet_id,usuario_id,nombre FROM 'WALLET_USUARIO' INNER JOIN 'USUARIO' ON usuario_id = USUARIO.id WHERE wallet_id
-        // = " + walletIdString;
-
         String query = "SELECT nombre,wallet.descripcion,propietario,compartir,wallet.id,importe FROM 'WALLET' INNER JOIN 'transaccion' ON WALLET" +
                 ".id = transaccion.walletId";
         Cursor cursor = baseDeDatos.rawQuery(query, null);
@@ -96,18 +93,16 @@ public class WalletController {
             System.out.println("ERROR SIN DATOS");
         }
 
-
         // En caso de que sí haya, iteramos y vamos agregando
         do {
-            // El 0 es el número de la columna, como seleccionamos
 
+            // El 0 es el número de la columna, como seleccionamos
             String nombreObtenidoDeBD = cursor.getString(0);
             String descripcionObtenidoDeBD = cursor.getString(1);
             long propietarioObtenidaDeBD = cursor.getLong(2);
             int compartirObtenidaDeBD = cursor.getInt(3);
             long walletIdObtenidoDeBD = cursor.getLong(4);
             double importeWalletId = cursor.getDouble(5);
-
 
             Wallet walletObtenidaDeBD = new Wallet(nombreObtenidoDeBD, descripcionObtenidoDeBD, propietarioObtenidaDeBD, compartirObtenidaDeBD,
                     walletIdObtenidoDeBD);
@@ -140,16 +135,6 @@ public class WalletController {
 
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
-
-        /*
-        // Unimos el Arraylist de wallets y el Map de importe en un Arraylist.
-        ArrayList<ArrayList> walletsImportesTotales = new ArrayList<>();
-        walletsImportesTotales.add(wallets);
-        walletsImportesTotales.add(resultadoList);
-
-         */
-
-
         return resultadoList;
     }
 
@@ -159,6 +144,7 @@ public class WalletController {
         ArrayList<ArrayList> importeTransaccion = new ArrayList<>();
         Map<Long, Double> resultado = new HashMap<>();
         ArrayList<Map> resultadoList = new ArrayList<>();
+
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
@@ -182,13 +168,14 @@ public class WalletController {
             return wallets;
 
         }
+        
         // Si no hay datos, igualmente regresamos la lista vacía
         if (! cursor.moveToFirst()) return wallets;
 
         // En caso de que sí haya, iteramos y vamos agregando
         do {
-            // El 0 es el número de la columna, como seleccionamos
 
+            // El 0 es el número de la columna, como seleccionamos
             String nombreObtenidoDeBD = cursor.getString(0);
             String descripcionObtenidoDeBD = cursor.getString(1);
             long propietarioObtenidaDeBD = cursor.getLong(2);

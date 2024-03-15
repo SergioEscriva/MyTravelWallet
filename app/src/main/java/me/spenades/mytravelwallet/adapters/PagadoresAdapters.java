@@ -17,13 +17,16 @@ public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.My
 
     private List<Participante> listaDeParticipantes;
 
+
     public PagadoresAdapters(List<Participante> participante) {
         this.listaDeParticipantes = participante;
     }
 
+
     public void setListaDeParticipantes(List<Participante> listaDeParticipantes) {
         this.listaDeParticipantes = listaDeParticipantes;
     }
+
 
     @NonNull
     @Override
@@ -32,29 +35,28 @@ public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.My
         return new MyViewHolder(filaWallet);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         // Obtener la de nuestra lista gracias al índice i
         Participante participante = listaDeParticipantes.get(i);
 
         // Obtener los datos de la lista
-        // long walletId = participante.getWalletId();
-        // long userId = participante.getUserId();
-        // long ParticipanteId = participante.getId();
         String nombre = participante.getNombre();
 
         // Y poner a los TextView los datos con setText
         myViewHolder.cbPagador.setText(String.valueOf(nombre));
-        // myViewHolder.tvApodo.setText(apodoParticipante);
-
     }
+
 
     @Override
     public int getItemCount() {
         return listaDeParticipantes.size();
     }
 
+
     class MyViewHolder extends RecyclerView.ViewHolder {
+
         TextView cbPagador, cbPagadorId;
 
 

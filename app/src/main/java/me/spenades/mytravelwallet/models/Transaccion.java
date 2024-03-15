@@ -9,8 +9,7 @@ public class Transaccion {
     private String participantes;
     private String categoria;
     private String fecha;
-    private long walletId; // El ID del Wallet
-    //private long walletName; // El nombre del Wallet
+    private long walletId;
     private long id; // El ID de la Transacción
     private float total;
 
@@ -24,20 +23,6 @@ public class Transaccion {
         this.fecha = fecha;
         this.walletId = walletId;
     }
-/*
-    public Transaccion(String descripcion, String importe, long pagadorId, String nombrePagador, String participantes, String categoria, int fecha,
-     long walletId) {
-        this.descripcion = descripcion;
-        this.importe = importe;
-        this.pagadorId = pagadorId;
-        this.nombrePagador = nombrePagador;
-        this.participantes = participantes;
-        this.categoria = categoria;
-        this.fecha = fecha;
-        this.walletId = walletId;
-    }
-
- */
 
 
     // Constructor para cuando instanciamos desde la BD

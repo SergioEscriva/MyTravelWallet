@@ -1,6 +1,5 @@
 package me.spenades.mytravelwallet.utilities;
 
-import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +7,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -26,16 +24,8 @@ public class PopUpPagadorActivity extends PopupWindow {
     private static TextView etPagadorId, etNombrePagador;
     public String nombrePagador;
     public String pagadorId;
-    //PopupWindow display method
     private RecyclerView recyclerViewPagadores;
     private PagadoresAdapters pagadoresAdapters;
-    private Participante participante;
-    private List<Participante> listaDeParticipantes;
-    private Button buttonEdit;
-    private TextView pagadorEle;
-    private Context context;
-    private String pagador;
-    private String activiry; // esto es para poder mostrar como editor como nuevo
 
 
     public void showPopupWindow(final View view, List<Participante> listaDeParticipantes,
@@ -45,27 +35,24 @@ public class PopUpPagadorActivity extends PopupWindow {
         this.nombrePagador = nombrePagador;
         this.pagadorId = pagadorId;
 
-        //Create a View object yourself through inflater
+        //Crea View con inflater
         LayoutInflater inflater =
                 (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
 
         View popupView = inflater.inflate(R.layout.activity_pagador, null); // edición
         View activityTransactionView = inflater.inflate(R.layout.activity_transaction, null);
 
-        //agregar
-
-
-        //Specify the length and width through constants
+        //Especifica tamaño de la ventana
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
         int height = LinearLayout.LayoutParams.MATCH_PARENT;
 
-        //Make Inactive Items Outside Of PopupWindow
+        //Hace inactivas los objetos fuera de PopupWindow
         boolean focusable = true;
 
         //Create a window with our parameters
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
-        //Set the location of the window on the screen
+        // Localización de la ventana popup
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
 
@@ -84,7 +71,6 @@ public class PopUpPagadorActivity extends PopupWindow {
 
 
         // Seleccionar pagador de la lista
-
         recyclerViewPagadores.addOnItemTouchListener(new RecyclerTouchListener(popupView.getContext(), recyclerViewPagadores,
                 new RecyclerTouchListener.ClickListener() {
 
@@ -97,6 +83,7 @@ public class PopUpPagadorActivity extends PopupWindow {
                         pagadorId = String.valueOf(pagadorActivo.getUserId());
 
                         if (activity == "agregar") {
+
                             //Recuperamos el textview de ActivarTransaccionesActivity y le ponemos el valor.
                             AgregarTransaccionActivity agregarTransaccionesActivity =
                                     new AgregarTransaccionActivity();
@@ -106,6 +93,7 @@ public class PopUpPagadorActivity extends PopupWindow {
                             erNombrePagador.setText(nombrePagador);
                             popupWindow.dismiss();
                         } else {
+
                             // Recuperamos el textview de EditarTransaccionesActivity y le ponemos el valor.
                             EditarTransaccionesActivity editarTransaccionesActivity =
                                     new EditarTransaccionesActivity();
@@ -134,25 +122,8 @@ public class PopUpPagadorActivity extends PopupWindow {
             }
         });
 
-        /*
-        // botón general del popup
-        buttonEdit.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                nombrePagador = pagadorEle.getText().toString();
-                //collectInput(nombrePagador);
-                popupWindow.dismiss();
-                Toast.makeText(view.getContext(), "Cerrado, popup action button", Toast
-                        .LENGTH_SHORT).show();
-
-            }
-
-    });
-    */
 
         // click en parte inactiva de la pantalla popup
-
         popupView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -163,9 +134,5 @@ public class PopUpPagadorActivity extends PopupWindow {
                 return true;
             }
         });
-
-
     }
-
-
 }

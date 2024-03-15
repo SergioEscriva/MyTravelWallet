@@ -95,13 +95,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     public int usuarioExiste() {
+
         // Recuperamos lista de usuarios
         listaDeUsuarios = new ArrayList<>();
         usuariosAdapters = new UsuariosAdapters(listaDeUsuarios);
+
         // Se envía el wallet 0 para poder recuperar todos los usuarios
         listaDeUsuarios = usuarioController.obtenerUsuarios();
         usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
         int cantidadUsuarios = usuariosAdapters.getItemCount();
+
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeUsuarios();
         return cantidadUsuarios;
@@ -113,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Si la lista está vacía se insta a añadir usuario Propietario
         if (cantidadUsuarios == 0) {
-
 
             btnEmpezar.setOnClickListener(new View.OnClickListener() {
 

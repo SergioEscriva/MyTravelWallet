@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,26 +39,24 @@ public class EditarWalletActivity extends AppCompatActivity {
     private ParticipantesAdapters participantesAdapters;
     private WalletController walletController;
     private Wallet wallet;
-
     private RecyclerView recyclerViewParticipantes;
     private Button btnGuardarCambios, btnAgregarParticipante, btnEliminarWallet;
     private EditText etNombre, etDescripcion, etPropietarioId, etWalletId, etAddParticipante;
-    private CheckBox checkBoxCompartir;
     private FloatingActionButton btnCancelarEdicion;
-    private ScrollView ofScrollParticipantes;
     private long walletId;
     private String nombreWallet;
-    private long usuarioIdExiste;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_wallet);
+
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
         this.walletId = Long.parseLong(extras.getString("walletId"));
         this.nombreWallet = extras.getString("nombreWallet");
+
         if (extras == null) {
             finish();
             return;
@@ -71,8 +68,6 @@ public class EditarWalletActivity extends AppCompatActivity {
         usuarioController = new UsuarioController(EditarWalletActivity.this);
 
         // Recuperamos datos
-        String nombreUsuario = extras.getString("nombreUsuario");
-        String usuarioId = extras.getString("usuarioId");
         String descripcion = extras.getString("descripcion");
         String propietario = extras.getString("propietarioId");
         String compartir = extras.getString("checkCompartir");
@@ -121,8 +116,6 @@ public class EditarWalletActivity extends AppCompatActivity {
         walletsAdapters = new WalletsAdapters(listaDeWallets);
         walletsAdapters.setListaDeWallets(listaDeWallets, listaDeImportes);
         walletsAdapters.notifyDataSetChanged();
-        //refrescarListaDeWallets();
-
 
         // se la ponemos al adaptador y configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManager =
@@ -130,7 +123,6 @@ public class EditarWalletActivity extends AppCompatActivity {
         recyclerViewParticipantes.setLayoutManager(mLayoutManager);
         recyclerViewParticipantes.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipantes.setAdapter(participantesAdapters);
-        //refrescarListaDeParticipantes();
 
         // Cancelar o Salir de Editar
         btnCancelarEdicion.setOnClickListener(new View.OnClickListener() {
@@ -181,13 +173,13 @@ public class EditarWalletActivity extends AppCompatActivity {
 
 
                 // Ya pasó la validación
-
                 Wallet editarWallet = new Wallet(nombre, descripcion, Long.parseLong(propietario)
                         , compartir, walletId);
                 long walletIdGuardado = walletController.guardarCambios(editarWallet);
                 etWalletId.setText(String.valueOf(walletIdGuardado));
                 walletId = walletIdGuardado;
                 if (walletIdGuardado == - 1) {
+
                     // De alguna manera ocurrió un error
                     Toast.makeText(EditarWalletActivity.this, "Error al guardar. Intenta de " +
                             "nuevo", Toast.LENGTH_SHORT).show();
@@ -196,10 +188,10 @@ public class EditarWalletActivity extends AppCompatActivity {
                     Toast.makeText(EditarWalletActivity.this, "Guardado Wallet.",
                             Toast.LENGTH_SHORT).show();
                     refrescarListaDeWallets();
-                    //finish();
                 }
             }
         });
+
         // Eliminar Wallet siempre que estén saldadas las cuentas. TODO
         btnEliminarWallet.setOnClickListener(new View.OnClickListener() {
 
@@ -240,6 +232,7 @@ public class EditarWalletActivity extends AppCompatActivity {
 
                 // Resetear errores
                 etAddParticipante.setError(null);
+
                 // Recuperar datos
                 String nuevoParticipante = etAddParticipante.getText().toString();
 
@@ -252,8 +245,6 @@ public class EditarWalletActivity extends AppCompatActivity {
 
                 // Agregamos Participante y Refrescamos, la nueva transacción nos devuelve el id
                 // del nuevo participante.
-
-                //TODO HAY QUE INTENTAR SACARLO A OTRA CLASE
                 long id = agregarParticipante(walletId, nuevoParticipante);
                 //long id = usuarioUtility.nuevoParticipante(walletId, nuevoParticipante);
                 if (id == - 1) {
@@ -266,9 +257,7 @@ public class EditarWalletActivity extends AppCompatActivity {
                     etAddParticipante.setText("");
                     Toast.makeText(EditarWalletActivity.this, "Participante añadido",
                             Toast.LENGTH_SHORT).show();
-
                 }
-
             }
         });
 
@@ -300,8 +289,6 @@ public class EditarWalletActivity extends AppCompatActivity {
 
 
     //TODO esto debe pasar a una clase, pero no me funciona.
-
-
     public long agregarParticipante(long walletId, String nuevoParticipante) {
         ArrayList<Usuario> usuarios;
 
@@ -332,5 +319,4 @@ public class EditarWalletActivity extends AppCompatActivity {
         refrescarListaDeParticipantes();
         return agregarParticipante;
     }
-
 }
