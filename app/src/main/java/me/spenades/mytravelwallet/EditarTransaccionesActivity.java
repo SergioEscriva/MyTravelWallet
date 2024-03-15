@@ -1,12 +1,14 @@
 package me.spenades.mytravelwallet;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -19,13 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.ParticipanAdapters;
+import me.spenades.mytravelwallet.controllers.CategoriaController;
 import me.spenades.mytravelwallet.controllers.ParticipanController;
 import me.spenades.mytravelwallet.controllers.ParticipanteController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.UsuarioController;
+import me.spenades.mytravelwallet.models.Categoria;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.utilities.DatePickerFragment;
+import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.PopUpPagadorActivity;
 import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
@@ -35,18 +40,22 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     private static String nuevosParticipan;
     public PopUpPagadorActivity f;
 
-    private EditText etDescripcion, etImporte, etCategoria, etTransaccionFecha;
+    private EditText etDescripcion, etImporte, etTransaccionFecha;
+    private AutoCompleteTextView etCategoria;
     private TextView evTransaccionTitulo;
     private Button btnGuardarTransaccion, btnCancelarTransaccion;
     private TransaccionController transaccionController;
     private ParticipanteController participanteController;
     private ParticipanController participanController;
+    private CategoriaController categoriaController;
     private ParticipanAdapters participanAdapters;
     private Transaccion transaccion;
     private UsuarioUtility usuarioUtility;
     private UsuarioController usuarioController;
     private List<Participante> listaDeParticipantes;
     private List<Participante> listaDeParticipan;
+    private List<Categoria> listaDeCategorias;
+    // private String[] categorias;
     private RecyclerView recyclerViewPagadores, recyclerViewParticipan;
     private String walletName;
     private long walletId;
@@ -77,6 +86,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         participanteController = new ParticipanteController(EditarTransaccionesActivity.this);
         participanController = new ParticipanController(EditarTransaccionesActivity.this);
         usuarioController = new UsuarioController(EditarTransaccionesActivity.this);
+        categoriaController = new CategoriaController(EditarTransaccionesActivity.this);
         usuarioUtility = new UsuarioUtility();
 
         // Ahora declaramos las vistas
@@ -84,7 +94,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         recyclerViewParticipan = findViewById(R.id.recyclerViewParticipan);
         etDescripcion = findViewById(R.id.etTransaccionDescripcion);
         etImporte = findViewById(R.id.etTransaccionImporte);
-        etCategoria = findViewById(R.id.etTransaccionCategoria);
+        etCategoria = (AutoCompleteTextView) findViewById(R.id.etTransaccionCategoria);
         etTransaccionFecha = findViewById(R.id.etTransaccionFecha);
         etNombrePagador = findViewById(R.id.etNombrePagador);
         etPagadorId = findViewById(R.id.etPagadorId);
@@ -99,9 +109,10 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         String participantesTransaccion = extras.getString("participantesTransaccion");
         String fechaTransaccion = extras.getString("fechaTransaccion");
         String categoriaTransaccion = extras.getString("categoriaTransaccion");
+        long categoriaIdTransaccion = extras.getLong("categoriaIdTransaccion");
         transaccion = new Transaccion(descripcionTransaccion, importeTransaccion,
                 pagadorIdTransaccion, nombrePagadorTransaccion, participantesTransaccion,
-                categoriaTransaccion, fechaTransaccion, walletId, transaccionId);
+                categoriaIdTransaccion, categoriaTransaccion, fechaTransaccion, walletId, transaccionId);
         nuevosParticipan = participantesTransaccion;
 
 
@@ -109,22 +120,28 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         listaDeParticipan = new ArrayList<>();
         participanAdapters = new ParticipanAdapters(listaDeParticipantes, listaDeParticipan);
 
-        // Ponemos la lista al adaptador y configuramos el recyclerView
+        // Lista Categorias Por defecto es una lista vacía,
+        listaDeCategorias = new ArrayList<>();
+        listaDeCategorias = categoriaController.obtenerCategorias();
+
+
+        // https://developer.android.com/develop/ui/views/touch-and-input/keyboard-input/style?hl=es-419#AutoComplete
+        // Convertimos la Lista Categoria, en String[]
+        Operaciones listaCategoriasString = new Operaciones();
+        String[] categorias = listaCategoriasString.listaDeCategoriasString(listaDeCategorias);
+
+        // Creamos el adaptador Autoc AutoCompleteTextView con el layer por defecto de Android.
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categorias);
+        etCategoria.setAdapter(adapter);
+
+
+        // Ponemos la lista paticipan al adaptador y configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManagerParticipan =
                 new LinearLayoutManager(getApplicationContext());
         recyclerViewParticipan.setLayoutManager(mLayoutManagerParticipan);
         recyclerViewParticipan.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipan.setAdapter(participanAdapters);
-
-        //TODO Categoria
-        //Adaptador del autoCompletado de Categoria
-        AutoCompleteTextView textView = (AutoCompleteTextView) etCategoria;
-        String[] categorias = {"Bebida", "Restaurante", "Comida", "Cena", "Gasolina", "Supermercado"};
-        String[] categoria = categorias;
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categoria);
-        textView.setAdapter(adapter);
-
 
         //Refrescamos datos del RecycleView
         refrescarListaDeParticipantes();
@@ -144,6 +161,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                hideKeyboard(etNombrePagador);
                 PopUpPagadorActivity popUpPagadorActivity = new PopUpPagadorActivity();
                 popUpPagadorActivity.showPopupWindow(v, listaDeParticipantes, "editar");
                 //return true;
@@ -157,6 +175,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                hideKeyboard(etCategoria);
                 showDatePickerDialog();
 
             }
@@ -226,9 +245,15 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 String nuevoNombrePagador = nuevoPagador;
                 long nuevoIdPagadorId = Long.parseLong(nuevoPagadorId);
 
+                //Añade la Categoria a la BD, siempre la introduce como nueva,TODO se deben actualizar en otro sitio.
+                ArrayList<Categoria> categoriaIdActual = categoriaController.obtenerCategoriaId(nuevaCategoria);
+                Categoria categoriaActual = new Categoria(String.valueOf(categoriaIdActual));
+                long categoriaNuevaId = categoriaController.nuevaCategoria(categoriaActual);
+                if (categoriaNuevaId == - 1) categoriaNuevaId = categoriaActual.getId();
+
                 // Si llegamos hasta aquí es porque los datos ya están validados
                 Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion,
-                        nuevoImporte, nuevoIdPagadorId, nuevosParticipantes, nuevaCategoria,
+                        nuevoImporte, nuevoIdPagadorId, nuevosParticipantes, categoriaNuevaId,
                         nuevaFecha, walletId, transaccion.getId());
 
                 int filasModificadas =
@@ -257,6 +282,15 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         // Rellenamos la lista
         listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
         listaDeParticipan = participanController.obtenerParticipan(transaccionId);
+
+        /*
+        //Apdaptador Categoria
+        listaDeCategorias = categoriaController.obtenerCategorias();
+        categoriasAdapters.setListaDeCategorias(listaDeCategorias);
+        categoriasAdapters.notifyDataSetChanged();
+
+
+         */
 
         //Adaptador Participa Lista total
         participanAdapters.setListaDeParticipan(listaDeParticipan, listaDeParticipantes);
@@ -297,5 +331,13 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         });
 
         newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+
+    // Cierra el teclado
+    // https://umhandroid.momrach.es/ocultar-el-teclado-virtual/
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

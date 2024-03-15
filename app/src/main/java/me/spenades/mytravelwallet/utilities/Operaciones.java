@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import me.spenades.mytravelwallet.models.Categoria;
 import me.spenades.mytravelwallet.models.Participante;
 import me.spenades.mytravelwallet.models.Transaccion;
-
 
 public class Operaciones {
 
@@ -136,5 +136,52 @@ public class Operaciones {
         }
         return lista;
     }
+
+
+    public String[] listaDeCategoriasString(List<Categoria> listaDeCategorias) {
+
+        // Obtener los datos de la lista
+        // String nombreCategoria = categoria.getCategoria();
+        // long categoriaId = categoria.getId();
+
+
+        String[] categorias = new String[listaDeCategorias.size()];
+        for (int y = 0; y < listaDeCategorias.size(); y++) {
+            categorias[y] = String.valueOf(listaDeCategorias.get(y).getCategoria());
+        }
+        return categorias;
+    }
+
+/*
+    //https://es.stackoverflow.com/questions/90634/ocultar-teclado-al-lanzar-activity-con-edittext-y-volver-a-mostrarlo/90640
+    //Shows the soft keyboard
+    public void showSoftKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        view.requestFocus();
+        inputMethodManager.showSoftInput(view, 0);
+    }
+
+
+    //https://umhandroid.momrach.es/ocultar-el-teclado-virtual/
+    // Ocultar el teclado virtual
+    private void HideKeyboard(View view) {
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+
+        /*
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+
+    }
+    */
+
 }
+
+
 

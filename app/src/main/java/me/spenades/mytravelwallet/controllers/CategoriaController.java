@@ -59,11 +59,11 @@ public class CategoriaController {
 
     public ArrayList<Categoria> obtenerCategorias() {
         ArrayList<Categoria> categorias = new ArrayList<>();
+
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
         // Los categorias son de toda la app.
-
         String[] columnasAConsultar = {"categoria", "id"};
         Cursor cursor = baseDeDatos.query(
                 NOMBRE_TABLA,//from categoria

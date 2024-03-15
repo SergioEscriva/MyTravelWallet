@@ -8,31 +8,34 @@ public class Transaccion {
     private String nombrePagador;
     private String participantes;
     private String categoria;
+    private long categoriaId;
     private String fecha;
     private long walletId;
     private long id; // El ID de la Transacción
     private float total;
 
 
-    public Transaccion(String descripcion, String importe, long pagadorId, String participantes, String categoria, String fecha, long walletId) {
+    public Transaccion(String descripcion, String importe, long pagadorId, String participantes, long categoriaId, String fecha, long walletId) {
         this.descripcion = descripcion;
         this.importe = importe;
         this.pagadorId = pagadorId;
         this.participantes = participantes;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
         this.fecha = fecha;
         this.walletId = walletId;
     }
 
 
     // Constructor para cuando instanciamos desde la BD
-    public Transaccion(String descripcion, String importe, long pagadorId, String nombrePagador, String participantes, String categoria,
+    public Transaccion(String descripcion, String importe, long pagadorId, String nombrePagador, String participantes, long categoriaId,
+                       String categoria,
                        String fecha, long walletId, long id) {
         this.descripcion = descripcion;
         this.importe = importe;
         this.pagadorId = pagadorId;
         this.nombrePagador = nombrePagador;
         this.participantes = participantes;
+        this.categoriaId = categoriaId;
         this.categoria = categoria;
         this.fecha = fecha;
         this.walletId = walletId;
@@ -40,14 +43,13 @@ public class Transaccion {
     }
 
 
-    public Transaccion(String descripcion, String importe, long pagadorId, String participantes, String categoria, String fecha, long walletId,
+    public Transaccion(String descripcion, String importe, long pagadorId, String participantes, long categoriaId, String fecha, long walletId,
                        long id) {
         this.descripcion = descripcion;
         this.importe = importe;
         this.pagadorId = pagadorId;
-        //this.nombrePagador = nombrePagador;
         this.participantes = participantes;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
         this.fecha = fecha;
         this.walletId = walletId;
         this.id = id;
@@ -121,6 +123,16 @@ public class Transaccion {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+
+    public long getCategoriaId() {
+        return categoriaId;
+    }
+
+
+    public void setCategoriaId(long categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
 

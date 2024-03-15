@@ -46,7 +46,7 @@ public class Categoria {
 
     @Override
     public String toString() {
-        return "Usuario{" +
+        return "Categoria{" +
                 ", categoria='" + categoria + '\'' +
                 ", id='" + id +
                 "'}";

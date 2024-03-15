@@ -75,10 +75,16 @@ public class TransaccionController {
         String WalletIdAConsultar = String.valueOf(walletId);
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
-
+/*
         String query = "SELECT descripcion,importe,pagadorId,participantes,categoria,fecha," +
                 "walletId,TRANSACCION.id,nombre FROM 'TRANSACCION' INNER JOIN 'USUARIO' ON " +
                 "pagadorId = USUARIO.id WHERE walletId = " + WalletIdAConsultar;
+
+ */
+        String query = "SELECT descripcion,importe,pagadorId,participantes,TRANSACCION.categoria,fecha,walletId,TRANSACCION.id,nombre,CATEGORIA" +
+                ".categoria FROM 'TRANSACCION' JOIN 'USUARIO' ON pagadorId = USUARIO.id JOIN 'CATEGORIA' ON TRANSACCION.categoria = CATEGORIA.id " +
+                "WHERE walletId = " + WalletIdAConsultar;
+
 
         Cursor cursor = baseDeDatos.rawQuery(query, null);
 
@@ -100,7 +106,8 @@ public class TransaccionController {
             String importeObtenidaDeBD = cursor.getString(1);
             long pagadorIdObtenidoDeBD = cursor.getLong(2);
             String participantesObtenidaDeBD = cursor.getString(3);
-            String categoriaObtenidaDeBD = cursor.getString(4);
+            String categoriaObtenidaDeBD = cursor.getString(9);
+            long categoriaIdObtenidaDeBD = cursor.getLong(9);
             String fechaObtenidoDeBD = cursor.getString(5);
             long walletIdObtenidoDeBD = cursor.getInt(6);
             long idTransaccion = cursor.getLong(7);
@@ -108,7 +115,7 @@ public class TransaccionController {
 
             Transaccion transaccionObtenidaDeBD = new Transaccion(descripcionObtenidoDeBD,
                     importeObtenidaDeBD, pagadorIdObtenidoDeBD, nombrePagador,
-                    participantesObtenidaDeBD, categoriaObtenidaDeBD, fechaObtenidoDeBD,
+                    participantesObtenidaDeBD, categoriaIdObtenidaDeBD, categoriaObtenidaDeBD, fechaObtenidoDeBD,
                     walletIdObtenidoDeBD, idTransaccion);
             transaccions.add(transaccionObtenidaDeBD);
         } while (cursor.moveToNext());
