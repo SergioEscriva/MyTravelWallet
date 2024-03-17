@@ -22,12 +22,12 @@ import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.ParticipanAdapters;
 import me.spenades.mytravelwallet.controllers.CategoriaController;
+import me.spenades.mytravelwallet.controllers.MiembroController;
 import me.spenades.mytravelwallet.controllers.ParticipanController;
-import me.spenades.mytravelwallet.controllers.ParticipanteController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.models.Categoria;
-import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.utilities.DatePickerFragment;
 import me.spenades.mytravelwallet.utilities.Operaciones;
@@ -45,15 +45,15 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     private TextView evTransaccionTitulo;
     private Button btnGuardarTransaccion, btnCancelarTransaccion;
     private TransaccionController transaccionController;
-    private ParticipanteController participanteController;
+    private MiembroController miembroController;
     private ParticipanController participanController;
     private CategoriaController categoriaController;
     private ParticipanAdapters participanAdapters;
     private Transaccion transaccion;
     private UsuarioUtility usuarioUtility;
     private UsuarioController usuarioController;
-    private List<Participante> listaDeParticipantes;
-    private List<Participante> listaDeParticipan;
+    private List<Miembro> listaDeMiembros;
+    private List<Miembro> listaDeParticipan;
     private List<Categoria> listaDeCategorias;
     // private String[] categorias;
     private RecyclerView recyclerViewPagadores, recyclerViewParticipan;
@@ -83,14 +83,14 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         // Definir el controlador
         transaccionController = new TransaccionController(EditarTransaccionesActivity.this);
-        participanteController = new ParticipanteController(EditarTransaccionesActivity.this);
+        miembroController = new MiembroController(EditarTransaccionesActivity.this);
         participanController = new ParticipanController(EditarTransaccionesActivity.this);
         usuarioController = new UsuarioController(EditarTransaccionesActivity.this);
         categoriaController = new CategoriaController(EditarTransaccionesActivity.this);
         usuarioUtility = new UsuarioUtility();
 
         // Ahora declaramos las vistas
-        recyclerViewPagadores = findViewById(R.id.recyclerViewParticipan);
+        //recyclerViewPagadores = findViewById(R.id.recyclerViewParticipan);
         recyclerViewParticipan = findViewById(R.id.recyclerViewParticipan);
         etDescripcion = findViewById(R.id.etTransaccionDescripcion);
         etImporte = findViewById(R.id.etTransaccionImporte);
@@ -106,19 +106,19 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         String importeTransaccion = extras.getString("importeTransaccion");
         long pagadorIdTransaccion = extras.getLong("pagadorIdTransaccion");
         String nombrePagadorTransaccion = extras.getString("nombrePagadorTransaccion");
-        String participantesTransaccion = extras.getString("participantesTransaccion");
+        String miembrosTransaccion = extras.getString("miembrosTransaccion");
         String fechaTransaccion = extras.getString("fechaTransaccion");
         String categoriaTransaccion = extras.getString("categoriaTransaccion");
         long categoriaIdTransaccion = extras.getLong("categoriaIdTransaccion");
         transaccion = new Transaccion(descripcionTransaccion, importeTransaccion,
-                pagadorIdTransaccion, nombrePagadorTransaccion, participantesTransaccion,
+                pagadorIdTransaccion, nombrePagadorTransaccion, miembrosTransaccion,
                 categoriaIdTransaccion, categoriaTransaccion, fechaTransaccion, walletId, transaccionId);
-        nuevosParticipan = participantesTransaccion;
+        nuevosParticipan = miembrosTransaccion;
 
 
         // Lista Participan Por defecto es una lista vacía,
         listaDeParticipan = new ArrayList<>();
-        participanAdapters = new ParticipanAdapters(listaDeParticipantes, listaDeParticipan);
+        participanAdapters = new ParticipanAdapters(listaDeMiembros, listaDeParticipan);
 
         // Lista Categorias Por defecto es una lista vacía,
         listaDeCategorias = new ArrayList<>();
@@ -144,7 +144,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         recyclerViewParticipan.setAdapter(participanAdapters);
 
         //Refrescamos datos del RecycleView
-        refrescarListaDeParticipantes();
+        refrescarListas();
 
         // Rellenar los EditText de la pantalla
         etDescripcion.setText(transaccion.getDescripcion());
@@ -163,7 +163,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 hideKeyboard(etNombrePagador);
                 PopUpPagadorActivity popUpPagadorActivity = new PopUpPagadorActivity();
-                popUpPagadorActivity.showPopupWindow(v, listaDeParticipantes, "editar");
+                popUpPagadorActivity.showPopupWindow(v, listaDeMiembros, "editar");
                 //return true;
             }
         });
@@ -207,7 +207,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 // Crear la transaccion con los cambios y su id
                 String nuevaDescripcion = etDescripcion.getText().toString();
                 String nuevoImporte = etImporte.getText().toString();
-                String nuevosParticipantes = nuevosParticipan;
+                String nuevosMiembros = nuevosParticipan;
                 String nuevaCategoria = etCategoria.getText().toString();
                 String nuevaFecha = etTransaccionFecha.getText().toString();
                 String nuevoPagador = etNombrePagador.getText().toString();
@@ -224,9 +224,9 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                     return;
                 }
 
-                if ("".equals(nuevosParticipantes)) {
+                if ("".equals(nuevosMiembros)) {
                     Toast.makeText(EditarTransaccionesActivity.this, "Error, selecciona un " +
-                            "participante mínimo.", Toast.LENGTH_SHORT).show();
+                            "miembro mínimo.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -253,7 +253,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
                 // Si llegamos hasta aquí es porque los datos ya están validados
                 Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion,
-                        nuevoImporte, nuevoIdPagadorId, nuevosParticipantes, categoriaNuevaId,
+                        nuevoImporte, nuevoIdPagadorId, nuevosMiembros, categoriaNuevaId,
                         nuevaFecha, walletId, transaccion.getId());
 
                 int filasModificadas =
@@ -277,23 +277,14 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     }
 
 
-    public void refrescarListaDeParticipantes() {
+    public void refrescarListas() {
 
         // Rellenamos la lista
-        listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
+        listaDeMiembros = miembroController.obtenerMiembros(walletId);
         listaDeParticipan = participanController.obtenerParticipan(transaccionId);
 
-        /*
-        //Apdaptador Categoria
-        listaDeCategorias = categoriaController.obtenerCategorias();
-        categoriasAdapters.setListaDeCategorias(listaDeCategorias);
-        categoriasAdapters.notifyDataSetChanged();
-
-
-         */
-
         //Adaptador Participa Lista total
-        participanAdapters.setListaDeParticipan(listaDeParticipan, listaDeParticipantes);
+        participanAdapters.setListaDeParticipan(listaDeParticipan, listaDeMiembros);
         participanAdapters.notifyDataSetChanged();
     }
 

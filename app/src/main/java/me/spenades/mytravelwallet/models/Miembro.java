@@ -1,6 +1,6 @@
 package me.spenades.mytravelwallet.models;
 
-public class Participante {
+public class Miembro {
 
     private String nombre;
     private long walletId;
@@ -8,21 +8,21 @@ public class Participante {
     private long id;
 
 
-    public Participante(long walletId, String nombre) {
+    public Miembro(long walletId, String nombre) {
 
         this.walletId = walletId;
         this.nombre = nombre;
     }
 
 
-    public Participante(String nombre, long userId) {
+    public Miembro(String nombre, long userId) {
 
         this.userId = userId;
         this.nombre = nombre;
     }
 
 
-    public Participante(long walletId, long userId, String nombre) {
+    public Miembro(long walletId, long userId, String nombre) {
 
         this.walletId = walletId;
         this.userId = userId;
@@ -31,7 +31,7 @@ public class Participante {
 
 
     // Constructor para cuando instanciamos desde la BD
-    public Participante(long walletId, long userId, String nombre, long id) {
+    public Miembro(long walletId, long userId, String nombre, long id) {
 
         this.walletId = walletId;
         this.userId = userId;
@@ -82,7 +82,7 @@ public class Participante {
 
     @Override
     public String toString() {
-        return "Participante{" +
+        return "Miembro{" +
                 ", nombre='" + nombre + '\'' +
                 ", walletId='" + walletId + '\'' +
                 ", userId='" + userId +

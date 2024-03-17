@@ -40,14 +40,13 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         // Obtener  de nuestra lista gracias al índice i
         Transaccion transaccion = listaDeTransaccions.get(i);
-
         // Obtener los datos de la lista
 
         String descripcionTransaccion = transaccion.getDescripcion();
         String importeTransaccion = transaccion.getImporte();
         long pagadorIdTransaccion = transaccion.getPagadorId();
         String nombrePagadorTransaccion = transaccion.getNombrePagador();
-        //String participantesTransaccion = transaccion.getParticipantes();
+        //String miembrosTransaccion = transaccion.getMiembros();
         String categoriaTransaccion = transaccion.getCategoria();
         String fechaTransaccion = transaccion.getFecha();
         long transaccionId = transaccion.getId();
@@ -72,7 +71,7 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvDescripcion, tvImporte, tvNombrePagador, tvPagadorId, tvParticipantes, tvCategoria, tvFecha, tvTransaccionId;
+        TextView tvDescripcion, tvImporte, tvNombrePagador, tvPagadorId, tvMiembros, tvCategoria, tvFecha, tvTransaccionId;
 
 
         MyViewHolder(View itemView) {

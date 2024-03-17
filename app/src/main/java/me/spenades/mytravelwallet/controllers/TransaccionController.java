@@ -37,7 +37,7 @@ public class TransaccionController {
         valoresParaInsertar.put("descripcion", transaccion.getDescripcion());
         valoresParaInsertar.put("importe", transaccion.getImporte());
         valoresParaInsertar.put("pagadorId", transaccion.getPagadorId());
-        valoresParaInsertar.put("participantes", transaccion.getParticipantes());
+        valoresParaInsertar.put("miembros", transaccion.getMiembros());
         valoresParaInsertar.put("categoria", transaccion.getCategoria());
         valoresParaInsertar.put("fecha", transaccion.getFecha());
         valoresParaInsertar.put("walletId", transaccion.getWalletId());
@@ -52,7 +52,7 @@ public class TransaccionController {
         valoresParaActualizar.put("descripcion", transaccionEditada.getDescripcion());
         valoresParaActualizar.put("importe", transaccionEditada.getImporte());
         valoresParaActualizar.put("pagadorId", transaccionEditada.getPagadorId());
-        valoresParaActualizar.put("participantes", transaccionEditada.getParticipantes());
+        valoresParaActualizar.put("miembros", transaccionEditada.getMiembros());
         valoresParaActualizar.put("categoria", transaccionEditada.getCategoria());
         valoresParaActualizar.put("fecha", transaccionEditada.getFecha());
         valoresParaActualizar.put("walletId", transaccionEditada.getWalletId());
@@ -76,14 +76,15 @@ public class TransaccionController {
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 /*
-        String query = "SELECT descripcion,importe,pagadorId,participantes,categoria,fecha," +
+        String query = "SELECT descripcion,importe,pagadorId,miembros,categoria,fecha," +
                 "walletId,TRANSACCION.id,nombre FROM 'TRANSACCION' INNER JOIN 'USUARIO' ON " +
                 "pagadorId = USUARIO.id WHERE walletId = " + WalletIdAConsultar;
 
  */
-        String query = "SELECT descripcion,importe,pagadorId,participantes,TRANSACCION.categoria,fecha,walletId,TRANSACCION.id,nombre,CATEGORIA" +
-                ".categoria FROM 'TRANSACCION' JOIN 'USUARIO' ON pagadorId = USUARIO.id JOIN 'CATEGORIA' ON TRANSACCION.categoria = CATEGORIA.id " +
-                "WHERE walletId = " + WalletIdAConsultar;
+        String query = "SELECT descripcion,importe,pagadorId,miembros,TRANSACCION.categoria,fecha,walletId,TRANSACCION.id,nombre," +
+                " CATEGORIA.categoria" +
+                " FROM 'TRANSACCION' JOIN 'USUARIO' ON pagadorId = USUARIO.id JOIN 'CATEGORIA' ON TRANSACCION.categoria = CATEGORIA.id " +
+                " WHERE walletId = " + WalletIdAConsultar;
 
 
         Cursor cursor = baseDeDatos.rawQuery(query, null);
@@ -105,9 +106,9 @@ public class TransaccionController {
             String descripcionObtenidoDeBD = cursor.getString(0);
             String importeObtenidaDeBD = cursor.getString(1);
             long pagadorIdObtenidoDeBD = cursor.getLong(2);
-            String participantesObtenidaDeBD = cursor.getString(3);
+            String miembrosObtenidaDeBD = cursor.getString(3);
             String categoriaObtenidaDeBD = cursor.getString(9);
-            long categoriaIdObtenidaDeBD = cursor.getLong(9);
+            long categoriaIdObtenidaDeBD = cursor.getLong(4);
             String fechaObtenidoDeBD = cursor.getString(5);
             long walletIdObtenidoDeBD = cursor.getInt(6);
             long idTransaccion = cursor.getLong(7);
@@ -115,7 +116,7 @@ public class TransaccionController {
 
             Transaccion transaccionObtenidaDeBD = new Transaccion(descripcionObtenidoDeBD,
                     importeObtenidaDeBD, pagadorIdObtenidoDeBD, nombrePagador,
-                    participantesObtenidaDeBD, categoriaIdObtenidaDeBD, categoriaObtenidaDeBD, fechaObtenidoDeBD,
+                    miembrosObtenidaDeBD, categoriaIdObtenidaDeBD, categoriaObtenidaDeBD, fechaObtenidoDeBD,
                     walletIdObtenidoDeBD, idTransaccion);
             transaccions.add(transaccionObtenidaDeBD);
         } while (cursor.moveToNext());

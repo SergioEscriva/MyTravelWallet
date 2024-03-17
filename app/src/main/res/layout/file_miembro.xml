@@ -10,7 +10,7 @@
     android:padding="5dp">
 
     <TextView
-        android:id="@+id/cbParticipante"
+        android:id="@+id/cbMiembro"
         android:layout_width="172dp"
         android:layout_height="22dp"
         android:layout_marginStart="8dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cbParticipanteId"
+        android:id="@+id/cbMiembroId"
         android:layout_width="172dp"
         android:layout_height="22dp"
         android:layout_marginStart="10dp"
@@ -36,12 +36,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/divider3"
+        android:id="@+id/dividerResu"
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/cbParticipante"
+        app:layout_constraintTop_toBottomOf="@+id/cbMiembro"
         tools:layout_editor_absoluteX="1dp" />
 
 

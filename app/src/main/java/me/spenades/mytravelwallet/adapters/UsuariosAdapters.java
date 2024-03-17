@@ -31,7 +31,7 @@ public class UsuariosAdapters extends RecyclerView.Adapter<UsuariosAdapters.MyVi
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_participante, viewGroup, false);
+        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_miembro, viewGroup, false);
         return new MyViewHolder(filaWallet);
     }
 

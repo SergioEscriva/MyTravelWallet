@@ -19,31 +19,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import me.spenades.mytravelwallet.adapters.ParticipantesAdapters;
+import me.spenades.mytravelwallet.adapters.MiembrosAdapters;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
-import me.spenades.mytravelwallet.controllers.ParticipanteController;
+import me.spenades.mytravelwallet.controllers.MiembroController;
 import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.controllers.WalletController;
-import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Usuario;
 import me.spenades.mytravelwallet.models.Wallet;
-import me.spenades.mytravelwallet.utilities.ResolverDeudaActivity;
 
 
 public class EditarWalletActivity extends AppCompatActivity {
 
-    public ParticipanteController participanteController;
+    public MiembroController miembroController;
     public UsuarioController usuarioController;
     private List<Wallet> listaDeWallets;
     private ArrayList<Map> listaDeImportes;
     private WalletsAdapters walletsAdapters;
-    private List<Participante> listaDeParticipantes;
-    private ParticipantesAdapters participantesAdapters;
+    private List<Miembro> listaDeMiembros;
+    private MiembrosAdapters miembrosAdapters;
     private WalletController walletController;
     private Wallet wallet;
-    private RecyclerView recyclerViewParticipantes;
-    private Button btnGuardarCambios, btnAgregarParticipante, btnEliminarWallet;
-    private EditText etNombre, etDescripcion, etPropietarioId, etWalletId, etAddParticipante;
+    private RecyclerView recyclerViewMiembros;
+    private Button btnGuardarCambios, btnAgregarMiembro, btnEliminarWallet;
+    private EditText etNombre, etDescripcion, etPropietarioId, etWalletId, etAddMiembro;
     private FloatingActionButton btnCancelarEdicion;
     private long walletId;
     private String nombreWallet;
@@ -66,7 +65,7 @@ public class EditarWalletActivity extends AppCompatActivity {
 
         // Instanciar el controlador
         walletController = new WalletController(EditarWalletActivity.this);
-        participanteController = new ParticipanteController(EditarWalletActivity.this);
+        miembroController = new MiembroController(EditarWalletActivity.this);
         usuarioController = new UsuarioController(EditarWalletActivity.this);
 
         // Recuperamos datos
@@ -77,26 +76,26 @@ public class EditarWalletActivity extends AppCompatActivity {
                 Integer.parseInt(compartir), walletId);
 
         // Ahora declaramos las vistas
-        recyclerViewParticipantes = findViewById(R.id.recyclerViewParticipantes);
+        recyclerViewMiembros = findViewById(R.id.recyclerViewMiembros);
         etNombre = findViewById(R.id.etNombre);
         etDescripcion = findViewById(R.id.etDescripcion);
         etPropietarioId = findViewById(R.id.etPropietarioId);
-        etAddParticipante = findViewById(R.id.etAddParticipante);
+        etAddMiembro = findViewById(R.id.etAddMiembro);
         etWalletId = findViewById(R.id.etWalletId);
         CheckBox checkBoxCompartir = findViewById(R.id.checkBox_Compartir);
         btnGuardarCambios = findViewById(R.id.btn_agregar_wallet);
         btnCancelarEdicion = findViewById(R.id.btn_cancelar_nuevo_wallet);
-        btnAgregarParticipante = findViewById(R.id.btnAgregarParticipante);
+        btnAgregarMiembro = findViewById(R.id.btnAgregarMiembro);
         btnEliminarWallet = findViewById(R.id.btnEliminarWallet);
         etPropietarioId.setVisibility(View.INVISIBLE);
 
 
-        // Hacer visible las vistas de botones y lista participantes al compartir activiy con
+        // Hacer visible las vistas de botones y lista miembros al compartir activiy con
         // agregar
         btnGuardarCambios.setVisibility(View.VISIBLE);
-        recyclerViewParticipantes.setVisibility(View.VISIBLE);
-        etAddParticipante.setVisibility(View.VISIBLE);
-        btnAgregarParticipante.setVisibility(View.VISIBLE);
+        recyclerViewMiembros.setVisibility(View.VISIBLE);
+        etAddMiembro.setVisibility(View.VISIBLE);
+        btnAgregarMiembro.setVisibility(View.VISIBLE);
         btnEliminarWallet.setVisibility(View.VISIBLE);
 
 
@@ -110,8 +109,8 @@ public class EditarWalletActivity extends AppCompatActivity {
         checkBoxCompartir.setChecked(compartirCheck);
 
         // Por defecto es una lista vacía,
-        listaDeParticipantes = new ArrayList<>();
-        participantesAdapters = new ParticipantesAdapters(listaDeParticipantes);
+        listaDeMiembros = new ArrayList<>();
+        miembrosAdapters = new MiembrosAdapters(listaDeMiembros);
 
         listaDeWallets = new ArrayList<>();
         listaDeImportes = new ArrayList<>();
@@ -122,9 +121,9 @@ public class EditarWalletActivity extends AppCompatActivity {
         // se la ponemos al adaptador y configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getApplicationContext());
-        recyclerViewParticipantes.setLayoutManager(mLayoutManager);
-        recyclerViewParticipantes.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewParticipantes.setAdapter(participantesAdapters);
+        recyclerViewMiembros.setLayoutManager(mLayoutManager);
+        recyclerViewMiembros.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewMiembros.setAdapter(miembrosAdapters);
 
         // Cancelar o Salir de Editar
         btnCancelarEdicion.setOnClickListener(new View.OnClickListener() {
@@ -260,38 +259,38 @@ public class EditarWalletActivity extends AppCompatActivity {
         });
 
 
-        // Listener botón agregar participante y a su vez como usuario
-        btnAgregarParticipante.setOnClickListener(new View.OnClickListener() {
+        // Listener botón agregar miembro y a su vez como usuario
+        btnAgregarMiembro.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
                 // Resetear errores
-                etAddParticipante.setError(null);
+                etAddMiembro.setError(null);
 
                 // Recuperar datos
-                String nuevoParticipante = etAddParticipante.getText().toString();
+                String nuevoMiembro = etAddMiembro.getText().toString();
 
 
-                if ("".equals(nuevoParticipante)) {
-                    etAddParticipante.setError("Escribe tu Nombre");
-                    etAddParticipante.requestFocus();
+                if ("".equals(nuevoMiembro)) {
+                    etAddMiembro.setError("Escribe tu Nombre");
+                    etAddMiembro.requestFocus();
                     return;
                 }
 
-                // Agregamos Participante y Refrescamos, la nueva transacción nos devuelve el id
-                // del nuevo participante.
-                long id = agregarParticipante(walletId, nuevoParticipante);
-                //long id = usuarioUtility.nuevoParticipante(walletId, nuevoParticipante);
+                // Agregamos Miembro y Refrescamos, la nueva transacción nos devuelve el id
+                // del nuevo miembro.
+                long id = agregarMiembro(walletId, nuevoMiembro);
+                //long id = usuarioUtility.nuevoMiembro(walletId, nuevoMiembro);
                 if (id == - 1) {
-                    // Participante error
+                    // Miembro error
                     Toast.makeText(EditarWalletActivity.this, "Error al guardar. Intenta de " +
                             "nuevo", Toast.LENGTH_SHORT).show();
 
                 } else {
 
-                    etAddParticipante.setText("");
-                    Toast.makeText(EditarWalletActivity.this, "Participante añadido",
+                    etAddMiembro.setText("");
+                    Toast.makeText(EditarWalletActivity.this, "Miembro añadido",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -303,15 +302,15 @@ public class EditarWalletActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refrescarListaDeParticipantes();
+        refrescarListaDeMiembros();
     }
 
 
-    public void refrescarListaDeParticipantes() {
-        if (participantesAdapters == null) return;
-        listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
-        participantesAdapters.setListaDeParticipantes(listaDeParticipantes);
-        participantesAdapters.notifyDataSetChanged();
+    public void refrescarListaDeMiembros() {
+        if (miembrosAdapters == null) return;
+        listaDeMiembros = miembroController.obtenerMiembros(walletId);
+        miembrosAdapters.setListaDeMiembros(listaDeMiembros);
+        miembrosAdapters.notifyDataSetChanged();
 
     }
 
@@ -325,12 +324,12 @@ public class EditarWalletActivity extends AppCompatActivity {
 
 
     //TODO esto debe pasar a una clase, pero no me funciona.
-    public long agregarParticipante(long walletId, String nuevoParticipante) {
+    public long agregarMiembro(long walletId, String nuevoMiembro) {
         ArrayList<Usuario> usuarios;
 
         // Busca el usuario y devuelve su ID, si es 0 es que no está
-        Usuario usuarioNuevo = new Usuario(nuevoParticipante, nuevoParticipante);
-        usuarios = usuarioController.obtenerUsuarioId(nuevoParticipante);
+        Usuario usuarioNuevo = new Usuario(nuevoMiembro, nuevoMiembro);
+        usuarios = usuarioController.obtenerUsuarioId(nuevoMiembro);
 
         // Si la lista devuelta es 0, usuario no existe
         long usuarioExiste = usuarios.size();
@@ -347,12 +346,12 @@ public class EditarWalletActivity extends AppCompatActivity {
             usuarioIdDb = usuarios.get(0).getId();
         }
         //Formateamos variables Para Participant
-        Participante nuevoParticipanteGuardar = new Participante(walletId, usuarioIdDb,
-                nuevoParticipante);
-        // Ahora lo añadimos como Participante, aquí existe como usuario seguro.
-        long agregarParticipante =
-                participanteController.nuevoParticipante(nuevoParticipanteGuardar);
-        refrescarListaDeParticipantes();
-        return agregarParticipante;
+        Miembro nuevoMiembroGuardar = new Miembro(walletId, usuarioIdDb,
+                nuevoMiembro);
+        // Ahora lo añadimos como Miembro, aquí existe como usuario seguro.
+        long agregarMiembro =
+                miembroController.nuevoMiembro(nuevoMiembroGuardar);
+        refrescarListaDeMiembros();
+        return agregarMiembro;
     }
 }

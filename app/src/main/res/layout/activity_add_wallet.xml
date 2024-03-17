@@ -70,14 +70,14 @@
         tools:layout_editor_absoluteX="8dp" />
 
     <EditText
-        android:id="@+id/etAddParticipante"
+        android:id="@+id/etAddMiembro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Añadir Participante"
+        android:hint="Añadir Miembro"
         android:inputType="textPersonName"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,10 +129,10 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@+id/etAddParticipante">
+        app:layout_constraintTop_toBottomOf="@+id/etAddMiembro">
 
         <ScrollView
-            android:id="@+id/ofScrollParticipantes"
+            android:id="@+id/ofScrollMiembros"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
@@ -141,7 +141,7 @@
             tools:layout_editor_absoluteX="0dp">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewParticipantes"
+                android:id="@+id/recyclerViewMiembros"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
@@ -153,7 +153,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnAgregarParticipante"
+        android:id="@+id/btnAgregarMiembro"
         android:layout_width="100px"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -162,7 +162,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="24sp"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/etAddParticipante"
+        app:layout_constraintStart_toEndOf="@+id/etAddMiembro"
         app:layout_constraintTop_toBottomOf="@id/btn_agregar_wallet" />
 
 

@@ -29,7 +29,7 @@
         <activity android:name=".ListarWalletsActivity" />
         <activity android:name="AgregarWalletActivity" />
         <activity android:name="EditarWalletActivity" />
-        <activity android:name=".utilities.ResolverDeudaActivity" />
+        <activity android:name=".ResolverDeudaActivity" />
         <activity android:name=".utilities.PopUpPagadorActivity" />
     </application>
 

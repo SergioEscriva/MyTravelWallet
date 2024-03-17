@@ -13,27 +13,27 @@ import java.util.List;
 import me.spenades.mytravelwallet.AgregarTransaccionActivity;
 import me.spenades.mytravelwallet.EditarTransaccionesActivity;
 import me.spenades.mytravelwallet.R;
-import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Miembro;
 
 
 public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.MyViewHolder> {
 
     List<String> listaParticipa = new ArrayList<>();
     List<String> listaNoParticipa = new ArrayList<>();
-    private List<Participante> listaDeParticipantes;
-    private List<Participante> listaDeParticipan;
+    private List<Miembro> listaDeMiembros;
+    private List<Miembro> listaDeParticipan;
 
 
-    public ParticipanAdapters(List<Participante> participan, List<Participante> participantes) {
-        this.listaDeParticipantes = participantes;
+    public ParticipanAdapters(List<Miembro> participan, List<Miembro> miembros) {
+        this.listaDeMiembros = miembros;
         this.listaDeParticipan = participan;
 
     }
 
 
-    public void setListaDeParticipan(List<Participante> listaDeParticipan,
-                                     List<Participante> listaDeParticipantes) {
-        this.listaDeParticipantes = listaDeParticipantes;
+    public void setListaDeParticipan(List<Miembro> listaDeParticipan,
+                                     List<Miembro> listaDeMiembros) {
+        this.listaDeMiembros = listaDeMiembros;
         this.listaDeParticipan = listaDeParticipan;
     }
 
@@ -53,13 +53,13 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         // Obtener la de nuestra lista gracias al índice i
-        Participante participan = listaDeParticipantes.get(i);
+        Miembro participan = listaDeMiembros.get(i);
 
         // Obtener los datos de la lista
         long walletId = participan.getWalletId();
         long userId = participan.getUserId();
 
-        //long participanteId = participan.getId();
+        //long miembroId = participan.getId();
         String nombre = participan.getNombre();
         boolean paticipaOno = participaExiste(userId);
         myViewHolder.cbParticipa.setText(nombre);
@@ -108,17 +108,17 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
 
     @Override
     public int getItemCount() {
-        return listaDeParticipantes.size();
+        return listaDeMiembros.size();
 
     }
 
 
     // TODO SACAR A UNA CLASE
-    public boolean participaExiste(Long participanteId) {
+    public boolean participaExiste(Long miembroId) {
 
         // Si existe se añade el Check
-        for (Participante participa : listaDeParticipan) {
-            if (participa.getUserId() == participanteId) {
+        for (Miembro participa : listaDeParticipan) {
+            if (participa.getUserId() == miembroId) {
                 return true;
             }
         }

@@ -22,10 +22,10 @@ import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.ParticipanAdapters;
 import me.spenades.mytravelwallet.controllers.CategoriaController;
-import me.spenades.mytravelwallet.controllers.ParticipanteController;
+import me.spenades.mytravelwallet.controllers.MiembroController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Categoria;
-import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.utilities.DatePickerFragment;
 import me.spenades.mytravelwallet.utilities.Operaciones;
@@ -39,11 +39,12 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     private EditText etDescripcion, etImporte, etTransaccionFecha;
     private AutoCompleteTextView etCategoria;
     private TransaccionController transaccionController;
-    private ParticipanteController participanteController;
+    private MiembroController miembroController;
     private CategoriaController categoriaController;
     private ParticipanAdapters participanAdapters;
-    private List<Participante> listaDeParticipantes;
+    private List<Miembro> listaDeMiembros;
     private List<Categoria> listaDeCategorias;
+    private RecyclerView recyclerViewParticipan;
     private long walletId;
 
 
@@ -63,11 +64,11 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
         // Definir el controlador
         transaccionController = new TransaccionController(AgregarTransaccionActivity.this);
-        participanteController = new ParticipanteController(AgregarTransaccionActivity.this);
+        miembroController = new MiembroController(AgregarTransaccionActivity.this);
         categoriaController = new CategoriaController(AgregarTransaccionActivity.this);
 
         // Ahora declaramos las vistas
-        RecyclerView recyclerViewParticipan = findViewById(R.id.recyclerViewParticipan);
+        recyclerViewParticipan = findViewById(R.id.recyclerViewParticipan);
         etDescripcion = findViewById(R.id.etTransaccionDescripcion);
         TextView evTransaccionTitulo = findViewById(R.id.evTransaccionDescripcion);
         etImporte = findViewById(R.id.etTransaccionImporte);
@@ -83,7 +84,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         evTransaccionTitulo.setText(transaccionTitulo);
 
         // Lista Participan Por defecto es una lista vacía,
-        participanAdapters = new ParticipanAdapters(listaDeParticipantes, listaDeParticipantes);
+        participanAdapters = new ParticipanAdapters(listaDeMiembros, listaDeMiembros);
 
         // Lista Categorias Por defecto es una lista vacía,
         listaDeCategorias = categoriaController.obtenerCategorias();
@@ -105,8 +106,13 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         recyclerViewParticipan.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipan.setAdapter(participanAdapters);
 
+        Operaciones operaciones = new Operaciones();
+        String fecha = operaciones.fechaDeHoy();
+        etCategoria.setText("Varios");
+        etTransaccionFecha.setText(fecha);
+
         //Refrescamos datos del RecycleView
-        refrescarListaDeParticipantes();
+        refrescarListaDeMiembros();
 
         // Listener del PopUp para elegir pagador.
         etNombrePagador.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +121,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 hideKeyboard(etNombrePagador);
                 PopUpPagadorActivity popUpPagadorActivity = new PopUpPagadorActivity();
-                popUpPagadorActivity.showPopupWindow(v, listaDeParticipantes, "agregar");
+                popUpPagadorActivity.showPopupWindow(v, listaDeMiembros, "agregar");
             }
         });
 
@@ -165,7 +171,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 // Crear la transaccion con los cambios y su id
                 String nuevaDescripcion = etDescripcion.getText().toString();
                 String nuevoImporte = etImporte.getText().toString();
-                String nuevosParticipantes = nuevosParticipan;
+                String nuevosMiembros = nuevosParticipan;
                 String nuevaCategoria = etCategoria.getText().toString();
                 String nuevaFecha = etTransaccionFecha.getText().toString();
                 String nuevoPagador = etNombrePagador.getText().toString();
@@ -182,9 +188,9 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                     return;
                 }
 
-                if ("".equals(nuevosParticipantes)) {
+                if ("".equals(nuevosMiembros)) {
                     Toast.makeText(AgregarTransaccionActivity.this, "Error, selecciona un " +
-                            "participante mínimo.", Toast.LENGTH_SHORT).show();
+                            "miembro mínimo.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -210,7 +216,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
                 // Si llegamos hasta aquí es porque los datos ya están validados
                 Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion,
-                        nuevoImporte, nuevoIdPagadorId, nuevosParticipantes, categoriaNuevaId,
+                        nuevoImporte, nuevoIdPagadorId, nuevosMiembros, categoriaNuevaId,
                         nuevaFecha, walletId);
 
                 long transaccionId =
@@ -234,12 +240,12 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     }
 
 
-    public void refrescarListaDeParticipantes() {
+    public void refrescarListaDeMiembros() {
         // Rellenamos la lista
-        listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
+        listaDeMiembros = miembroController.obtenerMiembros(walletId);
 
         //Adaptador Participa Lista total
-        participanAdapters.setListaDeParticipan(listaDeParticipantes, listaDeParticipantes);
+        participanAdapters.setListaDeParticipan(listaDeMiembros, listaDeMiembros);
         participanAdapters.notifyDataSetChanged();
 
         //Apdaptador Categoria
@@ -275,7 +281,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 // +1 Enero es 0
                 final String selectedDate = day + " / " + (month + 1) + " / " + year;
                 etTransaccionFecha.setText(selectedDate);
-                System.out.println(selectedDate);
             }
         });
         newFragment.show(getSupportFragmentManager(), "datePicker");

@@ -16,23 +16,23 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.spenades.mytravelwallet.adapters.ParticipantesAdapters;
-import me.spenades.mytravelwallet.controllers.ParticipanteController;
+import me.spenades.mytravelwallet.adapters.MiembrosAdapters;
+import me.spenades.mytravelwallet.controllers.MiembroController;
 import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.controllers.WalletController;
-import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Wallet;
 
 public class AgregarWalletActivity extends AppCompatActivity {
 
-    private List<Participante> listaDeParticipantes;
-    private ParticipantesAdapters participantesAdapters;
+    private List<Miembro> listaDeMiembros;
+    private MiembrosAdapters miembrosAdapters;
     private WalletController walletController;
     private UsuarioController usuarioController;
-    private ParticipanteController participanteController;
-    private RecyclerView recyclerViewParticipantes;
+    private MiembroController miembroController;
+    private RecyclerView recyclerViewMiembros;
     private Button btnAgregarWallet, btnAgregarUsuario;
-    private EditText etNombre, etDescripcion, etPropietarioId, etAddParticipante, etWaletId;
+    private EditText etNombre, etDescripcion, etPropietarioId, etAddMiembro, etWaletId;
     private FloatingActionButton btnCancelarNuevoWallet;
     private long walletId;
     private long userId;
@@ -56,38 +56,38 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
         // Crear el controlador
         walletController = new WalletController(AgregarWalletActivity.this);
-        participanteController = new ParticipanteController(AgregarWalletActivity.this);
+        miembroController = new MiembroController(AgregarWalletActivity.this);
         usuarioController = new UsuarioController(AgregarWalletActivity.this);
 
         // Instanciar vistas
-        recyclerViewParticipantes = findViewById(R.id.recyclerViewParticipantes);
+        recyclerViewMiembros = findViewById(R.id.recyclerViewMiembros);
 
         etNombre = findViewById(R.id.etNombre);
         etDescripcion = findViewById(R.id.etDescripcion);
         etPropietarioId = findViewById(R.id.etPropietarioId);
-        etAddParticipante = findViewById(R.id.etAddParticipante);
+        etAddMiembro = findViewById(R.id.etAddMiembro);
         etWaletId = findViewById(R.id.etWalletId);
         CheckBox checkBoxCompartir = findViewById(R.id.checkBox_Compartir);
         btnAgregarWallet = findViewById(R.id.btn_agregar_wallet);
         btnCancelarNuevoWallet = findViewById(R.id.btn_cancelar_nuevo_wallet);
-        btnAgregarUsuario = findViewById(R.id.btnAgregarParticipante);
+        btnAgregarUsuario = findViewById(R.id.btnAgregarMiembro);
 
         // Añade nuestro nombre de usuario rescatado del inicio
         etPropietarioId.setText(String.valueOf(userId));
         etPropietarioId.setVisibility(View.INVISIBLE);
-        recyclerViewParticipantes.setVisibility(View.VISIBLE);
+        recyclerViewMiembros.setVisibility(View.VISIBLE);
 
         // Por defecto es una lista vacía,
-        listaDeParticipantes = new ArrayList<>();
-        participantesAdapters = new ParticipantesAdapters(listaDeParticipantes);
+        listaDeMiembros = new ArrayList<>();
+        miembrosAdapters = new MiembrosAdapters(listaDeMiembros);
 
         // se la ponemos al adaptador y configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getApplicationContext());
-        recyclerViewParticipantes.setLayoutManager(mLayoutManager);
-        recyclerViewParticipantes.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewParticipantes.setAdapter(participantesAdapters);
-        //refrescarListaDeParticipantes();
+        recyclerViewMiembros.setLayoutManager(mLayoutManager);
+        recyclerViewMiembros.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewMiembros.setAdapter(miembrosAdapters);
+        //refrescarListaDeMiembros();
 
 
         // Listener del Crear Wallet Nuevo
@@ -143,12 +143,12 @@ public class AgregarWalletActivity extends AppCompatActivity {
                     Toast.makeText(AgregarWalletActivity.this, "Wallet Guardada.",
                             Toast.LENGTH_SHORT).show();
 
-                    // Agrega al propietario del Wallet como Participante
-                    Participante nuevoParticipanteGuardar = new Participante(walletId, userId,
+                    // Agrega al propietario del Wallet como Miembro
+                    Miembro nuevoMiembroGuardar = new Miembro(walletId, userId,
                             usuarioActivo);
 
-                    // Ahora lo añadimos como Participante, aquí existe como usuario seguro.
-                    participanteController.nuevoParticipante(nuevoParticipanteGuardar);
+                    // Ahora lo añadimos como Miembro, aquí existe como usuario seguro.
+                    miembroController.nuevoMiembro(nuevoMiembroGuardar);
 
                     // Seguimos en Editar Wallet
                     Intent intent = new Intent(AgregarWalletActivity.this,

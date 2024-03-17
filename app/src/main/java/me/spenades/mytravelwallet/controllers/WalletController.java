@@ -75,8 +75,8 @@ public class WalletController {
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
-        String query = "SELECT nombre,wallet.descripcion,propietario,compartir,wallet.id,importe FROM 'WALLET' INNER JOIN 'transaccion' ON WALLET" +
-                ".id = transaccion.walletId";
+        String query = "SELECT nombre,WALLET.descripcion,propietario,compartir,WALLET.id,importe FROM 'WALLET' INNER JOIN 'TRANSACCION' ON " +
+                " WALLET.id = TRANSACCION.walletId";
         Cursor cursor = baseDeDatos.rawQuery(query, null);
 
         if (cursor == null) {
@@ -85,12 +85,13 @@ public class WalletController {
                 lista vacía
              */
             System.out.println("ERROR NULL");
-
+            return resultadoList;
 
         }
         // Si no hay datos, igualmente regresamos la lista vacía
         if (! cursor.moveToFirst()) {
             System.out.println("ERROR SIN DATOS");
+            return resultadoList;
         }
 
         // En caso de que sí haya, iteramos y vamos agregando
@@ -168,7 +169,7 @@ public class WalletController {
             return wallets;
 
         }
-        
+
         // Si no hay datos, igualmente regresamos la lista vacía
         if (! cursor.moveToFirst()) return wallets;
 

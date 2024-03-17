@@ -13,12 +13,12 @@ import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.models.Miembro;
 
 
-public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.MyViewHolder> {
+public class MiembrosAdapters extends RecyclerView.Adapter<MiembrosAdapters.MyViewHolder> {
 
     private List<Miembro> listaDeMiembros;
 
 
-    public PagadoresAdapters(List<Miembro> miembro) {
+    public MiembrosAdapters(List<Miembro> miembro) {
         this.listaDeMiembros = miembro;
     }
 
@@ -31,7 +31,7 @@ public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.My
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_pagador, viewGroup, false);
+        View filaWallet = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_miembro, viewGroup, false);
         return new MyViewHolder(filaWallet);
     }
 
@@ -42,10 +42,15 @@ public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.My
         Miembro miembro = listaDeMiembros.get(i);
 
         // Obtener los datos de la lista
+        long walletId = miembro.getWalletId();
+        long userId = miembro.getUserId();
+        long MiembroId = miembro.getId();
         String nombre = miembro.getNombre();
 
         // Y poner a los TextView los datos con setText
-        myViewHolder.cbPagador.setText(String.valueOf(nombre));
+        myViewHolder.tvMiembro.setText(String.valueOf(nombre));
+        // myViewHolder.tvApodo.setText(apodoMiembro);
+
     }
 
 
@@ -57,13 +62,14 @@ public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.My
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView cbPagador, cbPagadorId;
+        TextView tvMiembro, tvMiembroId;
 
 
         MyViewHolder(View itemView) {
             super(itemView);
-            this.cbPagador = itemView.findViewById(R.id.cbPagador);
-            this.cbPagadorId = itemView.findViewById(R.id.cbPagadorId);
+            this.tvMiembro = itemView.findViewById(R.id.cbMiembro);
+            this.tvMiembroId = itemView.findViewById(R.id.cbMiembroId);
+
         }
     }
 }

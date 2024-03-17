@@ -29,7 +29,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
     private List<Wallet> listaDeWallets;
     private ArrayList<Map> listaDeImportes;
     private List<Transaccion> listaDeTransaccionesWalletId;
-    private RecyclerView recyclerViewWallets, recyclerViewParticipantes;
+    private RecyclerView recyclerViewWallets, recyclerViewMiembros;
     private WalletsAdapters walletsAdapters;
     private WalletController walletController;
     private TransaccionController transaccionController;

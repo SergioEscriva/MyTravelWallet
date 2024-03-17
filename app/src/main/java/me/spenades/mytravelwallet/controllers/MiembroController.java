@@ -8,75 +8,75 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import me.spenades.mytravelwallet.SQLiteDB.AyudanteBaseDeDatos;
-import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Miembro;
 
 
-public class ParticipanteController {
+public class MiembroController {
 
     private UsuarioController usuarioController;
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
     private String NOMBRE_TABLA = "wallet_usuario";
 
 
-    public ParticipanteController(Context contexto) {
+    public MiembroController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
         usuarioController = new UsuarioController(contexto);
     }
 
 
-    public int eliminarParticipante(Participante participante) {
+    public int eliminarMiembro(Miembro miembro) {
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
-        String[] argumentos = {String.valueOf(participante.getId())};
+        String[] argumentos = {String.valueOf(miembro.getId())};
         return baseDeDatos.delete(NOMBRE_TABLA, "id = ?", argumentos);
     }
 
 
-    public long nuevoParticipante(Participante participante) {
+    public long nuevoMiembro(Miembro miembro) {
         // writable porque vamos a insertar
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
 
-        // Rescatamos valores necesarios para guardar Participante TODO
-        String walletId = String.valueOf(participante.getWalletId());
-        String usuarioId = String.valueOf(participante.getUserId());
+        // Rescatamos valores necesarios para guardar Miembro TODO
+        String walletId = String.valueOf(miembro.getWalletId());
+        String usuarioId = String.valueOf(miembro.getUserId());
 
-        // Buscamos si existe el Participante en esa tabla
-        String existeParticipante = "SELECT * from 'WALLET_USUARIO' WHERE wallet_id = " + walletId + " AND usuario_id = " + usuarioId;
-        Cursor cursorParticipante = baseDeDatos.rawQuery(existeParticipante, null);
-        long participanteExisteDb = cursorParticipante.getCount();
+        // Buscamos si existe el Miembro en esa tabla
+        String existeMiembro = "SELECT * from 'WALLET_USUARIO' WHERE wallet_id = " + walletId + " AND usuario_id = " + usuarioId;
+        Cursor cursorMiembro = baseDeDatos.rawQuery(existeMiembro, null);
+        long miembroExisteDb = cursorMiembro.getCount();
 
         // Si no existe se añade
-        long participanteYaExiste = 1;
-        if (participanteExisteDb == 0) {
-            participanteYaExiste = 0;
-            String guardarParticipante = "INSERT INTO 'WALLET_USUARIO' (wallet_id,usuario_id) VALUES (" + walletId + "," + usuarioId + ")";
-            Cursor cursorParticipantes = baseDeDatos.rawQuery(guardarParticipante, null);
-            participanteYaExiste = cursorParticipantes.getCount();
-            cursorParticipantes.close();
+        long miembroYaExiste = 1;
+        if (miembroExisteDb == 0) {
+            miembroYaExiste = 0;
+            String guardarMiembro = "INSERT INTO 'WALLET_USUARIO' (wallet_id,usuario_id) VALUES (" + walletId + "," + usuarioId + ")";
+            Cursor cursorMiembros = baseDeDatos.rawQuery(guardarMiembro, null);
+            miembroYaExiste = cursorMiembros.getCount();
+            cursorMiembros.close();
         }
         // Fin del ciclo. Cerramos cursor
-        cursorParticipante.close();
-        return participanteYaExiste;
+        cursorMiembro.close();
+        return miembroYaExiste;
     }
 
 
-    public int guardarCambios(Participante participanteEditado) {
+    public int guardarCambios(Miembro miembroEditado) {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();
 
-        valoresParaActualizar.put("walletId", participanteEditado.getWalletId());
-        valoresParaActualizar.put("userId", participanteEditado.getUserId());
+        valoresParaActualizar.put("walletId", miembroEditado.getWalletId());
+        valoresParaActualizar.put("userId", miembroEditado.getUserId());
 
         // where id...
         String campoParaActualizar = "id = ?";
-        // ... = idParticipante
-        String[] argumentosParaActualizar = {String.valueOf(participanteEditado.getId())};
+        // ... = idMiembro
+        String[] argumentosParaActualizar = {String.valueOf(miembroEditado.getId())};
         return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
     }
 
 
-    public ArrayList<Participante> obtenerParticipantes(long walletId) {
-        ArrayList<Participante> participantes = new ArrayList<>();
+    public ArrayList<Miembro> obtenerMiembros(long walletId) {
+        ArrayList<Miembro> miembros = new ArrayList<>();
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
@@ -87,11 +87,11 @@ public class ParticipanteController {
         Cursor cursor = baseDeDatos.rawQuery(query, null);
 
         if (cursor == null) {
-            return participantes;
+            return miembros;
         }
 
         // Si no hay datos, igualmente regresamos la lista vacía
-        if (! cursor.moveToFirst()) return participantes;
+        if (! cursor.moveToFirst()) return miembros;
 
         // En caso de que sí haya, iteramos y vamos agregando
         do {
@@ -99,15 +99,15 @@ public class ParticipanteController {
             long user_idObtenidoDeBD = cursor.getLong(1);
             String nombreObtenidoDeBD = cursor.getString(2);
 
-            Participante participanteObtenidaDeBD = new Participante(wallet_idObtenidoDeBD, user_idObtenidoDeBD, nombreObtenidoDeBD);
-            participantes.add(participanteObtenidaDeBD);
+            Miembro miembroObtenidaDeBD = new Miembro(wallet_idObtenidoDeBD, user_idObtenidoDeBD, nombreObtenidoDeBD);
+            miembros.add(miembroObtenidaDeBD);
 
         } while (cursor.moveToNext());
 
         // Fin del ciclo. Cerramos cursor y regresamos la lista
         cursor.close();
 
-        return participantes;
+        return miembros;
 
     }
 }

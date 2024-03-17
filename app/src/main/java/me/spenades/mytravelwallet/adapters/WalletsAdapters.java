@@ -63,12 +63,13 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
         myViewHolder.tvDescripcion.setText(descripcionWallet);
         myViewHolder.tvWalletId.setText(String.valueOf(walletId));
         boolean checkbox_Compartir = (compartirWallet == 1) ? true : false;
-
-        // importes Totales de los Wallets
-        // ListarWalletsActivity listarWalletsActivity = new ListarWalletsActivity();
-        Map importe = listaDeImportes.get(0);
-        myViewHolder.tvImporteW.setText(String.valueOf(importe.get(walletId) + "€"));
-
+        try {
+            // importes Totales de los Wallets
+            Map importe = listaDeImportes.get(0);
+            myViewHolder.tvImporteW.setText(String.valueOf(importe.get(walletId) + "€"));
+        } catch (Exception e) {
+            System.out.println("Error WalletsAdapters");
+        }
     }
 
 

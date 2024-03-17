@@ -129,8 +129,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
+        android:clickable="false"
+        android:focusable="false"
         android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -241,13 +241,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <ScrollView
-            android:id="@+id/scrollView4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="-68dp"
-            tools:layout_editor_absoluteY="5dp" />
 
     </android.support.constraint.ConstraintLayout>
 

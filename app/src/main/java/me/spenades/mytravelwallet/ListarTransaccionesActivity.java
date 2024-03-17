@@ -17,25 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.TransaccionesAdapters;
-import me.spenades.mytravelwallet.controllers.ParticipanteController;
+import me.spenades.mytravelwallet.controllers.MiembroController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
-import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
-import me.spenades.mytravelwallet.utilities.ResolverDeudaActivity;
 import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
 
 public class ListarTransaccionesActivity extends AppCompatActivity {
 
     private List<Transaccion> listaDeTransaccions;
-    private List<Participante> listaDeParticipantes;
+    private List<Miembro> listaDeMiembros;
     private RecyclerView recyclerViewTransacciones;
-    // private FrameLayout frameLResumen;
     private TransaccionesAdapters transaccionesAdapters;
     private TransaccionController transaccionController;
-    private ParticipanteController participanteController;
+    private MiembroController miembroController;
     private UsuarioUtility usuarioUtility;
     private FloatingActionButton fabAgregarTransaccion;
     private FloatingActionButton fabResolverDeudas;
@@ -47,8 +45,8 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
         setContentView(R.layout.activity_main_transactions);
+        Bundle extras = getIntent().getExtras();
         this.walletName = extras.getString("nombreWallet");
         this.walletId = extras.getLong("walletId");
         long usuarioIdActivo = extras.getInt("usuarioIdActivo");
@@ -63,7 +61,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Definir nuestro controlador
         transaccionController = new TransaccionController(ListarTransaccionesActivity.this);
-        participanteController = new ParticipanteController(ListarTransaccionesActivity.this);
+        miembroController = new MiembroController(ListarTransaccionesActivity.this);
 
 
         // Instanciar vistas
@@ -78,10 +76,9 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         // Por defecto es una lista vacía,
         listaDeTransaccions = new ArrayList<>();
         transaccionesAdapters = new TransaccionesAdapters(listaDeTransaccions);
-        listaDeParticipantes = new ArrayList<>();
+        listaDeMiembros = new ArrayList<>();
 
-        // se la ponemos al adaptador y configuramos el recyclerView
-
+        // configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManagerTop =
                 new LinearLayoutManager(getApplicationContext());
         recyclerViewTransacciones.setLayoutManager(mLayoutManagerTop);
@@ -91,11 +88,12 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         tvWalletActivo.setText("Wallet " + this.walletName);
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
-        refrescarListaDeTransacciones();
+        refrescarListas();
 
+        // Resumen de las Transaciones
         Operaciones objOperaciones = new Operaciones();
         String totalTransacciones = objOperaciones.sumaTransacciones(listaDeTransaccions,
-                listaDeParticipantes);
+                listaDeMiembros);
         List<String> siguientePagador = objOperaciones.proximoPagador();
         List<String> miembros = objOperaciones.listaDeMiembros();
         String importeTotal = totalTransacciones + "€";
@@ -122,8 +120,8 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                         intent.putExtra("nombrePagadorTransaccion",
                                 transaccionSeleccionada.getNombrePagador());
                         intent.putExtra("pagadorIdTransaccion", transaccionSeleccionada.getPagadorId());
-                        intent.putExtra("participantesTransaccion",
-                                transaccionSeleccionada.getParticipantes());
+                        intent.putExtra("miembrosTransaccion",
+                                transaccionSeleccionada.getMiembros());
                         intent.putExtra("fechaTransaccion", transaccionSeleccionada.getFecha());
                         intent.putExtra("categoriaTransaccion", transaccionSeleccionada.getCategoria());
                         intent.putExtra("walletId", String.valueOf(walletId));
@@ -144,7 +142,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         transaccionController.eliminarTransaccion(transaccionParaEliminar);
-                                        refrescarListaDeTransacciones();
+                                        refrescarListas();
                                     }
                                 })
                                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -190,8 +188,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(ListarTransaccionesActivity.this)
                         .setTitle("Acerca de")
-                        .setMessage("Wallet Travel Universae\n\nIcons www.flaticon.com, y " +
-                                "plantilla código de www.parzibyte.me")
+                        .setMessage("Wallet Travel Universae\n\n")
                         .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
 
                             @Override
@@ -224,7 +221,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                 // Simplemente cambiamos de actividad
                 Intent intent = new Intent(ListarTransaccionesActivity.this,
                         ResolverDeudaActivity.class);
-                intent.putExtra("walletId", walletId);
+                intent.putExtra("walletId", String.valueOf(walletId));
                 startActivity(intent);
             }
         });
@@ -264,12 +261,12 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refrescarListaDeTransacciones();
+        refrescarListas();
     }
 
 
-    public void refrescarListaDeTransacciones() {
-        listaDeParticipantes = participanteController.obtenerParticipantes(walletId);
+    public void refrescarListas() {
+        listaDeMiembros = miembroController.obtenerMiembros(walletId);
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
         transaccionesAdapters.setListaDeTransacciones(listaDeTransaccions);
         transaccionesAdapters.notifyDataSetChanged();

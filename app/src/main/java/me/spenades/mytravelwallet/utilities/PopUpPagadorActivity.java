@@ -17,7 +17,7 @@ import me.spenades.mytravelwallet.AgregarTransaccionActivity;
 import me.spenades.mytravelwallet.EditarTransaccionesActivity;
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.PagadoresAdapters;
-import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Miembro;
 
 public class PopUpPagadorActivity extends PopupWindow {
 
@@ -28,7 +28,7 @@ public class PopUpPagadorActivity extends PopupWindow {
     private PagadoresAdapters pagadoresAdapters;
 
 
-    public void showPopupWindow(final View view, List<Participante> listaDeParticipantes,
+    public void showPopupWindow(final View view, List<Miembro> listaDeMiembros,
                                 String activity) {
 
 
@@ -57,12 +57,12 @@ public class PopUpPagadorActivity extends PopupWindow {
 
 
         //Initialize the elements of our window, install the handler
-        recyclerViewPagadores = popupView.findViewById(R.id.recyclerViewPagadores);
+        recyclerViewPagadores = popupView.findViewById(R.id.recyclerViewResoluciones);
         etNombrePagador = activityTransactionView.findViewById(R.id.etNombrePagador);
         String pagador = etNombrePagador.getText().toString();
 
-        // listaDeParticipantes en el popupView
-        pagadoresAdapters = new PagadoresAdapters(listaDeParticipantes);
+        // listaDeMiembros en el popupView
+        pagadoresAdapters = new PagadoresAdapters(listaDeMiembros);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(popupView.getContext());
         recyclerViewPagadores.setLayoutManager(mLayoutManager);
@@ -78,7 +78,7 @@ public class PopUpPagadorActivity extends PopupWindow {
                     public void onClick(View view, int position) {
 
                         // Pasar a la actividad editarwallet con el nombre elegido.
-                        final Participante pagadorActivo = listaDeParticipantes.get(position);
+                        final Miembro pagadorActivo = listaDeMiembros.get(position);
                         nombrePagador = pagadorActivo.getNombre();
                         pagadorId = String.valueOf(pagadorActivo.getUserId());
 

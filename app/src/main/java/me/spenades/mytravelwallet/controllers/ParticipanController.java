@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import me.spenades.mytravelwallet.SQLiteDB.AyudanteBaseDeDatos;
-import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Usuario;
 
 
@@ -25,68 +25,68 @@ public class ParticipanController {
     }
 
 
-    public int eliminarParticipante(Participante participante) {
+    public int eliminarMiembro(Miembro miembro) {
 
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
-        String[] argumentos = {String.valueOf(participante.getId())};
+        String[] argumentos = {String.valueOf(miembro.getId())};
         return baseDeDatos.delete(NOMBRE_TABLA, "id = ?", argumentos);
     }
 
 
-    public long nuevoParticipante(Participante participante) {
+    public long nuevoMiembro(Miembro miembro) {
         // writable porque vamos a insertar
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
 
-        // Rescatamos valores necesarios para guardar Participante
-        String walletId = String.valueOf(participante.getWalletId());
-        String usuarioId = String.valueOf(participante.getUserId());
+        // Rescatamos valores necesarios para guardar Miembro
+        String walletId = String.valueOf(miembro.getWalletId());
+        String usuarioId = String.valueOf(miembro.getUserId());
 
-        // Buscamos si existe el Participante en esa tabla
-        String existeParticipante = "SELECT * from 'WALLET_USUARIO' WHERE wallet_id = " + walletId + " AND usuario_id = " + usuarioId;
-        Cursor cursorParticipante = baseDeDatos.rawQuery(existeParticipante, null);
-        long participanteExisteDb = cursorParticipante.getCount();
+        // Buscamos si existe el Miembro en esa tabla
+        String existeMiembro = "SELECT * from 'WALLET_USUARIO' WHERE wallet_id = " + walletId + " AND usuario_id = " + usuarioId;
+        Cursor cursorMiembro = baseDeDatos.rawQuery(existeMiembro, null);
+        long miembroExisteDb = cursorMiembro.getCount();
 
         // Si no existe se añade
-        long participanteYaExiste = 1;
-        if (participanteExisteDb == 0) {
-            participanteYaExiste = 0;
-            String guardarParticipante = "INSERT INTO 'WALLET_USUARIO' (wallet_id,usuario_id) VALUES (" + walletId + "," + usuarioId + ")";
-            Cursor cursorParticipantes = baseDeDatos.rawQuery(guardarParticipante, null);
-            participanteYaExiste = cursorParticipantes.getCount();
-            cursorParticipantes.close();
+        long miembroYaExiste = 1;
+        if (miembroExisteDb == 0) {
+            miembroYaExiste = 0;
+            String guardarMiembro = "INSERT INTO 'WALLET_USUARIO' (wallet_id,usuario_id) VALUES (" + walletId + "," + usuarioId + ")";
+            Cursor cursorMiembros = baseDeDatos.rawQuery(guardarMiembro, null);
+            miembroYaExiste = cursorMiembros.getCount();
+            cursorMiembros.close();
         }
         // Fin del ciclo. Cerramos cursor
-        cursorParticipante.close();
-        return participanteYaExiste;
+        cursorMiembro.close();
+        return miembroYaExiste;
     }
 
 
-    public int guardarCambios(Participante participanteEditado) {
+    public int guardarCambios(Miembro miembroEditado) {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();
 
-        valoresParaActualizar.put("walletId", participanteEditado.getWalletId());
-        valoresParaActualizar.put("userId", participanteEditado.getUserId());
+        valoresParaActualizar.put("walletId", miembroEditado.getWalletId());
+        valoresParaActualizar.put("userId", miembroEditado.getUserId());
 
         // where id...
         String campoParaActualizar = "id = ?";
-        // ... = idParticipante
-        String[] argumentosParaActualizar = {String.valueOf(participanteEditado.getId())};
+        // ... = idMiembro
+        String[] argumentosParaActualizar = {String.valueOf(miembroEditado.getId())};
         return baseDeDatos.update(NOMBRE_TABLA, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
     }
 
 
-    public ArrayList<Participante> obtenerParticipan(long transaccionId) {
+    public ArrayList<Miembro> obtenerParticipan(long transaccionId) {
 
         ArrayList<Usuario> usuarioCompletoLista = new ArrayList<>();
-        ArrayList<Participante> participanFinal = new ArrayList<>();
+        ArrayList<Miembro> participanFinal = new ArrayList<>();
 
         // readable porque no vamos a modificar, solamente leer
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getReadableDatabase();
 
         // hacemos busqueda nombre y los que participan del wallet.
         String transaccionIdLong = String.valueOf(transaccionId);
-        String participanSql = "SELECT participantes FROM 'TRANSACCION' WHERE id = " + transaccionIdLong;
+        String participanSql = "SELECT miembros FROM 'TRANSACCION' WHERE id = " + transaccionIdLong;
         Cursor cursor = baseDeDatos.rawQuery(participanSql, null);
 
         cursor.moveToNext();
@@ -107,16 +107,16 @@ public class ParticipanController {
 
         for (String usuarioIdDbParticipa : participaLista) {
 
-            Long participanteLong = Long.parseLong(usuarioIdDbParticipa);
+            Long miembroLong = Long.parseLong(usuarioIdDbParticipa);
             // Formateamos el Id
-            //Usuario usuarioIdParticipa = new Usuario(participanteLong);
+            //Usuario usuarioIdParticipa = new Usuario(miembroLong);
             // Recuperamos el nombre del id
-            usuarioCompletoLista = usuarioController.obtenerUsuarioNombre(participanteLong);
+            usuarioCompletoLista = usuarioController.obtenerUsuarioNombre(miembroLong);
             // Extraemos nombre el id
             Usuario usuarioCompleto = usuarioCompletoLista.get(0);
             String usuarioNombre = usuarioCompleto.getNombre();
             long usuarioId = usuarioCompleto.getId();
-            Participante usuarioObtenidaDeBD = new Participante(usuarioNombre, usuarioId);
+            Miembro usuarioObtenidaDeBD = new Miembro(usuarioNombre, usuarioId);
             participanFinal.add(usuarioObtenidaDeBD);
 
         }

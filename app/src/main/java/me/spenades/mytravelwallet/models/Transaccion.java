@@ -6,7 +6,7 @@ public class Transaccion {
     private String importe;
     private long pagadorId;
     private String nombrePagador;
-    private String participantes;
+    private String miembros;
     private String categoria;
     private long categoriaId;
     private String fecha;
@@ -15,11 +15,11 @@ public class Transaccion {
     private float total;
 
 
-    public Transaccion(String descripcion, String importe, long pagadorId, String participantes, long categoriaId, String fecha, long walletId) {
+    public Transaccion(String descripcion, String importe, long pagadorId, String miembros, long categoriaId, String fecha, long walletId) {
         this.descripcion = descripcion;
         this.importe = importe;
         this.pagadorId = pagadorId;
-        this.participantes = participantes;
+        this.miembros = miembros;
         this.categoriaId = categoriaId;
         this.fecha = fecha;
         this.walletId = walletId;
@@ -27,14 +27,14 @@ public class Transaccion {
 
 
     // Constructor para cuando instanciamos desde la BD
-    public Transaccion(String descripcion, String importe, long pagadorId, String nombrePagador, String participantes, long categoriaId,
+    public Transaccion(String descripcion, String importe, long pagadorId, String nombrePagador, String miembros, long categoriaId,
                        String categoria,
                        String fecha, long walletId, long id) {
         this.descripcion = descripcion;
         this.importe = importe;
         this.pagadorId = pagadorId;
         this.nombrePagador = nombrePagador;
-        this.participantes = participantes;
+        this.miembros = miembros;
         this.categoriaId = categoriaId;
         this.categoria = categoria;
         this.fecha = fecha;
@@ -43,12 +43,12 @@ public class Transaccion {
     }
 
 
-    public Transaccion(String descripcion, String importe, long pagadorId, String participantes, long categoriaId, String fecha, long walletId,
+    public Transaccion(String descripcion, String importe, long pagadorId, String miembros, long categoriaId, String fecha, long walletId,
                        long id) {
         this.descripcion = descripcion;
         this.importe = importe;
         this.pagadorId = pagadorId;
-        this.participantes = participantes;
+        this.miembros = miembros;
         this.categoriaId = categoriaId;
         this.fecha = fecha;
         this.walletId = walletId;
@@ -106,13 +106,13 @@ public class Transaccion {
     }
 
 
-    public String getParticipantes() {
-        return participantes;
+    public String getMiembros() {
+        return miembros;
     }
 
 
-    public void setParticipantes(String participantes) {
-        this.participantes = participantes;
+    public void setMiembros(String miembros) {
+        this.miembros = miembros;
     }
 
 
@@ -162,7 +162,7 @@ public class Transaccion {
                 ", descripcion='" + descripcion + '\'' +
                 ", importe='" + importe + '\'' +
                 ", pagadorId='" + pagadorId + '\'' +
-                ", participantes='" + participantes + '\'' +
+                ", miembros='" + miembros + '\'' +
                 ", categoria='" + categoria + '\'' +
                 ", fecha='" + fecha + '\'' +
                 ", walletId='" + walletId +

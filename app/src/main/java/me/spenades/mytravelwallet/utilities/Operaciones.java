@@ -3,6 +3,7 @@ package me.spenades.mytravelwallet.utilities;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,21 +11,21 @@ import java.util.Map;
 import java.util.Set;
 
 import me.spenades.mytravelwallet.models.Categoria;
-import me.spenades.mytravelwallet.models.Participante;
+import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
 
 public class Operaciones {
 
     private static List<Transaccion> listaTransacciones;
 
-    private static List<Participante> listaParticipantes;
-    private static List<Participante> listaParticipan;
+    private static List<Miembro> listaMiembros;
+    private static List<Miembro> listaParticipan;
     private static long walletId;
 
 
     public static void main(String[] args) {
         listaTransacciones = new ArrayList<>();
-        listaParticipantes = new ArrayList<>();
+        listaMiembros = new ArrayList<>();
         listaParticipan = new ArrayList<>();
         walletId = 0l;
 
@@ -32,32 +33,32 @@ public class Operaciones {
 
 
     public String sumaTransacciones(List<Transaccion> listaTransacciones,
-                                    List<Participante> listaParticipantes) {
+                                    List<Miembro> listaMiembros) {
         this.listaTransacciones = listaTransacciones;
-        this.listaParticipantes = listaParticipantes;
-        this.listaParticipan = listaParticipantes;
+        this.listaMiembros = listaMiembros;
+        this.listaParticipan = listaMiembros;
         float total = 0;
         for (Transaccion i : listaTransacciones) {
             total += Float.valueOf(i.getImporte());
         }
 
         proximoPagador();
-        pagadoPorCadaParticipante();
+        pagadoPorCadaMiembro();
         return String.valueOf(total);
     }
 
 
     public List<String> proximoPagador() {
-        Map<Long, Double> listaPagadoresId = pagadoPorCadaParticipante();
+        Map<Long, Double> listaPagadoresId = pagadoPorCadaMiembro();
         Map<Long, Double> pagadoresIdOrdenados = ordenarTransacciones(listaPagadoresId);
 
         Set<Long> pagadoresId = pagadoresIdOrdenados.keySet();
         long pagadorFinalId = pagadoresId.iterator().next();
         List<String> siguientePagador = new ArrayList<>();
-        for (Participante participantes : listaParticipantes) {
-            if (pagadorFinalId == participantes.getUserId()) {
+        for (Miembro miembros : listaMiembros) {
+            if (pagadorFinalId == miembros.getUserId()) {
                 siguientePagador.add(String.valueOf(pagadorFinalId));
-                siguientePagador.add(participantes.getNombre());
+                siguientePagador.add(miembros.getNombre());
             }
         }
         return siguientePagador;
@@ -79,29 +80,29 @@ public class Operaciones {
     }
 
 
-    public Map<Long, Double> listaParticipantesACero() {
-        //Añade participantes y les pone valor 0.0
+    public Map<Long, Double> listaMiembrosACero() {
+        //Añade miembros y les pone valor 0.0
         Map<Long, Double> datos = new HashMap<Long, Double>();
-        for (Participante participaIdItera : listaParticipantes) {
-            long participanteId = participaIdItera.getUserId();
+        for (Miembro participaIdItera : listaMiembros) {
+            long miembroId = participaIdItera.getUserId();
             double importeCero = 0.0;
-            datos.put(participanteId, importeCero);
+            datos.put(miembroId, importeCero);
         }
         return datos;
     }
 
 
-    public Map<Long, Double> pagadoPorCadaParticipante() {
-        Map<Long, Double> datos = listaParticipantesACero();
+    public Map<Long, Double> pagadoPorCadaMiembro() {
+        Map<Long, Double> datos = listaMiembrosACero();
         for (Transaccion transaccion : listaTransacciones) {
 
-            // Creamos un diccionario con lo que ha pagado cada participante cada una de las
+            // Creamos un diccionario con lo que ha pagado cada miembro cada una de las
             // transacciones
             double importeAnterior = 0;
             double importeTransaccion = 0;
             double importeNuevo = 0;
             long pagadorId = 1;
-            for (Participante participa : listaParticipantes) {
+            for (Miembro participa : listaMiembros) {
 
                 pagadorId = transaccion.getPagadorId();
                 importeAnterior = datos.get(pagadorId);
@@ -130,7 +131,7 @@ public class Operaciones {
     public List<String> listaDeMiembros() {
         List<String> lista = new ArrayList<>();
 
-        for (Participante listaCompleta : listaParticipan) {
+        for (Miembro listaCompleta : listaParticipan) {
             String nombre = listaCompleta.getNombre();
             lista.add(nombre);
         }
@@ -152,35 +153,16 @@ public class Operaciones {
         return categorias;
     }
 
-/*
-    //https://es.stackoverflow.com/questions/90634/ocultar-teclado-al-lanzar-activity-con-edittext-y-volver-a-mostrarlo/90640
-    //Shows the soft keyboard
-    public void showSoftKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        view.requestFocus();
-        inputMethodManager.showSoftInput(view, 0);
+
+    public String fechaDeHoy() {
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        System.out.println(day + "/" + month + "/" + year);
+        String fecha = day + "/" + month + "/" + year;
+        return fecha;
     }
-
-
-    //https://umhandroid.momrach.es/ocultar-el-teclado-virtual/
-    // Ocultar el teclado virtual
-    private void HideKeyboard(View view) {
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-
-        /*
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-
-    }
-    */
-
 }
 
 
