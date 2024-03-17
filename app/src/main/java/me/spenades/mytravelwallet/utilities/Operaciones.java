@@ -159,10 +159,10 @@ public class Operaciones {
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
-        System.out.println(day + "/" + month + "/" + year);
         String fecha = day + "/" + month + "/" + year;
         return fecha;
     }
+
 }
 
 
