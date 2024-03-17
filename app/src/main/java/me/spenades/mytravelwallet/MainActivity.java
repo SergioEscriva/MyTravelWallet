@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.UsuariosAdapters;
+import me.spenades.mytravelwallet.controllers.DemoController;
 import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.models.Usuario;
 
 public class MainActivity extends AppCompatActivity {
 
     private UsuarioController usuarioController;
+    private DemoController demoController;
     private List<Usuario> listaDeUsuarios;
     private UsuariosAdapters usuariosAdapters;
     private Button btnEmpezar;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Definir nuestro controlador
         usuarioController = new UsuarioController(MainActivity.this);
+        demoController = new DemoController(MainActivity.this);
 
         // Instanciamos vistas
         etNombrePropietario = findViewById(R.id.etNombrePropietario);
@@ -89,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Error al guardar. Intenta de nuevo",
                     Toast.LENGTH_SHORT).show();
         } else {
+            demoController.demoIncial();
             continuar();
         }
     }

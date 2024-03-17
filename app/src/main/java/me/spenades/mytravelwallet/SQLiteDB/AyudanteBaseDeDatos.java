@@ -34,7 +34,7 @@ public class AyudanteBaseDeDatos extends SQLiteOpenHelper {
                 "propietario int, compartir inte)", NOMBRE_TABLA_WALLETS));
 
         db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, descripcion text, importe real, pagadorId " +
-                "int, participantes text, categoria int, fecha text, walletId int)", NOMBRE_TABLA_TRANSACCIONES));
+                "int, miembros int, categoria int, fecha text, walletId int)", NOMBRE_TABLA_TRANSACCIONES));
 
         db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, nombre text unique, apodo text)",
                 NOMBRE_TABLA_USUARIOS));
@@ -44,6 +44,7 @@ public class AyudanteBaseDeDatos extends SQLiteOpenHelper {
 
         db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, categoria text unique)",
                 NOMBRE_TABLA_CATEGORIAS));
+
     }
 
 
