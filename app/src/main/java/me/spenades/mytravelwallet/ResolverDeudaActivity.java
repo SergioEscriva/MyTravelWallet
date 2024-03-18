@@ -38,6 +38,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private List<Miembro> listaDeMiembros;
     private List<Miembro> listaDeParticipan;
     private List<List> listaDeSoluciones;
+    private ArrayList<String> mostrarResolucion;
     private Map<Long, Double> listaDeGastos;
     private TransaccionController transaccionController;
     private MiembroController miembroController;
@@ -47,6 +48,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private RecyclerView recyclerViewResoluciones, recyclerViewGastosTotales;
     private TextView tvSinDeudas, tvInfoDeudas;
     private long walletId;
+    private Map<Long, Double> pagadoPorMiembro;
 
 
     @Override
@@ -88,9 +90,11 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         listaDeMiembros = new ArrayList<>();
         listaDeParticipan = new ArrayList<>();
         listaDeSoluciones = new ArrayList<>();
+        pagadoPorMiembro = new HashMap<>();
+        mostrarResolucion = new ArrayList<>();
         listaDeGastos = new HashMap<>();
         resolucionesAdapters = new ResolucionesAdapters(listaDeSoluciones);
-        gastosTotalesAdapters = new GastosTotalesAdapters(listaDeGastos, listaDeMiembros);
+        gastosTotalesAdapters = new GastosTotalesAdapters(mostrarResolucion, listaDeMiembros);
 
         //configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManager =
@@ -173,8 +177,11 @@ public class ResolverDeudaActivity extends AppCompatActivity {
             recyclerViewResoluciones.setVisibility(View.INVISIBLE);
         }
         listaDeGastos = unificaGastoMiembroWallet();//llama Gasto Total
-        gastosTotalesAdapters.setListaDeResoluciones(listaDeGastos, listaDeMiembros);
+        //mostrarResolucion = operacionesResolucionDeudas(); // TODO Gastos Totales
+        gastosTotalesAdapters.setListaDeResoluciones(mostrarResolucion, listaDeMiembros);
         gastosTotalesAdapters.notifyDataSetChanged();
+
+
     }
 
 
@@ -281,7 +288,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                         pagarOrdenado.replace(pagador, cantidadAPagar);
                         break;
                     }
-
                 }
                 if (recibirOrdenado.size() == 0) {
                     break;
@@ -323,12 +329,12 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                     gastosParticianTotalesWallet.put(iterar, importeTotal);
 
                 });
+
                 return gastosParticianTotalesWallet;
             }
         } catch (Exception e) {
             System.out.println("Oops! ResolverDeuda");
         }
-
         return gastosParticianTotalesWallet;
     }
 
@@ -377,6 +383,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                 }
                 deudas.put(miembroId, saldo);
             }
+
             gastoMiembros.add(deudas);
         }
         return gastoMiembros;
@@ -398,6 +405,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
             datos.put(nombreIdIndividual, importeCero);
         }
         datos.put(nombreId, importe);
+
         return datos;
     }
 
@@ -409,6 +417,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         double importeTransaccion = Double.valueOf(transaccion.getImporte());
         double importePorMiembro =
                 bigDecimal(bigDecimal(importeTransaccion) / bigDecimal(numeroMiembros + 0.0));
+
         return importePorMiembro;
     }
 
@@ -424,6 +433,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                 solucionesLimpias.add(solucion);
             }
         }
+
         return solucionesLimpias;
     }
 
@@ -439,6 +449,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                 .stream()
                 .sorted(Map.Entry.comparingByValue())
                 .forEachOrdered(entry -> ordenarDiccionario.put(entry.getKey(), entry.getValue()));
+
         return ordenarDiccionario;
     }
 
@@ -467,12 +478,41 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         return transaccionId;
     }
 
-/*
-    public void gastosTotalesResumidos() {
-        Map gastos = unificaGastoMiembroWallet();
-        System.out.println("Gastos Tot " + gastos);
-        GastosTotalesAdapters.setListaDeResoluciones(gastos);
+
+    /// TODO añadir Gastos Totales
+    public ArrayList<String> operacionesResolucionDeudas() {
+        String importeTotal = new String();
+
+        ArrayList<ArrayList> gastosTotalesDivididos = new ArrayList<>();
+
+        // Obtenemos de la listaDeGastos los ids, y los iteramos con la listaDeMiembros, para obtener el nombre.
+        ArrayList<String> miembrosGastos = new ArrayList<>();
+        for (Long miembroIdGasto : listaDeGastos.keySet()) {
+            double importe = listaDeGastos.get(miembroIdGasto);
+            for (Miembro solucionFinal : listaDeMiembros) {
+                long miembroId = solucionFinal.getUserId();
+                if (miembroIdGasto == miembroId) {
+                    String miembro = new String();
+                    String importeString = new String();
+                    miembro = solucionFinal.getNombre();
+                    // Limpiamos decimales del importe
+                    Operaciones operaciones = new Operaciones();
+                    double importeLimpio = operaciones.bigDecimal(importe);
+                    importeString = String.valueOf(importeLimpio);
+                    String miembroGastoString = miembro + " debería haber pagado " + importeTotal + "€" + "\nComo ha pagado " + importeString +
+                            "€\nTiene un " +
+                            "Saldo de" +
+                            " " + "[-Total]€";
+                    miembrosGastos.add(miembroGastoString);
+                    ArrayList<String> gastosTotales = new ArrayList<>();
+                    gastosTotales.add(miembro);
+                    gastosTotales.add(importeString);
+                    gastosTotalesDivididos.add(gastosTotales);
+                }
+            }
+        }
+        return miembrosGastos;
     }
 
- */
+
 }

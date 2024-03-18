@@ -9,27 +9,25 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.models.Miembro;
-import me.spenades.mytravelwallet.utilities.Operaciones;
 
 
 public class GastosTotalesAdapters extends RecyclerView.Adapter<GastosTotalesAdapters.MyViewHolder> {
 
 
-    private Map<Long, Double> listaDeGastos;
+    private ArrayList<String> listaDeGastos;
     private List<Miembro> listaDeMiembros;
 
 
-    public GastosTotalesAdapters(Map<Long, Double> listaDeGastos, List<Miembro> listaDeMiembros) {
+    public GastosTotalesAdapters(ArrayList<String> listaDeGastos, List<Miembro> listaDeMiembros) {
         this.listaDeGastos = listaDeGastos;
         this.listaDeMiembros = listaDeMiembros;
     }
 
 
-    public void setListaDeResoluciones(Map<Long, Double> listaDeGastos, List<Miembro> listaDeMiembros) {
+    public void setListaDeResoluciones(ArrayList<String> listaDeGastos, List<Miembro> listaDeMiembros) {
         this.listaDeGastos = listaDeGastos;
         this.listaDeMiembros = listaDeMiembros;
     }
@@ -51,7 +49,10 @@ public class GastosTotalesAdapters extends RecyclerView.Adapter<GastosTotalesAda
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        List<String> gastosTotales = new ArrayList<>();
+        String miembroGasto = listaDeGastos.get(i);
+        /*
+        ArrayList<ArrayList> gastosTotalesDivididos = new ArrayList<>();
+
         // Obtenemos de la listaDeGastos los ids, y los iteramos con la listaDeMiembros, para obtener el nombre.
         ArrayList<String> miembrosGastos = new ArrayList<>();
         for (Long miembroIdGasto : listaDeGastos.keySet()) {
@@ -66,17 +67,22 @@ public class GastosTotalesAdapters extends RecyclerView.Adapter<GastosTotalesAda
                     Operaciones operaciones = new Operaciones();
                     double importeLimpio = operaciones.bigDecimal(importe);
                     importeString = String.valueOf(importeLimpio);
-                    //System.out.println(miembro + importeString);
                     String miembroGastoString = miembro + " tendría que pagar " + "[TOTAL]€" + "\nComo ha pagado " + importeString + "€\nTiene un " +
                             "Saldo de" +
                             " " + "[-Total]€";
                     miembrosGastos.add(miembroGastoString);
+                    ArrayList<String> gastosTotales = new ArrayList<>();
+                    gastosTotales.add(miembro);
+                    gastosTotales.add(importeString);
+                    gastosTotalesDivididos.add(gastosTotales);
                 }
             }
-
         }
-        System.out.println(miembrosGastos.get(i) + " " + i);
+
+
         String miembroGasto = miembrosGastos.get(i);
+
+         */
         myViewHolder.tvGastosTotales.setText(miembroGasto);
     }
 
