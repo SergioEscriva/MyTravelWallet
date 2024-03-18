@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
@@ -26,6 +27,7 @@ import me.spenades.mytravelwallet.controllers.ParticipanController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
 
 public class ResolverDeudaActivity extends AppCompatActivity {
@@ -40,6 +42,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private ParticipanController participanController;
     private ResolucionesAdapters resolucionesAdapters;
     private RecyclerView recyclerViewResoluciones;
+    private TextView tvSinDeudas;
     private long walletId;
 
 
@@ -69,6 +72,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         // Instanciamos las vistas
         //tvResolver = findViewById(R.id.tvResolver);
         recyclerViewResoluciones = findViewById(R.id.recyclerViewResoluciones);
+        tvSinDeudas = findViewById(R.id.tvSinDeudas);
 
         // Creamos listas vacías.
         listaDeTransacciones = new ArrayList<>();
@@ -98,12 +102,11 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        /*función para eliminar la deuda*/
+                                        eliminarDeuda(resolucionParaSaldar);
 
                                         //transaccionController.eliminarTransaccion(transaccionParaEliminar);
-                                        Toast.makeText(ResolverDeudaActivity.this, "Próximamente. " +
-                                                "Próximamente.", Toast.LENGTH_SHORT).show();
-                                        System.out.println("Saldar Deuda");
+                                        Toast.makeText(ResolverDeudaActivity.this, "Deuda Saldada. "
+                                                , Toast.LENGTH_SHORT).show();
                                         refrescarListas();
                                     }
                                 })
@@ -145,6 +148,11 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         listaDeSoluciones = resolucionDeudaWallet(); //llama a Saldar
         resolucionesAdapters.setListaDeResoluciones(listaDeSoluciones);
         resolucionesAdapters.notifyDataSetChanged();
+        if (listaDeSoluciones.size() <= 0) {
+            tvSinDeudas.setVisibility(View.VISIBLE);
+            recyclerViewResoluciones.setVisibility(View.INVISIBLE);
+        }
+
     }
 
 
@@ -420,4 +428,18 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         return resultadoSuma;
     }
 
+
+    public Long eliminarDeuda(List resolucion) {
+        String deuda = resolucion.get(4).toString();
+        long pagador = Long.parseLong(resolucion.get(0).toString());
+        String cobrador = resolucion.get(2).toString();
+        Operaciones operaciones = new Operaciones();
+        String nuevaFecha = operaciones.fechaDeHoy();
+
+        Transaccion transaccionConNuevosCambios = new Transaccion("Saldar Deuda",
+                deuda, pagador, cobrador, 1,
+                nuevaFecha, walletId);
+        long transaccionId = transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
+        return transaccionId;
+    }
 }

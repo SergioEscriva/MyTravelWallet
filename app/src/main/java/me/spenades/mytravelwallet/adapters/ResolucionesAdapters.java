@@ -56,9 +56,7 @@ public class ResolucionesAdapters extends RecyclerView.Adapter<ResolucionesAdapt
         double importe = Math.abs(numeroDecimalConvertido);
         String solucion = new String();
 
-        // Componemos la frase.
-
-        //System.out.println("· " + solucionFinal.get(1) + " le debe " + importe + " a " + solucionFinal.get(3));
+        // Componemos la frase a Mostrar
         solucion = ("· " + solucionFinal.get(1) + " debe " + String.valueOf(importe) + "€" + " a " + solucionFinal.get(3));
 
         myViewHolder.tvResolver.setText(String.valueOf(solucion));
@@ -81,4 +79,5 @@ public class ResolucionesAdapters extends RecyclerView.Adapter<ResolucionesAdapt
             this.tvResolver = itemView.findViewById(R.id.tvResolver);
         }
     }
+
 }

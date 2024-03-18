@@ -50,21 +50,6 @@ public class DemoController {
 
         db.execSQL(String.format("INSERT INTO 'main'.'wallet_usuario' ('id', 'wallet_id', 'usuario_id') VALUES ('1', '1', '1')"));
 
-        System.out.println("Democontroller");
-
-
-        /*
-        ContentValues valoresParaInsertar = new ContentValues();
-
-        // Recuperamos Valores
-        valoresParaInsertar.put("nombre", usuario.getNombre());
-        valoresParaInsertar.put("apodo", usuario.getApodo());
-
-        // Agregamos a la BD
-        long resultado = baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
-        return resultado;
-
-         */
     }
 
 }
