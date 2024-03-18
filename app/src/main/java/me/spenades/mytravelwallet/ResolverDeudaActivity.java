@@ -42,7 +42,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private ParticipanController participanController;
     private ResolucionesAdapters resolucionesAdapters;
     private RecyclerView recyclerViewResoluciones;
-    private TextView tvSinDeudas;
+    private TextView tvSinDeudas, tvInfoDeudas;
     private long walletId;
 
 
@@ -56,6 +56,11 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         //long usuarioIdActivo = extras.getInt("usuarioIdActivo");
         //String usuarioActivo = extras.getString("usuarioActivo");
         walletId = Long.parseLong(extras.getString("walletId"));
+
+        // Se muestra sólo la primera vez la Ayuda
+        int info = extras.getInt("info");
+        tvInfoDeudas = findViewById(R.id.tvInfoDeudas);
+        if (info == 1) tvInfoDeudas.setVisibility(View.VISIBLE);
 
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {

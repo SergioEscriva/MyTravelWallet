@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
     private WalletController walletController;
     private TransaccionController transaccionController;
     private FloatingActionButton fabAgregarWallet;
+    private TextView tvInfoWallets;
 
 
     @Override
@@ -48,6 +50,10 @@ public class ListarWalletsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         long usuarioIdActivo = extras.getInt("usuarioIdActivo");
         String usuarioActivo = extras.getString("usuarioActivo");
+        // Se muestra sólo la primera vez la Ayuda
+        int info = extras.getInt("info");
+        tvInfoWallets = findViewById(R.id.tvInfoWallets);
+        if (info == 1) tvInfoWallets.setVisibility(View.VISIBLE);
 
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {
@@ -99,6 +105,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
                         intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
                         intent.putExtra("walletId", Long.valueOf(walletId));
                         intent.putExtra("nombreWallet", String.valueOf(nombreWallet));
+                        intent.putExtra("info", info);
 
                         startActivity(intent);
 
@@ -121,6 +128,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
                         intent.putExtra("propietarioId",
                                 String.valueOf(walletNameActivo.getPropietarioId()));
                         intent.putExtra("checkCompartir", String.valueOf(walletNameActivo.getCompartir()));
+                        intent.putExtra("info", info);
                         startActivity(intent);
                     }
 
@@ -142,6 +150,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
                 Intent intent = new Intent(ListarWalletsActivity.this, AgregarWalletActivity.class);
                 intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
+                intent.putExtra("info", info);
                 startActivity(intent);
             }
         });

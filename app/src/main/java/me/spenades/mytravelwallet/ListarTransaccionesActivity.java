@@ -39,7 +39,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     private FloatingActionButton fabResolverDeudas;
     private long walletId;
     private String walletName;
-    private TextView tvWalletActivo, tvTotal, tvDeberiaPagar, tvMiembros;
+    private TextView tvWalletActivo, tvTotal, tvDeberiaPagar, tvMiembros, tvInfoTransacciones;
 
 
     @Override
@@ -51,6 +51,12 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         this.walletId = extras.getLong("walletId");
         long usuarioIdActivo = extras.getInt("usuarioIdActivo");
         String usuarioActivo = extras.getString("usuarioActivo");
+
+        // Se muestra sólo la primera vez la Ayuda
+        int info = extras.getInt("info");
+        tvInfoTransacciones = findViewById(R.id.tvInfoTransacciones);
+        if (info == 1) tvInfoTransacciones.setVisibility(View.VISIBLE);
+
 
         // Recuperar datos que enviaron
         if (extras == null) {
@@ -118,6 +124,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                         intent.putExtra("walletName", walletName);
                         intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
                         intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
+                        intent.putExtra("info", info);
                         startActivity(intent);
                     }
 
@@ -167,6 +174,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                 intent.putExtra("walletName", walletName);
                 intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
+                intent.putExtra("info", info);
                 startActivity(intent);
             }
         });
@@ -212,6 +220,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                 Intent intent = new Intent(ListarTransaccionesActivity.this,
                         ResolverDeudaActivity.class);
                 intent.putExtra("walletId", String.valueOf(walletId));
+                intent.putExtra("info", info);
                 startActivity(intent);
             }
         });

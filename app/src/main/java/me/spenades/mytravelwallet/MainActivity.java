@@ -38,13 +38,12 @@ public class MainActivity extends AppCompatActivity {
         // Instanciamos vistas
         etNombrePropietario = findViewById(R.id.etNombrePropietario);
         btnEmpezar = findViewById(R.id.btnEmpezar);
-        //String nombrePropietario = etNombrePropietario.getText().toString();
         iniciar();
 
     }
 
 
-    private void continuar() {
+    private void continuar(int info) {
         //cambiamos de actividad
         refrescarListaDeUsuarios();
         final Usuario usuario = listaDeUsuarios.get(0);
@@ -54,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ListarWalletsActivity.class);
         intent.putExtra("usuarioActivo", usuarioActivo);
         intent.putExtra("usuarioIdActivo", usuarioIdActivo);
+        intent.putExtra("info", info);
         startActivity(intent);
     }
 
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         } else {
             demoController.demoIncial();
-            continuar();
+            continuar(1);
         }
     }
 
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
             });
         } else {
-            continuar();
+            continuar(0);
         }
     }
 }
