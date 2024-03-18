@@ -124,8 +124,10 @@ public class WalletController {
             double importeViejo = 0.0;
             for (ArrayList lista : importeTransaccion) {
                 long walletIdTransaccion = Long.parseLong(lista.get(0).toString());
+                double walletIdTransaccionImporte = Double.valueOf(lista.get(1).toString());
+
                 if (walletId == walletIdTransaccion) {
-                    double importeUnaTransaccion = Double.valueOf(lista.get(1).toString());
+                    double importeUnaTransaccion = walletIdTransaccionImporte;
                     importeViejo += importeUnaTransaccion;
                 }
                 resultado.put(walletId, importeViejo);
