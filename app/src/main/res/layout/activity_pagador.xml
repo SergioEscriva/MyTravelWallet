@@ -29,7 +29,7 @@
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewResoluciones"
+                android:id="@+id/recyclerViewGastos"
                 android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:theme="@style/AppTheme"></android.support.v7.widget.RecyclerView>

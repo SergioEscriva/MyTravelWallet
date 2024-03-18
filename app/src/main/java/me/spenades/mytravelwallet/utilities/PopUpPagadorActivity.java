@@ -57,7 +57,7 @@ public class PopUpPagadorActivity extends PopupWindow {
 
 
         //Initialize the elements of our window, install the handler
-        recyclerViewPagadores = popupView.findViewById(R.id.recyclerViewResoluciones);
+        recyclerViewPagadores = popupView.findViewById(R.id.recyclerViewGastos);
         etNombrePagador = activityTransactionView.findViewById(R.id.etNombrePagador);
         String pagador = etNombrePagador.getText().toString();
 

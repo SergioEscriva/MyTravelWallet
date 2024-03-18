@@ -41,7 +41,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private MiembroController miembroController;
     private ParticipanController participanController;
     private ResolucionesAdapters resolucionesAdapters;
-    private RecyclerView recyclerViewResoluciones;
+    private RecyclerView recyclerViewResoluciones, recyclerViewGastosTotales;
     private TextView tvSinDeudas, tvInfoDeudas;
     private long walletId;
 
@@ -76,7 +76,8 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
         // Instanciamos las vistas
         //tvResolver = findViewById(R.id.tvResolver);
-        recyclerViewResoluciones = findViewById(R.id.recyclerViewResoluciones);
+        recyclerViewResoluciones = findViewById(R.id.recyclerViewGastos);
+        recyclerViewGastosTotales = findViewById(R.id.recyclerViewGastosTotales);
         tvSinDeudas = findViewById(R.id.tvSinDeudas);
 
         // Creamos listas vacías.
@@ -92,6 +93,15 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         recyclerViewResoluciones.setLayoutManager(mLayoutManager);
         recyclerViewResoluciones.setItemAnimator(new DefaultItemAnimator());
         recyclerViewResoluciones.setAdapter(resolucionesAdapters);
+
+        //configuramos el recyclerView
+        RecyclerView.LayoutManager mLayoutManager2 =
+                new LinearLayoutManager(getApplicationContext());
+        recyclerViewGastosTotales.setLayoutManager(mLayoutManager2);
+        recyclerViewGastosTotales.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewGastosTotales.setAdapter(resolucionesAdapters);
+
+
         refrescarListas();
 
         // Listener Resolucion deudas, para Resolverlas.
