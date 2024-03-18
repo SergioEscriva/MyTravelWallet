@@ -34,11 +34,31 @@ public class CategoriaController {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
 
-        // Recuperamos Valores
-        valoresParaInsertar.put("categoria", categoria.getCategoria());
+        long categoriaId = categoria.getId();
+        String categoriaNueva = "'" + categoria.getCategoria() + "'";
 
-        // Agregamos a la BD
-        long resultado = baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
+        // Comprobamos si ya existe
+        String queryExiste = String.format("SELECT EXISTS(SELECT * FROM 'CATEGORIA' WHERE categoria = %s)", categoriaNueva);
+        Cursor cursor = baseDeDatos.rawQuery(queryExiste, null);
+
+        // Mover el cursor al primer resultado
+        cursor.moveToFirst();
+
+        // Obtener el valor de la primera columna
+        int result = cursor.getInt(0);
+
+        //Si el resultado existe, se envía a modificar
+        long resultado = 0;
+        if (result != 1) {
+
+            // si no existe seguimos.
+            // Recuperamos Valores
+            String categoriaNuevaDb = categoria.getCategoria();
+            valoresParaInsertar.put("categoria", categoriaNuevaDb);
+
+            // Agregamos a la BD
+            resultado = baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
+        }
         return resultado;
     }
 
@@ -46,7 +66,6 @@ public class CategoriaController {
     public int guardarCambios(Categoria categoria) {
         SQLiteDatabase baseDeDatos = ayudanteBaseDeDatos.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();
-
         valoresParaActualizar.put("categoria", categoria.getCategoria());
 
         // where id...

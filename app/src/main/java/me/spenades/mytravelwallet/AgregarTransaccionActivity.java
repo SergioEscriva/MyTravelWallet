@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.ParticipanAdapters;
@@ -112,7 +111,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         etTransaccionFecha.setText(fecha);
 
         //Refrescamos datos del RecycleView
-        refrescarListaDeMiembros();
+        refrescarListas();
 
         // Listener del PopUp para elegir pagador.
         etNombrePagador.setOnClickListener(new View.OnClickListener() {
@@ -209,19 +208,13 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 // Conversión de nombre de pagador a id para DB
                 long nuevoIdPagadorId = Long.parseLong(nuevoPagadorId);
 
-                //Añade la Categoria a la BD.
-                ArrayList<Categoria> categoriaIdActual = categoriaController.obtenerCategoriaId(nuevaCategoria);
-
-                // Si existe recupera Id y lo añade a la transacción
-                Categoria categoriaActual = new Categoria(String.valueOf(categoriaIdActual));
-                long categoriaNuevaId = categoriaController.nuevaCategoria(categoriaActual);
-                if (categoriaNuevaId == - 1) categoriaNuevaId = categoriaIdActual.get(0).getId();
+                // Comprobamos si la Categoría existe y según la añadimos o recuperamos el Id
+                long categoriaId = operarCategoria(nuevaCategoria);
 
                 // Si llegamos hasta aquí es porque los datos ya están validados
                 Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion,
-                        nuevoImporte, nuevoIdPagadorId, nuevosMiembros, categoriaNuevaId,
+                        nuevoImporte, nuevoIdPagadorId, nuevosMiembros, categoriaId,
                         nuevaFecha, walletId);
-                System.out.println(transaccionConNuevosCambios);
                 long transaccionId = transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
                 //int transaccionId = 1;
                 if (transaccionId == - 1) {
@@ -242,7 +235,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     }
 
 
-    public void refrescarListaDeMiembros() {
+    public void refrescarListas() {
         // Rellenamos la lista
         listaDeMiembros = miembroController.obtenerMiembros(walletId);
 
@@ -294,5 +287,19 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
+    //Añade la Categoria a la BD Si no Existe Si existe recupera Id
+    public Long operarCategoria(String nuevaCategoria) {
+
+        // Si existe recupera Id y lo añade a la transacción
+        Categoria categoriaActual = new Categoria(String.valueOf(nuevaCategoria));
+        long categoriaNuevaId = categoriaController.nuevaCategoria(categoriaActual);
+        if (categoriaNuevaId <= 0) {
+            List<Categoria> categoriaIdActual = categoriaController.obtenerCategoriaId(nuevaCategoria);
+            categoriaNuevaId = categoriaIdActual.get(0).getId();
+        }
+        return categoriaNuevaId;
     }
 }

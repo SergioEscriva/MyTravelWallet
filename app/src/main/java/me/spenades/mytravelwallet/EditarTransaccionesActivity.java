@@ -245,15 +245,12 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 String nuevoNombrePagador = nuevoPagador;
                 long nuevoIdPagadorId = Long.parseLong(nuevoPagadorId);
 
-                //Añade la Categoria a la BD, siempre la introduce como nueva,TODO se deben actualizar en otro sitio.
-                ArrayList<Categoria> categoriaIdActual = categoriaController.obtenerCategoriaId(nuevaCategoria);
-                Categoria categoriaActual = new Categoria(String.valueOf(categoriaIdActual));
-                long categoriaNuevaId = categoriaController.nuevaCategoria(categoriaActual);
-                if (categoriaNuevaId == - 1) categoriaNuevaId = categoriaActual.getId();
+                // Comprobamos si la Categoría existe y según la añadimos o recuperamos el Id
+                long categoriaId = operarCategoria(nuevaCategoria);
 
                 // Si llegamos hasta aquí es porque los datos ya están validados
                 Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion,
-                        nuevoImporte, nuevoIdPagadorId, nuevosMiembros, categoriaNuevaId,
+                        nuevoImporte, nuevoIdPagadorId, nuevosMiembros, categoriaId,
                         nuevaFecha, walletId, transaccion.getId());
 
                 int filasModificadas =
@@ -330,5 +327,19 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
+    //Añade la Categoria a la BD Si no Existe Si existe recupera Id
+    public Long operarCategoria(String nuevaCategoria) {
+
+        // Si existe recupera Id y lo añade a la transacción
+        Categoria categoriaActual = new Categoria(String.valueOf(nuevaCategoria));
+        long categoriaNuevaId = categoriaController.nuevaCategoria(categoriaActual);
+        if (categoriaNuevaId <= 0) {
+            List<Categoria> categoriaIdActual = categoriaController.obtenerCategoriaId(nuevaCategoria);
+            categoriaNuevaId = categoriaIdActual.get(0).getId();
+        }
+        return categoriaNuevaId;
     }
 }

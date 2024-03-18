@@ -76,6 +76,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         // Por defecto es una lista vacía,
         listaDeTransaccions = new ArrayList<>();
         transaccionesAdapters = new TransaccionesAdapters(listaDeTransaccions);
+
         listaDeMiembros = new ArrayList<>();
 
         // configuramos el recyclerView
@@ -89,17 +90,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListas();
-
-        // Resumen de las Transaciones
-        Operaciones objOperaciones = new Operaciones();
-        String totalTransacciones = objOperaciones.sumaTransacciones(listaDeTransaccions,
-                listaDeMiembros);
-        List<String> siguientePagador = objOperaciones.proximoPagador();
-        List<String> miembros = objOperaciones.listaDeMiembros();
-        String importeTotal = totalTransacciones + "€";
-        tvTotal.setText(importeTotal);
-        tvDeberiaPagar.setText(String.valueOf(siguientePagador.get(1)));
-        tvMiembros.setText(String.valueOf(miembros));
 
         // Listener de los clicks en la lista TRANSACCIONES
         recyclerViewTransacciones.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewTransacciones,
@@ -270,6 +260,20 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
         transaccionesAdapters.setListaDeTransacciones(listaDeTransaccions);
         transaccionesAdapters.notifyDataSetChanged();
+        resumenTransacciones();
+    }
+
+
+    public void resumenTransacciones() {
+        Operaciones objOperaciones = new Operaciones();
+        String totalTransacciones = objOperaciones.sumaTransacciones(listaDeTransaccions,
+                listaDeMiembros);
+        List<String> siguientePagador = objOperaciones.proximoPagador();
+        List<String> miembros = objOperaciones.listaDeMiembros();
+        String importeTotal = totalTransacciones + "€";
+        tvTotal.setText(importeTotal);
+        tvDeberiaPagar.setText(String.valueOf(siguientePagador.get(1)));
+        tvMiembros.setText(String.valueOf(miembros));
     }
 
 

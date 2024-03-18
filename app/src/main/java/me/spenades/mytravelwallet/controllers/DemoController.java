@@ -26,11 +26,14 @@ public class DemoController {
         db.execSQL(String.format("INSERT INTO 'main'.'categoria' ('id', 'categoria') VALUES ('3', 'Gasolina')"));
         db.execSQL(String.format("INSERT INTO 'main'.'categoria' ('id', 'categoria') VALUES ('4', 'Supermercado')"));
 
-        db.execSQL(String.format("INSERT INTO 'main'.'transaccion' ('id', 'descripcion', 'importe', 'pagadorId', 'miembros', 'categoria', 'fecha', " +
+        db.execSQL(String.format("INSERT INTO 'main'.'transaccion' ('id', 'descripcion', 'importe', 'pagadorId', 'miembros', 'categoriaId', " +
+                "'fecha', " +
                 "'walletId') VALUES ('1', 'Cola', '8.0', '1', '1,2,3', '1', '25/12/2023', '1')"));
-        db.execSQL(String.format("INSERT INTO 'main'.'transaccion' ('id', 'descripcion', 'importe', 'pagadorId', 'miembros', 'categoria', 'fecha', " +
+        db.execSQL(String.format("INSERT INTO 'main'.'transaccion' ('id', 'descripcion', 'importe', 'pagadorId', 'miembros', 'categoriaId', " +
+                "'fecha', " +
                 "'walletId') VALUES ('2', 'Horchata', '16.50', '2', '1,2,3', '1', '25/12/2023', '1')"));
-        db.execSQL(String.format("INSERT INTO 'main'.'transaccion' ('id', 'descripcion', 'importe', 'pagadorId', 'miembros', 'categoria', 'fecha', " +
+        db.execSQL(String.format("INSERT INTO 'main'.'transaccion' ('id', 'descripcion', 'importe', 'pagadorId', 'miembros', 'categoriaId', " +
+                "'fecha', " +
                 "'walletId') VALUES ('3', 'Logroño', '109.55', '3', '1,2,3', '3', '25/12/2023', '1')"));
 
         db.execSQL(String.format("INSERT INTO 'main'.'usuario' ('id', 'nombre', 'apodo') VALUES ('3', 'Usuario3', 'Usuario3')"));

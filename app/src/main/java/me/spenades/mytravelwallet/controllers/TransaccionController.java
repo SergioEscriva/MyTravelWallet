@@ -38,7 +38,7 @@ public class TransaccionController {
         valoresParaInsertar.put("importe", transaccion.getImporte());
         valoresParaInsertar.put("pagadorId", transaccion.getPagadorId());
         valoresParaInsertar.put("miembros", transaccion.getMiembros());
-        valoresParaInsertar.put("categoria", transaccion.getCategoria());
+        valoresParaInsertar.put("categoriaId", transaccion.getCategoriaId());
         valoresParaInsertar.put("fecha", transaccion.getFecha());
         valoresParaInsertar.put("walletId", transaccion.getWalletId());
         long transaccionId = baseDeDatos.insert(NOMBRE_TABLA, null, valoresParaInsertar);
@@ -53,7 +53,7 @@ public class TransaccionController {
         valoresParaActualizar.put("importe", transaccionEditada.getImporte());
         valoresParaActualizar.put("pagadorId", transaccionEditada.getPagadorId());
         valoresParaActualizar.put("miembros", transaccionEditada.getMiembros());
-        valoresParaActualizar.put("categoria", transaccionEditada.getCategoria());
+        valoresParaActualizar.put("categoriaId", transaccionEditada.getCategoriaId());
         valoresParaActualizar.put("fecha", transaccionEditada.getFecha());
         valoresParaActualizar.put("walletId", transaccionEditada.getWalletId());
 
@@ -81,9 +81,9 @@ public class TransaccionController {
                 "pagadorId = USUARIO.id WHERE walletId = " + WalletIdAConsultar;
 
  */
-        String query = "SELECT descripcion,importe,pagadorId,miembros,TRANSACCION.categoria,fecha,walletId,TRANSACCION.id,nombre," +
+        String query = "SELECT descripcion,importe,pagadorId,miembros,categoriaId,fecha,walletId,TRANSACCION.id,nombre," +
                 " CATEGORIA.categoria" +
-                " FROM 'TRANSACCION' JOIN 'USUARIO' ON pagadorId = USUARIO.id JOIN 'CATEGORIA' ON TRANSACCION.categoria = CATEGORIA.id " +
+                " FROM 'TRANSACCION' JOIN 'USUARIO' ON pagadorId = USUARIO.id JOIN 'CATEGORIA' ON categoriaId = CATEGORIA.id " +
                 " WHERE walletId = " + WalletIdAConsultar;
 
 
@@ -95,10 +95,14 @@ public class TransaccionController {
                 Salimos aquí porque hubo un error, regresar
                 lista vacía
              */
+            System.out.println("Null");
             return transaccions;
         }
         // Si no hay datos, igualmente regresamos la lista vacía
-        if (! cursor.moveToFirst()) return transaccions;
+        if (! cursor.moveToFirst()) {
+            System.out.println("Sin Datos");
+            return transaccions;
+        }
 
         // En caso de que sí haya, iteramos y vamos agregando
         do {
