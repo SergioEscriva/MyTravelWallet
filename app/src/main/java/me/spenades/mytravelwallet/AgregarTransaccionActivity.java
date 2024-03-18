@@ -80,7 +80,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         Button btnGuardarTransaccion = findViewById(R.id.btnGuardarTransaccion);
         etNombrePagador.setText(usuarioActivo);
         etPagadorId.setText(String.valueOf(usuarioIdActivo));
-        String transaccionTitulo = "Wallet" + walletName;
+        String transaccionTitulo = "Wallet " + walletName;
         evTransaccionTitulo.setText(transaccionTitulo);
 
         // Lista Participan Por defecto es una lista vacía,
@@ -177,6 +177,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 String nuevoPagador = etNombrePagador.getText().toString();
                 String nuevoPagadorId = etPagadorId.getText().toString();
 
+
                 if (nuevaDescripcion.isEmpty()) {
                     etDescripcion.setError("Escribe la descripción");
                     etDescripcion.requestFocus();
@@ -208,20 +209,21 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 // Conversión de nombre de pagador a id para DB
                 long nuevoIdPagadorId = Long.parseLong(nuevoPagadorId);
 
-                //Añade la Categoria a la BD, siempre la introduce como nueva,TODO se deben actualizar en otro sitio.
+                //Añade la Categoria a la BD.
                 ArrayList<Categoria> categoriaIdActual = categoriaController.obtenerCategoriaId(nuevaCategoria);
+
+                // Si existe recupera Id y lo añade a la transacción
                 Categoria categoriaActual = new Categoria(String.valueOf(categoriaIdActual));
                 long categoriaNuevaId = categoriaController.nuevaCategoria(categoriaActual);
-                if (categoriaNuevaId == - 1) categoriaNuevaId = categoriaActual.getId();
+                if (categoriaNuevaId == - 1) categoriaNuevaId = categoriaIdActual.get(0).getId();
 
                 // Si llegamos hasta aquí es porque los datos ya están validados
                 Transaccion transaccionConNuevosCambios = new Transaccion(nuevaDescripcion,
                         nuevoImporte, nuevoIdPagadorId, nuevosMiembros, categoriaNuevaId,
                         nuevaFecha, walletId);
-
-                long transaccionId =
-                        transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
-                //int filasModificadas = 1;
+                System.out.println(transaccionConNuevosCambios);
+                long transaccionId = transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
+                //int transaccionId = 1;
                 if (transaccionId == - 1) {
                     // De alguna forma ocurrió un error porque se debió modificar únicamente una
                     // fila

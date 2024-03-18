@@ -163,7 +163,7 @@ public class Transaccion {
                 ", importe='" + importe + '\'' +
                 ", pagadorId='" + pagadorId + '\'' +
                 ", miembros='" + miembros + '\'' +
-                ", categoria='" + categoria + '\'' +
+                ", categoria='" + categoriaId + '\'' +
                 ", fecha='" + fecha + '\'' +
                 ", walletId='" + walletId +
                 "'}";
