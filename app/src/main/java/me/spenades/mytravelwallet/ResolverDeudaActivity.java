@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import me.spenades.mytravelwallet.adapters.GastosTotalesAdapters;
 import me.spenades.mytravelwallet.adapters.ResolucionesAdapters;
 import me.spenades.mytravelwallet.controllers.MiembroController;
 import me.spenades.mytravelwallet.controllers.ParticipanController;
@@ -37,10 +38,12 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private List<Miembro> listaDeMiembros;
     private List<Miembro> listaDeParticipan;
     private List<List> listaDeSoluciones;
+    private Map<Long, Double> listaDeGastos;
     private TransaccionController transaccionController;
     private MiembroController miembroController;
     private ParticipanController participanController;
     private ResolucionesAdapters resolucionesAdapters;
+    private GastosTotalesAdapters gastosTotalesAdapters;
     private RecyclerView recyclerViewResoluciones, recyclerViewGastosTotales;
     private TextView tvSinDeudas, tvInfoDeudas;
     private long walletId;
@@ -85,7 +88,9 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         listaDeMiembros = new ArrayList<>();
         listaDeParticipan = new ArrayList<>();
         listaDeSoluciones = new ArrayList<>();
+        listaDeGastos = new HashMap<>();
         resolucionesAdapters = new ResolucionesAdapters(listaDeSoluciones);
+        gastosTotalesAdapters = new GastosTotalesAdapters(listaDeGastos, listaDeMiembros);
 
         //configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManager =
@@ -99,7 +104,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                 new LinearLayoutManager(getApplicationContext());
         recyclerViewGastosTotales.setLayoutManager(mLayoutManager2);
         recyclerViewGastosTotales.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewGastosTotales.setAdapter(resolucionesAdapters);
+        recyclerViewGastosTotales.setAdapter(gastosTotalesAdapters);
 
 
         refrescarListas();
@@ -167,7 +172,9 @@ public class ResolverDeudaActivity extends AppCompatActivity {
             tvSinDeudas.setVisibility(View.VISIBLE);
             recyclerViewResoluciones.setVisibility(View.INVISIBLE);
         }
-
+        listaDeGastos = unificaGastoMiembroWallet();//llama Gasto Total
+        gastosTotalesAdapters.setListaDeResoluciones(listaDeGastos, listaDeMiembros);
+        gastosTotalesAdapters.notifyDataSetChanged();
     }
 
 
@@ -284,7 +291,8 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
         }
         ArrayList<ArrayList> solucionesLimpias = eliminarSolucionesCero(soluciones);
-
+        // Rellenar Gastos Totales
+        // gastosTotalesResumidos();
         return solucionesLimpias;
     }
 
@@ -320,6 +328,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         } catch (Exception e) {
             System.out.println("Oops! ResolverDeuda");
         }
+
         return gastosParticianTotalesWallet;
     }
 
@@ -457,4 +466,13 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         long transaccionId = transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
         return transaccionId;
     }
+
+/*
+    public void gastosTotalesResumidos() {
+        Map gastos = unificaGastoMiembroWallet();
+        System.out.println("Gastos Tot " + gastos);
+        GastosTotalesAdapters.setListaDeResoluciones(gastos);
+    }
+
+ */
 }

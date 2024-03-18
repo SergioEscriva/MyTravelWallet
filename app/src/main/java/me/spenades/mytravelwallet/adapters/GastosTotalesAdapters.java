@@ -7,77 +7,94 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import me.spenades.mytravelwallet.R;
+import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.utilities.Operaciones;
 
 
 public class GastosTotalesAdapters extends RecyclerView.Adapter<GastosTotalesAdapters.MyViewHolder> {
 
 
-    private List<List> listaDeResoluciones;
+    private Map<Long, Double> listaDeGastos;
+    private List<Miembro> listaDeMiembros;
 
 
-    public GastosTotalesAdapters(List<List> resoluciones) {
-        this.listaDeResoluciones = resoluciones;
+    public GastosTotalesAdapters(Map<Long, Double> listaDeGastos, List<Miembro> listaDeMiembros) {
+        this.listaDeGastos = listaDeGastos;
+        this.listaDeMiembros = listaDeMiembros;
     }
 
 
-    public void setListaDeResoluciones(List<List> listaDeResoluciones) {
-        this.listaDeResoluciones = listaDeResoluciones;
+    public void setListaDeResoluciones(Map<Long, Double> listaDeGastos, List<Miembro> listaDeMiembros) {
+        this.listaDeGastos = listaDeGastos;
+        this.listaDeMiembros = listaDeMiembros;
     }
 
 
     public void setImporteWallet() {
-        this.listaDeResoluciones = listaDeResoluciones;
+        this.listaDeGastos = listaDeGastos;
+        this.listaDeMiembros = listaDeMiembros;
     }
 
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View filaResolucion = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_resoluciones, viewGroup, false);
+        View filaResolucion = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.file_gastos, viewGroup, false);
         return new MyViewHolder(filaResolucion);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        // Obtener la resolución de la lista gracias al índice i
-        List<List> solucionFinal = listaDeResoluciones.get(i);
+        List<String> gastosTotales = new ArrayList<>();
+        // Obtenemos de la listaDeGastos los ids, y los iteramos con la listaDeMiembros, para obtener el nombre.
+        ArrayList<String> miembrosGastos = new ArrayList<>();
+        for (Long miembroIdGasto : listaDeGastos.keySet()) {
+            double importe = listaDeGastos.get(miembroIdGasto);
+            for (Miembro solucionFinal : listaDeMiembros) {
+                long miembroId = solucionFinal.getUserId();
+                if (miembroIdGasto == miembroId) {
+                    String miembro = new String();
+                    String importeString = new String();
+                    miembro = solucionFinal.getNombre();
+                    // Limpiamos decimales del importe
+                    Operaciones operaciones = new Operaciones();
+                    double importeLimpio = operaciones.bigDecimal(importe);
+                    importeString = String.valueOf(importeLimpio);
+                    //System.out.println(miembro + importeString);
+                    String miembroGastoString = miembro + " tendría que pagar " + "[TOTAL]€" + "\nComo ha pagado " + importeString + "€\nTiene un " +
+                            "Saldo de" +
+                            " " + "[-Total]€";
+                    miembrosGastos.add(miembroGastoString);
+                }
+            }
 
-        // Limpiamos el importe
-        Operaciones numeroDecimal = new Operaciones();
-        String numeroString = String.valueOf(solucionFinal.get(4));
-        double numeroDouble = Double.parseDouble(numeroString);
-        double numeroLimpio = numeroDecimal.bigDecimal(numeroDouble);
-        double numeroDecimalConvertido = numeroLimpio;
-        double importe = Math.abs(numeroDecimalConvertido);
-        String solucion = new String();
-
-        // Componemos la frase a Mostrar
-        solucion = ("· " + solucionFinal.get(1) + " debe " + String.valueOf(importe) + "€" + " a " + solucionFinal.get(3));
-
-        myViewHolder.tvGastos.setText(String.valueOf(solucion));
-        //ResolucionesAdapters
+        }
+        System.out.println(miembrosGastos.get(i) + " " + i);
+        String miembroGasto = miembrosGastos.get(i);
+        myViewHolder.tvGastosTotales.setText(miembroGasto);
     }
 
 
     @Override
     public int getItemCount() {
-        return listaDeResoluciones.size();
+        return listaDeGastos.size();
     }
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvGastos;
+        TextView tvGastosTotales;
 
 
         MyViewHolder(View itemView) {
             super(itemView);
-            this.tvGastos = itemView.findViewById(R.id.tvGastos);
+            this.tvGastosTotales = itemView.findViewById(R.id.tvGastosTotales);
         }
     }
 
