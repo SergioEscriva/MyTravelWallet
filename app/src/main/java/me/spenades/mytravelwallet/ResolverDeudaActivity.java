@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,9 +47,10 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private ResolucionesAdapters resolucionesAdapters;
     private GastosTotalesAdapters gastosTotalesAdapters;
     private RecyclerView recyclerViewResoluciones, recyclerViewGastosTotales;
-    private TextView tvSinDeudas, tvInfoDeudas;
+    private TextView tvSinDeudas, tvInfoDeudas, tvTextoResolucion;
     private long walletId;
     private Map<Long, Double> pagadoPorMiembro;
+    private RelativeLayout rlGastosTotales;
 
 
     @Override
@@ -84,6 +86,8 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         recyclerViewResoluciones = findViewById(R.id.recyclerViewGastos);
         recyclerViewGastosTotales = findViewById(R.id.recyclerViewGastosTotales);
         tvSinDeudas = findViewById(R.id.tvSinDeudas);
+        rlGastosTotales = findViewById(R.id.rlGastosTotales);
+        tvTextoResolucion = findViewById(R.id.tvTextoResolucion);
 
         // Creamos listas vacías.
         listaDeTransacciones = new ArrayList<>();
@@ -109,9 +113,19 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         recyclerViewGastosTotales.setLayoutManager(mLayoutManager2);
         recyclerViewGastosTotales.setItemAnimator(new DefaultItemAnimator());
         recyclerViewGastosTotales.setAdapter(gastosTotalesAdapters);
-
-
         refrescarListas();
+
+
+        // Listener Temporal Gastos Totales... TODO por implementar
+
+        tvTextoResolucion.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                rlGastosTotales.setVisibility(View.VISIBLE);
+            }
+        });
+
 
         // Listener Resolucion deudas, para Resolverlas.
         recyclerViewResoluciones.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewResoluciones,
@@ -177,7 +191,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
             recyclerViewResoluciones.setVisibility(View.INVISIBLE);
         }
         listaDeGastos = unificaGastoMiembroWallet();//llama Gasto Total
-        //mostrarResolucion = operacionesResolucionDeudas(); // TODO Gastos Totales
+        mostrarResolucion = operacionesResolucionDeudas(); // TODO Gastos Totales
         gastosTotalesAdapters.setListaDeResoluciones(mostrarResolucion, listaDeMiembros);
         gastosTotalesAdapters.notifyDataSetChanged();
 
@@ -482,27 +496,56 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     /// TODO añadir Gastos Totales
     public ArrayList<String> operacionesResolucionDeudas() {
         String importeTotal = new String();
-
         ArrayList<ArrayList> gastosTotalesDivididos = new ArrayList<>();
-
-        // Obtenemos de la listaDeGastos los ids, y los iteramos con la listaDeMiembros, para obtener el nombre.
+        Map<Long, Double> importePagadoParticipante = transacionesGastosTotales();
         ArrayList<String> miembrosGastos = new ArrayList<>();
+
+        // Iteramos sobre los gastos para extraer que tendría que haber pagado cada miembro.
         for (Long miembroIdGasto : listaDeGastos.keySet()) {
-            double importe = listaDeGastos.get(miembroIdGasto);
+            double importeDeberiaPagarWallet = listaDeGastos.get(miembroIdGasto);
+            // Limpiamos decimales del importe
+            double importeMovimientosWallet = bigDecimal(importeDeberiaPagarWallet);
+
+            // Obtenemos de la listaDeGastos los ids, y los iteramos con la listaDeMiembros, para obtener el nombre.
             for (Miembro solucionFinal : listaDeMiembros) {
                 long miembroId = solucionFinal.getUserId();
                 if (miembroIdGasto == miembroId) {
                     String miembro = new String();
                     String importeString = new String();
                     miembro = solucionFinal.getNombre();
-                    // Limpiamos decimales del importe
-                    Operaciones operaciones = new Operaciones();
-                    double importeLimpio = operaciones.bigDecimal(importe);
-                    importeString = String.valueOf(importeLimpio);
-                    String miembroGastoString = miembro + " debería haber pagado " + importeTotal + "€" + "\nComo ha pagado " + importeString +
-                            "€\nTiene un " +
-                            "Saldo de" +
-                            " " + "[-Total]€";
+
+                    // Rescatamos importe pagado por cada miembro
+                    double importeHaPagado = importePagadoParticipante.get(miembroId);
+                    String importeHaPagadoString = String.valueOf(importeHaPagado);
+
+
+                    // Rescatamos importes a pagar o recibir.
+                    String importeFinalDebe = new String();
+                    String importeFinalPagado = new String();
+                    double importeDoubleLimpio = 0;
+                    double importeFinalPagadoLimpio = 0;
+                    double gastoRealizado = 0;
+
+                    // Según sea a pagar o recibir se separan para poder mostrarlos.
+                    if (importeMovimientosWallet <= 0D) {
+                        importeDoubleLimpio = Math.abs(importeMovimientosWallet);
+                        String limpiezaNumero = String.valueOf(importeDoubleLimpio);
+                        importeFinalDebe = "\nDebe al Wallet " + limpiezaNumero + "€";
+                        // Calculamos lo que el gasto total de cada miembro en el Wallet
+                        gastoRealizado = importeDoubleLimpio + importeHaPagado;
+                    } else {
+                        importeFinalPagadoLimpio = importeMovimientosWallet;
+                        importeString = String.valueOf(importeFinalPagadoLimpio);
+                        importeFinalPagado = "\nEl Wallet le debe " + importeString + "€";
+                        // Calculamos lo que el gasto total de cada miembro en el Wallet
+                        gastoRealizado = bigDecimal(importeHaPagado - importeMovimientosWallet);
+                    }
+
+                    String gastoRealizadoEnWallet = String.valueOf(gastoRealizado);
+
+
+                    String miembroGastoString =
+                            miembro + " Ha hecho un Gasto de " + gastoRealizadoEnWallet + "€" + "\nha pagado " + importeHaPagadoString + "€" + importeFinalDebe + importeFinalPagado;
                     miembrosGastos.add(miembroGastoString);
                     ArrayList<String> gastosTotales = new ArrayList<>();
                     gastosTotales.add(miembro);
@@ -514,5 +557,20 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         return miembrosGastos;
     }
 
+
+    public Map<Long, Double> transacionesGastosTotales() {
+        Map<Long, Double> gastoTotalpagador = new HashMap<>();
+        for (Transaccion transaccion : listaDeTransacciones) {
+            long pagadorId = transaccion.getPagadorId();
+            double pagadorImporte = Double.parseDouble(transaccion.getImporte());
+            for (Miembro solucionFinal : listaDeMiembros) {
+                long miembroId = solucionFinal.getUserId();
+                if (pagadorId == miembroId) {
+                    gastoTotalpagador.put(pagadorId, pagadorImporte);
+                }
+            }
+        }
+        return gastoTotalpagador;
+    }
 
 }
