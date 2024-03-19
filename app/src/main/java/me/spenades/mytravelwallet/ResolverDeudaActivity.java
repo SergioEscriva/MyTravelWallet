@@ -481,7 +481,10 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
 
     public Long eliminarDeuda(List resolucion) {
-        String deuda = resolucion.get(4).toString();
+        String deudaString = resolucion.get(4).toString();
+        double deudaDouble = Double.parseDouble(deudaString);
+        double deudaDoubleAbs = Math.abs(deudaDouble);
+        String deuda = String.valueOf(deudaDoubleAbs);
         long pagador = Long.parseLong(resolucion.get(0).toString());
         String cobrador = resolucion.get(2).toString();
         Operaciones operaciones = new Operaciones();
@@ -532,7 +535,11 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                     if (importeMovimientosWallet <= 0D) {
                         importeDoubleLimpio = Math.abs(importeMovimientosWallet);
                         String limpiezaNumero = String.valueOf(importeDoubleLimpio);
-                        importeFinalDebe = "\nDebe al Wallet " + limpiezaNumero + "€";
+                        if (importeDoubleLimpio <= 0D) {
+                            importeFinalDebe = "\nNo tiene deudas.";
+                        } else {
+                            importeFinalDebe = "\nDebe al Wallet " + limpiezaNumero + "€";
+                        }
                         // Calculamos lo que el gasto total de cada miembro en el Wallet
                         gastoRealizado = importeDoubleLimpio + importeHaPagado;
                     } else {
