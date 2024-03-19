@@ -104,23 +104,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <TextView
-        android:id="@+id/tvInfoTransacciones"
-        android:layout_width="306dp"
+    <FrameLayout
+        android:id="@+id/flInfoTransacciones"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:text="- Toca sobre la Transacción para Editar.\n- Manten pulsado para Borrar\n- Botón inferior [+] para Añadir Transacción.\n- Botón inferior [o] para Saldar Cuentas"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:background="#E8B0ACAC"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+        app:layout_constraintStart_toStartOf="@+id/clResumen"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
+
+        <TextView
+            android:id="@+id/tvInfoTransacciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Toca sobre la Transacción para Editar.\n- Manten pulsado para Borrar\n- Botón inferior [+] para Añadir Transacción.\n- Botón inferior [o] para Saldar Cuentas"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textIsSelectable="false" />
+    </FrameLayout>
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

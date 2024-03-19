@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     private FloatingActionButton fabResolverDeudas;
     private long walletId;
     private String walletName;
-    private TextView tvWalletActivo, tvTotal, tvDeberiaPagar, tvMiembros, tvInfoTransacciones;
+    private TextView tvWalletActivo, tvTotal, tvDeberiaPagar, tvMiembros;
+    private FrameLayout flInfoTransacciones;
 
 
     @Override
@@ -54,8 +56,8 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Se muestra sólo la primera vez la Ayuda
         int info = extras.getInt("info");
-        tvInfoTransacciones = findViewById(R.id.tvInfoTransacciones);
-        if (info == 1) tvInfoTransacciones.setVisibility(View.VISIBLE);
+        flInfoTransacciones = findViewById(R.id.flInfoTransacciones);
+        if (info == 1) flInfoTransacciones.setVisibility(View.VISIBLE);
 
 
         // Recuperar datos que enviaron

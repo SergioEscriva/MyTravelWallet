@@ -60,17 +60,27 @@
 
         </ScrollView>
 
-        <TextView
-            android:id="@+id/tvInfoWallets"
-            android:layout_width="306dp"
+        <FrameLayout
+            android:id="@+id/flInfoWallets"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="156dp"
-            android:text="- Toca sobre el Wallet para entrar.\n- Manten pulsado para Editar\n- Botón inferior [+] para Añadir Wallet."
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:background="#E8B0ACAC"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+            app:layout_constraintTop_toBottomOf="@+id/scrollView3">
+
+            <TextView
+                android:id="@+id/tvInfoWallets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- Toca sobre el Wallet para entrar.\n- Manten pulsado para Editar\n- Botón inferior [+] para Añadir Wallet."
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+        </FrameLayout>
 
 
     </android.support.constraint.ConstraintLayout>

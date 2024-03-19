@@ -11,7 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
     private WalletController walletController;
     private TransaccionController transaccionController;
     private FloatingActionButton fabAgregarWallet;
-    private TextView tvInfoWallets;
+    private FrameLayout flInfoWallets;
 
 
     @Override
@@ -52,8 +52,8 @@ public class ListarWalletsActivity extends AppCompatActivity {
         String usuarioActivo = extras.getString("usuarioActivo");
         // Se muestra sólo la primera vez la Ayuda
         int info = extras.getInt("info");
-        tvInfoWallets = findViewById(R.id.tvInfoWallets);
-        if (info == 1) tvInfoWallets.setVisibility(View.VISIBLE);
+        flInfoWallets = findViewById(R.id.flInfoWallets);
+        if (info == 1) flInfoWallets.setVisibility(View.VISIBLE);
 
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {

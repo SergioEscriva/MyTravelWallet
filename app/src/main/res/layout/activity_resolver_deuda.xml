@@ -7,6 +7,28 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp">
 
+    <FrameLayout
+        android:id="@+id/flInfoDeudas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#E8B0ACAC"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+        tools:layout_editor_absoluteX="13dp">
+
+        <TextView
+            android:id="@+id/tvInfoDeudas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Toca sobre la Deuda para Saldarla."
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewGastos" />
+    </FrameLayout>
+
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="0dp"
@@ -45,17 +67,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvInfoDeudas"
-                android:layout_width="306dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="- Toca sobre la Deuda para Saldarla."
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerViewGastos" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewGastos"
@@ -74,7 +85,6 @@
         android:id="@+id/rlGastosTotales"
         android:layout_width="378dp"
         android:layout_height="439dp"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

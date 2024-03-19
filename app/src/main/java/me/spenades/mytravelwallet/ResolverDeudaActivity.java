@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +48,8 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private ResolucionesAdapters resolucionesAdapters;
     private GastosTotalesAdapters gastosTotalesAdapters;
     private RecyclerView recyclerViewResoluciones, recyclerViewGastosTotales;
-    private TextView tvSinDeudas, tvInfoDeudas, tvTextoResolucion;
+    private FrameLayout flInfoDeudas;
+    private TextView tvSinDeudas, tvTextoResolucion;
     private long walletId;
     private Map<Long, Double> pagadoPorMiembro;
     private RelativeLayout rlGastosTotales;
@@ -66,8 +68,8 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
         // Se muestra sólo la primera vez la Ayuda
         int info = extras.getInt("info");
-        tvInfoDeudas = findViewById(R.id.tvInfoDeudas);
-        if (info == 1) tvInfoDeudas.setVisibility(View.VISIBLE);
+        flInfoDeudas = findViewById(R.id.flInfoDeudas);
+        if (info == 1) flInfoDeudas.setVisibility(View.VISIBLE);
 
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {
@@ -486,7 +488,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         String nuevaFecha = operaciones.fechaDeHoy();
 
         Transaccion transaccionConNuevosCambios = new Transaccion("Saldar Deuda",
-                deuda, pagador, cobrador, 1,
+                deuda, pagador, cobrador, 2,
                 nuevaFecha, walletId);
         long transaccionId = transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
         return transaccionId;
@@ -545,7 +547,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
 
                     String miembroGastoString =
-                            miembro + " Ha hecho un Gasto de " + gastoRealizadoEnWallet + "€" + "\nha pagado " + importeHaPagadoString + "€" + importeFinalDebe + importeFinalPagado;
+                            miembro + " ha hecho un Gasto de " + gastoRealizadoEnWallet + "€" + "\nHa pagado " + importeHaPagadoString + "€" + importeFinalDebe + importeFinalPagado;
                     miembrosGastos.add(miembroGastoString);
                     ArrayList<String> gastosTotales = new ArrayList<>();
                     gastosTotales.add(miembro);

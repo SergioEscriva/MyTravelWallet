@@ -21,8 +21,8 @@ public class DemoController {
         SQLiteDatabase db = ayudanteBaseDeDatos.getWritableDatabase();
 
         /// Creamos un Wallet de Prueba para el primer inicio.
-        db.execSQL(String.format("INSERT INTO 'CATEGORIA' ('id', 'categoria') VALUES ('1', 'Deudas')"));
-        db.execSQL(String.format("INSERT INTO 'main'.'categoria' ('id', 'categoria') VALUES ('2', 'Varios')"));
+        db.execSQL(String.format("INSERT INTO 'CATEGORIA' ('id', 'categoria') VALUES ('1', 'Varios')"));
+        db.execSQL(String.format("INSERT INTO 'main'.'categoria' ('id', 'categoria') VALUES ('2', 'Deudas')"));
         db.execSQL(String.format("INSERT INTO 'main'.'categoria' ('id', 'categoria') VALUES ('3', 'Gasolina')"));
         db.execSQL(String.format("INSERT INTO 'main'.'categoria' ('id', 'categoria') VALUES ('4', 'Supermercado')"));
 
@@ -36,8 +36,8 @@ public class DemoController {
                 "'fecha', " +
                 "'walletId') VALUES ('3', 'Logroño', '109.55', '3', '1,2,3', '3', '25/12/2023', '1')"));
 
-        db.execSQL(String.format("INSERT INTO 'main'.'usuario' ('id', 'nombre', 'apodo') VALUES ('3', 'Usuario3', 'Usuario3')"));
-        db.execSQL(String.format("INSERT INTO 'main'.'usuario' ('id', 'nombre', 'apodo') VALUES ('2', 'Usuario2', 'Usuario2')"));
+        db.execSQL(String.format("INSERT INTO 'main'.'usuario' ('id', 'nombre', 'apodo') VALUES ('3', 'Javi', 'Javi')"));
+        db.execSQL(String.format("INSERT INTO 'main'.'usuario' ('id', 'nombre', 'apodo') VALUES ('2', 'Hugo', 'Hugo')"));
         //db.execSQL(String.format("INSERT INTO 'main'.'usuario' ('id', 'nombre', 'apodo', 'pin') VALUES ('1', 'Usuario1', 'Usuario1', '0000')"));
 
         db.execSQL(String.format("INSERT INTO 'main'.'wallet' ('id', 'nombre', 'descripcion', 'propietario', 'compartir') VALUES ('1', " +
