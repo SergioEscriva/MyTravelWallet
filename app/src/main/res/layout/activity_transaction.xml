@@ -28,6 +28,7 @@
         android:ems="10"
         android:hint="Descripción"
         android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/evTransaccionDescripcion" />
 
@@ -40,6 +41,7 @@
         android:ems="10"
         android:hint="Importe"
         android:inputType="number|numberDecimal"
+        android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTransaccionDescripcion" />
 
@@ -89,6 +91,7 @@
         android:ems="10"
         android:hint="Nombre de la Categoría"
         android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etNombrePagador" />
 

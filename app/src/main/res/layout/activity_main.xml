@@ -59,6 +59,7 @@
         android:inputType="textPersonName"
         android:paddingTop="50px"
         android:paddingRight="400px"
+        android:selectAllOnFocus="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

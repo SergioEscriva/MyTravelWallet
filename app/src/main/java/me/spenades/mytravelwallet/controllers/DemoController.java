@@ -21,8 +21,8 @@ public class DemoController {
         SQLiteDatabase db = ayudanteBaseDeDatos.getWritableDatabase();
 
         /// Creamos un Wallet de Prueba para el primer inicio.
-        db.execSQL(String.format("INSERT INTO 'CATEGORIA' ('id', 'categoria') VALUES ('1', 'Varios')"));
-        db.execSQL(String.format("INSERT INTO 'main'.'categoria' ('id', 'categoria') VALUES ('2', 'Restaurante')"));
+        db.execSQL(String.format("INSERT INTO 'CATEGORIA' ('id', 'categoria') VALUES ('1', 'Deudas')"));
+        db.execSQL(String.format("INSERT INTO 'main'.'categoria' ('id', 'categoria') VALUES ('2', 'Varios')"));
         db.execSQL(String.format("INSERT INTO 'main'.'categoria' ('id', 'categoria') VALUES ('3', 'Gasolina')"));
         db.execSQL(String.format("INSERT INTO 'main'.'categoria' ('id', 'categoria') VALUES ('4', 'Supermercado')"));
 
