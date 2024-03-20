@@ -343,8 +343,10 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     // Rellenamos el importe a pagar por cada participante al añadir transacción
     // variables static para poder traerlo aquí.
     public void participanImporte() {
-        importeADividir = etImporte.getText().toString();
-        if (importeADividir == null) importeADividir = "0";
+        // Recuperamos el importe y lo fijamos para que no cambie.
+        final String importeADividir = etImporte.getText().toString();
+        this.importeADividir = importeADividir;
+        if (importeADividir == null) this.importeADividir = "0";
         double importeADividirD = Double.parseDouble(importeADividir);
 
         // limpiamos el String que viene de comas y sacamos cuantos numero hay
