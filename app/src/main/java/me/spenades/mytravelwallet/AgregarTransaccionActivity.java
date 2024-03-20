@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.ParticipanAdapters;
@@ -34,8 +37,11 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
     private static EditText etPagadorId, etNombrePagador;
     private static String nuevosParticipan;
+    private static String importeADividir;
+    private static EditText etImporte;
+    private static TextView tvDivision;
     public PopUpPagadorActivity popUp;
-    private EditText etDescripcion, etImporte, etTransaccionFecha;
+    private EditText etDescripcion, etTransaccionFecha;
     private AutoCompleteTextView etCategoria;
     private TransaccionController transaccionController;
     private MiembroController miembroController;
@@ -75,12 +81,14 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         etTransaccionFecha = findViewById(R.id.etTransaccionFecha);
         etNombrePagador = findViewById(R.id.etNombrePagador);
         etPagadorId = findViewById(R.id.etPagadorId);
+        tvDivision = findViewById(R.id.tvDivision);
         Button btnCancelarTransaccion = findViewById(R.id.btnCancelarTransaccion);
         Button btnGuardarTransaccion = findViewById(R.id.btnGuardarTransaccion);
         etNombrePagador.setText(usuarioActivo);
         etPagadorId.setText(String.valueOf(usuarioIdActivo));
         String transaccionTitulo = "Wallet " + walletName;
         evTransaccionTitulo.setText(transaccionTitulo);
+
 
         // Lista Participan Por defecto es una lista vacía,
         participanAdapters = new ParticipanAdapters(listaDeMiembros, listaDeMiembros);
@@ -98,6 +106,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categorias);
         etCategoria.setAdapter(adapter);
 
+
         // Ponemos la lista al adaptador y configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManagerParticipan =
                 new LinearLayoutManager(getApplicationContext());
@@ -108,10 +117,38 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         Operaciones operaciones = new Operaciones();
         String fecha = operaciones.fechaDeHoy();
         etCategoria.setText("Varios");
+        etImporte.setText("0");
+
         etTransaccionFecha.setText(fecha);
 
         //Refrescamos datos del RecycleView
         refrescarListas();
+
+        //Listener importe
+        //https://es.stackoverflow.com/questions/291613/c%C3%B3mo-actualizar-un-dato-autom%C3%A1ticamente-en-android-studio
+        etImporte.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String nuevoImporte = etImporte.getText().toString();
+                if (etImporte == null) nuevoImporte = "0";
+                importeADividir = nuevoImporte;
+                participanImporte();
+            }
+
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         // Listener del PopUp para elegir pagador.
         etNombrePagador.setOnClickListener(new View.OnClickListener() {
@@ -245,6 +282,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
         //Apdaptador Categoria
         listaDeCategorias = categoriaController.obtenerCategorias();
+
     }
 
 
@@ -261,9 +299,27 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
 
     public String paticipanCheck(List<String> participaCheck) {
+
         // Convertimos de lista a String para poder guardar en DB
         this.nuevosParticipan = String.join(",", participaCheck);
+        participanImporte();
         return this.nuevosParticipan;
+    }
+
+
+    // Rellenamos el importe a pagar por cada participante al añadir transacción
+    // variables static para poder traerlo aquí.
+    public void participanImporte() {
+        if (importeADividir == null) importeADividir = "0";
+        double importeADividirD = Double.parseDouble(importeADividir);
+
+        // limpiamos el String que viene de comas y sacamos cuantos numero hay
+        int cantidadParticipa = nuevosParticipan.replaceAll(",", "").length();
+        Operaciones operaciones = new Operaciones();
+        Double resultado = importeADividirD / cantidadParticipa;
+        String resultadoLimpio = bigDecimal(resultado);
+        tvDivision.setText("Cada participante deberá pagar: " + resultadoLimpio + "€");
+
     }
 
 
@@ -301,5 +357,15 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
             categoriaNuevaId = categoriaIdActual.get(0).getId();
         }
         return categoriaNuevaId;
+    }
+
+
+    // https://es.stackoverflow.com/questions/100147/como-puedo-hacer-para-mostrar-solo-dos-decimales-en-la-operacion-que-sea
+    public String bigDecimal(double numero) {
+
+        DecimalFormat format = new DecimalFormat();
+        format.setMaximumFractionDigits(2); //Define 2 decimales.
+        return format.format(numero);
+
     }
 }

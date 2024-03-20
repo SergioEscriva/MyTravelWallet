@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import me.spenades.mytravelwallet.models.Miembro;
 public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.MyViewHolder> {
 
     List<String> listaParticipa = new ArrayList<>();
-    List<String> listaNoParticipa = new ArrayList<>();
+
     private List<Miembro> listaDeMiembros;
     private List<Miembro> listaDeParticipan;
 
@@ -99,6 +100,7 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
                 AgregarTransaccionActivity agregarTransaccionActivity =
                         new AgregarTransaccionActivity();
                 agregarTransaccionActivity.paticipanCheck(listaParticipa);
+
             }
 
         });
@@ -129,11 +131,14 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         CheckBox cbParticipa;
+        TextView tvDivison, etTransaccionImporte;
 
 
         MyViewHolder(View itemView) {
             super(itemView);
             this.cbParticipa = (CheckBox) itemView.findViewById(R.id.cbParticipa);
+            this.tvDivison = itemView.findViewById(R.id.tvDivision);
+            this.etTransaccionImporte = itemView.findViewById(R.id.etTransaccionImporte);
         }
     }
 
