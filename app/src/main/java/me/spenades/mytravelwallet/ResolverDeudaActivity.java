@@ -13,8 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
@@ -227,10 +225,10 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
             // Separamos pagar y recibir en dos listas.
             if (cantidadParticipa >= 0L) {
-                double recibirDecimales = bigDecimal(cantidadParticipa);
+                double recibirDecimales = dosDecimales(cantidadParticipa);
                 recibir = recibirDecimales;
             } else if (cantidadParticipa != 0L) {
-                double pagarDecimales = bigDecimal(cantidadParticipa);
+                double pagarDecimales = dosDecimales(cantidadParticipa);
                 pagar = pagarDecimales;
             }
             pagarMiembro.put(miembroId, pagar);
@@ -246,13 +244,13 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
         // Iteramos sobre la lista de los que tienen que pagar(pagador)
         for (long pagarId : pagarOrdenado.keySet()) {
-            double cantidadAPagar = bigDecimal(pagarOrdenado.get(pagarId));
+            double cantidadAPagar = dosDecimales(pagarOrdenado.get(pagarId));
             long pagador = pagarId;
 
             // Iteramos sobre la lista de los que tienen que recibir(cobrador)
             while (Math.abs(cantidadAPagar) > 0) {
                 for (long recibirId : recibirOrdenado.keySet()) {
-                    double cantidadARecibir = bigDecimal(recibirOrdenado.get(recibirId));
+                    double cantidadARecibir = dosDecimales(recibirOrdenado.get(recibirId));
                     long cobrador = recibirId;
 
                     // Si el cobrador debe recibir más de lo que el pagador tiene que pagar
@@ -270,7 +268,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
                         //Actualizamos la cantidad que el cobrador tiene que recibir
                         double recibirCalculado =
-                                bigDecimal(cantidadARecibir + cantidadAPagar);
+                                dosDecimales(cantidadARecibir + cantidadAPagar);
                         recibirOrdenado.replace(recibirId, recibirCalculado);
 
                         // El pagador ya no tiene que pagar nada
@@ -381,15 +379,15 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                 // NO ha pagado esta transacción pero está en ella
                 if (pagado == 0.0 && existeEnListas1 >= 0) {
                     double saldoDecimales =
-                            bigDecimal(bigDecimal(pagado) - bigDecimal(aPagarPorMiembro));
-                    saldo = bigDecimal(saldoDecimales);
+                            dosDecimales(dosDecimales(pagado) - dosDecimales(aPagarPorMiembro));
+                    saldo = dosDecimales(saldoDecimales);
                     deudas.put(miembroId, saldo);
 
                     // SI pagado la transacción y está en ella
                 } else if (pagado > 0.0 && existeEnListas1 >= 0) {
                     double saldoDecimales =
-                            bigDecimal(bigDecimal(pagado) - bigDecimal(aPagarPorMiembro));
-                    saldo = bigDecimal(saldoDecimales);
+                            dosDecimales(dosDecimales(pagado) - dosDecimales(aPagarPorMiembro));
+                    saldo = dosDecimales(saldoDecimales);
                     deudas.put(miembroId, saldo);
 
                     // No está en la transacción
@@ -432,7 +430,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         int numeroMiembros = listaDeParticipan.size();
         double importeTransaccion = Double.valueOf(transaccion.getImporte());
         double importePorMiembro =
-                bigDecimal(bigDecimal(importeTransaccion) / bigDecimal(numeroMiembros + 0.0));
+                dosDecimales(dosDecimales(importeTransaccion) / dosDecimales(numeroMiembros + 0.0));
 
         return importePorMiembro;
     }
@@ -470,16 +468,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     }
 
 
-    // Sumamos con precisión gracias a BigDecimal y redondeamos a 2 decimales.
-    //https://oracle-max.com/bigdecimal/
-    public double bigDecimal(double numero) {
-        BigDecimal valor = new BigDecimal(numero);
-        BigDecimal resultado = valor.setScale(2, RoundingMode.HALF_DOWN);
-        double resultadoSuma = resultado.doubleValue();
-        return resultadoSuma;
-    }
-
-
     public Long eliminarDeuda(List resolucion) {
         String deudaString = resolucion.get(4).toString();
         double deudaDouble = Double.parseDouble(deudaString);
@@ -498,7 +486,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     }
 
 
-    /// TODO añadir Gastos Totales
     public ArrayList<String> operacionesResolucionDeudas() {
         String importeTotal = new String();
         ArrayList<ArrayList> gastosTotalesDivididos = new ArrayList<>();
@@ -507,22 +494,24 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
         // Iteramos sobre los gastos para extraer que tendría que haber pagado cada miembro.
         for (Long miembroIdGasto : listaDeGastos.keySet()) {
-            double importeDeberiaPagarWallet = listaDeGastos.get(miembroIdGasto);
+            double importeDeberiaPagarAlWallet = listaDeGastos.get(miembroIdGasto);
+
             // Limpiamos decimales del importe
-            double importeMovimientosWallet = bigDecimal(importeDeberiaPagarWallet);
+            double importeMovimientosWallet = dosDecimales(importeDeberiaPagarAlWallet);
 
             // Obtenemos de la listaDeGastos los ids, y los iteramos con la listaDeMiembros, para obtener el nombre.
             for (Miembro solucionFinal : listaDeMiembros) {
                 long miembroId = solucionFinal.getUserId();
+                String miembro = solucionFinal.getNombre();
+
+                // Añadimos los gastos o cobros por participantes.
                 if (miembroIdGasto == miembroId) {
-                    String miembro = new String();
+                    //String miembro = new String();
                     String importeString = new String();
-                    miembro = solucionFinal.getNombre();
 
                     // Rescatamos importe pagado por cada miembro
-                    double importeHaPagado = importePagadoParticipante.get(miembroId);
+                    double importeHaPagado = importePagadoParticipante.get(solucionFinal.getUserId());
                     String importeHaPagadoString = String.valueOf(importeHaPagado);
-
 
                     // Rescatamos importes a pagar o recibir.
                     String importeFinalDebe = new String();
@@ -546,8 +535,9 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                         importeFinalPagadoLimpio = importeMovimientosWallet;
                         importeString = String.valueOf(importeFinalPagadoLimpio);
                         importeFinalPagado = "\nEl Wallet le debe " + importeString + "€";
+
                         // Calculamos lo que el gasto total de cada miembro en el Wallet
-                        gastoRealizado = bigDecimal(importeHaPagado - importeMovimientosWallet);
+                        gastoRealizado = dosDecimales(importeHaPagado - importeMovimientosWallet);
                     }
 
                     String gastoRealizadoEnWallet = String.valueOf(gastoRealizado);
@@ -560,6 +550,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                     gastosTotales.add(miembro);
                     gastosTotales.add(importeString);
                     gastosTotalesDivididos.add(gastosTotales);
+                    //}
                 }
             }
         }
@@ -567,19 +558,33 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     }
 
 
+    // Gastos que ha realizado cada participante en las transacciones del wallet
     public Map<Long, Double> transacionesGastosTotales() {
         Map<Long, Double> gastoTotalpagador = new HashMap<>();
+
+        // Creamos una diccionario con todos los participantes del Wallet, y los ponemos a 0 gastado
+        double pagadorImporte = 0.0D;
+        for (Miembro solucionFinal : listaDeMiembros) {
+            long miembroId = solucionFinal.getUserId();
+            gastoTotalpagador.put(miembroId, pagadorImporte);
+        }
+        // Ahora añadimos lo que realmente ha pagado cada uno.
         for (Transaccion transaccion : listaDeTransacciones) {
             long pagadorId = transaccion.getPagadorId();
-            double pagadorImporte = Double.parseDouble(transaccion.getImporte());
-            for (Miembro solucionFinal : listaDeMiembros) {
-                long miembroId = solucionFinal.getUserId();
-                if (pagadorId == miembroId) {
-                    gastoTotalpagador.put(pagadorId, pagadorImporte);
-                }
-            }
+
+            pagadorImporte = Double.parseDouble(transaccion.getImporte());
+            gastoTotalpagador.replace(pagadorId, pagadorImporte);
+
         }
         return gastoTotalpagador;
+    }
+
+
+    public Double dosDecimales(Double importe) {
+        Operaciones operaciones = new Operaciones();
+        String numeroDosDecimales = operaciones.dosDecimales(importe);
+        double numeroLimpio = Double.parseDouble(numeroDosDecimales);
+        return numeroLimpio;
     }
 
 }

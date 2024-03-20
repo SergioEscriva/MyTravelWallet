@@ -79,6 +79,7 @@
         android:layout_marginStart="280dp"
         android:layout_marginTop="20dp"
         android:text="Id"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,7 +90,7 @@
         android:layout_marginStart="268dp"
         android:layout_marginTop="20dp"
         android:text="Id"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
