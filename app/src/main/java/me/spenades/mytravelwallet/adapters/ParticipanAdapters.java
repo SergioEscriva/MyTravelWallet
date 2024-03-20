@@ -104,8 +104,14 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
                 if (checkBoxStateParticipa == true) {
                     listaParticipa.add(String.valueOf(userId));
                 } else {
-                    listaParticipa.remove(String.valueOf(userId));
+
+                    // no deja que se quede sin paticipantes.
+                    if (listaParticipa.size() < 2) {
+                        myViewHolder.cbParticipa.setChecked(true);
+                    } else
+                        listaParticipa.remove(String.valueOf(userId));
                 }
+
 
                 if (addEdit == true) {
 
