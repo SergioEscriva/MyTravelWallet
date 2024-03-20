@@ -18,23 +18,80 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvDescripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="descripción"
+        android:textColor="#C7C7C7"
+        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionEditDescripcion"
+        app:layout_constraintEnd_toEndOf="@+id/etTransaccionEditDescripcion" />
+
+    <TextView
+        android:id="@+id/tvDescripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="importe"
+        android:textColor="#C7C7C7"
+        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionEditImporte"
+        app:layout_constraintEnd_toEndOf="@+id/etTransaccionEditDescripcion" />
+
+    <TextView
+        android:id="@+id/tvDescripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="pagador"
+        android:textColor="#C7C7C7"
+        app:layout_constraintBottom_toBottomOf="@+id/etNombreEditPagador"
+        app:layout_constraintEnd_toEndOf="@+id/etTransaccionEditDescripcion" />
+
+    <TextView
+        android:id="@+id/tvDescripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="categoria"
+        android:textColor="#C7C7C7"
+        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionEditCategoria"
+        app:layout_constraintEnd_toEndOf="@+id/etTransaccionEditDescripcion" />
+
+    <TextView
+        android:id="@+id/tvDescripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="fecha"
+        android:textColor="#C7C7C7"
+        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionEditFecha"
+        app:layout_constraintEnd_toEndOf="@+id/etTransaccionEditDescripcion" />
+
     <EditText
         android:id="@+id/etTransaccionEditDescripcion"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="117dp"
         android:capitalize="words"
         android:ems="10"
         android:hint="Descripción"
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/evTransaccionEditDescripcion" />
 
     <EditText
         android:id="@+id/etTransaccionEditImporte"
-        android:layout_width="wrap_content"
+        android:layout_width="278dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
@@ -47,7 +104,7 @@
 
     <EditText
         android:id="@+id/etNombreEditPagador"
-        android:layout_width="wrap_content"
+        android:layout_width="278dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
@@ -88,7 +145,7 @@
         android:layout_marginTop="5dp"
         android:capitalize="words"
         android:ems="10"
-        android:hint="Nombre de la Categoría"
+        android:hint="Categoría"
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +153,7 @@
 
     <EditText
         android:id="@+id/etTransaccionEditFecha"
-        android:layout_width="wrap_content"
+        android:layout_width="278dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
@@ -114,7 +171,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="TextView"
+        android:text="Importe por participante"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditFecha" />
 
