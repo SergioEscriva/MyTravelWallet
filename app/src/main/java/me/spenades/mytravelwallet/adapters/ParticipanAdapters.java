@@ -23,19 +23,22 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
 
     private List<Miembro> listaDeMiembros;
     private List<Miembro> listaDeParticipan;
+    private Boolean addEdit;
 
 
-    public ParticipanAdapters(List<Miembro> participan, List<Miembro> miembros) {
+    public ParticipanAdapters(List<Miembro> participan, List<Miembro> miembros, Boolean addEdit) {
         this.listaDeMiembros = miembros;
         this.listaDeParticipan = participan;
+        this.addEdit = addEdit;
 
     }
 
 
     public void setListaDeParticipan(List<Miembro> listaDeParticipan,
-                                     List<Miembro> listaDeMiembros) {
+                                     List<Miembro> listaDeMiembros, Boolean addEdit) {
         this.listaDeMiembros = listaDeMiembros;
         this.listaDeParticipan = listaDeParticipan;
+        this.addEdit = addEdit;
     }
 
 
@@ -72,13 +75,23 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
         if (paticipaOno == true) {
             listaParticipa.add(String.valueOf(userId));
         }
-        // Enviamos el resultado a EditarTransacciones
-        EditarTransaccionesActivity editarTransaccionesActivity =
-                new EditarTransaccionesActivity();
-        editarTransaccionesActivity.paticipanCheck(listaParticipa);
-        AgregarTransaccionActivity agregarTransaccionActivity =
-                new AgregarTransaccionActivity();
-        agregarTransaccionActivity.paticipanCheck(listaParticipa);
+
+        // Enviamos a Agregar o Editar Transacción según sea la llamada.
+
+        if (addEdit == true) {
+
+            //Enviamos el resultado a Agregar
+            AgregarTransaccionActivity agregarTransaccionActivity =
+                    new AgregarTransaccionActivity();
+            agregarTransaccionActivity.paticipanCheck(listaParticipa);
+        } else {
+
+            //Enviamos el resultado a EditarTransacciones
+            EditarTransaccionesActivity editarTransaccionesActivity =
+                    new EditarTransaccionesActivity();
+            editarTransaccionesActivity.paticipanCheck(listaParticipa);
+        }
+
 
         // Listener del Checkbox de participan.
         myViewHolder.cbParticipa.setOnClickListener(new View.OnClickListener() {
@@ -93,14 +106,20 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
                 } else {
                     listaParticipa.remove(String.valueOf(userId));
                 }
-                // Enviamos el resultado a EditarTransacciones
-                EditarTransaccionesActivity editarTransaccionesActivity =
-                        new EditarTransaccionesActivity();
-                editarTransaccionesActivity.paticipanCheck(listaParticipa);
-                AgregarTransaccionActivity agregarTransaccionActivity =
-                        new AgregarTransaccionActivity();
-                agregarTransaccionActivity.paticipanCheck(listaParticipa);
 
+                if (addEdit == true) {
+
+                    //Enviamos el resultado a Agregar
+                    AgregarTransaccionActivity agregarTransaccionActivity =
+                            new AgregarTransaccionActivity();
+                    agregarTransaccionActivity.paticipanCheck(listaParticipa);
+                } else {
+
+                    //Enviamos el resultado a EditarTransacciones
+                    EditarTransaccionesActivity editarTransaccionesActivity =
+                            new EditarTransaccionesActivity();
+                    editarTransaccionesActivity.paticipanCheck(listaParticipa);
+                }
             }
 
         });

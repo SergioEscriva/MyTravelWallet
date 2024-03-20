@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/evTransaccionDescripcion"
+        android:id="@+id/evTransaccionEditDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/etTransaccionDescripcion"
+        android:id="@+id/etTransaccionEditDescripcion"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -30,10 +30,10 @@
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/evTransaccionDescripcion" />
+        app:layout_constraintTop_toBottomOf="@+id/evTransaccionEditDescripcion" />
 
     <EditText
-        android:id="@+id/etTransaccionImporte"
+        android:id="@+id/etTransaccionEditImporte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -43,10 +43,10 @@
         android:inputType="number|numberDecimal"
         android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTransaccionDescripcion" />
+        app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditDescripcion" />
 
     <EditText
-        android:id="@+id/etNombrePagador"
+        android:id="@+id/etNombreEditPagador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -60,11 +60,11 @@
         android:inputType="textPersonName"
         android:text="Pagador"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTransaccionImporte" />
+        app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditImporte" />
 
 
     <EditText
-        android:id="@+id/etPagadorId"
+        android:id="@+id/etPagadorEditId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
@@ -78,10 +78,10 @@
 
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTransaccionImporte" />
+        app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditImporte" />
 
     <AutoCompleteTextView
-        android:id="@+id/etTransaccionCategoria"
+        android:id="@+id/etTransaccionEditCategoria"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -92,10 +92,10 @@
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etNombrePagador" />
+        app:layout_constraintTop_toBottomOf="@id/etNombreEditPagador" />
 
     <EditText
-        android:id="@+id/etTransaccionFecha"
+        android:id="@+id/etTransaccionEditFecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -106,27 +106,27 @@
         android:hint="Fecha"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTransaccionCategoria" />
+        app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditCategoria" />
 
 
     <TextView
-        android:id="@+id/tvDivision"
+        android:id="@+id/tvEditDivision"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTransaccionFecha" />
+        app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditFecha" />
 
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/clParticipan"
+        android:id="@+id/clEditParticipan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@+id/tvDivision"
+        app:layout_constraintTop_toBottomOf="@+id/tvEditDivision"
         tools:layout_editor_absoluteX="0dp">
 
         <android.support.v7.widget.RecyclerView
@@ -141,29 +141,27 @@
     </android.support.constraint.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnGuardarTransaccion"
+        android:id="@+id/btnGuardarEditTransaccion"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="5dp"
         android:text="Guardar"
-        app:layout_constraintEnd_toStartOf="@+id/btnCancelarTransaccion"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancelarEditTransaccion"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clParticipan" />
+        app:layout_constraintTop_toBottomOf="@id/clEditParticipan" />
 
     <Button
-        android:id="@+id/btnCancelarTransaccion"
+        android:id="@+id/btnCancelarEditTransaccion"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
         android:text="Cancelar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.81"
-        app:layout_constraintStart_toEndOf="@+id/btnGuardarTransaccion"
-        app:layout_constraintTop_toBottomOf="@id/clParticipan" />
+        app:layout_constraintStart_toEndOf="@+id/btnGuardarEditTransaccion"
+        app:layout_constraintTop_toBottomOf="@id/clEditParticipan" />
 </android.support.constraint.ConstraintLayout>

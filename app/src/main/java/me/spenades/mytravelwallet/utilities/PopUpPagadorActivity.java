@@ -40,7 +40,7 @@ public class PopUpPagadorActivity extends PopupWindow {
                 (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
 
         View popupView = inflater.inflate(R.layout.activity_pagador, null); // edición
-        View activityTransactionView = inflater.inflate(R.layout.activity_transaction, null);
+        View activityTransactionView = inflater.inflate(R.layout.activity_add_transaction, null);
 
         //Especifica tamaño de la ventana
         int width = LinearLayout.LayoutParams.MATCH_PARENT;

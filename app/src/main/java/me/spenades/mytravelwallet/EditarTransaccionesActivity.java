@@ -70,7 +70,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transaction);
+        setContentView(R.layout.activity_edit_transaction);
         f = new PopUpPagadorActivity();
 
         // Recuperar datos que enviaron
@@ -97,14 +97,15 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         // Ahora declaramos las vistas
         //recyclerViewPagadores = findViewById(R.id.recyclerViewParticipan);
         recyclerViewParticipan = findViewById(R.id.recyclerViewParticipan);
-        etDescripcion = findViewById(R.id.etTransaccionDescripcion);
-        etImporte = findViewById(R.id.etTransaccionImporte);
-        etCategoria = (AutoCompleteTextView) findViewById(R.id.etTransaccionCategoria);
-        etTransaccionFecha = findViewById(R.id.etTransaccionFecha);
-        etNombrePagador = findViewById(R.id.etNombrePagador);
-        etPagadorId = findViewById(R.id.etPagadorId);
-        btnCancelarTransaccion = findViewById(R.id.btnCancelarTransaccion);
-        btnGuardarTransaccion = findViewById(R.id.btnGuardarTransaccion);
+        etDescripcion = findViewById(R.id.etTransaccionEditDescripcion);
+        etImporte = findViewById(R.id.etTransaccionEditImporte);
+        etCategoria = (AutoCompleteTextView) findViewById(R.id.etTransaccionEditCategoria);
+        etTransaccionFecha = findViewById(R.id.etTransaccionEditFecha);
+        etNombrePagador = findViewById(R.id.etNombreEditPagador);
+        etPagadorId = findViewById(R.id.etPagadorEditId);
+        tvDivision = findViewById(R.id.tvEditDivision);
+        btnCancelarTransaccion = findViewById(R.id.btnCancelarEditTransaccion);
+        btnGuardarTransaccion = findViewById(R.id.btnGuardarEditTransaccion);
 
         // Rearmar la transacción
         String descripcionTransaccion = extras.getString("descripcionTransaccion");
@@ -123,7 +124,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         // Lista Participan Por defecto es una lista vacía,
         listaDeParticipan = new ArrayList<>();
-        participanAdapters = new ParticipanAdapters(listaDeMiembros, listaDeParticipan);
+        participanAdapters = new ParticipanAdapters(listaDeMiembros, listaDeParticipan, false);
 
         // Lista Categorias Por defecto es una lista vacía,
         listaDeCategorias = new ArrayList<>();
@@ -153,7 +154,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         // Rellenar los EditText de la pantalla
         etDescripcion.setText(transaccion.getDescripcion());
-        evTransaccionTitulo = findViewById(R.id.evTransaccionDescripcion);
+        evTransaccionTitulo = findViewById(R.id.evTransaccionEditDescripcion);
         etImporte.setText(transaccion.getImporte());
         etCategoria.setText(transaccion.getCategoria());
         etTransaccionFecha.setText(String.valueOf(transaccion.getFecha()));
@@ -175,6 +176,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String nuevoImporte = etImporte.getText().toString();
+                System.out.println("Nuevo " + nuevoImporte);
                 if (etImporte == null) nuevoImporte = "0";
                 importeADividir = nuevoImporte;
                 participanImporte();
@@ -312,7 +314,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         listaDeParticipan = participanController.obtenerParticipan(transaccionId);
 
         //Adaptador Participa Lista total
-        participanAdapters.setListaDeParticipan(listaDeParticipan, listaDeMiembros);
+        participanAdapters.setListaDeParticipan(listaDeParticipan, listaDeMiembros, false);
         participanAdapters.notifyDataSetChanged();
     }
 
@@ -341,15 +343,20 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     // Rellenamos el importe a pagar por cada participante al añadir transacción
     // variables static para poder traerlo aquí.
     public void participanImporte() {
+        importeADividir = etImporte.getText().toString();
         if (importeADividir == null) importeADividir = "0";
         double importeADividirD = Double.parseDouble(importeADividir);
 
         // limpiamos el String que viene de comas y sacamos cuantos numero hay
         int cantidadParticipa = nuevosParticipan.replaceAll(",", "").length();
-        Operaciones operaciones = new Operaciones();
+
         Double resultado = importeADividirD / cantidadParticipa;
-        String resultadoLimpio = operaciones.dosDecimales(resultado);
-        tvDivision.setText("Cada participante deberá pagar: " + resultadoLimpio + "€");
+
+        System.out.println(importeADividirD + " <--> " + cantidadParticipa);
+
+        Double resultadoLimpio = dosDecimales(resultado);
+        String resultadoString = String.valueOf(resultadoLimpio);
+        tvDivision.setText("Cada participante deberá pagar: " + resultadoString + "€");
 
     }
 
@@ -389,5 +396,14 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
             categoriaNuevaId = categoriaIdActual.get(0).getId();
         }
         return categoriaNuevaId;
+    }
+
+
+    // https://es.stackoverflow.com/questions/100147/como-puedo-hacer-para-mostrar-solo-dos-decimales-en-la-operacion-que-sea
+    public Double dosDecimales(Double importe) {
+        Operaciones operaciones = new Operaciones();
+        String numeroDosDecimales = operaciones.dosDecimales(importe);
+        double numeroLimpio = Double.parseDouble(numeroDosDecimales);
+        return numeroLimpio;
     }
 }

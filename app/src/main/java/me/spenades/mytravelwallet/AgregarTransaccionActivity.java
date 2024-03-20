@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.ParticipanAdapters;
@@ -57,7 +56,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_transaction); //Se utiliza el mismo layer en edit/add
+        setContentView(R.layout.activity_add_transaction); //Se utiliza el mismo layer en edit/add
         popUp = new PopUpPagadorActivity();
 
         // Recuperar datos que enviaron
@@ -91,7 +90,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
 
         // Lista Participan Por defecto es una lista vacía,
-        participanAdapters = new ParticipanAdapters(listaDeMiembros, listaDeMiembros);
+        participanAdapters = new ParticipanAdapters(listaDeMiembros, listaDeMiembros, true);
 
         // Lista Categorias Por defecto es una lista vacía,
         listaDeCategorias = categoriaController.obtenerCategorias();
@@ -277,7 +276,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         listaDeMiembros = miembroController.obtenerMiembros(walletId);
 
         //Adaptador Participa Lista total
-        participanAdapters.setListaDeParticipan(listaDeMiembros, listaDeMiembros);
+        participanAdapters.setListaDeParticipan(listaDeMiembros, listaDeMiembros, true);
         participanAdapters.notifyDataSetChanged();
 
         //Apdaptador Categoria
@@ -315,10 +314,11 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
         // limpiamos el String que viene de comas y sacamos cuantos numero hay
         int cantidadParticipa = nuevosParticipan.replaceAll(",", "").length();
-        Operaciones operaciones = new Operaciones();
+
         Double resultado = importeADividirD / cantidadParticipa;
-        String resultadoLimpio = bigDecimal(resultado);
-        tvDivision.setText("Cada participante deberá pagar: " + resultadoLimpio + "€");
+        Double resultadoLimpio = dosDecimales(resultado);
+        String resultadoString = String.valueOf(resultadoLimpio);
+        tvDivision.setText("Cada participante deberá pagar: " + resultadoString + "€");
 
     }
 
@@ -361,11 +361,10 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
 
     // https://es.stackoverflow.com/questions/100147/como-puedo-hacer-para-mostrar-solo-dos-decimales-en-la-operacion-que-sea
-    public String bigDecimal(double numero) {
-
-        DecimalFormat format = new DecimalFormat();
-        format.setMaximumFractionDigits(2); //Define 2 decimales.
-        return format.format(numero);
-
+    public Double dosDecimales(Double importe) {
+        Operaciones operaciones = new Operaciones();
+        String numeroDosDecimales = operaciones.dosDecimales(importe);
+        double numeroLimpio = Double.parseDouble(numeroDosDecimales);
+        return numeroLimpio;
     }
 }
