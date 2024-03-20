@@ -5,11 +5,9 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import me.spenades.mytravelwallet.models.Categoria;
 import me.spenades.mytravelwallet.models.Miembro;
@@ -33,39 +31,6 @@ public class Operaciones {
     }
 
 
-    public String sumaTransacciones(List<Transaccion> listaTransacciones,
-                                    List<Miembro> listaMiembros) {
-        this.listaTransacciones = listaTransacciones;
-        this.listaMiembros = listaMiembros;
-        this.listaParticipan = listaMiembros;
-        float total = 0;
-        for (Transaccion i : listaTransacciones) {
-            total += Float.valueOf(i.getImporte());
-        }
-
-        proximoPagador();
-        pagadoPorCadaMiembro();
-        return String.valueOf(total);
-    }
-
-
-    public List<String> proximoPagador() {
-        Map<Long, Double> listaPagadoresId = pagadoPorCadaMiembro();
-        Map<Long, Double> pagadoresIdOrdenados = ordenarTransacciones(listaPagadoresId);
-
-        Set<Long> pagadoresId = pagadoresIdOrdenados.keySet();
-        long pagadorFinalId = pagadoresId.iterator().next();
-        List<String> siguientePagador = new ArrayList<>();
-        for (Miembro miembros : listaMiembros) {
-            if (pagadorFinalId == miembros.getUserId()) {
-                siguientePagador.add(String.valueOf(pagadorFinalId));
-                siguientePagador.add(miembros.getNombre());
-            }
-        }
-        return siguientePagador;
-    }
-
-
     public Map<Long, Double> ordenarTransacciones(Map<Long, Double> transacciones) {
 
         // Ordenamos pagos de mayor a menor
@@ -81,18 +46,9 @@ public class Operaciones {
     }
 
 
-    public Map<Long, Double> listaMiembrosACero() {
-        //Añade miembros y les pone valor 0.0
-        Map<Long, Double> datos = new HashMap<Long, Double>();
-        for (Miembro participaIdItera : listaMiembros) {
-            long miembroId = participaIdItera.getUserId();
-            double importeCero = 0.0;
-            datos.put(miembroId, importeCero);
-        }
-        return datos;
-    }
 
 
+/*
     public Map<Long, Double> pagadoPorCadaMiembro() {
         Map<Long, Double> datos = listaMiembrosACero();
         for (Transaccion transaccion : listaTransacciones) {
@@ -116,6 +72,8 @@ public class Operaciones {
         }
         return datos;
     }
+
+ */
 
 
     public double bigDecimal1(double numero) {
@@ -173,6 +131,7 @@ public class Operaciones {
         String fecha = day + "/" + month + "/" + year;
         return fecha;
     }
+
 
 }
 

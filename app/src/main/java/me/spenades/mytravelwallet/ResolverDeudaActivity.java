@@ -14,12 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import me.spenades.mytravelwallet.adapters.GastosTotalesAdapters;
 import me.spenades.mytravelwallet.adapters.ResolucionesAdapters;
@@ -28,6 +25,7 @@ import me.spenades.mytravelwallet.controllers.ParticipanController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.utilities.DeudaUtility;
 import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
 
@@ -45,6 +43,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private ParticipanController participanController;
     private ResolucionesAdapters resolucionesAdapters;
     private GastosTotalesAdapters gastosTotalesAdapters;
+    private DeudaUtility deudaUtility;
     private RecyclerView recyclerViewResoluciones, recyclerViewGastosTotales;
     private FrameLayout flInfoDeudas;
     private TextView tvSinDeudas, tvTextoResolucion;
@@ -81,6 +80,8 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         miembroController = new MiembroController(ResolverDeudaActivity.this);
         participanController = new ParticipanController(ResolverDeudaActivity.this);
 
+        deudaUtility = new DeudaUtility();
+
         // Instanciamos las vistas
         //tvResolver = findViewById(R.id.tvResolver);
         recyclerViewResoluciones = findViewById(R.id.recyclerViewGastos);
@@ -114,9 +115,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         recyclerViewGastosTotales.setItemAnimator(new DefaultItemAnimator());
         recyclerViewGastosTotales.setAdapter(gastosTotalesAdapters);
         refrescarListas();
-
-
-        // Listener Temporal Gastos Totales... TODO por implementar
 
         tvTextoResolucion.setOnClickListener(new View.OnClickListener() {
 
@@ -183,288 +181,18 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     public void refrescarListas() {
         listaDeMiembros = miembroController.obtenerMiembros(walletId);
         listaDeTransacciones = transaccionController.obtenerTransacciones(walletId);
-        listaDeSoluciones = resolucionDeudaWallet(); //llama a Saldar
+        listaDeSoluciones = deudaUtility.resolucionDeudaWallet(); //llama a Saldar
         resolucionesAdapters.setListaDeResoluciones(listaDeSoluciones);
         resolucionesAdapters.notifyDataSetChanged();
         if (listaDeSoluciones.size() <= 0) {
             tvSinDeudas.setVisibility(View.VISIBLE);
             recyclerViewResoluciones.setVisibility(View.INVISIBLE);
         }
-        listaDeGastos = unificaGastoMiembroWallet();//llama Gasto Total
-        mostrarResolucion = operacionesResolucionDeudas(); // TODO Gastos Totales
+        mostrarResolucion = deudaUtility.operacionesResolucionDeudas(); //Gastos Totales
         gastosTotalesAdapters.setListaDeResoluciones(mostrarResolucion, listaDeMiembros);
         gastosTotalesAdapters.notifyDataSetChanged();
 
 
-    }
-
-
-    // Resolución de las deudas TODO sacar a una clase, aún no se
-    public ArrayList resolucionDeudaWallet() {
-
-        HashMap<Long, String> usuarioIdNombbre = new HashMap<>();
-        for (Miembro miembro : listaDeMiembros) {
-            String nombre = miembro.getNombre();
-            long userId = miembro.getUserId();
-            usuarioIdNombbre.put(userId, nombre);
-        }
-
-        //Iniciamos variables
-        Map<Long, Double> pagarMiembro = new HashMap<>();
-        Map<Long, Double> recibirMiembro = new HashMap<>();
-        // Recuperamos deudas por Wallet
-        Map deudas = unificaGastoMiembroWallet();
-
-        // Extrae las Keys de las transacciones para los cálculos y rellenamos variables.
-        deudas.keySet().forEach((key) -> {
-            double pagar = 0L;
-            double recibir = 0L;
-            long miembroId = Long.parseLong(key.toString());
-            long iterarKey = miembroId;
-            double cantidadParticipa = Double.valueOf(String.valueOf(deudas.get(iterarKey)));
-
-            // Separamos pagar y recibir en dos listas.
-            if (cantidadParticipa >= 0L) {
-                double recibirDecimales = dosDecimales(cantidadParticipa);
-                recibir = recibirDecimales;
-            } else if (cantidadParticipa != 0L) {
-                double pagarDecimales = dosDecimales(cantidadParticipa);
-                pagar = pagarDecimales;
-            }
-            pagarMiembro.put(miembroId, pagar);
-            recibirMiembro.put(miembroId, recibir);
-        });
-
-        // Ordenamos pagos de mayor a menor
-        Map<Long, Double> pagarOrdenado = ordenarTransacciones(pagarMiembro);
-        Map<Long, Double> recibirOrdenado = ordenarTransacciones(recibirMiembro);
-
-        // Creamos un diccionario para almacenar las soluciones
-        ArrayList<ArrayList> soluciones = new ArrayList<>();
-
-        // Iteramos sobre la lista de los que tienen que pagar(pagador)
-        for (long pagarId : pagarOrdenado.keySet()) {
-            double cantidadAPagar = dosDecimales(pagarOrdenado.get(pagarId));
-            long pagador = pagarId;
-
-            // Iteramos sobre la lista de los que tienen que recibir(cobrador)
-            while (Math.abs(cantidadAPagar) > 0) {
-                for (long recibirId : recibirOrdenado.keySet()) {
-                    double cantidadARecibir = dosDecimales(recibirOrdenado.get(recibirId));
-                    long cobrador = recibirId;
-
-                    // Si el cobrador debe recibir más de lo que el pagador tiene que pagar
-                    if (cantidadARecibir > Math.abs(cantidadAPagar)) {
-                        double cantidadAPagarIni = cantidadAPagar;
-
-                        // El pagador paga la cantidad que debe al cobrador
-                        ArrayList<String> resoluciones = new ArrayList<>();
-                        resoluciones.add(String.valueOf(pagador));
-                        resoluciones.add(String.valueOf(usuarioIdNombbre.get(pagador)));
-                        resoluciones.add(String.valueOf(cobrador));
-                        resoluciones.add(String.valueOf(usuarioIdNombbre.get(cobrador)));
-                        resoluciones.add(String.valueOf(cantidadAPagar));
-                        soluciones.add(resoluciones);
-
-                        //Actualizamos la cantidad que el cobrador tiene que recibir
-                        double recibirCalculado =
-                                dosDecimales(cantidadARecibir + cantidadAPagar);
-                        recibirOrdenado.replace(recibirId, recibirCalculado);
-
-                        // El pagador ya no tiene que pagar nada
-                        cantidadAPagar = 0;
-                        pagarOrdenado.replace(pagador, cantidadAPagar);
-                        break;
-                    }
-                    // Si el cobrador debe recibir menos o lo mismo de lo que el pagador
-                    // tiene que pagar
-                    if (Math.abs(cantidadAPagar) == 0) {
-                        break;
-                    }
-                    if (Math.abs(cantidadAPagar) > 0) {
-                        //double cantidadAPagarIni = cantidadAPagar;
-
-                        // El pagador paga la cantidad que el receptor tiene que recibir
-                        ArrayList<String> resoluciones = new ArrayList<>();
-                        resoluciones.add(String.valueOf(pagador));
-                        resoluciones.add(String.valueOf(usuarioIdNombbre.get(pagador)));
-                        resoluciones.add(String.valueOf(cobrador));
-                        resoluciones.add(String.valueOf(usuarioIdNombbre.get(cobrador)));
-                        resoluciones.add(String.valueOf(Math.abs(cantidadARecibir)));
-                        soluciones.add(resoluciones);
-
-                        // Actualizamos la cantidad que el pagador tiene que pagar
-                        cantidadAPagar += cantidadARecibir;
-
-                        // El cobrador ya no tiene que recibir nada
-                        recibirOrdenado.remove(cobrador, cantidadARecibir);
-
-                        pagarOrdenado.replace(pagador, cantidadAPagar);
-                        break;
-                    }
-                }
-                if (recibirOrdenado.size() == 0) {
-                    break;
-
-                }
-            }
-
-        }
-        ArrayList<ArrayList> solucionesLimpias = eliminarSolucionesCero(soluciones);
-        // Rellenar Gastos Totales
-        // gastosTotalesResumidos();
-        return solucionesLimpias;
-    }
-
-
-    private Map<Long, Double> unificaGastoMiembroWallet() {
-        ArrayList<Map> gastoMiembros = gastosMiembrosTransacciones();
-        Map<Long, Double> gastosParticianTotalesWallet = new HashMap<Long, Double>();
-        try {
-            // Iteramos en busca de las keys
-            for (long l = 0; l < gastoMiembros.get(0).size(); l++) {
-
-                // Extrae las Keys de las transacciones
-
-                gastoMiembros.get(0).keySet().forEach((key) -> {
-                    long miembroId = Long.parseLong(key.toString());
-                    long iterar = miembroId;
-
-                    // Suma todas las keys values del mismo Miembro
-                    DoubleSummaryStatistics sumaValoresImporte =
-                            (DoubleSummaryStatistics) gastoMiembros
-                                    .stream()
-                                    .collect(Collectors.summarizingDouble(
-                                                    e -> Double.valueOf(((Map) e).get(iterar).toString())
-                                            )
-                                    );
-
-                    double importeTotal = sumaValoresImporte.getSum();
-                    gastosParticianTotalesWallet.put(iterar, importeTotal);
-
-                });
-
-                return gastosParticianTotalesWallet;
-            }
-        } catch (Exception e) {
-            System.out.println("Oops! ResolverDeuda");
-        }
-        return gastosParticianTotalesWallet;
-    }
-
-
-    public ArrayList<Map> gastosMiembrosTransacciones() {
-        ArrayList<Map> gastoMiembros = new ArrayList<>();
-        // iteramos transacciones sacamos a lo que sale cada miembro
-        for (Transaccion unaTransaccion : listaDeTransacciones) {
-
-            Map<Long, Double> pagadoPorMiembro = pagadoPorCadaMiembro(unaTransaccion);
-            double deudaTotal = Double.valueOf(unaTransaccion.getImporte());
-            double aPagarPorMiembro = aPagarPorMiembro(unaTransaccion);
-
-            // Extraemos lo que ha pagado cada miembro
-            Map<Long, Double> deudas = new HashMap<Long, Double>();
-            for (int n = 0; n < listaDeMiembros.size(); n++) {
-                long miembroId = listaDeMiembros.get(n).getUserId();
-                double pagado = pagadoPorMiembro.get(miembroId);
-
-                // segun se haya pagado o no una cantidad se resta
-                // Comprueba si existe en la lista de miembros y asigna importes, los demás
-                // a cero
-                String listado = unaTransaccion.getMiembros();
-                String miembroIdInt = String.valueOf(miembroId);
-                int existeEnListas1 = listado.indexOf(miembroIdInt);
-
-                double saldo = pagado;
-                // NO ha pagado esta transacción pero está en ella
-                if (pagado == 0.0 && existeEnListas1 >= 0) {
-                    double saldoDecimales =
-                            dosDecimales(dosDecimales(pagado) - dosDecimales(aPagarPorMiembro));
-                    saldo = dosDecimales(saldoDecimales);
-                    deudas.put(miembroId, saldo);
-
-                    // SI pagado la transacción y está en ella
-                } else if (pagado > 0.0 && existeEnListas1 >= 0) {
-                    double saldoDecimales =
-                            dosDecimales(dosDecimales(pagado) - dosDecimales(aPagarPorMiembro));
-                    saldo = dosDecimales(saldoDecimales);
-                    deudas.put(miembroId, saldo);
-
-                    // No está en la transacción
-                } else {
-                    saldo = pagado;
-
-                }
-                deudas.put(miembroId, saldo);
-            }
-
-            gastoMiembros.add(deudas);
-        }
-        return gastoMiembros;
-    }
-
-
-    // Suma todos los pagos por miembro
-    public Map<Long, Double> pagadoPorCadaMiembro(Transaccion transaccion) {
-        long transaccionId = transaccion.getId();
-        listaDeParticipan = participanController.obtenerParticipan(transaccionId);
-
-        // Creamos un diccionario con lo que ha pagado cada miembro de esta transacción
-        Map<Long, Double> datos = new HashMap<Long, Double>();
-        long nombreId = transaccion.getPagadorId();
-        double importe = Double.valueOf(transaccion.getImporte().toString());
-        for (Miembro unNombre : listaDeMiembros) {
-            long nombreIdIndividual = unNombre.getUserId();
-            double importeCero = 0.0;
-            datos.put(nombreIdIndividual, importeCero);
-        }
-        datos.put(nombreId, importe);
-
-        return datos;
-    }
-
-
-    public double aPagarPorMiembro(Transaccion transaccion) {
-
-        // Calculamos la deuda total
-        double numeroMiembros = listaDeParticipan.size();
-        double importeTransaccion = Double.valueOf(transaccion.getImporte());
-        double importePorMiembro =
-                dosDecimales(dosDecimales(importeTransaccion) / dosDecimales(numeroMiembros + 0.0D));
-
-        return importePorMiembro;
-    }
-
-
-    public ArrayList<ArrayList> eliminarSolucionesCero(ArrayList<ArrayList> soluciones) {
-        ArrayList<ArrayList> solucionesLimpias = new ArrayList<>();
-
-        // Iteramos y eliminamos los que tienen que pagar 0 €
-        for (ArrayList solucion : soluciones) {
-            String importe = solucion.get(4).toString();
-            double importeLong = Double.parseDouble(importe);
-            if (importeLong != 0D) {
-                solucionesLimpias.add(solucion);
-            }
-        }
-
-        return solucionesLimpias;
-    }
-
-
-    public Map<Long, Double> ordenarTransacciones(Map<Long, Double> transacciones) {
-
-        // Ordenamos pagos de mayor a menor
-        // Java 8 Stream (https://www.techiedelight.com/es/sort-map-by-values-java/)
-        //https://www.techiedelight.com/es/sort-map-java-reverse-ordering-keys/
-        Map<Long, Double> ordenarDiccionario = new LinkedHashMap<>();
-
-        transacciones.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue())
-                .forEachOrdered(entry -> ordenarDiccionario.put(entry.getKey(), entry.getValue()));
-
-        return ordenarDiccionario;
     }
 
 
@@ -483,108 +211,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                 nuevaFecha, walletId);
         long transaccionId = transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
         return transaccionId;
-    }
-
-
-    public ArrayList<String> operacionesResolucionDeudas() {
-        String importeTotal = new String();
-        ArrayList<ArrayList> gastosTotalesDivididos = new ArrayList<>();
-        Map<Long, Double> importePagadoParticipante = transacionesGastosTotales();
-        ArrayList<String> miembrosGastos = new ArrayList<>();
-
-        // Iteramos sobre los gastos para extraer que tendría que haber pagado cada miembro.
-        for (Long miembroIdGasto : listaDeGastos.keySet()) {
-            double importeDeberiaPagarAlWallet = listaDeGastos.get(miembroIdGasto);
-
-            // Limpiamos decimales del importe
-            double importeMovimientosWallet = dosDecimales(importeDeberiaPagarAlWallet);
-
-            // Obtenemos de la listaDeGastos los ids, y los iteramos con la listaDeMiembros, para obtener el nombre.
-            for (Miembro solucionFinal : listaDeMiembros) {
-                long miembroId = solucionFinal.getUserId();
-                String miembro = solucionFinal.getNombre();
-
-                // Añadimos los gastos o cobros por participantes.
-                if (miembroIdGasto == miembroId) {
-                    //String miembro = new String();
-                    String importeString = new String();
-
-                    // Rescatamos importe pagado por cada miembro
-                    double importeHaPagado = importePagadoParticipante.get(solucionFinal.getUserId());
-                    String importeHaPagadoString = String.valueOf(importeHaPagado);
-
-                    // Rescatamos importes a pagar o recibir.
-                    String importeFinalDebe = new String();
-                    String importeFinalPagado = new String();
-                    double importeDoubleLimpio = 0;
-                    double importeFinalPagadoLimpio = 0;
-                    double gastoRealizado = 0;
-
-                    // Según sea a pagar o recibir se separan para poder mostrarlos.
-                    if (importeMovimientosWallet <= 0D) {
-                        importeDoubleLimpio = Math.abs(importeMovimientosWallet);
-                        String limpiezaNumero = String.valueOf(importeDoubleLimpio);
-                        if (importeDoubleLimpio <= 0D) {
-                            importeFinalDebe = "\nNo tiene deudas.";
-                        } else {
-                            importeFinalDebe = "\nDebe al Wallet " + limpiezaNumero + "€";
-                        }
-                        // Calculamos lo que el gasto total de cada miembro en el Wallet
-                        gastoRealizado = importeDoubleLimpio + importeHaPagado;
-                    } else {
-                        importeFinalPagadoLimpio = importeMovimientosWallet;
-                        importeString = String.valueOf(importeFinalPagadoLimpio);
-                        importeFinalPagado = "\nEl Wallet le debe " + importeString + "€";
-
-                        // Calculamos lo que el gasto total de cada miembro en el Wallet
-                        gastoRealizado = dosDecimales(importeHaPagado - importeMovimientosWallet);
-                    }
-
-                    String gastoRealizadoEnWallet = String.valueOf(gastoRealizado);
-
-
-                    String miembroGastoString =
-                            miembro + " ha hecho un Gasto de " + gastoRealizadoEnWallet + "€" + "\nHa pagado " + importeHaPagadoString + "€" + importeFinalDebe + importeFinalPagado;
-                    miembrosGastos.add(miembroGastoString);
-                    ArrayList<String> gastosTotales = new ArrayList<>();
-                    gastosTotales.add(miembro);
-                    gastosTotales.add(importeString);
-                    gastosTotalesDivididos.add(gastosTotales);
-                    //}
-                }
-            }
-        }
-        return miembrosGastos;
-    }
-
-
-    // Gastos que ha realizado cada participante en las transacciones del wallet
-    public Map<Long, Double> transacionesGastosTotales() {
-        Map<Long, Double> gastoTotalpagador = new HashMap<>();
-
-        // Creamos una diccionario con todos los participantes del Wallet, y los ponemos a 0 gastado
-        double pagadorImporte = 0.0D;
-        for (Miembro solucionFinal : listaDeMiembros) {
-            long miembroId = solucionFinal.getUserId();
-            gastoTotalpagador.put(miembroId, pagadorImporte);
-        }
-        // Ahora añadimos lo que realmente ha pagado cada uno.
-        for (Transaccion transaccion : listaDeTransacciones) {
-            long pagadorId = transaccion.getPagadorId();
-
-            pagadorImporte = Double.parseDouble(transaccion.getImporte());
-            gastoTotalpagador.replace(pagadorId, pagadorImporte);
-
-        }
-        return gastoTotalpagador;
-    }
-
-
-    public Double dosDecimales(Double importe) {
-        Operaciones operaciones = new Operaciones();
-        String numeroDosDecimales = operaciones.dosDecimales(importe);
-        double numeroLimpio = Double.valueOf(numeroDosDecimales);
-        return numeroLimpio;
     }
 
 }
