@@ -352,8 +352,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         Double resultado = importeADividirD / cantidadParticipa;
 
-        System.out.println(importeADividirD + " <--> " + cantidadParticipa);
-
         Double resultadoLimpio = dosDecimales(resultado);
         String resultadoString = String.valueOf(resultadoLimpio);
         tvDivision.setText("Cada participante deberá pagar: " + resultadoString + "€");
@@ -403,7 +401,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     public Double dosDecimales(Double importe) {
         Operaciones operaciones = new Operaciones();
         String numeroDosDecimales = operaciones.dosDecimales(importe);
-        double numeroLimpio = Double.parseDouble(numeroDosDecimales);
+        double numeroLimpio = Double.valueOf(numeroDosDecimales);
         return numeroLimpio;
     }
 }

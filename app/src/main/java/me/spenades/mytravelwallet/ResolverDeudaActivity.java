@@ -427,10 +427,10 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     public double aPagarPorMiembro(Transaccion transaccion) {
 
         // Calculamos la deuda total
-        int numeroMiembros = listaDeParticipan.size();
+        double numeroMiembros = listaDeParticipan.size();
         double importeTransaccion = Double.valueOf(transaccion.getImporte());
         double importePorMiembro =
-                dosDecimales(dosDecimales(importeTransaccion) / dosDecimales(numeroMiembros + 0.0));
+                dosDecimales(dosDecimales(importeTransaccion) / dosDecimales(numeroMiembros + 0.0D));
 
         return importePorMiembro;
     }
@@ -583,7 +583,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     public Double dosDecimales(Double importe) {
         Operaciones operaciones = new Operaciones();
         String numeroDosDecimales = operaciones.dosDecimales(importe);
-        double numeroLimpio = Double.parseDouble(numeroDosDecimales);
+        double numeroLimpio = Double.valueOf(numeroDosDecimales);
         return numeroLimpio;
     }
 

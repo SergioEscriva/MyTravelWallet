@@ -131,10 +131,11 @@ public class Operaciones {
 
     // https://es.stackoverflow.com/questions/100147/como-puedo-hacer-para-mostrar-solo-dos-decimales-en-la-operacion-que-sea
     public String dosDecimales(double numero) {
-
         DecimalFormat format = new DecimalFormat();
         format.setMaximumFractionDigits(2); //Define 2 decimales.
-        return format.format(numero);
+        String numeroString = format.format(numero);
+        String numeroDecimal = numeroString.replaceAll(",", ".");
+        return numeroDecimal;
     }
 
 

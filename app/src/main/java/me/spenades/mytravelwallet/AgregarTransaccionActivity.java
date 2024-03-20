@@ -364,7 +364,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     public Double dosDecimales(Double importe) {
         Operaciones operaciones = new Operaciones();
         String numeroDosDecimales = operaciones.dosDecimales(importe);
-        double numeroLimpio = Double.parseDouble(numeroDosDecimales);
+        double numeroLimpio = Double.valueOf(numeroDosDecimales);
         return numeroLimpio;
     }
 }
