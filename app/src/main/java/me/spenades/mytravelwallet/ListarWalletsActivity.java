@@ -204,5 +204,15 @@ public class ListarWalletsActivity extends AppCompatActivity {
         walletsAdapters.notifyDataSetChanged();
 
     }
+
+
+    ///Cierra la app al cerrar
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.exit(0);
+
+    }
+
 }
 

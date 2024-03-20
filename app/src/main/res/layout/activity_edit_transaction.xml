@@ -79,13 +79,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="117dp"
         android:capitalize="words"
         android:ems="10"
         android:hint="Descripción"
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/evTransaccionEditDescripcion" />
 

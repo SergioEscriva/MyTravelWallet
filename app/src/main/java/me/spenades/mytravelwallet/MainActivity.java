@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        iniciar();
+        //iniciar(); //esto hace que vuelva a la lista de Wallets al ir pulsar atrás.
         super.onResume();
 
     }

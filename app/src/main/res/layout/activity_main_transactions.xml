@@ -149,20 +149,24 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/clResumen"
-        android:layout_width="396dp"
-        android:layout_height="159dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="false"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:contextClickable="false"
         android:focusable="false"
+        android:focusableInTouchMode="false"
         android:padding="5dp"
+        android:touchscreenBlocksFocus="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
 
         <View
             android:id="@+id/divider4"
