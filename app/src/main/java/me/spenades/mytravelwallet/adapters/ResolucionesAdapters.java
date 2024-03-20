@@ -51,13 +51,12 @@ public class ResolucionesAdapters extends RecyclerView.Adapter<ResolucionesAdapt
         Operaciones numeroDecimal = new Operaciones();
         String numeroString = String.valueOf(solucionFinal.get(4));
         double numeroDouble = Double.parseDouble(numeroString);
-        double numeroLimpio = numeroDecimal.bigDecimal(numeroDouble);
-        double numeroDecimalConvertido = numeroLimpio;
-        double importe = Math.abs(numeroDecimalConvertido);
+        double numeroAbs = Math.abs(numeroDouble);
+        String numeroLimpio = numeroDecimal.dosDecimales(numeroAbs);
         String solucion = new String();
 
         // Componemos la frase a Mostrar
-        solucion = ("· " + solucionFinal.get(1) + " debe " + String.valueOf(importe) + "€" + " a " + solucionFinal.get(3));
+        solucion = ("· " + solucionFinal.get(1) + " debe " + numeroLimpio + "€" + " a " + solucionFinal.get(3));
 
         myViewHolder.tvResolver.setText(String.valueOf(solucion));
     }

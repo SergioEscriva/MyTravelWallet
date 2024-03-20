@@ -22,17 +22,22 @@ import java.util.Map;
 import me.spenades.mytravelwallet.adapters.MiembrosAdapters;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
 import me.spenades.mytravelwallet.controllers.MiembroController;
+import me.spenades.mytravelwallet.controllers.ParticipanController;
+import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.controllers.WalletController;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Usuario;
 import me.spenades.mytravelwallet.models.Wallet;
+import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
 
 
 public class EditarWalletActivity extends AppCompatActivity {
 
     public MiembroController miembroController;
     public UsuarioController usuarioController;
+    public TransaccionController transaccionController;
+    public ParticipanController participanController;
     private List<Wallet> listaDeWallets;
     private ArrayList<Map> listaDeImportes;
     private WalletsAdapters walletsAdapters;
@@ -57,6 +62,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         this.walletId = Long.parseLong(extras.getString("walletId"));
         this.nombreWallet = extras.getString("nombreWallet");
+        boolean agregar = extras.getBoolean("agregar");
 
         if (extras == null) {
             finish();
@@ -67,6 +73,8 @@ public class EditarWalletActivity extends AppCompatActivity {
         walletController = new WalletController(EditarWalletActivity.this);
         miembroController = new MiembroController(EditarWalletActivity.this);
         usuarioController = new UsuarioController(EditarWalletActivity.this);
+        transaccionController = new TransaccionController(this);
+        participanController = new ParticipanController(this);
 
         // Recuperamos datos
         String descripcion = extras.getString("descripcion");
@@ -88,6 +96,12 @@ public class EditarWalletActivity extends AppCompatActivity {
         btnAgregarMiembro = findViewById(R.id.btnAgregarMiembro);
         btnEliminarWallet = findViewById(R.id.btnEliminarWallet);
         etPropietarioId.setVisibility(View.INVISIBLE);
+
+        // Si venimos de Agregar Wallet, eliminamos los botones de guardar y eliminar Wallet.
+        if (agregar == true) {
+            btnEliminarWallet.setVisibility(View.INVISIBLE);
+            btnGuardarCambios.setVisibility(View.INVISIBLE);
+        }
 
 
         // Hacer visible las vistas de botones y lista miembros al compartir activiy con
@@ -195,12 +209,13 @@ public class EditarWalletActivity extends AppCompatActivity {
         });
 
 
-        // Eliminar Wallet siempre que estén saldadas las cuentas. TODO
+        // Eliminar Wallet siempre que estén saldadas las cuentas.
         btnEliminarWallet.setOnClickListener(new View.OnClickListener() {
 
             @Override // Un toque Eliminamos Wallet
             public void onClick(View view) {
                 ArrayList<Map> importe = walletController.obtenerWalletsImporte();
+
                 // Iteramos sobre la lista de importes la pasamos a String y luego a Double.
                 double importeWallet = Double.valueOf(importe.iterator().next().get(walletId).toString());
                 if (importeWallet > 0) {
@@ -297,6 +312,90 @@ public class EditarWalletActivity extends AppCompatActivity {
             }
         });
 
+        recyclerViewMiembros.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewMiembros,
+                new RecyclerTouchListener.ClickListener() {
+
+                    @Override
+                    public void onClick(View view, int position) {
+
+                    }
+
+
+                    // Eliminamos Miembro si no tiene deudas
+                    // TODO faltaría comprobar si el miembro tiene deudas.
+                    @Override
+                    public void onLongClick(View view, int position) {
+                        Miembro miembro = listaDeMiembros.get(position);
+
+                        // Si el miembro tiene deudas se insta a saldarlas
+                        // TODO fatlta implementar comprobar si hay deudas pendientes.
+                        // por el momento, si se se está creando por primera vez el Wallet, si deja borrar, no en Editar.
+                        if (agregar == false) {
+                            AlertDialog dialog = new AlertDialog
+                                    .Builder(EditarWalletActivity.this)
+                                    .setPositiveButton("Resolver Deudas", new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            Intent intent = new Intent(EditarWalletActivity.this,
+                                                    ResolverDeudaActivity.class);
+                                            intent.putExtra("walletId", String.valueOf(walletId));
+                                            intent.putExtra("info", 1);
+                                            startActivity(intent);
+
+                                        }
+                                    })
+                                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .setTitle("Borrar Miembro")
+                                    .setMessage("El Miembro " + miembro.getNombre() + ", " + "\ndel Wallet " + nombreWallet + "\nsolo se puede " +
+                                            "eliminar " +
+                                            "\nsi tiene sus deudas RESUELTAS.")
+                                    .create();
+                            refrescarListaDeWallets();
+                            dialog.show();
+
+                            // Si no tiene deudas se puede borrar el Miembro
+                        } else {
+                            AlertDialog dialog = new AlertDialog
+                                    .Builder(EditarWalletActivity.this)
+                                    .setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            participanController.eliminarMiembro(miembro);
+                                            finish();
+                                        }
+                                    })
+                                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .setTitle("Confirmar")
+                                    .setMessage("¿Eliminar el Miembro " + miembro.getNombre() + "?")
+                                    .create();
+                            refrescarListaDeWallets();
+                            dialog.show();
+                        }
+
+                    }
+                }) {
+
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+        });
+
     }
 
 
@@ -355,4 +454,5 @@ public class EditarWalletActivity extends AppCompatActivity {
         refrescarListaDeMiembros();
         return agregarMiembro;
     }
+
 }

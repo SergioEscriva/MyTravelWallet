@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -38,9 +40,12 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
     private static EditText etPagadorId, etNombrePagador;
     private static String nuevosParticipan;
+    private static String importeADividir;
+    private static EditText etImporte;
+    private static TextView tvDivision;
     public PopUpPagadorActivity f;
 
-    private EditText etDescripcion, etImporte, etTransaccionFecha;
+    private EditText etDescripcion, etTransaccionFecha;
     private AutoCompleteTextView etCategoria;
     private TextView evTransaccionTitulo;
     private Button btnGuardarTransaccion, btnCancelarTransaccion;
@@ -155,6 +160,32 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         etPagadorId.setText(String.valueOf(transaccion.getPagadorId()));
         etNombrePagador.setText(String.valueOf(transaccion.getNombrePagador()));
         evTransaccionTitulo.setText("Wallet " + walletName);
+
+
+        //Listener importe
+        //https://es.stackoverflow.com/questions/291613/c%C3%B3mo-actualizar-un-dato-autom%C3%A1ticamente-en-android-studio
+        etImporte.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String nuevoImporte = etImporte.getText().toString();
+                if (etImporte == null) nuevoImporte = "0";
+                importeADividir = nuevoImporte;
+                participanImporte();
+            }
+
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         // Listener del PopUp para elegir pagador.
         etNombrePagador.setOnClickListener(new View.OnClickListener() {
@@ -302,7 +333,24 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         // Convertimos de lista a String para poder guardar en DB
         this.nuevosParticipan = String.join(",", participaCheck);
+        participanImporte();
         return this.nuevosParticipan;
+    }
+
+
+    // Rellenamos el importe a pagar por cada participante al añadir transacción
+    // variables static para poder traerlo aquí.
+    public void participanImporte() {
+        if (importeADividir == null) importeADividir = "0";
+        double importeADividirD = Double.parseDouble(importeADividir);
+
+        // limpiamos el String que viene de comas y sacamos cuantos numero hay
+        int cantidadParticipa = nuevosParticipan.replaceAll(",", "").length();
+        Operaciones operaciones = new Operaciones();
+        Double resultado = importeADividirD / cantidadParticipa;
+        String resultadoLimpio = operaciones.dosDecimales(resultado);
+        tvDivision.setText("Cada participante deberá pagar: " + resultadoLimpio + "€");
+
     }
 
 

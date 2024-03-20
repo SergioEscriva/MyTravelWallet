@@ -160,6 +160,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
                     intent.putExtra("descripcion", String.valueOf(descripcion));
                     intent.putExtra("propietarioId", String.valueOf(userId));
                     intent.putExtra("checkCompartir", String.valueOf(compartir));
+                    intent.putExtra("agregar", true);
                     startActivity(intent);
                 }
 

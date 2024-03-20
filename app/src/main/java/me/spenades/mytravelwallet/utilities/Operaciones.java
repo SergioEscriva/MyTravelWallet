@@ -2,6 +2,7 @@ package me.spenades.mytravelwallet.utilities;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -117,7 +118,7 @@ public class Operaciones {
     }
 
 
-    public double bigDecimal(double numero) {
+    public double bigDecimal1(double numero) {
         if (numero < 0) {
             BigDecimal valor = new BigDecimal(numero);
             BigDecimal resultado = valor.setScale(2, RoundingMode.HALF_DOWN);
@@ -125,6 +126,15 @@ public class Operaciones {
             return resultadoSuma;
         }
         return numero;
+    }
+
+
+    // https://es.stackoverflow.com/questions/100147/como-puedo-hacer-para-mostrar-solo-dos-decimales-en-la-operacion-que-sea
+    public String dosDecimales(double numero) {
+
+        DecimalFormat format = new DecimalFormat();
+        format.setMaximumFractionDigits(2); //Define 2 decimales.
+        return format.format(numero);
     }
 
 
