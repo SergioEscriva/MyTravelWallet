@@ -130,8 +130,9 @@ public class EditarWalletActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                finish();
-                finish();
+                Intent intent = new Intent(EditarWalletActivity.this,
+                        MainActivity.class);
+                startActivity(intent);
             }
         });
 
