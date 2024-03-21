@@ -2,6 +2,7 @@ package me.spenades.mytravelwallet;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -57,6 +58,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_transaction); //Se utiliza el mismo layer en edit/add
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         popUp = new PopUpPagadorActivity();
 
         // Recuperar datos que enviaron

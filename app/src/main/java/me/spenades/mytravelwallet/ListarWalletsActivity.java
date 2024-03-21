@@ -3,6 +3,7 @@ package me.spenades.mytravelwallet;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -47,6 +48,8 @@ public class ListarWalletsActivity extends AppCompatActivity {
         // código es generado automáticamente
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_wallets);
+        //https://stackoverflow.com/questions/582185/how-can-i-disable-landscape-mode-in-android
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
         // Recuperar datos que enviaron

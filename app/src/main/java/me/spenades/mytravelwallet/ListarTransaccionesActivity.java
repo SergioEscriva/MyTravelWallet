@@ -3,6 +3,7 @@ package me.spenades.mytravelwallet;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -51,6 +52,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_transactions);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Bundle extras = getIntent().getExtras();
         this.walletName = extras.getString("nombreWallet");
         this.walletId = extras.getLong("walletId");

@@ -2,6 +2,7 @@ package me.spenades.mytravelwallet;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +46,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     private static String importeADividir;
     private static EditText etImporte;
     private static TextView tvDivision;
-    public PopUpPagadorActivity f;
+    public PopUpPagadorActivity popup;
 
     private EditText etDescripcion, etTransaccionFecha;
     private AutoCompleteTextView etCategoria;
@@ -73,7 +74,8 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_transaction);
-        f = new PopUpPagadorActivity();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        popup = new PopUpPagadorActivity();
 
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
