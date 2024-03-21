@@ -201,7 +201,7 @@ public class EditarWalletActivity extends AppCompatActivity {
                 long walletIdGuardado = walletController.guardarCambios(editarWallet);
                 etWalletId.setText(String.valueOf(walletIdGuardado));
                 walletId = walletIdGuardado;
-                if (walletIdGuardado == -1) {
+                if (walletIdGuardado == - 1) {
 
                     // De alguna manera ocurrió un error
                     Toast.makeText(EditarWalletActivity.this, "Error al guardar. Intenta de " +
@@ -305,7 +305,7 @@ public class EditarWalletActivity extends AppCompatActivity {
                 // del nuevo miembro.
                 long id = agregarMiembro(walletId, nuevoMiembro);
                 //long id = usuarioUtility.nuevoMiembro(walletId, nuevoMiembro);
-                if (id == -1) {
+                if (id == - 1) {
                     // Miembro error
                     Toast.makeText(EditarWalletActivity.this, "Error al guardar. Intenta de " +
                             "nuevo", Toast.LENGTH_SHORT).show();
@@ -340,6 +340,7 @@ public class EditarWalletActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         borrarParticipante(miembro);
+
                                         //finish();
                                     }
                                 })
@@ -437,14 +438,22 @@ public class EditarWalletActivity extends AppCompatActivity {
         //System.out.println(deudaUtility.transacionesGastosTotales());
         // Borramos si coincide el id y tenga importe 0
         Double importe = resolucionDeuda.get(miembroId);
-        if (importe == 0.0) {
-                miembroWalletController.eliminarMiembro(miembro);
-            } else {
-                alertDialogoTieneDeudas(miembro);
-            }
+        if (importe == 0.0 && listaDeMiembros.size() > 2) {
+            listaDeMiembros.remove(miembro);
+            miembrosAdapters.setListaDeMiembros(listaDeMiembros);
+            miembrosAdapters.notifyDataSetChanged();
+            miembroWalletController.eliminarMiembro(miembro);
+
+        } else if (listaDeMiembros.size() <= 1) {
+            String tienePagos = "¿El miembro " + miembro.getNombre() + "\n no puede Eliminarse porque es el último Moicano del Wallet " + wallet.getNombre() + "?";
+            alertDialogoTieneDeudas(tienePagos);
+        } else {
+            String tienePagos = "¿El miembro " + miembro.getNombre() + "\n no puede Eliminarse porque ha realizado pagos en el Wallet " + wallet.getNombre() + "?";
+            alertDialogoTieneDeudas(tienePagos);
+        }
     }
 
-    public void alertDialogoTieneDeudas(Miembro miembro){
+    public void alertDialogoTieneDeudas(String tienePagos) {
         // Si el miembro tiene movimientos de pagos no se podrá eliminar.
         AlertDialog dialog = new AlertDialog
                 .Builder(EditarWalletActivity.this)
@@ -457,7 +466,7 @@ public class EditarWalletActivity extends AppCompatActivity {
                     }
                 })
                 .setTitle("No se puede ELIMINAR")
-                .setMessage("¿El miembro " + miembro.getNombre() + "\n no puede Eliminarse porque ha realizado pagos en el Wallet " + wallet.getNombre() + "?")
+                .setMessage(tienePagos)
                 .create();
         refrescarListaDeWallets();
         dialog.show();

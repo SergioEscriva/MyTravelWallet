@@ -279,10 +279,9 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         transaccionesAdapters.notifyDataSetChanged();
         System.out.println(listaDeTransaccions);
         resumenTransacciones();
-        if (listaDeTransaccions.size() ==0) {
-            System.out.println("Ceroooooo");
-        fabResolverDeudas.setVisibility(View.INVISIBLE);
-    }
+        if (listaDeTransaccions.size() == 0) {
+            fabResolverDeudas.setVisibility(View.INVISIBLE);
+        }
     }
 
 
