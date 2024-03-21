@@ -35,6 +35,7 @@ public class DeudaUtility {
     }
 
 
+    // Esta es la suma que aparece en el resumen.
     public String sumaTransacciones(List<Transaccion> listaDeTransacciones,
                                     List<Miembro> listaDeMiembros) {
         this.listaDeTransacciones = listaDeTransacciones;
@@ -65,8 +66,6 @@ public class DeudaUtility {
         //Iniciamos variables
         Map<Long, Double> pagarMiembro = new HashMap<>();
         Map<Long, Double> recibirMiembro = new HashMap<>();
-
-        System.out.println("Deudas:: " + listaDeGastos);
         Map<Long, Double> deudas = unificaGastoMiembroWallet(); //#2
 
         // Extrae las Keys de las transacciones para los cálculos y rellenamos variables.
@@ -195,7 +194,6 @@ public class DeudaUtility {
 
                     double importeTotal = sumaValoresImporte.getSum();
                     gastosParticianTotalesWallet.put(iterar, importeTotal);
-                    System.out.println("ye555paaaoooooaa" + listaDeGastos);
                     this.listaDeGastos = gastosParticianTotalesWallet;
 
                 });
@@ -215,8 +213,8 @@ public class DeudaUtility {
         for (Transaccion unaTransaccion : listaDeTransacciones) {
 
             Map<Long, Double> pagadoPorMiembro = pagadoPorCadaMiembro(unaTransaccion); //#4
-            double deudaTotal = Double.valueOf(unaTransaccion.getImporte());
-            double aPagarPorMiembro = aPagarPorMiembro(unaTransaccion); //#5
+            Transaccion deudaTotal = unaTransaccion;
+            Double aPagarPorMiembro = aPagarPorMiembro(unaTransaccion); //#5
 
             // Extraemos lo que ha pagado cada miembro
             Map<Long, Double> deudas = new HashMap<Long, Double>();
@@ -402,31 +400,11 @@ public class DeudaUtility {
 
     // Gastos que ha realizado cada participante en las transacciones del wallet
     public Map<Long, Double> transacionesGastosTotales() {
-        /// TODO listaDeTransacciones
-
         Map<Long, Double> gastoTotalpagador = new HashMap<>();
 
-        // Creamos una diccionario con todos los participantes del Wallet, y los ponemos a 0 gastado
-        double pagadorImporte = 0.0D;
-        for (Miembro solucionFinal : listaDeMiembros) {
-            long miembroId = solucionFinal.getUserId();
-            gastoTotalpagador.put(miembroId, pagadorImporte);
-        }
-        // Ahora añadimos lo que realmente ha pagado cada uno.
-        for (Transaccion transaccion : listaDeTransacciones) {
-            long pagadorId = transaccion.getPagadorId();
-
-            pagadorImporte = Double.parseDouble(transaccion.getImporte());
-            gastoTotalpagador.replace(pagadorId, pagadorImporte);
-
-        }
-        return gastoTotalpagador;
-    }
-
-
-    // Gastos que ha realizado cada participante en las transacciones del wallet
-    public Map<Long, Double> transacionesGastosTotales(ArrayList<Miembro> listaDeMiembros, ArrayList<Transaccion> listaDeTransacciones) {
-        Map<Long, Double> gastoTotalpagador = new HashMap<>();
+        System.out.println(listaDeParticipan);
+        //lista de miembrps sin formato
+        listaDeMiembros();
 
         // Creamos una diccionario con todos los participantes del Wallet, y los ponemos a 0 gastado
         double pagadorImporte = 0.0D;

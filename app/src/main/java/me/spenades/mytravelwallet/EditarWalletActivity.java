@@ -27,8 +27,10 @@ import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.UsuarioController;
 import me.spenades.mytravelwallet.controllers.WalletController;
 import me.spenades.mytravelwallet.models.Miembro;
+import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.models.Usuario;
 import me.spenades.mytravelwallet.models.Wallet;
+import me.spenades.mytravelwallet.utilities.DeudaUtility;
 import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
 
 
@@ -57,6 +59,7 @@ public class EditarWalletActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_wallet);
+
 
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
@@ -138,6 +141,8 @@ public class EditarWalletActivity extends AppCompatActivity {
         recyclerViewMiembros.setLayoutManager(mLayoutManager);
         recyclerViewMiembros.setItemAnimator(new DefaultItemAnimator());
         recyclerViewMiembros.setAdapter(miembrosAdapters);
+
+        borrarParticipante(1L); //TODO ///////////////////////
 
         // Cancelar o Salir de Editar
         btnCancelarEdicion.setOnClickListener(new View.OnClickListener() {
@@ -453,6 +458,19 @@ public class EditarWalletActivity extends AppCompatActivity {
                 miembroController.nuevoMiembro(nuevoMiembroGuardar);
         refrescarListaDeMiembros();
         return agregarMiembro;
+    }
+
+
+    public void borrarParticipante(Long walletId) {
+
+        ArrayList<Transaccion> listaDeTransacciones = transaccionController.obtenerTransacciones(walletId);
+        ArrayList<Miembro> listaDeMiembros = miembroController.obtenerMiembros(walletId);
+        DeudaUtility deudaUtility = new DeudaUtility();
+        // Iniciamos DeudaUtility
+        deudaUtility.sumaTransacciones(listaDeTransacciones, listaDeMiembros);
+        Map<Long, Double> gastoTotalpagador = deudaUtility.transacionesGastosTotales();
+        deudaUtility.transacionesGastosTotales();
+        System.out.println("Mas coas " + gastoTotalpagador);
     }
 
 }
