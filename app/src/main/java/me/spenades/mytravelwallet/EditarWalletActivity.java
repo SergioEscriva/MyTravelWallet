@@ -66,6 +66,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         this.walletId = Long.parseLong(extras.getString("walletId"));
         this.nombreWallet = extras.getString("nombreWallet");
         boolean agregar = extras.getBoolean("agregar");
+        System.out.println(agregar);
 
         if (extras == null) {
             finish();
@@ -100,12 +101,6 @@ public class EditarWalletActivity extends AppCompatActivity {
         btnEliminarWallet = findViewById(R.id.btnEliminarWallet);
         etPropietarioId.setVisibility(View.INVISIBLE);
 
-        // Si venimos de Agregar Wallet, eliminamos los botones de guardar y eliminar Wallet.
-        if (agregar == true) {
-            btnEliminarWallet.setVisibility(View.INVISIBLE);
-            btnGuardarCambios.setVisibility(View.INVISIBLE);
-        }
-
 
         // Hacer visible las vistas de botones y lista miembros al compartir activiy con
         // agregar
@@ -114,6 +109,11 @@ public class EditarWalletActivity extends AppCompatActivity {
         etAddMiembro.setVisibility(View.VISIBLE);
         btnAgregarMiembro.setVisibility(View.VISIBLE);
         btnEliminarWallet.setVisibility(View.VISIBLE);
+        // Si venimos de Agregar Wallet, eliminamos los botones de guardar y eliminar Wallet.
+        if (agregar == true) {
+            btnEliminarWallet.setVisibility(View.INVISIBLE);
+            btnGuardarCambios.setVisibility(View.INVISIBLE);
+        }
 
 
         // Rellenar los EditText de la pantalla
