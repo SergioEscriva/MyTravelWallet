@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -187,7 +187,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/etTransaccionFecha" />
 
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clParticipan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -197,16 +197,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvDivision"
                 tools:layout_editor_absoluteX="0dp">
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewParticipan"
                     android:layout_width="290dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:theme="@style/AppTheme"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/btnGuardarTransaccion"
@@ -215,6 +215,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="5dp"
+                android:backgroundTint="#A4A1A1"
                 android:text="Guardar"
                 app:layout_constraintEnd_toStartOf="@+id/btnCancelarTransaccion"
                 app:layout_constraintStart_toStartOf="parent"
@@ -227,12 +228,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="25dp"
+                android:backgroundTint="#A4A1A1"
                 android:text="Cancelar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.81"
                 app:layout_constraintStart_toEndOf="@+id/btnGuardarTransaccion"
                 app:layout_constraintTop_toBottomOf="@id/clParticipan" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </LinearLayout>

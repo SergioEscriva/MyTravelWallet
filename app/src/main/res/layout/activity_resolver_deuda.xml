@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:background="#E8B0ACAC"
                 android:visibility="invisible"
-                app:layout_constraintTop_toBottomOf="@+id/rlResolucionDeudas"
+                app:layout_constraintTop_toBottomOf="@+id/rlTransaccionesLista"
                 tools:layout_editor_absoluteX="13dp">
 
                 <TextView
@@ -39,12 +39,12 @@
             </FrameLayout>
 
             <RelativeLayout
-                android:id="@+id/rlResolucionDeudas"
+                android:id="@+id/rlTransaccionesLista"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="15dp"
@@ -77,7 +77,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewGastos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -85,8 +85,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvTextoResolucion">
 
-                    </android.support.v7.widget.RecyclerView>
-                </android.support.constraint.ConstraintLayout>
+                    </androidx.recyclerview.widget.RecyclerView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </RelativeLayout>
 
@@ -95,7 +95,7 @@
                 android:layout_width="0dp"
                 android:layout_height="300dp"
                 android:layout_marginTop="45dp"
-                app:layout_constraintTop_toBottomOf="@+id/rlResolucionDeudas">
+                app:layout_constraintTop_toBottomOf="@+id/rlTransaccionesLista">
 
                 <TextView
                     android:id="@+id/tvGastos"
@@ -114,18 +114,18 @@
                     android:layout_height="260dp"
                     android:translationY="60dp">
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewGastosTotales"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@+id/tvTextoResolucion"
                         tools:layout_editor_absoluteX="15dp">
 
-                    </android.support.v7.widget.RecyclerView>
+                    </androidx.recyclerview.widget.RecyclerView>
                 </ScrollView>
 
             </RelativeLayout>
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </LinearLayout>

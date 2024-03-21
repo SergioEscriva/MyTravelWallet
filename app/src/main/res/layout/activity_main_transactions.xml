@@ -1,51 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20sp">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <android.support.constraint.ConstraintLayout
+        <FrameLayout
+            android:id="@+id/flInfoTransacciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scrollView2"
+            android:background="#E8B0ACAC"
+            android:visibility="invisible"
+            tools:layout_conversion_absoluteHeight="255dp"
+            tools:layout_conversion_absoluteWidth="371dp">
+
+            <TextView
+                android:id="@+id/tvInfoTransacciones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/tInfoTransacciones"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textIsSelectable="false"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:id="@+id/flInfoTransacciones"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#E8B0ACAC"
-                android:visibility="invisible"
-                app:layout_constraintTop_toBottomOf="@+id/rlResolucionDeudas">
+            <LinearLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvInfoTransacciones"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tInfoTransacciones"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textIsSelectable="false" />
-            </FrameLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlResolucionDeudas"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ConstraintLayoutTransac2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    tools:layout_conversion_absoluteHeight="717dp"
+                    tools:layout_conversion_absoluteWidth="371dp">
 
 
                     <TextView
@@ -57,21 +68,30 @@
                         android:textSize="35sp"
                         android:translationX="10dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_conversion_absoluteHeight="47dp"
+                        tools:layout_conversion_absoluteWidth="204dp"
+                        tools:layout_editor_absoluteX="30dp"
+                        tools:layout_editor_absoluteY="0dp" />
 
                     <View
                         android:id="@+id/divider2"
-                        android:layout_width="0dp"
-                        android:layout_height="6dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="2dp"
+                        android:layout_marginEnd="92dp"
                         android:background="?android:attr/listDivider"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvWalletActivo"
-                        tools:layout_editor_absoluteX="5dp" />
+                        tools:layout_conversion_absoluteHeight="717dp"
+                        tools:layout_conversion_absoluteWidth="371dp" />
 
                     <TextView
                         android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
                         android:text="Importe"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="20sp"
@@ -79,215 +99,247 @@
                         app:layout_constraintEnd_toStartOf="@+id/textView4"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/textView"
-                        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+                        app:layout_constraintTop_toBottomOf="@+id/divider2"
+                        tools:layout_conversion_absoluteHeight="27dp"
+                        tools:layout_conversion_absoluteWidth="71dp"
+                        tools:layout_editor_absoluteX="182dp"
+                        tools:layout_editor_absoluteY="764dp" />
 
                     <TextView
                         android:id="@+id/textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
                         android:text="Descripción"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView3" />
+                        app:layout_constraintTop_toTopOf="@+id/textView3"
+                        tools:layout_conversion_absoluteHeight="22dp"
+                        tools:layout_conversion_absoluteWidth="84dp"
+                        tools:layout_editor_absoluteX="30dp"
+                        tools:layout_editor_absoluteY="764dp" />
 
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
                         android:text="Categoría"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        tools:layout_conversion_absoluteHeight="19dp"
+                        tools:layout_conversion_absoluteWidth="61dp"
+                        tools:layout_editor_absoluteX="30dp"
+                        tools:layout_editor_absoluteY="785dp" />
 
                     <TextView
                         android:id="@+id/textView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="15dp"
                         android:text="Pagador"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+                        app:layout_constraintTop_toBottomOf="@+id/divider2"
+                        tools:layout_conversion_absoluteHeight="22dp"
+                        tools:layout_conversion_absoluteWidth="60dp"
+                        tools:layout_editor_absoluteX="322dp"
+                        tools:layout_editor_absoluteY="764dp" />
 
                     <TextView
                         android:id="@+id/textView6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginEnd="15dp"
                         android:text="Fecha"
                         android:textAlignment="textEnd"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView4"
+                        tools:layout_conversion_absoluteHeight="19dp"
+                        tools:layout_conversion_absoluteWidth="38dp"
+                        tools:layout_editor_absoluteX="343dp"
+                        tools:layout_editor_absoluteY="785dp" />
 
                     <View
                         android:id="@+id/divider5"
-                        android:layout_width="0dp"
-                        android:layout_height="6dp"
-                        android:layout_marginTop="6dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="2dp"
                         android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView2"
-                        tools:layout_editor_absoluteX="5dp" />
+                        tools:layout_conversion_absoluteHeight="717dp"
+                        tools:layout_conversion_absoluteWidth="371dp" />
 
-                    <ScrollView
-                        android:id="@+id/scrollView2"
-                        android:layout_width="0dp"
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewTransacciones"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/divider5"
-                        tools:ignore="MissingConstraints">
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerViewTransacciones"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                        tools:layout_conversion_absoluteHeight="189dp"
+                        tools:layout_conversion_absoluteWidth="39dp"
+                        tools:layout_editor_absoluteX="186dp"
+                        tools:layout_editor_absoluteY="1521dp"></androidx.recyclerview.widget.RecyclerView>
 
 
-                    </ScrollView>
-                </android.support.constraint.ConstraintLayout>
-            </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <RelativeLayout
-                android:id="@+id/rlGastosTotales"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="250dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rlResolucionDeudas">
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/clResumen"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="0dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="false"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:contextClickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:padding="5dp"
-                    android:touchscreenBlocksFocus="false">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clResumen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="578dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="false"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:contextClickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:padding="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:touchscreenBlocksFocus="false"
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout2">
 
-                    <View
-                        android:id="@+id/divider4"
-                        android:layout_width="0dp"
-                        android:layout_height="6dp"
-                        android:background="?android:attr/listDivider"
-                        app:layout_constraintBottom_toTopOf="@+id/tvTotal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tvTotal" />
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="wrap_content"
+            android:layout_height="5dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toTopOf="@+id/tvTotal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="4dp"
+            tools:layout_conversion_absoluteWidth="361dp" />
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fabAgregarTransaccion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginBottom="5dp"
-                        android:src="@drawable/ic_add_white_24dp"
-                        app:fabSize="normal"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAgregarTransaccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_white_24dp"
+            app:backgroundTint="#A4A1A1"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDeberiaPagar"
+            tools:layout_conversion_absoluteHeight="56dp"
+            tools:layout_conversion_absoluteWidth="56dp"
+            tools:layout_editor_absoluteX="330dp"
+            tools:layout_editor_absoluteY="1051dp" />
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fabResolverDeudas"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:src="?attr/actionModeSelectAllDrawable"
-                        app:fabSize="normal"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/fabAgregarTransaccion" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabResolverDeudas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="?attr/actionModeSelectAllDrawable"
+            app:backgroundTint="#A4A1A1"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/fabAgregarTransaccion"
+            app:layout_constraintTop_toBottomOf="@+id/tvDeberiaPagar"
+            tools:layout_conversion_absoluteHeight="56dp"
+            tools:layout_conversion_absoluteWidth="56dp"
+            tools:layout_editor_absoluteX="274dp"
+            tools:layout_editor_absoluteY="1051dp" />
 
-                    <TextView
-                        android:id="@+id/tvTotalLabel"
-                        android:layout_width="63dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginBottom="17dp"
-                        android:text="Total:"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        app:layout_constraintBottom_toTopOf="@+id/tvMiembrosLabel"
-                        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tvTotalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider4"
+            tools:layout_conversion_absoluteHeight="29dp"
+            tools:layout_conversion_absoluteWidth="55dp" />
 
-                    <TextView
-                        android:id="@+id/tvTotal"
-                        android:layout_width="97dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginBottom="17dp"
-                        android:hint="€€.€€€"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        app:layout_constraintBottom_toTopOf="@+id/tvMiembrosLabel"
-                        app:layout_constraintStart_toEndOf="@+id/tvTotalLabel" />
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="€€.€€€"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toEndOf="@+id/tvTotalLabel"
+            app:layout_constraintTop_toBottomOf="@+id/divider4"
+            tools:layout_conversion_absoluteHeight="29dp"
+            tools:layout_conversion_absoluteWidth="67dp"
+            tools:layout_editor_absoluteX="80dp"
+            tools:layout_editor_absoluteY="994dp" />
 
-                    <TextView
-                        android:id="@+id/tvDeberiaPagarLabel"
-                        android:layout_width="155dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:text="Debería Pagar"
-                        android:textAlignment="textEnd"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:translationY="5dp"
-                        app:layout_constraintBottom_toTopOf="@+id/tvDeberiaPagar"
-                        app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/tvDeberiaPagarLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Debería Pagar"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:translationY="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider4"
+            tools:layout_conversion_absoluteHeight="24dp"
+            tools:layout_conversion_absoluteWidth="112dp"
+            tools:layout_editor_absoluteX="274dp"
+            tools:layout_editor_absoluteY="989dp" />
 
-                    <TextView
-                        android:id="@+id/tvDeberiaPagar"
-                        android:layout_width="190dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="NombrePagador"
-                        android:textAlignment="textEnd"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@+id/fabAgregarTransaccion"
-                        app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/tvDeberiaPagar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NombrePagador"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDeberiaPagarLabel"
+            tools:layout_conversion_absoluteHeight="29dp"
+            tools:layout_conversion_absoluteWidth="162dp"
+            tools:layout_editor_absoluteX="225dp"
+            tools:layout_editor_absoluteY="1008dp" />
 
-                    <TextView
-                        android:id="@+id/tvMiembrosLabel"
-                        android:layout_width="159dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="Miembros"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        app:layout_constraintBottom_toTopOf="@+id/tvMiembros"
-                        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tvMiembrosLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Miembros"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalLabel"
+            tools:layout_conversion_absoluteHeight="24dp"
+            tools:layout_conversion_absoluteWidth="81dp" />
 
-                    <TextView
-                        android:id="@+id/tvMiembros"
-                        android:layout_width="227dp"
-                        android:layout_height="46dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="Listado de Miembros"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tvMiembros"
+            android:layout_width="199dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:text="Listado de Miembros"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMiembrosLabel"
+            tools:layout_conversion_absoluteHeight="68dp"
+            tools:layout_conversion_absoluteWidth="236dp" />
 
-                </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </RelativeLayout>
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
