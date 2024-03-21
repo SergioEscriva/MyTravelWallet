@@ -140,12 +140,14 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        listaDeSoluciones.remove(position);
+                                        resolucionesAdapters.setListaDeResoluciones(listaDeSoluciones);
+                                        resolucionesAdapters.notifyDataSetChanged();
                                         eliminarDeuda(resolucionParaSaldar);
 
                                         //transaccionController.eliminarTransaccion(transaccionParaEliminar);
                                         Toast.makeText(ResolverDeudaActivity.this, "Deuda Saldada. "
                                                 , Toast.LENGTH_SHORT).show();
-                                        refrescarListas();
                                     }
                                 })
                                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -193,8 +195,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         mostrarResolucion = deudaUtility.operacionesResolucionDeudas(); //Gastos Totales
         gastosTotalesAdapters.setListaDeResoluciones(mostrarResolucion, listaDeMiembros);
         gastosTotalesAdapters.notifyDataSetChanged();
-
-
     }
 
 
