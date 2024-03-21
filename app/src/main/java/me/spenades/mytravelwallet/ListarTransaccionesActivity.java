@@ -272,11 +272,17 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
 
     public void refrescarListas() {
+        fabResolverDeudas.setVisibility(View.VISIBLE);
         listaDeMiembros = miembroWalletController.obtenerMiembros(walletId);
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
         transaccionesAdapters.setListaDeTransacciones(listaDeTransaccions);
         transaccionesAdapters.notifyDataSetChanged();
+        System.out.println(listaDeTransaccions);
         resumenTransacciones();
+        if (listaDeTransaccions.size() ==0) {
+            System.out.println("Ceroooooo");
+        fabResolverDeudas.setVisibility(View.INVISIBLE);
+    }
     }
 
 
