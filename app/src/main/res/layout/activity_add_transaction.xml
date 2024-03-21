@@ -1,224 +1,238 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20sp">
 
-    <TextView
-        android:id="@+id/evTransaccionDescripcion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:text="Transacción"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvDescripcionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:text="descripción"
-        android:textColor="#C7C7C7"
-        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionDescripcion"
-        app:layout_constraintEnd_toEndOf="@+id/etTransaccionDescripcion" />
-
-    <TextView
-        android:id="@+id/tvDescripcionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:text="importe"
-        android:textColor="#C7C7C7"
-        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionImporte"
-        app:layout_constraintEnd_toEndOf="@+id/etTransaccionDescripcion" />
-
-    <TextView
-        android:id="@+id/tvDescripcionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:text="pagador"
-        android:textColor="#C7C7C7"
-        app:layout_constraintBottom_toBottomOf="@+id/etNombrePagador"
-        app:layout_constraintEnd_toEndOf="@+id/etTransaccionDescripcion" />
-
-    <TextView
-        android:id="@+id/tvDescripcionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:text="categoria"
-        android:textColor="#C7C7C7"
-        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionCategoria"
-        app:layout_constraintEnd_toEndOf="@+id/etTransaccionDescripcion" />
-
-    <TextView
-        android:id="@+id/tvDescripcionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:text="fecha"
-        android:textColor="#C7C7C7"
-        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionFecha"
-        app:layout_constraintEnd_toEndOf="@+id/etTransaccionDescripcion" />
-
-    <EditText
-        android:id="@+id/etTransaccionDescripcion"
-        android:layout_width="278dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="117dp"
-        android:capitalize="words"
-        android:ems="10"
-        android:hint="Descripción"
-        android:inputType="textPersonName"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/evTransaccionDescripcion" />
-
-    <EditText
-        android:id="@+id/etTransaccionImporte"
-        android:layout_width="278dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:ems="10"
-        android:hint="Importe"
-        android:inputType="number|numberDecimal"
-        android:selectAllOnFocus="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTransaccionDescripcion" />
-
-    <EditText
-        android:id="@+id/etNombrePagador"
-        android:layout_width="278dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:clickable="true"
-        android:editable="false"
-        android:ems="10"
-
-        android:focusable="false"
-        android:hint="Quién paga"
-        android:inputType="textPersonName"
-        android:text="Pagador"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTransaccionImporte" />
-
-
-    <EditText
-        android:id="@+id/etPagadorId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="5dp"
-        android:clickable="true"
-        android:editable="false"
-        android:ems="10"
-        android:focusableInTouchMode="false"
-        android:hint="Quién paga"
-        android:inputType="textPersonName"
-
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTransaccionImporte" />
-
-    <AutoCompleteTextView
-        android:id="@+id/etTransaccionCategoria"
-        android:layout_width="278dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:capitalize="words"
-        android:ems="10"
-        android:hint="Categoría"
-        android:inputType="textPersonName"
-        android:selectAllOnFocus="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etNombrePagador" />
-
-    <EditText
-        android:id="@+id/etTransaccionFecha"
-        android:layout_width="278dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:clickable="true"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="Fecha"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTransaccionCategoria" />
-
-
-    <TextView
-        android:id="@+id/tvDivision"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Importe por participante"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTransaccionFecha" />
-
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/clParticipan"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:visibility="visible"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@+id/tvDivision"
-        tools:layout_editor_absoluteX="0dp">
+        android:layout_height="match_parent">>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewParticipan"
-            android:layout_width="290dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:theme="@style/AppTheme"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.RecyclerView>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </android.support.constraint.ConstraintLayout>
 
-    <Button
-        android:id="@+id/btnGuardarTransaccion"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="5dp"
-        android:text="Guardar"
-        app:layout_constraintEnd_toStartOf="@+id/btnCancelarTransaccion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clParticipan" />
+            <TextView
+                android:id="@+id/evTransaccionDescripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:text="Transacción"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.047"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnCancelarTransaccion"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="25dp"
-        android:text="Cancelar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.81"
-        app:layout_constraintStart_toEndOf="@+id/btnGuardarTransaccion"
-        app:layout_constraintTop_toBottomOf="@id/clParticipan" />
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvDescripcionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="descripción"
+                android:textColor="#C7C7C7"
+                app:layout_constraintBottom_toBottomOf="@+id/etTransaccionDescripcion"
+                app:layout_constraintEnd_toEndOf="@+id/etTransaccionDescripcion" />
+
+            <TextView
+                android:id="@+id/tvDescripcionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="importe"
+                android:textColor="#C7C7C7"
+                app:layout_constraintBottom_toBottomOf="@+id/etTransaccionImporte"
+                app:layout_constraintEnd_toEndOf="@+id/etTransaccionDescripcion" />
+
+            <TextView
+                android:id="@+id/tvDescripcionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="pagador"
+                android:textColor="#C7C7C7"
+                app:layout_constraintBottom_toBottomOf="@+id/etNombrePagador"
+                app:layout_constraintEnd_toEndOf="@+id/etTransaccionDescripcion" />
+
+            <TextView
+                android:id="@+id/tvDescripcionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="categoria"
+                android:textColor="#C7C7C7"
+                app:layout_constraintBottom_toBottomOf="@+id/etTransaccionCategoria"
+                app:layout_constraintEnd_toEndOf="@+id/etTransaccionDescripcion" />
+
+            <TextView
+                android:id="@+id/tvDescripcionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="fecha"
+                android:textColor="#C7C7C7"
+                app:layout_constraintBottom_toBottomOf="@+id/etTransaccionFecha"
+                app:layout_constraintEnd_toEndOf="@+id/etTransaccionDescripcion" />
+
+            <EditText
+                android:id="@+id/etTransaccionDescripcion"
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:capitalize="words"
+                android:ems="10"
+                android:hint="Descripción"
+                android:inputType="textPersonName"
+                android:selectAllOnFocus="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/evTransaccionDescripcion" />
+
+            <EditText
+                android:id="@+id/etTransaccionImporte"
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:ems="10"
+                android:hint="Importe"
+                android:inputType="number|numberDecimal"
+                android:selectAllOnFocus="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etTransaccionDescripcion" />
+
+            <EditText
+                android:id="@+id/etNombrePagador"
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:editable="false"
+                android:ems="10"
+
+                android:focusable="false"
+                android:hint="Quién paga"
+                android:inputType="textPersonName"
+                android:text="Pagador"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etTransaccionImporte" />
+
+
+            <EditText
+                android:id="@+id/etPagadorId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:editable="false"
+                android:ems="10"
+                android:focusableInTouchMode="false"
+                android:hint="Quién paga"
+                android:inputType="textPersonName"
+
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etTransaccionImporte" />
+
+            <AutoCompleteTextView
+                android:id="@+id/etTransaccionCategoria"
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:capitalize="words"
+                android:ems="10"
+                android:hint="Categoría"
+                android:inputType="textPersonName"
+                android:selectAllOnFocus="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etNombrePagador" />
+
+            <EditText
+                android:id="@+id/etTransaccionFecha"
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Fecha"
+                android:inputType="number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etTransaccionCategoria" />
+
+
+            <TextView
+                android:id="@+id/tvDivision"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Importe por participante"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etTransaccionFecha" />
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clParticipan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:visibility="visible"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintTop_toBottomOf="@+id/tvDivision"
+                tools:layout_editor_absoluteX="0dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewParticipan"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:theme="@style/AppTheme"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.RecyclerView>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btnGuardarTransaccion"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:text="Guardar"
+                app:layout_constraintEnd_toStartOf="@+id/btnCancelarTransaccion"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clParticipan" />
+
+            <Button
+                android:id="@+id/btnCancelarTransaccion"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="25dp"
+                android:text="Cancelar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.81"
+                app:layout_constraintStart_toEndOf="@+id/btnGuardarTransaccion"
+                app:layout_constraintTop_toBottomOf="@id/clParticipan" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</LinearLayout>

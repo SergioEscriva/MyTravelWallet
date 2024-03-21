@@ -119,6 +119,8 @@ public class ListarWalletsActivity extends AppCompatActivity {
                         final Wallet walletNameActivo = listaDeWallets.get(position);
                         String nombreWallet = walletNameActivo.getNombre();
                         long walletId = walletNameActivo.getWalletId();
+
+
                         Intent intent = new Intent(ListarWalletsActivity.this, EditarWalletActivity.class);
                         intent.putExtra("nombreUsuario", String.valueOf(usuarioActivo));
                         intent.putExtra("usuarioId", String.valueOf(usuarioIdActivo));

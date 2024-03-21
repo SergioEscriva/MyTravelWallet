@@ -3,4 +3,5 @@
 
 <resources>
     <string name="app_name">My Travel Wallet</string>
+    <string name="tInfoTransacciones">- Toca sobre la Transacción para Editar.\n- Manten pulsado para Borrar\n- Botón inferior [+] para Añadir Transacción.\n- Botón inferior [o] para Saldar Cuentas</string>
 </resources>

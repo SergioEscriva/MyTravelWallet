@@ -22,7 +22,7 @@ import me.spenades.mytravelwallet.controllers.MiembroController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
-import me.spenades.mytravelwallet.utilities.Operaciones;
+import me.spenades.mytravelwallet.utilities.DeudaUtility;
 import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
 import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
@@ -276,11 +276,12 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
 
     public void resumenTransacciones() {
-        Operaciones objOperaciones = new Operaciones();
-        String totalTransacciones = objOperaciones.sumaTransacciones(listaDeTransaccions,
+
+        DeudaUtility deudaUtility = new DeudaUtility();
+        String totalTransacciones = deudaUtility.sumaTransacciones(listaDeTransaccions,
                 listaDeMiembros);
-        List<String> siguientePagador = objOperaciones.proximoPagador();
-        List<String> miembros = objOperaciones.listaDeMiembros();
+        List<String> siguientePagador = deudaUtility.proximoPagador();
+        List<String> miembros = deudaUtility.listaDeMiembros();
         String importeTotal = totalTransacciones + "€";
         tvTotal.setText(importeTotal);
         tvDeberiaPagar.setText(String.valueOf(siguientePagador.get(1)));

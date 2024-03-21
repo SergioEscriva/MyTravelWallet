@@ -176,7 +176,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String nuevoImporte = etImporte.getText().toString();
-                System.out.println("Nuevo " + nuevoImporte);
                 if (etImporte == null) nuevoImporte = "0";
                 importeADividir = nuevoImporte;
                 participanImporte();
