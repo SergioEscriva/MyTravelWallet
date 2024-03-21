@@ -13,6 +13,8 @@
         android:id="@+id/frameLayout2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -78,7 +80,6 @@
                         android:id="@+id/divider2"
                         android:layout_width="wrap_content"
                         android:layout_height="2dp"
-                        android:layout_marginEnd="92dp"
                         android:background="?android:attr/listDivider"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -165,7 +166,7 @@
                     <View
                         android:id="@+id/divider5"
                         android:layout_width="wrap_content"
-                        android:layout_height="2dp"
+                        android:layout_height="8dp"
                         android:background="?android:attr/listDivider"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -177,16 +178,13 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewTransacciones"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/divider5"
                         tools:layout_conversion_absoluteHeight="189dp"
-                        tools:layout_conversion_absoluteWidth="39dp"
-                        tools:layout_editor_absoluteX="186dp"
-                        tools:layout_editor_absoluteY="1521dp"></androidx.recyclerview.widget.RecyclerView>
+                        tools:layout_conversion_absoluteWidth="39dp"></androidx.recyclerview.widget.RecyclerView>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

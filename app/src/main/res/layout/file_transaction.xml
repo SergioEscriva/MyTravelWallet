@@ -6,14 +6,12 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
-    android:focusable="true"
-    android:padding="5dp">
+    android:focusable="true">
 
     <TextView
         android:id="@+id/tvDescripcionWallet"
         android:layout_width="172dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:text="Aquí Descripción"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
@@ -25,7 +23,6 @@
         android:id="@+id/tvCategoria"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:text="Aquí Categoría"
         android:textColor="@color/colorPrimaryDark"
@@ -53,7 +50,6 @@
         android:id="@+id/tvNombrePagador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:text="Aquí Pagador"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
@@ -66,7 +62,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="10dp"
         android:text="Aquí Fecha"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
