@@ -22,8 +22,8 @@ import java.util.Map;
 
 import me.spenades.mytravelwallet.adapters.GastosTotalesAdapters;
 import me.spenades.mytravelwallet.adapters.ResolucionesAdapters;
-import me.spenades.mytravelwallet.controllers.MiembroController;
-import me.spenades.mytravelwallet.controllers.ParticipanController;
+import me.spenades.mytravelwallet.controllers.MiembroWalletController;
+import me.spenades.mytravelwallet.controllers.ParticipaTransaccionController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
@@ -41,8 +41,8 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private ArrayList<String> mostrarResolucion;
     private Map<Long, Double> listaDeGastos;
     private TransaccionController transaccionController;
-    private MiembroController miembroController;
-    private ParticipanController participanController;
+    private MiembroWalletController miembroWalletController;
+    private ParticipaTransaccionController participaTransaccionController;
     private ResolucionesAdapters resolucionesAdapters;
     private GastosTotalesAdapters gastosTotalesAdapters;
     private DeudaUtility deudaUtility;
@@ -79,8 +79,8 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         // Definir nuestro controlador
         //walletController = new WalletController(ResolverDeudaActivity.this);
         transaccionController = new TransaccionController(ResolverDeudaActivity.this);
-        miembroController = new MiembroController(ResolverDeudaActivity.this);
-        participanController = new ParticipanController(ResolverDeudaActivity.this);
+        miembroWalletController = new MiembroWalletController(ResolverDeudaActivity.this);
+        participaTransaccionController = new ParticipaTransaccionController(ResolverDeudaActivity.this);
 
         deudaUtility = new DeudaUtility();
 
@@ -183,7 +183,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
 
     public void refrescarListas() {
-        listaDeMiembros = miembroController.obtenerMiembros(walletId);
+        listaDeMiembros = miembroWalletController.obtenerMiembros(walletId);
         listaDeTransacciones = transaccionController.obtenerTransacciones(walletId);
         listaDeSoluciones = deudaUtility.resolucionDeudaWallet(); //llama a Saldar
         resolucionesAdapters.setListaDeResoluciones(listaDeSoluciones);

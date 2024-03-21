@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#E8B0ACAC"
-                android:visibility="visible"
+                android:visibility="invisible"
                 app:layout_constraintTop_toBottomOf="@+id/rlTransaccionesLista"
                 tools:layout_editor_absoluteX="13dp">
 

@@ -36,6 +36,7 @@ public class DeudaUtility {
 
 
     // Esta es la suma que aparece en el resumen.
+    // INICIA TODAS LAS VARIABLES NECESARIAS PARA OPERAR EN ESTA CLASE
     public String sumaTransacciones(List<Transaccion> listaDeTransacciones,
                                     List<Miembro> listaDeMiembros) {
         this.listaDeTransacciones = listaDeTransacciones;
@@ -170,7 +171,7 @@ public class DeudaUtility {
 
 
     //#2
-    private Map<Long, Double> unificaGastoMiembroWallet() {
+    public Map<Long, Double> unificaGastoMiembroWallet() {
         ArrayList<Map> gastoMiembros = gastosMiembrosTransacciones(); //#3
         Map<Long, Double> gastosParticianTotalesWallet = new HashMap<Long, Double>();
         try {
@@ -205,7 +206,7 @@ public class DeudaUtility {
     }
 
 
-    //#3
+    //#3 que debería pagar cada miembro
     public ArrayList<Map> gastosMiembrosTransacciones() {
         ArrayList<Map> gastoMiembros = new ArrayList<>();
 
@@ -376,11 +377,11 @@ public class DeudaUtility {
                         importeString = String.valueOf(importeFinalPagadoLimpio);
                         importeFinalPagado = "\nEl Wallet le debe " + importeString + "€";
 
-                        // Calculamos lo que el gasto total de cada miembro en el Wallet
+                        // Calculamos lo que ha gasto total de cada miembro en el Wallet
                         gastoRealizado = dosDecimales(importeHaPagado - importeMovimientosWallet);
                     }
 
-                    String gastoRealizadoEnWallet = String.valueOf(gastoRealizado);
+                    String gastoRealizadoEnWallet = String.valueOf(Math.abs(gastoRealizado));
 
 
                     String miembroGastoString =
@@ -402,7 +403,6 @@ public class DeudaUtility {
     public Map<Long, Double> transacionesGastosTotales() {
         Map<Long, Double> gastoTotalpagador = new HashMap<>();
 
-        System.out.println(listaDeParticipan);
         //lista de miembrps sin formato
         listaDeMiembros();
 

@@ -27,10 +27,10 @@ import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.ParticipanAdapters;
 import me.spenades.mytravelwallet.controllers.CategoriaController;
-import me.spenades.mytravelwallet.controllers.MiembroController;
-import me.spenades.mytravelwallet.controllers.ParticipanController;
+import me.spenades.mytravelwallet.controllers.MiembroWalletController;
+import me.spenades.mytravelwallet.controllers.ParticipaTransaccionController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
-import me.spenades.mytravelwallet.controllers.UsuarioController;
+import me.spenades.mytravelwallet.controllers.UsuarioAppController;
 import me.spenades.mytravelwallet.models.Categoria;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
@@ -53,13 +53,13 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     private TextView evTransaccionTitulo;
     private Button btnGuardarTransaccion, btnCancelarTransaccion;
     private TransaccionController transaccionController;
-    private MiembroController miembroController;
-    private ParticipanController participanController;
+    private MiembroWalletController miembroWalletController;
+    private ParticipaTransaccionController participaTransaccionController;
     private CategoriaController categoriaController;
     private ParticipanAdapters participanAdapters;
     private Transaccion transaccion;
     private UsuarioUtility usuarioUtility;
-    private UsuarioController usuarioController;
+    private UsuarioAppController usuarioAppController;
     private List<Miembro> listaDeMiembros;
     private List<Miembro> listaDeParticipan;
     private List<Categoria> listaDeCategorias;
@@ -92,9 +92,9 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         // Definir el controlador
         transaccionController = new TransaccionController(EditarTransaccionesActivity.this);
-        miembroController = new MiembroController(EditarTransaccionesActivity.this);
-        participanController = new ParticipanController(EditarTransaccionesActivity.this);
-        usuarioController = new UsuarioController(EditarTransaccionesActivity.this);
+        miembroWalletController = new MiembroWalletController(EditarTransaccionesActivity.this);
+        participaTransaccionController = new ParticipaTransaccionController(EditarTransaccionesActivity.this);
+        usuarioAppController = new UsuarioAppController(EditarTransaccionesActivity.this);
         categoriaController = new CategoriaController(EditarTransaccionesActivity.this);
         usuarioUtility = new UsuarioUtility();
 
@@ -313,8 +313,8 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     public void refrescarListas() {
 
         // Rellenamos la lista
-        listaDeMiembros = miembroController.obtenerMiembros(walletId);
-        listaDeParticipan = participanController.obtenerParticipan(transaccionId);
+        listaDeMiembros = miembroWalletController.obtenerMiembros(walletId);
+        listaDeParticipan = participaTransaccionController.obtenerParticipan(transaccionId);
 
         //Adaptador Participa Lista total
         participanAdapters.setListaDeParticipan(listaDeParticipan, listaDeMiembros, false);

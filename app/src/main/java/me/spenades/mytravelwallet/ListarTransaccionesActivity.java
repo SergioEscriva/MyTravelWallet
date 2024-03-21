@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.TransaccionesAdapters;
-import me.spenades.mytravelwallet.controllers.MiembroController;
+import me.spenades.mytravelwallet.controllers.MiembroWalletController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
@@ -38,7 +38,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     private RecyclerView recyclerViewTransacciones;
     private TransaccionesAdapters transaccionesAdapters;
     private TransaccionController transaccionController;
-    private MiembroController miembroController;
+    private MiembroWalletController miembroWalletController;
     private UsuarioUtility usuarioUtility;
     private FloatingActionButton fabAgregarTransaccion;
     private FloatingActionButton fabResolverDeudas;
@@ -74,7 +74,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Definir nuestro controlador
         transaccionController = new TransaccionController(ListarTransaccionesActivity.this);
-        miembroController = new MiembroController(ListarTransaccionesActivity.this);
+        miembroWalletController = new MiembroWalletController(ListarTransaccionesActivity.this);
 
 
         // Instanciar vistas
@@ -272,7 +272,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
 
     public void refrescarListas() {
-        listaDeMiembros = miembroController.obtenerMiembros(walletId);
+        listaDeMiembros = miembroWalletController.obtenerMiembros(walletId);
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
         transaccionesAdapters.setListaDeTransacciones(listaDeTransaccions);
         transaccionesAdapters.notifyDataSetChanged();

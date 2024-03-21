@@ -24,7 +24,7 @@ import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.ParticipanAdapters;
 import me.spenades.mytravelwallet.controllers.CategoriaController;
-import me.spenades.mytravelwallet.controllers.MiembroController;
+import me.spenades.mytravelwallet.controllers.MiembroWalletController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Categoria;
 import me.spenades.mytravelwallet.models.Miembro;
@@ -44,7 +44,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     private EditText etDescripcion, etTransaccionFecha;
     private AutoCompleteTextView etCategoria;
     private TransaccionController transaccionController;
-    private MiembroController miembroController;
+    private MiembroWalletController miembroWalletController;
     private CategoriaController categoriaController;
     private ParticipanAdapters participanAdapters;
     private List<Miembro> listaDeMiembros;
@@ -70,7 +70,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
         // Definir el controlador
         transaccionController = new TransaccionController(AgregarTransaccionActivity.this);
-        miembroController = new MiembroController(AgregarTransaccionActivity.this);
+        miembroWalletController = new MiembroWalletController(AgregarTransaccionActivity.this);
         categoriaController = new CategoriaController(AgregarTransaccionActivity.this);
 
         // Ahora declaramos las vistas
@@ -275,7 +275,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
     public void refrescarListas() {
         // Rellenamos la lista
-        listaDeMiembros = miembroController.obtenerMiembros(walletId);
+        listaDeMiembros = miembroWalletController.obtenerMiembros(walletId);
 
         //Adaptador Participa Lista total
         participanAdapters.setListaDeParticipan(listaDeMiembros, listaDeMiembros, true);

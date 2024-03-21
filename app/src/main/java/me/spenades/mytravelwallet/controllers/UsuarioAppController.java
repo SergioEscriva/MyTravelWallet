@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import me.spenades.mytravelwallet.SQLiteDB.AyudanteBaseDeDatos;
 import me.spenades.mytravelwallet.models.Usuario;
 
-public class UsuarioController {
+public class UsuarioAppController {
 
     private AyudanteBaseDeDatos ayudanteBaseDeDatos;
     private String NOMBRE_TABLA = "usuario";
 
 
-    public UsuarioController(Context contexto) {
+    public UsuarioAppController(Context contexto) {
         ayudanteBaseDeDatos = new AyudanteBaseDeDatos(contexto);
     }
 

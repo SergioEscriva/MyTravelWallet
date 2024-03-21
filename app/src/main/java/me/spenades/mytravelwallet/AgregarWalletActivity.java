@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.MiembrosAdapters;
-import me.spenades.mytravelwallet.controllers.MiembroController;
-import me.spenades.mytravelwallet.controllers.UsuarioController;
+import me.spenades.mytravelwallet.controllers.MiembroWalletController;
+import me.spenades.mytravelwallet.controllers.UsuarioAppController;
 import me.spenades.mytravelwallet.controllers.WalletController;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Wallet;
@@ -30,8 +30,8 @@ public class AgregarWalletActivity extends AppCompatActivity {
     private List<Miembro> listaDeMiembros;
     private MiembrosAdapters miembrosAdapters;
     private WalletController walletController;
-    private UsuarioController usuarioController;
-    private MiembroController miembroController;
+    private UsuarioAppController usuarioAppController;
+    private MiembroWalletController miembroWalletController;
     private RecyclerView recyclerViewMiembros;
     private Button btnAgregarWallet, btnAgregarUsuario;
     private EditText etNombre, etDescripcion, etPropietarioId, etAddMiembro, etWaletId;
@@ -59,8 +59,8 @@ public class AgregarWalletActivity extends AppCompatActivity {
 
         // Crear el controlador
         walletController = new WalletController(AgregarWalletActivity.this);
-        miembroController = new MiembroController(AgregarWalletActivity.this);
-        usuarioController = new UsuarioController(AgregarWalletActivity.this);
+        miembroWalletController = new MiembroWalletController(AgregarWalletActivity.this);
+        usuarioAppController = new UsuarioAppController(AgregarWalletActivity.this);
 
         // Instanciar vistas
         recyclerViewMiembros = findViewById(R.id.recyclerViewMiembros);
@@ -151,7 +151,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
                             usuarioActivo);
 
                     // Ahora lo añadimos como Miembro, aquí existe como usuario seguro.
-                    miembroController.nuevoMiembro(nuevoMiembroGuardar);
+                    miembroWalletController.nuevoMiembro(nuevoMiembroGuardar);
 
                     // Seguimos en Editar Wallet
                     Intent intent = new Intent(AgregarWalletActivity.this,

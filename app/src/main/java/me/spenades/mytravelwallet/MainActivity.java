@@ -16,12 +16,12 @@ import java.util.List;
 
 import me.spenades.mytravelwallet.adapters.UsuariosAdapters;
 import me.spenades.mytravelwallet.controllers.DemoController;
-import me.spenades.mytravelwallet.controllers.UsuarioController;
+import me.spenades.mytravelwallet.controllers.UsuarioAppController;
 import me.spenades.mytravelwallet.models.Usuario;
 
 public class MainActivity extends AppCompatActivity {
 
-    private UsuarioController usuarioController;
+    private UsuarioAppController usuarioAppController;
     private DemoController demoController;
     private List<Usuario> listaDeUsuarios;
     private UsuariosAdapters usuariosAdapters;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Definir nuestro controlador
-        usuarioController = new UsuarioController(MainActivity.this);
+        usuarioAppController = new UsuarioAppController(MainActivity.this);
         demoController = new DemoController(MainActivity.this);
 
         // Instanciamos vistas
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void refrescarListaDeUsuarios() {
-        listaDeUsuarios = usuarioController.obtenerUsuarios();
+        listaDeUsuarios = usuarioAppController.obtenerUsuarios();
         usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
         usuariosAdapters.notifyDataSetChanged();
     }
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         Usuario nuevoPropietario = new Usuario(nombrePropietario, nombrePropietario);
 
-        long id = usuarioController.nuevoUsuario(nuevoPropietario);
+        long id = usuarioAppController.nuevoUsuario(nuevoPropietario);
         if (id == - 1) {
             // De alguna manera ocurrió un error
             Toast.makeText(MainActivity.this, "Error al guardar. Intenta de nuevo",
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         usuariosAdapters = new UsuariosAdapters(listaDeUsuarios);
 
         // Se envía el wallet 0 para poder recuperar todos los usuarios
-        listaDeUsuarios = usuarioController.obtenerUsuarios();
+        listaDeUsuarios = usuarioAppController.obtenerUsuarios();
         usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
         int cantidadUsuarios = usuariosAdapters.getItemCount();
 
