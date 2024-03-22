@@ -480,29 +480,32 @@ public class EditarWalletActivity extends AppCompatActivity {
     // Creamos una ventana para escibir el nuevo nombre del miembro.
 //https://stackoverflow.com/questions/10903754/input-text-dialog-android
     public void cambioDeNombre(Miembro miembro) {
-        final EditText nuevoNombre = new EditText(this);
+        final EditText etNombre = new EditText(this);
 
 // Nombre a mostrar de forma predeterminada.
-        nuevoNombre.setHint(miembro.getNombre());
-        nuevoNombre.requestFocus();
-        nuevoNombre.selectAll();
+        etNombre.setHint(miembro.getNombre());
+        etNombre.requestFocus();
+        etNombre.selectAll();
 
         new AlertDialog.Builder(this)
                 .setTitle("Editar Nombre Miembro")
                 .setMessage("Escribe el nuevo Nombre")
-                .setView(nuevoNombre)
+                .setView(etNombre)
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        String nombreNuevo = nuevoNombre.getText().toString();
+                        String nombreNuevo = etNombre.getText().toString();
                         // Si devuelve nombre vacio se pone el anterior.
                         if (nombreNuevo.equals("")) {
                             nombreNuevo = miembro.getNombre();
                         }
 
                         // Formateamos el nuevo nombre
+                        listaDeMiembros.remove(miembro);
                         Usuario usuarioEditado = new Usuario(miembro.getUserId());
                         usuarioEditado.setNombre(nombreNuevo);
                         usuarioEditado.setApodo(nombreNuevo);
+                        Miembro miembroEditado = new Miembro(nombreNuevo, miembro.getUserId());
+                        listaDeMiembros.add(miembroEditado);
                         usuarioAppController.guardarCambios(usuarioEditado);
                         miembrosAdapters.setListaDeMiembros(listaDeMiembros);
                         miembrosAdapters.notifyDataSetChanged();
@@ -515,18 +518,4 @@ public class EditarWalletActivity extends AppCompatActivity {
                 .show();
     }
 
-    // Cierra el teclado
-    // https://umhandroid.momrach.es/ocultar-el-teclado-virtual/
-    private void hideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    // Abre el teclado
-    // https://umhandroid.momrach.es/ocultar-el-teclado-virtual/
-    private void visibleKeyboard(EditText editText) {
-        editText.requestFocus(); //Asegurar que editText tiene focus
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-    }
 }
