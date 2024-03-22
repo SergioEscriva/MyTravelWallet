@@ -1,9 +1,8 @@
-package me.spenades.mytravelwallet;
+package me.spenades.mytravelwallet.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -20,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.GastosTotalesAdapters;
 import me.spenades.mytravelwallet.adapters.ResolucionesAdapters;
 import me.spenades.mytravelwallet.controllers.MiembroWalletController;

@@ -24,13 +24,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:text="Título"
+                android:text="Selecciona Quien Paga"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewGastos"
-                android:layout_width="290dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:theme="@style/AppTheme"></androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>

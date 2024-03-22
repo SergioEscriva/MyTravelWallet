@@ -11,23 +11,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:ignore="ExtraText"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
+
             </intent-filter>
         </activity>
-        <activity android:name=".EditarTransaccionesActivity" />
-        <activity android:name=".AgregarTransaccionActivity" />
-        <activity android:name=".ListarTransaccionesActivity" />
-        <activity android:name=".ListarWalletsActivity" />
-        <activity android:name=".AgregarWalletActivity" />
-        <activity android:name=".EditarWalletActivity" />
-        <activity android:name=".ResolverDeudaActivity" />
+        <activity android:name=".activities.EditarTransaccionesActivity" />
+        <activity android:name=".activities.AgregarTransaccionActivity" />
+        <activity android:name=".activities.ListarTransaccionesActivity" />
+        <activity android:name=".activities.ListarWalletsActivity" />
+        <activity android:name=".activities.AgregarWalletActivity" />
+        <activity android:name=".activities.EditarWalletActivity" />
+        <activity android:name=".activities.ResolverDeudaActivity" />
         <activity android:name=".utilities.PopUpPagadorActivity" />
     </application>
 

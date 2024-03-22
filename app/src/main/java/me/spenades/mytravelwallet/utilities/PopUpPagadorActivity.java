@@ -15,15 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import me.spenades.mytravelwallet.AgregarTransaccionActivity;
-import me.spenades.mytravelwallet.EditarTransaccionesActivity;
 import me.spenades.mytravelwallet.R;
+import me.spenades.mytravelwallet.activities.AgregarTransaccionActivity;
+import me.spenades.mytravelwallet.activities.EditarTransaccionesActivity;
 import me.spenades.mytravelwallet.adapters.PagadoresAdapters;
 import me.spenades.mytravelwallet.models.Miembro;
 
 public class PopUpPagadorActivity extends PopupWindow {
 
-    private static TextView etPagadorId, etNombrePagador;
+    private static TextView etNombrePagador;
     public String nombrePagador;
     public String pagadorId;
     private RecyclerView recyclerViewPagadores;

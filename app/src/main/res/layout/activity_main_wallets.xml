@@ -5,8 +5,8 @@
     android:id="@+id/tvWalletNombre"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     tools:context=".MainActivity">
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Wallets"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:translationX="20dp" />
+        android:translationX="18dp" />
 
     <View
         android:id="@+id/divider2"

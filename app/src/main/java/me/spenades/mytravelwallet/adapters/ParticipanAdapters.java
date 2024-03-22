@@ -1,18 +1,20 @@
 package me.spenades.mytravelwallet.adapters;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import me.spenades.mytravelwallet.AgregarTransaccionActivity;
-import me.spenades.mytravelwallet.EditarTransaccionesActivity;
 import me.spenades.mytravelwallet.R;
+import me.spenades.mytravelwallet.activities.AgregarTransaccionActivity;
+import me.spenades.mytravelwallet.activities.EditarTransaccionesActivity;
 import me.spenades.mytravelwallet.models.Miembro;
 
 

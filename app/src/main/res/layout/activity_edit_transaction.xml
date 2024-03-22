@@ -2,7 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <TextView
         android:id="@+id/evTransaccionEditDescripcion"
@@ -77,7 +79,6 @@
         android:id="@+id/etTransaccionEditDescripcion"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:capitalize="words"
         android:ems="10"
@@ -91,7 +92,6 @@
         android:id="@+id/etTransaccionEditImporte"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="Importe"
@@ -104,7 +104,6 @@
         android:id="@+id/etNombreEditPagador"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:clickable="true"
         android:editable="false"
@@ -139,7 +138,6 @@
         android:id="@+id/etTransaccionEditCategoria"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:capitalize="words"
         android:ems="10"
@@ -153,7 +151,6 @@
         android:id="@+id/etTransaccionEditFecha"
         android:layout_width="278dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:clickable="true"
         android:ems="10"
@@ -168,7 +165,6 @@
         android:id="@+id/tvEditDivision"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="Importe por participante"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditFecha" />
@@ -188,7 +184,6 @@
             android:id="@+id/recyclerViewParticipan"
             android:layout_width="290dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:theme="@style/AppTheme"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>

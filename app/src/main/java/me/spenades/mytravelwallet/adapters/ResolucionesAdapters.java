@@ -1,11 +1,12 @@
 package me.spenades.mytravelwallet.adapters;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class ResolucionesAdapters extends RecyclerView.Adapter<ResolucionesAdapt
         String numeroString = String.valueOf(solucionFinal.get(4));
         double numeroDouble = Double.parseDouble(numeroString);
         double numeroAbs = Math.abs(numeroDouble);
-        String numeroLimpio = numeroDecimal.dosDecimales(numeroAbs);
+        String numeroLimpio = numeroDecimal.dosDecimalesDoubleString(numeroAbs);
         String solucion = new String();
 
         // Componemos la frase a Mostrar

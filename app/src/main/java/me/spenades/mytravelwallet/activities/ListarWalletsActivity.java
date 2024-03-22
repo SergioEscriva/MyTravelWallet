@@ -1,4 +1,4 @@
-package me.spenades.mytravelwallet;
+package me.spenades.mytravelwallet.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.WalletController;
@@ -98,7 +98,8 @@ public class ListarWalletsActivity extends AppCompatActivity {
         recyclerViewWallets.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewWallets,
                 new RecyclerTouchListener.ClickListener() {
 
-                    @Override // Un toque Entrar en el Wallet y sus transacciones
+                    @Override
+                    // Un toque Entrar en el Wallet y sus transacciones
                     public void onClick(View view, int position) {
 
                         // Pasar a la actividad editarwallet

@@ -1,11 +1,12 @@
 package me.spenades.mytravelwallet.adapters;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -43,9 +44,11 @@ public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.My
 
         // Obtener los datos de la lista
         String nombre = miembro.getNombre();
+        double importe = miembro.getUserId();
 
         // Y poner a los TextView los datos con setText
         myViewHolder.cbPagador.setText(String.valueOf(nombre));
+        myViewHolder.cbAPagado.setText(String.valueOf(importe));
     }
 
 
@@ -57,12 +60,13 @@ public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.My
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView cbPagador, cbPagadorId;
+        TextView cbPagador, cbPagadorId, cbAPagado;
 
 
         MyViewHolder(View itemView) {
             super(itemView);
             this.cbPagador = itemView.findViewById(R.id.cbPagador);
+            this.cbAPagado = itemView.findViewById(R.id.cbAPagado);
             this.cbPagadorId = itemView.findViewById(R.id.cbPagadorId);
         }
     }

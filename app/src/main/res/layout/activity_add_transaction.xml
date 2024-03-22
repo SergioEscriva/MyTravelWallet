@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20sp">
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,7 +21,6 @@
                 android:id="@+id/evTransaccionDescripcion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:text="Transacción"
@@ -90,7 +89,6 @@
                 android:id="@+id/etTransaccionDescripcion"
                 android:layout_width="278dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
                 android:capitalize="words"
                 android:ems="10"
@@ -104,7 +102,6 @@
                 android:id="@+id/etTransaccionImporte"
                 android:layout_width="278dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="Importe"
@@ -117,7 +114,6 @@
                 android:id="@+id/etNombrePagador"
                 android:layout_width="278dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
                 android:clickable="true"
                 android:editable="false"
@@ -152,7 +148,6 @@
                 android:id="@+id/etTransaccionCategoria"
                 android:layout_width="278dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
                 android:capitalize="words"
                 android:ems="10"
@@ -166,7 +161,6 @@
                 android:id="@+id/etTransaccionFecha"
                 android:layout_width="278dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
                 android:clickable="true"
                 android:ems="10"
@@ -181,7 +175,6 @@
                 android:id="@+id/tvDivision"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:text="Importe por participante"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etTransaccionFecha" />
@@ -201,7 +194,6 @@
                     android:id="@+id/recyclerViewParticipan"
                     android:layout_width="290dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:theme="@style/AppTheme"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>

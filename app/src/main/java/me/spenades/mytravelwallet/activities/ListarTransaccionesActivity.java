@@ -1,4 +1,4 @@
-package me.spenades.mytravelwallet;
+package me.spenades.mytravelwallet.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.TransaccionesAdapters;
 import me.spenades.mytravelwallet.controllers.MiembroWalletController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
@@ -277,7 +277,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
         transaccionesAdapters.setListaDeTransacciones(listaDeTransaccions);
         transaccionesAdapters.notifyDataSetChanged();
-        System.out.println(listaDeTransaccions);
         resumenTransacciones();
         if (listaDeTransaccions.size() == 0) {
             fabResolverDeudas.setVisibility(View.INVISIBLE);
