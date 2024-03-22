@@ -3,7 +3,6 @@ package me.spenades.mytravelwallet.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +14,7 @@ import java.util.Map;
 
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.models.Wallet;
+import me.spenades.mytravelwallet.utilities.Operaciones;
 
 public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyViewHolder> {
 
@@ -50,7 +50,7 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-
+        Operaciones operaciones = new Operaciones();
         // Obtener la de nuestra lista gracias al índice i
         Wallet wallet = listaDeWallets.get(i);
 
@@ -65,7 +65,7 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
         myViewHolder.tvDescripcion.setText(descripcionWallet);
         myViewHolder.tvWalletId.setText(String.valueOf(walletId));
         myViewHolder.tvImporteW.setText(String.valueOf("0.0€"));
-        boolean checkbox_Compartir = (compartirWallet == 1) ? true : false;
+
 
         // importes Totales de los Wallets
         Map importe = listaDeImportes.get(0);
@@ -73,7 +73,8 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
 
         // Si no tiene transacciones añade 0.0
         if (importeSumado == "null") importeSumado = "0.0";
-        myViewHolder.tvImporteW.setText(importeSumado + "€");
+        String importeSumadoLimpio = operaciones.dosDecimalesStringString(importeSumado);
+        myViewHolder.tvImporteW.setText(String.format("%s€", importeSumadoLimpio));
     }
 
 
@@ -86,15 +87,12 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvNombre, tvDescripcion, tvWalletId, tvImporteW;
-        CheckBox cbCompartir;
-
 
         MyViewHolder(View itemView) {
             super(itemView);
             this.tvNombre = itemView.findViewById(R.id.tvNombreWallet);
             this.tvDescripcion = itemView.findViewById(R.id.tvDescripcionWallet);
             this.tvWalletId = itemView.findViewById(R.id.tvWalletId);
-            this.cbCompartir = itemView.findViewById(R.id.cbCompartir);
             this.tvImporteW = itemView.findViewById(R.id.tvImporteW);
         }
     }

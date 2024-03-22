@@ -41,7 +41,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
     private FloatingActionButton fabAgregarWallet;
     private FrameLayout flInfoWallets;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -71,11 +70,9 @@ public class ListarWalletsActivity extends AppCompatActivity {
         walletController = new WalletController(ListarWalletsActivity.this);
         transaccionController = new TransaccionController(ListarWalletsActivity.this);
 
-
         // Instanciar vistas
         recyclerViewWallets = findViewById(R.id.recyclerViewWallets);
         fabAgregarWallet = findViewById(R.id.fabAgregarWallet);
-
 
         // Por defecto es una lista vacía,
         // se la ponemos al adaptador y configuramos el recyclerView
@@ -89,7 +86,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
         recyclerViewWallets.setLayoutManager(mLayoutManager);
         recyclerViewWallets.setItemAnimator(new DefaultItemAnimator());
         recyclerViewWallets.setAdapter(walletsAdapters);
-
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeWallets();
@@ -117,7 +113,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
                         startActivity(intent);
 
                     }
-
 
                     @Override // Un toque Largo Editar
                     public void onLongClick(View view, int position) {

@@ -46,7 +46,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     private static EditText etImporte;
     private static TextView tvDivision;
     public PopUpPagadorActivity popup;
-
     private EditText etDescripcion, etTransaccionFecha;
     private AutoCompleteTextView etCategoria;
     private TextView evTransaccionTitulo;
@@ -119,7 +118,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 categoriaIdTransaccion, categoriaTransaccion, fechaTransaccion, walletId, transaccionId);
         nuevosParticipan = miembrosTransaccion;
 
-
         // Lista Participan Por defecto es una lista vacía,
         listaDeParticipan = new ArrayList<>();
         participanAdapters = new ParticipanAdapters(listaDeMiembros, listaDeParticipan, false);
@@ -138,7 +136,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categorias);
         etCategoria.setAdapter(adapter);
-
 
         // Ponemos la lista paticipan al adaptador y configuramos el recyclerView
         RecyclerView.LayoutManager mLayoutManagerParticipan =
@@ -159,7 +156,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         etPagadorId.setText(String.valueOf(transaccion.getPagadorId()));
         etNombrePagador.setText(String.valueOf(transaccion.getNombrePagador()));
         evTransaccionTitulo.setText("Wallet " + walletName);
-
 
         //Listener importe
         //https://es.stackoverflow.com/questions/291613/c%C3%B3mo-actualizar-un-dato-autom%C3%A1ticamente-en-android-studio

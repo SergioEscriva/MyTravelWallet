@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -323,6 +322,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     // Rellenamos el importe a pagar por cada participante al añadir transacción
     // variables static para poder traerlo aquí.
     public void participanImporte() {
+        Operaciones operaciones = new Operaciones();
         if (importeADividir == null) importeADividir = "0";
         double importeADividirD = Double.parseDouble(importeADividir);
 
@@ -330,7 +330,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         int cantidadParticipa = nuevosParticipan.replaceAll(",", "").length();
 
         double resultado = importeADividirD / cantidadParticipa;
-        String resultadoLimpio = dosDecimalesDoubleString(resultado);
+        String resultadoLimpio = operaciones.dosDecimalesDoubleString(resultado);
         tvDivision.setText("Cada participante deberá pagar: " + resultadoLimpio + "€");
 
     }
@@ -370,15 +370,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
             categoriaNuevaId = categoriaIdActual.get(0).getId();
         }
         return categoriaNuevaId;
-    }
-
-    //TODO LLEVAR A OPERACIONES Y QUE FUNCIONE
-    public String dosDecimalesDoubleString(double doubleNumeroString) {
-        DecimalFormat format = new DecimalFormat();
-        format.setMaximumFractionDigits(2); //Define 2 decimales.
-        String numeroString = format.format(doubleNumeroString);
-        String numeroDecimal = numeroString.replaceAll(",", "."); //cambia la coma por un punto
-        return numeroDecimal;
     }
 
     // Para rellenar en le popup de pagadores, info de cuanto han pagado ya.

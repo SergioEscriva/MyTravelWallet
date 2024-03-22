@@ -55,6 +55,7 @@ public class EditarWalletActivity extends AppCompatActivity {
     private RecyclerView recyclerViewMiembros;
     private Button btnGuardarCambios, btnAgregarMiembro, btnEliminarWallet;
     private EditText etNombre, etDescripcion, etPropietarioId, etWalletId, etAddMiembro;
+    private CheckBox cbCompartir;
     private FloatingActionButton btnCancelarEdicion;
     private long walletId;
     private String nombreWallet;
@@ -65,7 +66,6 @@ public class EditarWalletActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_wallet);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
 
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
@@ -99,13 +99,12 @@ public class EditarWalletActivity extends AppCompatActivity {
         etPropietarioId = findViewById(R.id.etPropietarioId);
         etAddMiembro = findViewById(R.id.etAddMiembro);
         etWalletId = findViewById(R.id.etWalletId);
-        CheckBox checkBoxCompartir = findViewById(R.id.cbCompartir);
+        cbCompartir = findViewById(R.id.cbCompartir);
         btnGuardarCambios = findViewById(R.id.btn_agregar_wallet);
         btnCancelarEdicion = findViewById(R.id.btn_cancelar_nuevo_wallet);
         btnAgregarMiembro = findViewById(R.id.btnAgregarMiembro);
         btnEliminarWallet = findViewById(R.id.btnEliminarWallet);
         etPropietarioId.setVisibility(View.INVISIBLE);
-
 
         // Hacer visible las vistas de botones y lista miembros al compartir activiy con
         // agregar
@@ -120,15 +119,22 @@ public class EditarWalletActivity extends AppCompatActivity {
             btnGuardarCambios.setVisibility(View.INVISIBLE);
         }
 
-
         // Rellenar los EditText de la pantalla
         etNombre.setText(wallet.getNombre());
         etDescripcion.setText(wallet.getDescripcion());
         etPropietarioId.setText(String.valueOf(propietario));
         etWalletId.setText(String.valueOf(walletId));
-
+        int compartirWallet = wallet.getCompartir();
+        boolean cbCompartirResultado = compartirWallet == 1;
+        cbCompartir.setChecked(cbCompartirResultado);
+        /*
+        System.out.println(cbCompartirResultado);
         Boolean compartirCheck = (compartir == "0") ? false : true;
         checkBoxCompartir.setChecked(compartirCheck);
+
+
+         */
+
 
         // Por defecto es una lista vacía,
         listaDeMiembros = new ArrayList<>();
@@ -167,7 +173,7 @@ public class EditarWalletActivity extends AppCompatActivity {
                 etNombre.setError(null);
                 etDescripcion.setError(null);
                 etPropietarioId.setError(null);
-                checkBoxCompartir.setError(null);
+                cbCompartir.setError(null);
                 etWalletId.setError(null);
 
                 String nombre = etNombre.getText().toString(),
@@ -175,7 +181,7 @@ public class EditarWalletActivity extends AppCompatActivity {
                         propietario = etPropietarioId.getText().toString();
 
 
-                Boolean checkBoxStateCompartir = checkBoxCompartir.isChecked();
+                Boolean checkBoxStateCompartir = cbCompartir.isChecked();
 
                 int compartir = (checkBoxStateCompartir) ? 1 : 0;
 

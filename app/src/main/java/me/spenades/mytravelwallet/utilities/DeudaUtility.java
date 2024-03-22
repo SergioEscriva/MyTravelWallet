@@ -368,10 +368,10 @@ public class DeudaUtility extends AppCompatActivity {
                         importeDoubleLimpio = Math.abs(importeMovimientosWallet);
                         String limpiezaNumero = String.valueOf(importeDoubleLimpio);
                         if (importeDoubleLimpio <= 0D) {
-                            importeFinalDebe = "<br>No tiene deudas.";
+                            importeFinalDebe = "No tiene deudas.";
                         } else {
 
-                            importeFinalDebe = "<b>     Debe </b><FONT COLOR=#E91E63>" + limpiezaNumero + "€</FONT>";
+                            importeFinalDebe = "<b>Debe </b><FONT COLOR=#E91E63>" + limpiezaNumero + "€</FONT>";
                         }
                         // Calculamos lo que el gasto total de cada miembro en el Wallet
                         double gastoRealizadoLimpiar = importeDoubleLimpio + importeHaPagado;
@@ -380,7 +380,7 @@ public class DeudaUtility extends AppCompatActivity {
                     } else {
                         importeFinalPagadoLimpio = importeMovimientosWallet;
                         importeString = String.valueOf(importeFinalPagadoLimpio);
-                        importeFinalPagado = "<b>     Le deben </b><FONT COLOR=#1ED63A>" + importeString + "€</FONT>";
+                        importeFinalPagado = "<b>Le deben </b><FONT COLOR=#1ED63A>" + importeString + "€</FONT>";
 
                         // Calculamos lo que ha gasto total de cada miembro en el Wallet
                         double gastoRealizadoLimpiar = importeHaPagado - importeMovimientosWallet;

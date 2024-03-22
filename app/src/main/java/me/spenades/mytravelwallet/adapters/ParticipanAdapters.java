@@ -138,7 +138,6 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
     }
 
 
-    // TODO SACAR A UNA CLASE
     public boolean participaExiste(Long miembroId) {
 
         // Si existe se añade el Check
@@ -155,7 +154,6 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
 
         CheckBox cbParticipa;
         TextView tvDivison, etTransaccionImporte;
-
 
         MyViewHolder(View itemView) {
             super(itemView);

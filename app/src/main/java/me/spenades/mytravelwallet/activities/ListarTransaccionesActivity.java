@@ -27,9 +27,8 @@ import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.utilities.DeudaUtility;
+import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
-import me.spenades.mytravelwallet.utilities.UsuarioUtility;
-
 
 public class ListarTransaccionesActivity extends AppCompatActivity {
 
@@ -39,14 +38,12 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     private TransaccionesAdapters transaccionesAdapters;
     private TransaccionController transaccionController;
     private MiembroWalletController miembroWalletController;
-    private UsuarioUtility usuarioUtility;
     private FloatingActionButton fabAgregarTransaccion;
     private FloatingActionButton fabResolverDeudas;
     private long walletId;
     private String walletName;
     private TextView tvWalletActivo, tvTotal, tvDeberiaPagar, tvMiembros;
     private FrameLayout flInfoTransacciones;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +61,15 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         flInfoTransacciones = findViewById(R.id.flInfoTransacciones);
         if (info == 1) flInfoTransacciones.setVisibility(View.VISIBLE);
 
-
         // Recuperar datos que enviaron
         if (extras == null) {
             finish();
             return;
         }
 
-
         // Definir nuestro controlador
         transaccionController = new TransaccionController(ListarTransaccionesActivity.this);
         miembroWalletController = new MiembroWalletController(ListarTransaccionesActivity.this);
-
 
         // Instanciar vistas
         recyclerViewTransacciones = findViewById(R.id.recyclerViewTransacciones);
@@ -99,7 +93,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         recyclerViewTransacciones.setItemAnimator(new DefaultItemAnimator());
         recyclerViewTransacciones.setAdapter(transaccionesAdapters);
 
-        tvWalletActivo.setText("Wallet " + this.walletName);
+        tvWalletActivo.setText(String.format("Wallet %s", this.walletName));
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListas();
@@ -134,7 +128,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                         intent.putExtra("info", info);
                         startActivity(intent);
                     }
-
 
                     @Override // Un toque largo
                     public void onLongClick(View view, int position) {
@@ -216,7 +209,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             }
         });
 
-
         // Listener del FABResolverDeudas
         fabResolverDeudas.setOnClickListener(new View.OnClickListener() {
 
@@ -263,13 +255,11 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         refrescarListas();
     }
-
 
     public void refrescarListas() {
         fabResolverDeudas.setVisibility(View.VISIBLE);
@@ -283,19 +273,17 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         }
     }
 
-
     public void resumenTransacciones() {
-
+        Operaciones operaciones = new Operaciones();
         DeudaUtility deudaUtility = new DeudaUtility();
         String totalTransacciones = deudaUtility.sumaTransacciones(listaDeTransaccions,
                 listaDeMiembros);
         List<String> siguientePagador = deudaUtility.proximoPagador();
         List<String> miembros = deudaUtility.listaDeMiembros();
-        String importeTotal = totalTransacciones + "€";
+        String importeLimpio = operaciones.dosDecimalesStringString(totalTransacciones);
+        String importeTotal = String.format("%s€", importeLimpio);
         tvTotal.setText(importeTotal);
         tvDeberiaPagar.setText(String.valueOf(siguientePagador.get(1)));
         tvMiembros.setText(String.valueOf(miembros));
     }
-
-
 }

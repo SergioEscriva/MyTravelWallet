@@ -31,7 +31,6 @@ public class AgregarWalletActivity extends AppCompatActivity {
     private List<Miembro> listaDeMiembros;
     private MiembrosAdapters miembrosAdapters;
     private WalletController walletController;
-
     private MiembroWalletController miembroWalletController;
     private RecyclerView recyclerViewMiembros;
     private Button btnAgregarWallet;

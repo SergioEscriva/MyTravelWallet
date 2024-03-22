@@ -30,26 +30,18 @@ import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
 
 public class ResolverDeudaActivity extends AppCompatActivity {
-
-
     private List<Miembro> listaDeMiembros;
-    private List<Miembro> listaDeParticipan;
     private List<List> listaDeSoluciones;
     private ArrayList<Spanned> mostrarResolucion;
-
     private TransaccionController transaccionController;
     private MiembroWalletController miembroWalletController;
-
     private ResolucionesAdapters resolucionesAdapters;
     private GastosTotalesAdapters gastosTotalesAdapters;
     private DeudaUtility deudaUtility;
-    private RecyclerView recyclerViewResoluciones, recyclerViewGastosTotales;
-    private FrameLayout flInfoDeudas;
-    private TextView tvSinDeudas, tvTextoResolucion;
+    private RecyclerView recyclerViewResoluciones;
+    private TextView tvSinDeudas;
     private long walletId;
-
     private RelativeLayout rlGastosTotales;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +56,8 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
         // Se muestra sólo la primera vez la Ayuda
         int info = extras.getInt("info");
-        flInfoDeudas = findViewById(R.id.flInfoDeudas);
+        FrameLayout flInfoDeudas = findViewById(R.id.flInfoDeudas);
         if (info == 1) flInfoDeudas.setVisibility(View.VISIBLE);
-
-        // Si no hay datos (cosa rara) salimos
-        if (extras == null) {
-            finish();
-            return;
-        }
 
         // Definir nuestro controlador
         //walletController = new WalletController(ResolverDeudaActivity.this);
@@ -82,14 +68,13 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         // Instanciamos las vistas
         //tvResolver = findViewById(R.id.tvResolver);
         recyclerViewResoluciones = findViewById(R.id.recyclerViewGastos);
-        recyclerViewGastosTotales = findViewById(R.id.recyclerViewGastosTotales);
+        RecyclerView recyclerViewGastosTotales = findViewById(R.id.recyclerViewGastosTotales);
         tvSinDeudas = findViewById(R.id.tvSinDeudas);
         rlGastosTotales = findViewById(R.id.rlGastosTotales);
-        tvTextoResolucion = findViewById(R.id.tvTextoResolucion);
+        TextView tvTextoResolucion = findViewById(R.id.tvTextoResolucion);
 
         // Creamos listas vacías.
         listaDeMiembros = new ArrayList<>();
-        listaDeParticipan = new ArrayList<>();
         listaDeSoluciones = new ArrayList<>();
         mostrarResolucion = new ArrayList<>();
         resolucionesAdapters = new ResolucionesAdapters(listaDeSoluciones);
@@ -110,14 +95,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         recyclerViewGastosTotales.setAdapter(gastosTotalesAdapters);
         refrescarListas();
 
-        tvTextoResolucion.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                rlGastosTotales.setVisibility(View.VISIBLE);
-            }
-        });
-
+        tvTextoResolucion.setOnClickListener(v -> rlGastosTotales.setVisibility(View.VISIBLE));
 
         // Listener Resolucion deudas, para Resolverlas.
         recyclerViewResoluciones.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewResoluciones,
@@ -156,13 +134,10 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                         dialog.show();
                     }
 
-
                     @Override // Un toque Largo.
                     public void onLongClick(View view, int position) {
 
-
                     }
-
 
                 }) {
 
@@ -172,7 +147,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public void refrescarListas() {
         listaDeMiembros = miembroWalletController.obtenerMiembros(walletId);
@@ -188,7 +162,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         gastosTotalesAdapters.notifyDataSetChanged();
     }
 
-
     public Long eliminarDeuda(List resolucion) {
         String deudaString = resolucion.get(4).toString();
         double deudaDouble = Double.parseDouble(deudaString);
@@ -202,8 +175,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         Transaccion transaccionConNuevosCambios = new Transaccion("Deuda Saldada",
                 deuda, pagador, cobrador, 2,
                 nuevaFecha, walletId);
-        long transaccionId = transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
-        return transaccionId;
+        return transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
     }
 
 }
