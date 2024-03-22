@@ -371,7 +371,7 @@ public class DeudaUtility extends AppCompatActivity {
                             importeFinalDebe = "<br>No tiene deudas.";
                         } else {
 
-                            importeFinalDebe = "<b>Debe </b><FONT COLOR=#E91E63>" + limpiezaNumero + "€</FONT>";
+                            importeFinalDebe = "<b>     Debe </b><FONT COLOR=#E91E63>" + limpiezaNumero + "€</FONT>";
                         }
                         // Calculamos lo que el gasto total de cada miembro en el Wallet
                         double gastoRealizadoLimpiar = importeDoubleLimpio + importeHaPagado;
@@ -380,7 +380,7 @@ public class DeudaUtility extends AppCompatActivity {
                     } else {
                         importeFinalPagadoLimpio = importeMovimientosWallet;
                         importeString = String.valueOf(importeFinalPagadoLimpio);
-                        importeFinalPagado = "<b>Le deben </b><FONT COLOR=#1ED63A>" + importeString + "€</FONT>";
+                        importeFinalPagado = "<b>     Le deben </b><FONT COLOR=#1ED63A>" + importeString + "€</FONT>";
 
                         // Calculamos lo que ha gasto total de cada miembro en el Wallet
                         double gastoRealizadoLimpiar = importeHaPagado - importeMovimientosWallet;
@@ -389,7 +389,7 @@ public class DeudaUtility extends AppCompatActivity {
                     String gastoRealizadoEnWallet = String.valueOf(Math.abs(gastoRealizado));
 
                     Spanned miembroGastoString = Html.fromHtml(
-                            "<b>" + miembro + "</b> ha hecho un Gasto de <b>" + gastoRealizadoEnWallet + "€</b><br><i>Ha pagado " + importeHaPagadoString + "€</i><br>" + importeFinalDebe + importeFinalPagado);
+                            "<strong>" + miembro + "</strong> adeuda <b>" + gastoRealizadoEnWallet + "€</b><br><i>     Ha pagado " + importeHaPagadoString + "€</i><br>" + importeFinalDebe + importeFinalPagado);
                     miembrosGastos.add(miembroGastoString);
                     ArrayList<String> gastosTotales = new ArrayList<>();
                     gastosTotales.add(miembro);

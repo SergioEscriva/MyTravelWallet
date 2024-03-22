@@ -199,7 +199,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         Operaciones operaciones = new Operaciones();
         String nuevaFecha = operaciones.fechaDeHoy();
 
-        Transaccion transaccionConNuevosCambios = new Transaccion("Saldar Deuda",
+        Transaccion transaccionConNuevosCambios = new Transaccion("Deuda Saldada",
                 deuda, pagador, cobrador, 2,
                 nuevaFecha, walletId);
         long transaccionId = transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
