@@ -3,6 +3,7 @@ package me.spenades.mytravelwallet.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -15,15 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.GastosTotalesAdapters;
 import me.spenades.mytravelwallet.adapters.ResolucionesAdapters;
 import me.spenades.mytravelwallet.controllers.MiembroWalletController;
-import me.spenades.mytravelwallet.controllers.ParticipaTransaccionController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
@@ -34,15 +32,14 @@ import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
 public class ResolverDeudaActivity extends AppCompatActivity {
 
 
-    private List<Transaccion> listaDeTransacciones;
     private List<Miembro> listaDeMiembros;
     private List<Miembro> listaDeParticipan;
     private List<List> listaDeSoluciones;
-    private ArrayList<String> mostrarResolucion;
-    private Map<Long, Double> listaDeGastos;
+    private ArrayList<Spanned> mostrarResolucion;
+
     private TransaccionController transaccionController;
     private MiembroWalletController miembroWalletController;
-    private ParticipaTransaccionController participaTransaccionController;
+
     private ResolucionesAdapters resolucionesAdapters;
     private GastosTotalesAdapters gastosTotalesAdapters;
     private DeudaUtility deudaUtility;
@@ -50,7 +47,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
     private FrameLayout flInfoDeudas;
     private TextView tvSinDeudas, tvTextoResolucion;
     private long walletId;
-    private Map<Long, Double> pagadoPorMiembro;
+
     private RelativeLayout rlGastosTotales;
 
 
@@ -80,8 +77,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         //walletController = new WalletController(ResolverDeudaActivity.this);
         transaccionController = new TransaccionController(ResolverDeudaActivity.this);
         miembroWalletController = new MiembroWalletController(ResolverDeudaActivity.this);
-        participaTransaccionController = new ParticipaTransaccionController(ResolverDeudaActivity.this);
-
         deudaUtility = new DeudaUtility();
 
         // Instanciamos las vistas
@@ -93,13 +88,10 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         tvTextoResolucion = findViewById(R.id.tvTextoResolucion);
 
         // Creamos listas vacías.
-        listaDeTransacciones = new ArrayList<>();
         listaDeMiembros = new ArrayList<>();
         listaDeParticipan = new ArrayList<>();
         listaDeSoluciones = new ArrayList<>();
-        pagadoPorMiembro = new HashMap<>();
         mostrarResolucion = new ArrayList<>();
-        listaDeGastos = new HashMap<>();
         resolucionesAdapters = new ResolucionesAdapters(listaDeSoluciones);
         gastosTotalesAdapters = new GastosTotalesAdapters(mostrarResolucion, listaDeMiembros);
 
@@ -184,7 +176,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
     public void refrescarListas() {
         listaDeMiembros = miembroWalletController.obtenerMiembros(walletId);
-        listaDeTransacciones = transaccionController.obtenerTransacciones(walletId);
         listaDeSoluciones = deudaUtility.resolucionDeudaWallet(); //llama a Saldar
         resolucionesAdapters.setListaDeResoluciones(listaDeSoluciones);
         resolucionesAdapters.notifyDataSetChanged();

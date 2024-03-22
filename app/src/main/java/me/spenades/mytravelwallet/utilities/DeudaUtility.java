@@ -1,10 +1,11 @@
 package me.spenades.mytravelwallet.utilities;
 
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
@@ -25,8 +26,6 @@ public class DeudaUtility extends AppCompatActivity {
     private static List<Miembro> listaDeParticipan;
     private static Map<Long, Double> listaDeGastos;
     private static long walletId;
-    private static Operaciones operaciones;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,6 @@ public class DeudaUtility extends AppCompatActivity {
         listaDeMiembros = new ArrayList<>();
         listaDeParticipan = new ArrayList<>();
         listaDeGastos = new HashMap<>();
-        operaciones = new Operaciones();
         walletId = 0l;
 
     }
@@ -61,7 +59,7 @@ public class DeudaUtility extends AppCompatActivity {
 
     //#1
     public ArrayList resolucionDeudaWallet() {
-
+        Operaciones operaciones = new Operaciones();
         // Recuperamos deudas por Wallet
         HashMap<Long, String> usuarioIdNombbre = new HashMap<>();
         for (Miembro miembro : listaDeMiembros) {
@@ -85,10 +83,10 @@ public class DeudaUtility extends AppCompatActivity {
 
             // Separamos pagar y recibir en dos listas.
             if (cantidadParticipa >= 0L) {
-                double recibirDecimales = dosDecimalesDoubleDouble(cantidadParticipa);
+                double recibirDecimales = operaciones.dosDecimalesDoubleDouble(cantidadParticipa);
                 recibir = recibirDecimales;
             } else if (cantidadParticipa != 0L) {
-                double pagarDecimales = dosDecimalesDoubleDouble(cantidadParticipa);
+                double pagarDecimales = operaciones.dosDecimalesDoubleDouble(cantidadParticipa);
                 pagar = pagarDecimales;
             }
             pagarMiembro.put(miembroId, pagar);
@@ -104,14 +102,14 @@ public class DeudaUtility extends AppCompatActivity {
 
         // Iteramos sobre la lista de los que tienen que pagar(pagador)
         for (long pagarId : pagarOrdenado.keySet()) {
-            double cantidadAPagar = dosDecimalesDoubleDouble(pagarOrdenado.get(pagarId));
+            double cantidadAPagar = operaciones.dosDecimalesDoubleDouble(pagarOrdenado.get(pagarId));
             long pagador = pagarId;
 
             // Iteramos sobre la lista de los que tienen que recibir(cobrador)
             while (Math.abs(cantidadAPagar) > 0) {
                 for (long recibirId : recibirOrdenado.keySet()) {
                     double cantidadARecibirLimpiar = recibirOrdenado.get(recibirId);
-                    double cantidadARecibir = dosDecimalesDoubleDouble(cantidadARecibirLimpiar);
+                    double cantidadARecibir = operaciones.dosDecimalesDoubleDouble(cantidadARecibirLimpiar);
                     long cobrador = recibirId;
 
                     // Si el cobrador debe recibir más de lo que el pagador tiene que pagar
@@ -129,7 +127,7 @@ public class DeudaUtility extends AppCompatActivity {
 
                         //Actualizamos la cantidad que el cobrador tiene que recibir
                         double recibirCalculadoLimpiar = cantidadARecibir + cantidadAPagar;
-                        double recibirCalculado = dosDecimalesDoubleDouble(recibirCalculadoLimpiar);
+                        double recibirCalculado = operaciones.dosDecimalesDoubleDouble(recibirCalculadoLimpiar);
                         recibirOrdenado.replace(recibirId, recibirCalculado);
 
                         // El pagador ya no tiene que pagar nada
@@ -215,6 +213,7 @@ public class DeudaUtility extends AppCompatActivity {
 
     //#3 que debería pagar cada miembro
     public ArrayList<Map> gastosMiembrosTransacciones() {
+        Operaciones operaciones = new Operaciones();
         ArrayList<Map> gastoMiembros = new ArrayList<>();
 
         // iteramos transacciones sacamos a lo que sale cada miembro
@@ -241,13 +240,13 @@ public class DeudaUtility extends AppCompatActivity {
                 // NO ha pagado esta transacción pero está en ella
                 if (pagado == 0.0 && existeEnListas1 >= 0) {
                     double saldoDecimales = pagado - aPagarPorMiembro;
-                    saldo = dosDecimalesDoubleDouble(saldoDecimales);
+                    saldo = operaciones.dosDecimalesDoubleDouble(saldoDecimales);
                     deudas.put(miembroId, saldo);
 
                     // SI pagado la transacción y está en ella
                 } else if (pagado > 0.0 && existeEnListas1 >= 0) {
                     double saldoDecimales = pagado - aPagarPorMiembro;
-                    saldo = dosDecimalesDoubleDouble(saldoDecimales);
+                    saldo = operaciones.dosDecimalesDoubleDouble(saldoDecimales);
                     deudas.put(miembroId, saldo);
 
                     // No está en la transacción
@@ -286,12 +285,12 @@ public class DeudaUtility extends AppCompatActivity {
 
     //#5
     public double aPagarPorMiembro(Transaccion transaccion) {
-
+        Operaciones operaciones = new Operaciones();
         // Calculamos la deuda total
         double numeroMiembros = listaDeParticipan.size();
         double importeTransaccion = Double.valueOf(transaccion.getImporte());
         double importePorMiembroLimpiar = importeTransaccion / (numeroMiembros + 0);
-        double importePorMiembro = dosDecimalesDoubleDouble(importePorMiembroLimpiar);
+        double importePorMiembro = operaciones.dosDecimalesDoubleDouble(importePorMiembroLimpiar);
         return importePorMiembro;
     }
 
@@ -329,20 +328,19 @@ public class DeudaUtility extends AppCompatActivity {
     }
 
 
-    public ArrayList<String> operacionesResolucionDeudas() {
-        // this.listaDeGastos = listaDeGastos;
-
+    public ArrayList<Spanned> operacionesResolucionDeudas() {
+        Operaciones operaciones = new Operaciones();
         String importeTotal = new String();
         ArrayList<ArrayList> gastosTotalesDivididos = new ArrayList<>();
         Map<Long, Double> importePagadoParticipante = transacionesGastosTotales();
-        ArrayList<String> miembrosGastos = new ArrayList<>();
+        ArrayList<Spanned> miembrosGastos = new ArrayList<>();
 
         // Iteramos sobre los gastos para extraer que tendría que haber pagado cada miembro.
         for (Long miembroIdGasto : listaDeGastos.keySet()) {
             double importeDeberiaPagarAlWallet = listaDeGastos.get(miembroIdGasto);
 
             // Limpiamos decimales del importe
-            double importeMovimientosWallet = dosDecimalesDoubleDouble(importeDeberiaPagarAlWallet);
+            double importeMovimientosWallet = operaciones.dosDecimalesDoubleDouble(importeDeberiaPagarAlWallet);
 
             // Obtenemos de la listaDeGastos los ids, y los iteramos con la listaDeMiembros, para obtener el nombre.
             for (Miembro solucionFinal : listaDeMiembros) {
@@ -370,27 +368,28 @@ public class DeudaUtility extends AppCompatActivity {
                         importeDoubleLimpio = Math.abs(importeMovimientosWallet);
                         String limpiezaNumero = String.valueOf(importeDoubleLimpio);
                         if (importeDoubleLimpio <= 0D) {
-                            importeFinalDebe = "\nNo tiene deudas.";
+                            importeFinalDebe = "<br>No tiene deudas.";
                         } else {
-                            importeFinalDebe = "\nDebe al Wallet " + limpiezaNumero + "€";
+
+                            importeFinalDebe = "<b>Debe </b><FONT COLOR=#E91E63>" + limpiezaNumero + "€</FONT>";
                         }
                         // Calculamos lo que el gasto total de cada miembro en el Wallet
-                        gastoRealizado = importeDoubleLimpio + importeHaPagado;
+                        double gastoRealizadoLimpiar = importeDoubleLimpio + importeHaPagado;
+
+                        gastoRealizado = operaciones.dosDecimalesDoubleDouble(gastoRealizadoLimpiar);
                     } else {
                         importeFinalPagadoLimpio = importeMovimientosWallet;
                         importeString = String.valueOf(importeFinalPagadoLimpio);
-                        importeFinalPagado = "\nEl Wallet le debe " + importeString + "€";
+                        importeFinalPagado = "<b>Le deben </b><FONT COLOR=#1ED63A>" + importeString + "€</FONT>";
 
                         // Calculamos lo que ha gasto total de cada miembro en el Wallet
                         double gastoRealizadoLimpiar = importeHaPagado - importeMovimientosWallet;
-                        gastoRealizado = dosDecimalesDoubleDouble(gastoRealizadoLimpiar);
+                        gastoRealizado = operaciones.dosDecimalesDoubleDouble(gastoRealizadoLimpiar);
                     }
-
                     String gastoRealizadoEnWallet = String.valueOf(Math.abs(gastoRealizado));
 
-
-                    String miembroGastoString =
-                            miembro + " ha hecho un Gasto de " + gastoRealizadoEnWallet + "€" + "\nHa pagado " + importeHaPagadoString + "€" + importeFinalDebe + importeFinalPagado;
+                    Spanned miembroGastoString = Html.fromHtml(
+                            "<b>" + miembro + "</b> ha hecho un Gasto de <b>" + gastoRealizadoEnWallet + "€</b><br><i>Ha pagado " + importeHaPagadoString + "€</i><br>" + importeFinalDebe + importeFinalPagado);
                     miembrosGastos.add(miembroGastoString);
                     ArrayList<String> gastosTotales = new ArrayList<>();
                     gastosTotales.add(miembro);
@@ -492,29 +491,6 @@ public class DeudaUtility extends AppCompatActivity {
         }
         return datos;
     }
-
-    public Double dosDecimalesDoubleDouble(double doubleNumerodouble) {
-        DecimalFormat format = new DecimalFormat();
-        format.setMaximumFractionDigits(2); //Define 2 decimales.
-        String numeroString = format.format(doubleNumerodouble);
-        String numeroDecimal = numeroString.replaceAll(",", ".");
-        double numeroDecimalDouble = Double.parseDouble(numeroDecimal);
-        return numeroDecimalDouble;
-    }
-
-/*
-    // https://es.stackoverflow.com/questions/100147/como-puedo-hacer-para-mostrar-solo-dos-decimales-en-la-operacion-que-sea
-    public Double dosDecimales(double numero) {
-        DecimalFormat format = new DecimalFormat();
-        format.setMaximumFractionDigits(2); //Define 2 decimales.
-        String numeroString = format.format(numero);
-        String numeroDecimal = numeroString.replaceAll(",", ".");
-        double numeroDecimalDouble = Double.parseDouble(numeroDecimal);
-        return numeroDecimalDouble;
-    }
-
- */
-
 
 }
 

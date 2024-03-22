@@ -1,5 +1,7 @@
 package me.spenades.mytravelwallet.adapters;
 
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,17 +51,22 @@ public class ResolucionesAdapters extends RecyclerView.Adapter<ResolucionesAdapt
         List<List> solucionFinal = listaDeResoluciones.get(i);
 
         // Limpiamos el importe
-        Operaciones numeroDecimal = new Operaciones();
+        Operaciones operaciones = new Operaciones();
         String numeroString = String.valueOf(solucionFinal.get(4));
         double numeroDouble = Double.parseDouble(numeroString);
         double numeroAbs = Math.abs(numeroDouble);
-        String numeroLimpio = numeroDecimal.dosDecimalesDoubleString(numeroAbs);
-        String solucion = new String();
+        String numeroLimpio = operaciones.dosDecimalesDoubleString(numeroAbs);
+        Spanned solucion;
+
 
         // Componemos la frase a Mostrar
-        solucion = ("· " + solucionFinal.get(1) + " debe " + numeroLimpio + "€" + " a " + solucionFinal.get(3));
+        //nombres en negrita  https://es.stackoverflow.com/questions/109343/texto-en-negrita-desde-un-json/109404
+        // en color http://www.uv.es/jac/guia/texcolej.htm
+        //
+        solucion = Html.fromHtml("· <b>" + solucionFinal.get(1) + "</b> debe <FONT COLOR=#E91E63>" + numeroLimpio + "€</FONT>" + " a <b>" + solucionFinal.get(3) + "</b>");
 
-        myViewHolder.tvResolver.setText(String.valueOf(solucion));
+
+        myViewHolder.tvResolver.setText(solucion);
     }
 
 
