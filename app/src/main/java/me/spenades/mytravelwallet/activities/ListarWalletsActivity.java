@@ -214,7 +214,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
     }
 
-
+/*
     ///Cierra la app al cerrar
     @Override
     protected void onDestroy() {
@@ -222,6 +222,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
         System.exit(0);
 
     }
-
+*/
 }
 
