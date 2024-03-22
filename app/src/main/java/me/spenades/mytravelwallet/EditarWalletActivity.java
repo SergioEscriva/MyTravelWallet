@@ -1,11 +1,16 @@
 package me.spenades.mytravelwallet;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -318,13 +323,14 @@ public class EditarWalletActivity extends AppCompatActivity {
                 }
             }
         });
-
+        // Listener de los Miembros.
         recyclerViewMiembros.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewMiembros,
                 new RecyclerTouchListener.ClickListener() {
 
                     @Override
                     public void onClick(View view, int position) {
-
+                        Miembro miembro = listaDeMiembros.get(position);
+                        cambioDeNombre(miembro);
                     }
 
                     // Eliminamos Miembro si no tiene deudas
@@ -340,7 +346,6 @@ public class EditarWalletActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         borrarParticipante(miembro);
-
                                         //finish();
                                     }
                                 })
@@ -470,5 +475,58 @@ public class EditarWalletActivity extends AppCompatActivity {
                 .create();
         refrescarListaDeWallets();
         dialog.show();
+    }
+
+    // Creamos una ventana para escibir el nuevo nombre del miembro.
+//https://stackoverflow.com/questions/10903754/input-text-dialog-android
+    public void cambioDeNombre(Miembro miembro) {
+        final EditText nuevoNombre = new EditText(this);
+
+// Nombre a mostrar de forma predeterminada.
+        nuevoNombre.setHint(miembro.getNombre());
+        nuevoNombre.requestFocus();
+        nuevoNombre.selectAll();
+
+        new AlertDialog.Builder(this)
+                .setTitle("Editar Nombre Miembro")
+                .setMessage("Escribe el nuevo Nombre")
+                .setView(nuevoNombre)
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String nombreNuevo = nuevoNombre.getText().toString();
+                        // Si devuelve nombre vacio se pone el anterior.
+                        if (nombreNuevo.equals("")) {
+                            nombreNuevo = miembro.getNombre();
+                        }
+
+                        // Formateamos el nuevo nombre
+                        Usuario usuarioEditado = new Usuario(miembro.getUserId());
+                        usuarioEditado.setNombre(nombreNuevo);
+                        usuarioEditado.setApodo(nombreNuevo);
+                        usuarioAppController.guardarCambios(usuarioEditado);
+                        miembrosAdapters.setListaDeMiembros(listaDeMiembros);
+                        miembrosAdapters.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .show();
+    }
+
+    // Cierra el teclado
+    // https://umhandroid.momrach.es/ocultar-el-teclado-virtual/
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    // Abre el teclado
+    // https://umhandroid.momrach.es/ocultar-el-teclado-virtual/
+    private void visibleKeyboard(EditText editText) {
+        editText.requestFocus(); //Asegurar que editText tiene focus
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
     }
 }
