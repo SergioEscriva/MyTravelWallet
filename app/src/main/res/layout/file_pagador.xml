@@ -38,10 +38,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:ems="10"
         android:text="aPagado"
-        android:textSize="10sp"
+        android:textAlignment="textEnd"
+        android:textColor="#C7C7C7"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
     <View
         android:id="@+id/dividerResu"

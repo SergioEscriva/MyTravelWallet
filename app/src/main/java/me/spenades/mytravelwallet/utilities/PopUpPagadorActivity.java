@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Map;
 
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.activities.AgregarTransaccionActivity;
@@ -26,16 +27,17 @@ public class PopUpPagadorActivity extends PopupWindow {
     private static TextView etNombrePagador;
     public String nombrePagador;
     public String pagadorId;
+    public double importePagado;
     private RecyclerView recyclerViewPagadores;
     private PagadoresAdapters pagadoresAdapters;
 
 
-    public void showPopupWindow(final View view, List<Miembro> listaDeMiembros,
-                                String activity) {
+    public void showPopupWindow(final View view, List<Miembro> listaDeMiembros, Map<Long, Double> listaImportePagado, String activity) {
 
 
         this.nombrePagador = nombrePagador;
         this.pagadorId = pagadorId;
+        this.importePagado = importePagado;
 
         //Crea View con inflater
         LayoutInflater inflater =
@@ -58,13 +60,13 @@ public class PopUpPagadorActivity extends PopupWindow {
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
 
-        //Initialize the elements of our window, install the handler
+        //inicializamos los elementos
         recyclerViewPagadores = popupView.findViewById(R.id.recyclerViewGastos);
         etNombrePagador = activityTransactionView.findViewById(R.id.etNombrePagador);
         String pagador = etNombrePagador.getText().toString();
 
         // listaDeMiembros en el popupView
-        pagadoresAdapters = new PagadoresAdapters(listaDeMiembros);
+        pagadoresAdapters = new PagadoresAdapters(listaDeMiembros, listaImportePagado);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(popupView.getContext());
         recyclerViewPagadores.setLayoutManager(mLayoutManager);

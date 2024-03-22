@@ -1,16 +1,10 @@
-package me.spenades.mytravelwallet;
+package me.spenades.mytravelwallet.activities;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -28,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import me.spenades.mytravelwallet.MainActivity;
+import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.MiembrosAdapters;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
 import me.spenades.mytravelwallet.controllers.MiembroWalletController;
@@ -440,7 +436,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         DeudaUtility deudaUtility = new DeudaUtility();
         deudaUtility.sumaTransacciones(listaDeTransacciones, listaDeMiembros);
         Map<Long, Double> resolucionDeuda = deudaUtility.transacionesGastosTotales();
-        //System.out.println(deudaUtility.transacionesGastosTotales());
+
         // Borramos si coincide el id y tenga importe 0
         Double importe = resolucionDeuda.get(miembroId);
         if (importe == 0.0 && listaDeMiembros.size() > 2) {

@@ -41,7 +41,7 @@ public class DemoController {
         //db.execSQL(String.format("INSERT INTO 'main'.'usuario' ('id', 'nombre', 'apodo', 'pin') VALUES ('1', 'Usuario1', 'Usuario1', '0000')"));
 
         db.execSQL(String.format("INSERT INTO 'main'.'wallet' ('id', 'nombre', 'descripcion', 'propietario', 'compartir') VALUES ('1', " +
-                "'WalletDemo', " +
+                "'Demo', " +
                 "'Wallet de Prueba', '1', '1')"));
 
         db.execSQL(String.format("INSERT INTO 'main'.'wallet_usuario' ('id', 'wallet_id', 'usuario_id') VALUES ('3', '1', '3')"));
