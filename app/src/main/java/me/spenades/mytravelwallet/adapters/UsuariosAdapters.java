@@ -1,11 +1,12 @@
 package me.spenades.mytravelwallet.adapters;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class UsuariosAdapters extends RecyclerView.Adapter<UsuariosAdapters.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+
         // Obtener la de nuestra lista gracias al índice i
         Usuario usuario = listaDeUsuarios.get(i);
 

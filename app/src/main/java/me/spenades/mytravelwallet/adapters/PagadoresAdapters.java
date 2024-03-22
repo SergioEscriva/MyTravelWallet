@@ -13,6 +13,7 @@ import java.util.Map;
 
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.models.Miembro;
+import me.spenades.mytravelwallet.utilities.Operaciones;
 
 
 public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.MyViewHolder> {
@@ -43,6 +44,7 @@ public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.My
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+        Operaciones operaciones = new Operaciones();
         // Obtener la de nuestra lista gracias al índice i
         Miembro miembro = listaDeMiembros.get(i);
 
@@ -50,11 +52,11 @@ public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.My
 
         // Obtener los datos de la lista
         String nombre = miembro.getNombre();
-        double importe = importes;
+        String importe = operaciones.dosDecimalesDoubleString(importes);
 
         // Y poner a los TextView los datos con setText
         myViewHolder.cbPagador.setText(String.valueOf(nombre));
-        myViewHolder.cbAPagado.setText("lleva pagado: " + String.valueOf(importe) + "€");
+        myViewHolder.cbAPagado.setText("lleva pagado: " + importe + "€");
     }
 
 

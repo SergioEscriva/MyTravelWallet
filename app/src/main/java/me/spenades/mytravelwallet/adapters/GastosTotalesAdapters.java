@@ -1,6 +1,7 @@
 package me.spenades.mytravelwallet.adapters;
 
 
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,17 +20,17 @@ import me.spenades.mytravelwallet.models.Miembro;
 public class GastosTotalesAdapters extends RecyclerView.Adapter<GastosTotalesAdapters.MyViewHolder> {
 
 
-    private ArrayList<String> listaDeGastos;
+    private ArrayList<Spanned> listaDeGastos;
     private List<Miembro> listaDeMiembros;
 
 
-    public GastosTotalesAdapters(ArrayList<String> listaDeGastos, List<Miembro> listaDeMiembros) {
+    public GastosTotalesAdapters(ArrayList<Spanned> listaDeGastos, List<Miembro> listaDeMiembros) {
         this.listaDeGastos = listaDeGastos;
         this.listaDeMiembros = listaDeMiembros;
     }
 
 
-    public void setListaDeResoluciones(ArrayList<String> listaDeGastos, List<Miembro> listaDeMiembros) {
+    public void setListaDeResoluciones(ArrayList<Spanned> listaDeGastos, List<Miembro> listaDeMiembros) {
         this.listaDeGastos = listaDeGastos;
         this.listaDeMiembros = listaDeMiembros;
     }
@@ -51,7 +52,7 @@ public class GastosTotalesAdapters extends RecyclerView.Adapter<GastosTotalesAda
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        String miembroGasto = listaDeGastos.get(i);
+        Spanned miembroGasto = listaDeGastos.get(i);
 
         myViewHolder.tvGastosTotales.setText(miembroGasto);
     }

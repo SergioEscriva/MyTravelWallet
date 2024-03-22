@@ -24,7 +24,7 @@
                 android:contentDescription="Deudas"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <View
                 android:id="@+id/dividerResu"

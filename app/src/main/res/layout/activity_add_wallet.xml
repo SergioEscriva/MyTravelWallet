@@ -65,7 +65,7 @@
         tools:visibility="invisible" />
 
     <CheckBox
-        android:id="@+id/checkBox_Compartir"
+        android:id="@+id/cbCompartir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Compartir"
@@ -98,7 +98,7 @@
         android:backgroundTint="#A4A1A1"
         android:text="Guardar"
         app:layout_constraintStart_toStartOf="@id/clParticipan"
-        app:layout_constraintTop_toBottomOf="@id/checkBox_Compartir" />
+        app:layout_constraintTop_toBottomOf="@id/cbCompartir" />
 
 
     <Button
@@ -113,7 +113,7 @@
         android:contentDescription="Eliminar solo si están saldadas las cuentas."
         android:text="Eliminar"
         app:layout_constraintLeft_toRightOf="@id/btn_agregar_wallet"
-        app:layout_constraintTop_toBottomOf="@id/checkBox_Compartir" />
+        app:layout_constraintTop_toBottomOf="@id/cbCompartir" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_cancelar_nuevo_wallet"

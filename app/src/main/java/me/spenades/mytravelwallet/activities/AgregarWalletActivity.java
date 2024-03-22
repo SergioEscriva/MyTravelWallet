@@ -22,7 +22,6 @@ import java.util.List;
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.MiembrosAdapters;
 import me.spenades.mytravelwallet.controllers.MiembroWalletController;
-import me.spenades.mytravelwallet.controllers.UsuarioAppController;
 import me.spenades.mytravelwallet.controllers.WalletController;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Wallet;
@@ -32,13 +31,12 @@ public class AgregarWalletActivity extends AppCompatActivity {
     private List<Miembro> listaDeMiembros;
     private MiembrosAdapters miembrosAdapters;
     private WalletController walletController;
-    private UsuarioAppController usuarioAppController;
+
     private MiembroWalletController miembroWalletController;
     private RecyclerView recyclerViewMiembros;
-    private Button btnAgregarWallet, btnAgregarUsuario;
-    private EditText etNombre, etDescripcion, etPropietarioId, etAddMiembro, etWaletId;
+    private Button btnAgregarWallet;
+    private EditText etNombre, etDescripcion, etPropietarioId, etWaletId;
     private FloatingActionButton btnCancelarNuevoWallet;
-    private long walletId;
     private long userId;
 
 
@@ -62,7 +60,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
         // Crear el controlador
         walletController = new WalletController(AgregarWalletActivity.this);
         miembroWalletController = new MiembroWalletController(AgregarWalletActivity.this);
-        usuarioAppController = new UsuarioAppController(AgregarWalletActivity.this);
+
 
         // Instanciar vistas
         recyclerViewMiembros = findViewById(R.id.recyclerViewMiembros);
@@ -70,12 +68,10 @@ public class AgregarWalletActivity extends AppCompatActivity {
         etNombre = findViewById(R.id.etNombre);
         etDescripcion = findViewById(R.id.etDescripcion);
         etPropietarioId = findViewById(R.id.etPropietarioId);
-        etAddMiembro = findViewById(R.id.etAddMiembro);
         etWaletId = findViewById(R.id.etWalletId);
-        CheckBox checkBoxCompartir = findViewById(R.id.checkBox_Compartir);
+        CheckBox checkBoxCompartir = findViewById(R.id.cbCompartir);
         btnAgregarWallet = findViewById(R.id.btn_agregar_wallet);
         btnCancelarNuevoWallet = findViewById(R.id.btn_cancelar_nuevo_wallet);
-        btnAgregarUsuario = findViewById(R.id.btnAgregarMiembro);
 
         // Añade nuestro nombre de usuario rescatado del inicio
         etPropietarioId.setText(String.valueOf(userId));

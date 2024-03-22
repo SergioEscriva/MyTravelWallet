@@ -53,7 +53,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
     private MiembroWalletController miembroWalletController;
     private CategoriaController categoriaController;
     private ParticipanAdapters participanAdapters;
-    private Operaciones operaciones;
     private List<Miembro> listaDeMiembros;
     private List<Categoria> listaDeCategorias;
     private RecyclerView recyclerViewParticipan;
@@ -79,7 +78,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         transaccionController = new TransaccionController(AgregarTransaccionActivity.this);
         miembroWalletController = new MiembroWalletController(AgregarTransaccionActivity.this);
         categoriaController = new CategoriaController(AgregarTransaccionActivity.this);
-        operaciones = new Operaciones();
 
         // Ahora declaramos las vistas
         recyclerViewParticipan = findViewById(R.id.recyclerViewParticipan);
@@ -141,7 +139,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {

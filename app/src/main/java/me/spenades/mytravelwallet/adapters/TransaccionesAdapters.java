@@ -1,11 +1,12 @@
 package me.spenades.mytravelwallet.adapters;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -38,19 +39,20 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+
         // Obtener  de nuestra lista gracias al índice i
         Transaccion transaccion = listaDeTransaccions.get(i);
-        // Obtener los datos de la lista
 
+        // Obtener los datos de la lista
         String descripcionTransaccion = transaccion.getDescripcion();
         String importeTransaccion = transaccion.getImporte();
         long pagadorIdTransaccion = transaccion.getPagadorId();
         String nombrePagadorTransaccion = transaccion.getNombrePagador();
+
         //String miembrosTransaccion = transaccion.getMiembros();
         String categoriaTransaccion = transaccion.getCategoria();
         String fechaTransaccion = transaccion.getFecha();
         long transaccionId = transaccion.getId();
-
 
         // Y poner a los TextView los datos con setText
         myViewHolder.tvDescripcion.setText(descripcionTransaccion);
@@ -71,7 +73,7 @@ public class TransaccionesAdapters extends RecyclerView.Adapter<TransaccionesAda
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvDescripcion, tvImporte, tvNombrePagador, tvPagadorId, tvMiembros, tvCategoria, tvFecha, tvTransaccionId;
+        TextView tvDescripcion, tvImporte, tvNombrePagador, tvPagadorId, tvCategoria, tvFecha, tvTransaccionId;
 
 
         MyViewHolder(View itemView) {

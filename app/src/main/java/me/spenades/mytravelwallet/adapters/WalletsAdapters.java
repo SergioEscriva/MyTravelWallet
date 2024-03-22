@@ -1,11 +1,13 @@
 package me.spenades.mytravelwallet.adapters;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,7 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+
         // Obtener la de nuestra lista gracias al índice i
         Wallet wallet = listaDeWallets.get(i);
 
@@ -82,8 +85,8 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvNombre, tvDescripcion, tvPropietarioId, tvWalletId, tvImporteW;
-        CheckBox checkbox_Compartir;
+        TextView tvNombre, tvDescripcion, tvWalletId, tvImporteW;
+        CheckBox cbCompartir;
 
 
         MyViewHolder(View itemView) {
@@ -91,8 +94,7 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
             this.tvNombre = itemView.findViewById(R.id.tvNombreWallet);
             this.tvDescripcion = itemView.findViewById(R.id.tvDescripcionWallet);
             this.tvWalletId = itemView.findViewById(R.id.tvWalletId);
-            //this.tvPropietarioId = itemView.findViewById(R.id.tvPropietarioId);
-            this.checkbox_Compartir = (CheckBox) itemView.findViewById(R.id.checkBox_Compartir);
+            this.cbCompartir = itemView.findViewById(R.id.cbCompartir);
             this.tvImporteW = itemView.findViewById(R.id.tvImporteW);
         }
     }

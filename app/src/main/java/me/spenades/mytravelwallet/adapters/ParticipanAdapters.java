@@ -61,10 +61,7 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
         Miembro participan = listaDeMiembros.get(i);
 
         // Obtener los datos de la lista
-        long walletId = participan.getWalletId();
         long userId = participan.getUserId();
-
-        //long miembroId = participan.getId();
         String nombre = participan.getNombre();
         boolean paticipaOno = participaExiste(userId);
         myViewHolder.cbParticipa.setText(nombre);
@@ -162,7 +159,7 @@ public class ParticipanAdapters extends RecyclerView.Adapter<ParticipanAdapters.
 
         MyViewHolder(View itemView) {
             super(itemView);
-            this.cbParticipa = (CheckBox) itemView.findViewById(R.id.cbParticipa);
+            this.cbParticipa = itemView.findViewById(R.id.cbParticipa);
             this.tvDivison = itemView.findViewById(R.id.tvDivision);
             this.etTransaccionImporte = itemView.findViewById(R.id.etTransaccionImporte);
         }

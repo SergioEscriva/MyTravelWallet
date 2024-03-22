@@ -99,7 +99,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         etPropietarioId = findViewById(R.id.etPropietarioId);
         etAddMiembro = findViewById(R.id.etAddMiembro);
         etWalletId = findViewById(R.id.etWalletId);
-        CheckBox checkBoxCompartir = findViewById(R.id.checkBox_Compartir);
+        CheckBox checkBoxCompartir = findViewById(R.id.cbCompartir);
         btnGuardarCambios = findViewById(R.id.btn_agregar_wallet);
         btnCancelarEdicion = findViewById(R.id.btn_cancelar_nuevo_wallet);
         btnAgregarMiembro = findViewById(R.id.btnAgregarMiembro);

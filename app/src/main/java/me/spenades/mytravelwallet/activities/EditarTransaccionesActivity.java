@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,6 @@ import me.spenades.mytravelwallet.controllers.CategoriaController;
 import me.spenades.mytravelwallet.controllers.MiembroWalletController;
 import me.spenades.mytravelwallet.controllers.ParticipaTransaccionController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
-import me.spenades.mytravelwallet.controllers.UsuarioAppController;
 import me.spenades.mytravelwallet.models.Categoria;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
@@ -40,13 +38,11 @@ import me.spenades.mytravelwallet.utilities.DatePickerFragment;
 import me.spenades.mytravelwallet.utilities.DeudaUtility;
 import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.PopUpPagadorActivity;
-import me.spenades.mytravelwallet.utilities.UsuarioUtility;
 
 public class EditarTransaccionesActivity extends AppCompatActivity {
 
     private static EditText etPagadorId, etNombrePagador;
-    private static String nuevosParticipan;
-    private static String importeADividir;
+    private static String nuevosParticipan, importeADividir;
     private static EditText etImporte;
     private static TextView tvDivision;
     public PopUpPagadorActivity popup;
@@ -60,15 +56,11 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     private ParticipaTransaccionController participaTransaccionController;
     private CategoriaController categoriaController;
     private ParticipanAdapters participanAdapters;
-    private Operaciones operaciones;
     private Transaccion transaccion;
-    private UsuarioUtility usuarioUtility;
-    private UsuarioAppController usuarioAppController;
     private List<Miembro> listaDeMiembros;
     private List<Miembro> listaDeParticipan;
     private List<Categoria> listaDeCategorias;
-    // private String[] categorias;
-    private RecyclerView recyclerViewPagadores, recyclerViewParticipan;
+    private RecyclerView recyclerViewParticipan;
     private String walletName;
     private long walletId;
     private long transaccionId;
@@ -98,10 +90,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         transaccionController = new TransaccionController(EditarTransaccionesActivity.this);
         miembroWalletController = new MiembroWalletController(EditarTransaccionesActivity.this);
         participaTransaccionController = new ParticipaTransaccionController(EditarTransaccionesActivity.this);
-        usuarioAppController = new UsuarioAppController(EditarTransaccionesActivity.this);
         categoriaController = new CategoriaController(EditarTransaccionesActivity.this);
-        usuarioUtility = new UsuarioUtility();
-        operaciones = new Operaciones();
 
         // Ahora declaramos las vistas
         //recyclerViewPagadores = findViewById(R.id.recyclerViewParticipan);
@@ -181,7 +170,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
             }
 
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String nuevoImporte = etImporte.getText().toString();
@@ -239,6 +227,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                Operaciones operaciones = new Operaciones();
                 // Remover previos errores si existen
                 etDescripcion.setError(null);
                 etImporte.setError(null);
@@ -253,7 +242,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 String nuevosMiembros = nuevosParticipan;
                 String nuevaCategoria = etCategoria.getText().toString();
                 String nuevaFecha = etTransaccionFecha.getText().toString();
-                String nuevoPagador = etNombrePagador.getText().toString();
                 String nuevoPagadorId = etPagadorId.getText().toString();
 
                 if ("".equals(nuevaDescripcion)) {
@@ -286,7 +274,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 }
 
                 //limpiamos importe introducido 2 decimales, etc
-                Operaciones operaciones = new Operaciones();
+
                 String nuevoImporteLimpio = operaciones.dosDecimalesStringString(nuevoImporte);
 
                 // Conversión de nombre de pagador a id para DB
@@ -357,9 +345,9 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     // Rellenamos el importe a pagar por cada participante al añadir transacción
     // variables static para poder traerlo aquí.
     public void participanImporte() {
+        Operaciones operaciones = new Operaciones();
         // Recuperamos el importe y lo fijamos para que no cambie.
         final String importeADividir = etImporte.getText().toString();
-        this.importeADividir = importeADividir;
         if (importeADividir == null) this.importeADividir = "0";
         double importeADividirD = Double.parseDouble(importeADividir);
 
@@ -368,7 +356,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         double resultado = importeADividirD / cantidadParticipa;
 
-        String resultadoLimpio = dosDecimalesDoubleString(resultado);
+        String resultadoLimpio = operaciones.dosDecimalesDoubleString(resultado);
 
         tvDivision.setText("Cada participante deberá pagar: " + resultadoLimpio + "€");
 
@@ -410,15 +398,6 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
             categoriaNuevaId = categoriaIdActual.get(0).getId();
         }
         return categoriaNuevaId;
-    }
-
-    //TODO LLEVAR A OPERACIONES Y QUE FUNCIONE
-    public String dosDecimalesDoubleString(double doubleNumeroString) {
-        DecimalFormat format = new DecimalFormat();
-        format.setMaximumFractionDigits(2); //Define 2 decimales.
-        String numeroString = format.format(doubleNumeroString);
-        String numeroDecimal = numeroString.replaceAll(",", "."); //cambia la coma por un punto
-        return numeroDecimal;
     }
 
     // Para rellenar en le popup de pagadores, info de cuanto han pagado ya.

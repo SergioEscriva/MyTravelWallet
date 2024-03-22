@@ -1,11 +1,12 @@
 package me.spenades.mytravelwallet.adapters;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -42,14 +43,11 @@ public class MiembrosAdapters extends RecyclerView.Adapter<MiembrosAdapters.MyVi
         Miembro miembro = listaDeMiembros.get(i);
 
         // Obtener los datos de la lista
-        long walletId = miembro.getWalletId();
-        long userId = miembro.getUserId();
-        long MiembroId = miembro.getId();
         String nombre = miembro.getNombre();
 
         // Y poner a los TextView los datos con setText
         myViewHolder.tvMiembro.setText(String.valueOf(nombre));
-        // myViewHolder.tvApodo.setText(apodoMiembro);
+
 
     }
 
