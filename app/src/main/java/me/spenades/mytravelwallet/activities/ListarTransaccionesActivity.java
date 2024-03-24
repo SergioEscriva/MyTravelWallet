@@ -117,8 +117,20 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         refrescarListas();
         ordenar(1);
 
+        // Listener de Saldar Deudas al pulsar el imorte total
+        tvTotal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ListarTransaccionesActivity.this,
+                        ResolverDeudaActivity.class);
+                intent.putExtra("walletId", String.valueOf(walletId));
+                intent.putExtra("info", info);
+                startActivity(intent);
+            }
+        });
         // Para el inicio se pone en modo ascendente
         // Listener Ordenar ascendente y descendente.
+
 
         tvOrImporte.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -351,7 +363,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(ListarTransaccionesActivity.this)
                         .setTitle("Acerca de")
-                        .setMessage("My Wallet Travel, una aplicación fin proyecto DAM para Universae")
+                        .setMessage("My Travel Wallet, una aplicación fin proyecto DAM para Universae")
                         .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
 
                             @Override
