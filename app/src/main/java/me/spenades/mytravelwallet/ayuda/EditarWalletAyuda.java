@@ -14,7 +14,7 @@ public class EditarWalletAyuda extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ayuda_lista_wallet);
+        setContentView(R.layout.ayuda_editar_wallet);
 
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
@@ -29,9 +29,9 @@ public class EditarWalletAyuda extends AppCompatActivity {
             return;
         }
 
-        ImageView ivListaWallets = findViewById(R.id.ivListaWallets);
+        ImageView ivEditarWallets = findViewById(R.id.ivEditarWallets);
 
-        ivListaWallets.setOnClickListener(new View.OnClickListener() {
+        ivEditarWallets.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

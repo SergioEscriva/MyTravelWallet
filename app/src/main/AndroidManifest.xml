@@ -34,6 +34,9 @@
         <activity android:name=".activities.ResolverDeudaActivity" />
         <activity android:name=".utilities.PopUpPagadorActivity" />
         <activity android:name=".ayuda.ListaWalletsAyuda" />
+        <activity android:name=".ayuda.SaldarDeudasAyuda" />
+        <activity android:name=".ayuda.EditarWalletAyuda" />
+        <activity android:name=".ayuda.ListaTransaccionesAyuda" />
     </application>
 
 </manifest>

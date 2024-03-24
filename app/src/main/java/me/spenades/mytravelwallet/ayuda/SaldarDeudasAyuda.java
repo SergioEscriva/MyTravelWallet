@@ -15,7 +15,7 @@ public class SaldarDeudasAyuda extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ayuda_lista_wallet);
+        setContentView(R.layout.ayuda_saldar_deudas);
 
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
@@ -30,9 +30,9 @@ public class SaldarDeudasAyuda extends AppCompatActivity {
             return;
         }
 
-        ImageView ivListaWallets = findViewById(R.id.ivListaWallets);
+        ImageView ivSaldarDeudas = findViewById(R.id.ivSaldarDeudas);
 
-        ivListaWallets.setOnClickListener(new View.OnClickListener() {
+        ivSaldarDeudas.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

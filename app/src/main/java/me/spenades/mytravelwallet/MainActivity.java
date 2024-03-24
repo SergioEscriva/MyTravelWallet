@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         String usuarioActivo = usuario.getNombre();
         long usuarioIdActivo = usuario.getId();
 
-        if (info == 1) {
+        if (info == 0) {
             Intent intent = new Intent(MainActivity.this, ListaWalletsAyuda.class);
             intent.putExtra("usuarioActivo", usuarioActivo);
             intent.putExtra("usuarioIdActivo", usuarioIdActivo);
