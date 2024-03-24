@@ -63,28 +63,6 @@
 
         </ScrollView>
 
-        <FrameLayout
-            android:id="@+id/flInfoWallets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#E8B0ACAC"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView3">
-
-            <TextView
-                android:id="@+id/tvInfoWallets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tInfoWallets"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
-        </FrameLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

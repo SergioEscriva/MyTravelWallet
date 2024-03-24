@@ -16,28 +16,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <FrameLayout
-            android:id="@+id/flInfoTransacciones"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/scrollView2"
-            android:background="#E8B0ACAC"
-            android:visibility="invisible"
-            tools:layout_conversion_absoluteHeight="255dp"
-            tools:layout_conversion_absoluteWidth="371dp">
-
-            <TextView
-                android:id="@+id/tvInfoTransacciones"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/tInfoTransacciones"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textIsSelectable="false"
-                android:visibility="visible" />
-        </FrameLayout>
-
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"

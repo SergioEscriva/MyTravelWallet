@@ -33,6 +33,7 @@
         <activity android:name=".activities.EditarWalletActivity" />
         <activity android:name=".activities.ResolverDeudaActivity" />
         <activity android:name=".utilities.PopUpPagadorActivity" />
+        <activity android:name=".ayuda.ListaWalletsAyuda" />
     </application>
 
 </manifest>

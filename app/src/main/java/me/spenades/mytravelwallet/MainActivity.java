@@ -15,6 +15,7 @@ import java.util.List;
 
 import me.spenades.mytravelwallet.activities.ListarWalletsActivity;
 import me.spenades.mytravelwallet.adapters.UsuariosAdapters;
+import me.spenades.mytravelwallet.ayuda.ListaWalletsAyuda;
 import me.spenades.mytravelwallet.controllers.DemoController;
 import me.spenades.mytravelwallet.controllers.UsuarioAppController;
 import me.spenades.mytravelwallet.models.Usuario;
@@ -47,17 +48,26 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void continuar(int info) {
+
         //cambiamos de actividad
         refrescarListaDeUsuarios();
         final Usuario usuario = listaDeUsuarios.get(0);
         String usuarioActivo = usuario.getNombre();
         long usuarioIdActivo = usuario.getId();
 
-        Intent intent = new Intent(MainActivity.this, ListarWalletsActivity.class);
-        intent.putExtra("usuarioActivo", usuarioActivo);
-        intent.putExtra("usuarioIdActivo", usuarioIdActivo);
-        intent.putExtra("info", info);
-        startActivity(intent);
+        if (info == 1) {
+            Intent intent = new Intent(MainActivity.this, ListaWalletsAyuda.class);
+            intent.putExtra("usuarioActivo", usuarioActivo);
+            intent.putExtra("usuarioIdActivo", usuarioIdActivo);
+            intent.putExtra("info", info);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(MainActivity.this, ListarWalletsActivity.class);
+            intent.putExtra("usuarioActivo", usuarioActivo);
+            intent.putExtra("usuarioIdActivo", usuarioIdActivo);
+            intent.putExtra("info", info);
+            startActivity(intent);
+        }
     }
 
 
