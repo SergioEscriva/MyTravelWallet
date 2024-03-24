@@ -57,8 +57,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
         String usuarioActivo = extras.getString("usuarioActivo");
         // Se muestra sólo la primera vez la Ayuda
         int info = extras.getInt("info");
-        flInfoWallets = findViewById(R.id.flInfoWallets);
-        if (info == 1) flInfoWallets.setVisibility(View.VISIBLE);
 
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {

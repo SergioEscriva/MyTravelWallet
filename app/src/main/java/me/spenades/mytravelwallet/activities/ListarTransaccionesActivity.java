@@ -64,8 +64,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
 
         // Se muestra sólo la primera vez la Ayuda
         int info = extras.getInt("info");
-        flInfoTransacciones = findViewById(R.id.flInfoTransacciones);
-        if (info == 1) flInfoTransacciones.setVisibility(View.VISIBLE);
 
         // Recuperar datos que enviaron
         if (extras == null) {
@@ -261,6 +259,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         transaccionController.eliminarTransaccion(transaccionParaEliminar);
                                         refrescarListas();
+                                        ordenar(1);
                                     }
                                 })
                                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,8 +55,6 @@ public class ResolverDeudaActivity extends AppCompatActivity {
 
         // Se muestra sólo la primera vez la Ayuda
         int info = extras.getInt("info");
-        FrameLayout flInfoDeudas = findViewById(R.id.flInfoDeudas);
-        if (info == 1) flInfoDeudas.setVisibility(View.VISIBLE);
 
         // Definir nuestro controlador
         //walletController = new WalletController(ResolverDeudaActivity.this);
