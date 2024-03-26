@@ -15,7 +15,7 @@ import java.util.List;
 
 import me.spenades.mytravelwallet.activities.ListarWalletsActivity;
 import me.spenades.mytravelwallet.adapters.UsuariosAdapters;
-import me.spenades.mytravelwallet.ayuda.ListaWalletsAyuda;
+import me.spenades.mytravelwallet.controllers.AyudaAppController;
 import me.spenades.mytravelwallet.controllers.DemoController;
 import me.spenades.mytravelwallet.controllers.UsuarioAppController;
 import me.spenades.mytravelwallet.models.Usuario;
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private UsuarioAppController usuarioAppController;
     private DemoController demoController;
+    private AyudaAppController ayudaAppController;
     private List<Usuario> listaDeUsuarios;
     private UsuariosAdapters usuariosAdapters;
     private Button btnEmpezar;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         // Definir nuestro controlador
         usuarioAppController = new UsuarioAppController(MainActivity.this);
         demoController = new DemoController(MainActivity.this);
+        ayudaAppController = new AyudaAppController(MainActivity.this);
 
         // Instanciamos vistas
         etNombrePropietario = findViewById(R.id.etNombrePropietario);
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void continuar(int info) {
+    private void continuar() {
 
         //cambiamos de actividad
         refrescarListaDeUsuarios();
@@ -55,19 +57,11 @@ public class MainActivity extends AppCompatActivity {
         String usuarioActivo = usuario.getNombre();
         long usuarioIdActivo = usuario.getId();
 
-        if (info == 0) {
-            Intent intent = new Intent(MainActivity.this, ListaWalletsAyuda.class);
-            intent.putExtra("usuarioActivo", usuarioActivo);
-            intent.putExtra("usuarioIdActivo", usuarioIdActivo);
-            intent.putExtra("info", info);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(MainActivity.this, ListarWalletsActivity.class);
-            intent.putExtra("usuarioActivo", usuarioActivo);
-            intent.putExtra("usuarioIdActivo", usuarioIdActivo);
-            intent.putExtra("info", info);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(MainActivity.this, ListarWalletsActivity.class);
+        intent.putExtra("usuarioActivo", usuarioActivo);
+        intent.putExtra("usuarioIdActivo", usuarioIdActivo);
+        startActivity(intent);
+
     }
 
 
@@ -106,13 +100,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         } else {
             demoController.demoIncial();
-            continuar(1);
+            continuar();
         }
     }
 
 
-    public int usuarioExiste() {
-
+    public int primerInicio() {
         // Recuperamos lista de usuarios
         listaDeUsuarios = new ArrayList<>();
         usuariosAdapters = new UsuariosAdapters(listaDeUsuarios);
@@ -129,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void iniciar() {
-        int cantidadUsuarios = usuarioExiste();
+        int cantidadUsuarios = primerInicio();
 
         // Si la lista está vacía se insta a añadir usuario Propietario
         if (cantidadUsuarios == 0) {
@@ -144,9 +137,10 @@ public class MainActivity extends AppCompatActivity {
 
             });
         } else {
-            continuar(0);
+            continuar();
         }
     }
+
 }
 
 

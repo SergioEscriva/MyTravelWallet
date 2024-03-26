@@ -9,6 +9,7 @@ public class AyudanteBaseDeDatos extends SQLiteOpenHelper {
 
     private static final String
             NOMBRE_BASE_DE_DATOS = "walletsDB",
+            NOMBRE_TABLA_AYUDAS = "ayudas",
             NOMBRE_TABLA_WALLETS = "wallet",
             NOMBRE_TABLA_USUARIOS = "usuario",
             NOMBRE_TABLA_CATEGORIAS = "categoria",
@@ -44,6 +45,9 @@ public class AyudanteBaseDeDatos extends SQLiteOpenHelper {
 
         db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, categoria text unique)",
                 NOMBRE_TABLA_CATEGORIAS));
+
+        db.execSQL(String.format("CREATE TABLE IF NOT EXISTS %s(id integer primary key autoincrement, ayuda int, ayudaNombre text)",
+                NOMBRE_TABLA_AYUDAS));
 
     }
 

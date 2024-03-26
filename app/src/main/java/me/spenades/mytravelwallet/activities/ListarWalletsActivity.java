@@ -7,7 +7,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -22,8 +21,11 @@ import java.util.Map;
 
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
+import me.spenades.mytravelwallet.ayuda.ListaWalletsAyuda;
+import me.spenades.mytravelwallet.controllers.AyudaAppController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.WalletController;
+import me.spenades.mytravelwallet.models.Ayuda;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.models.Wallet;
 import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
@@ -39,7 +41,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
     private WalletController walletController;
     private TransaccionController transaccionController;
     private FloatingActionButton fabAgregarWallet;
-    private FrameLayout flInfoWallets;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +58,10 @@ public class ListarWalletsActivity extends AppCompatActivity {
         long usuarioIdActivo = extras.getInt("usuarioIdActivo");
         String usuarioActivo = extras.getString("usuarioActivo");
         // Se muestra sólo la primera vez la Ayuda
-        int info = extras.getInt("info");
 
         // Si no hay datos (cosa rara) salimos
         if (extras == null) {
-            finish();
+
             return;
         }
 
@@ -87,6 +88,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
         // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
         refrescarListaDeWallets();
+        ayuda();
 
         // Listener de los clicks en la lista WALLET.
         recyclerViewWallets.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewWallets,
@@ -106,8 +108,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
                         intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
                         intent.putExtra("walletId", Long.valueOf(walletId));
                         intent.putExtra("nombreWallet", String.valueOf(nombreWallet));
-                        intent.putExtra("info", info);
-
                         startActivity(intent);
 
                     }
@@ -120,7 +120,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
                         String nombreWallet = walletNameActivo.getNombre();
                         long walletId = walletNameActivo.getWalletId();
 
-
                         Intent intent = new Intent(ListarWalletsActivity.this, EditarWalletActivity.class);
                         intent.putExtra("nombreUsuario", String.valueOf(usuarioActivo));
                         intent.putExtra("usuarioId", String.valueOf(usuarioIdActivo));
@@ -130,7 +129,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
                         intent.putExtra("propietarioId",
                                 String.valueOf(walletNameActivo.getPropietarioId()));
                         intent.putExtra("checkCompartir", String.valueOf(walletNameActivo.getCompartir()));
-                        intent.putExtra("info", info);
                         startActivity(intent);
                     }
 
@@ -152,7 +150,6 @@ public class ListarWalletsActivity extends AppCompatActivity {
                 Intent intent = new Intent(ListarWalletsActivity.this, AgregarWalletActivity.class);
                 intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
                 intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
-                intent.putExtra("info", info);
                 startActivity(intent);
             }
         });
@@ -205,6 +202,25 @@ public class ListarWalletsActivity extends AppCompatActivity {
         walletsAdapters.setListaDeWallets(listaDeWallets, listaDeImportes);
         walletsAdapters.notifyDataSetChanged();
 
+    }
+
+    public void ayuda() {
+        // Abrir ayuda o no según su visualización previa.
+        AyudaAppController ayudaAppController;
+        ayudaAppController = new AyudaAppController(ListarWalletsActivity.this);
+        ArrayList<Ayuda> ayuda = ayudaAppController.obtenerAyuda();
+        Ayuda ayudas = ayuda.get(1);
+
+        // Recuperamos de la DB si se ha accedido ya a la ayuda o no.
+        if (ayudas.getAyuda() == 1) {
+            // Introducimos valor 0 para que no se muestre la ayuda la próxima vez.
+            Ayuda ayudasModificado = new Ayuda(0, ayudas.getAyudaNombre(), ayudas.getId());
+            ayudaAppController.modificarAyuda(ayudasModificado);
+            // Pasar a la actividad
+            Intent intent = new Intent(ListarWalletsActivity.this,
+                    ListaWalletsAyuda.class);
+            startActivity(intent);
+        }
     }
 
 /*

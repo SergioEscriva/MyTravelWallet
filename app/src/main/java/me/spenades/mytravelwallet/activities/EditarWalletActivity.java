@@ -26,11 +26,14 @@ import me.spenades.mytravelwallet.MainActivity;
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.MiembrosAdapters;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
+import me.spenades.mytravelwallet.ayuda.EditarWalletAyuda;
+import me.spenades.mytravelwallet.controllers.AyudaAppController;
 import me.spenades.mytravelwallet.controllers.MiembroWalletController;
 import me.spenades.mytravelwallet.controllers.ParticipaTransaccionController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.controllers.UsuarioAppController;
 import me.spenades.mytravelwallet.controllers.WalletController;
+import me.spenades.mytravelwallet.models.Ayuda;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.models.Usuario;
@@ -74,7 +77,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         boolean agregar = extras.getBoolean("agregar");
 
         if (extras == null) {
-            finish();
+
             return;
         }
 
@@ -114,7 +117,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         btnAgregarMiembro.setVisibility(View.VISIBLE);
         btnEliminarWallet.setVisibility(View.VISIBLE);
         // Si venimos de Agregar Wallet, eliminamos los botones de guardar y eliminar Wallet.
-        if (agregar == true) {
+        if (agregar) {
             btnEliminarWallet.setVisibility(View.INVISIBLE);
             btnGuardarCambios.setVisibility(View.INVISIBLE);
         }
@@ -122,7 +125,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         // Rellenar los EditText de la pantalla
         etNombre.setText(wallet.getNombre());
         etDescripcion.setText(wallet.getDescripcion());
-        etPropietarioId.setText(String.valueOf(propietario));
+        etPropietarioId.setText(propietario);
         etWalletId.setText(String.valueOf(walletId));
         int compartirWallet = wallet.getCompartir();
         boolean cbCompartirResultado = compartirWallet == 1;
@@ -152,6 +155,7 @@ public class EditarWalletActivity extends AppCompatActivity {
         recyclerViewMiembros.setLayoutManager(mLayoutManager);
         recyclerViewMiembros.setItemAnimator(new DefaultItemAnimator());
         recyclerViewMiembros.setAdapter(miembrosAdapters);
+        ayuda();
 
         // Cancelar o Salir de Editar
         btnCancelarEdicion.setOnClickListener(new View.OnClickListener() {
@@ -480,11 +484,11 @@ public class EditarWalletActivity extends AppCompatActivity {
     }
 
     // Creamos una ventana para escibir el nuevo nombre del miembro.
-//https://stackoverflow.com/questions/10903754/input-text-dialog-android
+    //https://stackoverflow.com/questions/10903754/input-text-dialog-android
     public void cambioDeNombre(Miembro miembro) {
         final EditText etNombre = new EditText(this);
 
-// Nombre a mostrar de forma predeterminada.
+        // Nombre a mostrar de forma predeterminada.
         etNombre.setHint(miembro.getNombre());
         etNombre.requestFocus();
         etNombre.selectAll();
@@ -518,6 +522,25 @@ public class EditarWalletActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    public void ayuda() {
+        // Abrir ayuda o no según su visualización previa.
+        AyudaAppController ayudaAppController;
+        ayudaAppController = new AyudaAppController(EditarWalletActivity.this);
+        ArrayList<Ayuda> ayuda = ayudaAppController.obtenerAyuda();
+        Ayuda ayudas = ayuda.get(2);
+
+        // Recuperamos de la DB si se ha accedido ya a la ayuda o no.
+        if (ayudas.getAyuda() == 1) {
+            // Introducimos valor 0 para que no se muestre la ayuda la próxima vez.
+            Ayuda ayudasModificado = new Ayuda(0, ayudas.getAyudaNombre(), ayudas.getId());
+            ayudaAppController.modificarAyuda(ayudasModificado);
+            // Pasar a la actividad
+            Intent intent = new Intent(EditarWalletActivity.this,
+                    EditarWalletAyuda.class);
+            startActivity(intent);
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package me.spenades.mytravelwallet.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.view.View;
@@ -20,8 +21,11 @@ import java.util.List;
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.GastosTotalesAdapters;
 import me.spenades.mytravelwallet.adapters.ResolucionesAdapters;
+import me.spenades.mytravelwallet.ayuda.SaldarDeudasAyuda;
+import me.spenades.mytravelwallet.controllers.AyudaAppController;
 import me.spenades.mytravelwallet.controllers.MiembroWalletController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
+import me.spenades.mytravelwallet.models.Ayuda;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.utilities.DeudaUtility;
@@ -91,6 +95,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         recyclerViewGastosTotales.setItemAnimator(new DefaultItemAnimator());
         recyclerViewGastosTotales.setAdapter(gastosTotalesAdapters);
         refrescarListas();
+        ayuda();
 
         tvTextoResolucion.setOnClickListener(v -> rlGastosTotales.setVisibility(View.VISIBLE));
 
@@ -173,6 +178,25 @@ public class ResolverDeudaActivity extends AppCompatActivity {
                 deuda, pagador, cobrador, 2,
                 nuevaFecha, walletId);
         return transaccionController.nuevaTransaccion(transaccionConNuevosCambios);
+    }
+
+    public void ayuda() {
+        // Abrir ayuda o no según su visualización previa.
+        AyudaAppController ayudaAppController;
+        ayudaAppController = new AyudaAppController(ResolverDeudaActivity.this);
+        ArrayList<Ayuda> ayuda = ayudaAppController.obtenerAyuda();
+        Ayuda ayudas = ayuda.get(4);
+
+        // Recuperamos de la DB si se ha accedido ya a la ayuda o no.
+        if (ayudas.getAyuda() == 1) {
+            // Introducimos valor 0 para que no se muestre la ayuda la próxima vez.
+            Ayuda ayudasModificado = new Ayuda(0, ayudas.getAyudaNombre(), ayudas.getId());
+            ayudaAppController.modificarAyuda(ayudasModificado);
+            // Pasar a la actividad
+            Intent intent = new Intent(ResolverDeudaActivity.this,
+                    SaldarDeudasAyuda.class);
+            startActivity(intent);
+        }
     }
 
 }

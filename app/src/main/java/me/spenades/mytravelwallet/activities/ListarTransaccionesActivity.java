@@ -7,7 +7,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,8 +23,11 @@ import java.util.List;
 
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.TransaccionesAdapters;
+import me.spenades.mytravelwallet.ayuda.ListaTransaccionesAyuda;
+import me.spenades.mytravelwallet.controllers.AyudaAppController;
 import me.spenades.mytravelwallet.controllers.MiembroWalletController;
 import me.spenades.mytravelwallet.controllers.TransaccionController;
+import me.spenades.mytravelwallet.models.Ayuda;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
 import me.spenades.mytravelwallet.utilities.DeudaUtility;
@@ -48,18 +50,18 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     private TextView tvWalletActivo, tvTotal, tvDeberiaPagar, tvMiembros;
     private TextView tvOrImporte, tvOrCategoria, tvOrPagador, tvOrFecha, tvOrDescripcion;
     private TextView tvOrImporteOr, tvOrCategoriaOr, tvOrPagadorOr, tvOrFechaOr, tvOrDescripcionOr;
-    private FrameLayout flInfoTransacciones;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_transactions);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        ayuda();
         Bundle extras = getIntent().getExtras();
         this.walletName = extras.getString("nombreWallet");
         this.walletId = extras.getLong("walletId");
         long usuarioIdActivo = extras.getInt("usuarioIdActivo");
-
         String usuarioActivo = extras.getString("usuarioActivo");
 
         // Se muestra sólo la primera vez la Ayuda
@@ -95,7 +97,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         tvOrFechaOr = findViewById(R.id.tvOrFechaOr);
         tvOrPagadorOr = findViewById(R.id.tvOrPagadorOr);
         tvOrDescripcionOr = findViewById(R.id.tvOrDescripcionOr);
-
 
         // Por defecto es una lista vacía,
         listaDeTransaccions = new ArrayList<>();
@@ -397,6 +398,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     public void refrescarListas() {
         fabResolverDeudas.setVisibility(View.VISIBLE);
         listaDeMiembros = miembroWalletController.obtenerMiembros(walletId);
+
         //ordenar(1);
 
     }
@@ -487,4 +489,24 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         tvOrPagadorOr.setVisibility(View.INVISIBLE);
         tvOrDescripcionOr.setVisibility(View.INVISIBLE);
     }
+
+    public void ayuda() {
+        // Abrir ayuda o no según su visualización previa.
+        AyudaAppController ayudaAppController;
+        ayudaAppController = new AyudaAppController(ListarTransaccionesActivity.this);
+        ArrayList<Ayuda> ayuda = ayudaAppController.obtenerAyuda();
+        Ayuda ayudas = ayuda.get(3);
+
+        // Recuperamos de la DB si se ha accedido ya a la ayuda o no.
+        if (ayudas.getAyuda() == 1) {
+            // Introducimos valor 0 para que no se muestre la ayuda la próxima vez.
+            Ayuda ayudasModificado = new Ayuda(0, ayudas.getAyudaNombre(), ayudas.getId());
+            ayudaAppController.modificarAyuda(ayudasModificado);
+            // Pasar a la actividad
+            Intent intent = new Intent(ListarTransaccionesActivity.this,
+                    ListaTransaccionesAyuda.class);
+            startActivity(intent);
+        }
+    }
+
 }
