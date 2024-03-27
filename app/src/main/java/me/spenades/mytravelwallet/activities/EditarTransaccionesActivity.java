@@ -319,22 +319,22 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
     // Esto es para pasar datos del PopUp aquí
     public TextView retornaNombrePagador() {
-        return this.etNombrePagador;
+        return etNombrePagador;
     }
 
 
     // Esto es para pasar datos del PopUp aquí
     public TextView retornaPagadorId() {
-        return this.etPagadorId;
+        return etPagadorId;
     }
 
 
     public String paticipanCheck(List<String> participaCheck) {
 
         // Convertimos de lista a String para poder guardar en DB
-        this.nuevosParticipan = String.join(",", participaCheck);
+        nuevosParticipan = String.join(",", participaCheck);
         participanImporte();
-        return this.nuevosParticipan;
+        return nuevosParticipan;
     }
 
 
@@ -344,7 +344,8 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         Operaciones operaciones = new Operaciones();
         // Recuperamos el importe y lo fijamos para que no cambie.
         final String importeADividir = etImporte.getText().toString();
-        if (importeADividir == null) this.importeADividir = "0";
+        if (importeADividir == null)
+            EditarTransaccionesActivity.importeADividir = "0";
         double importeADividirD = Double.parseDouble(importeADividir);
 
         // limpiamos el String que viene de comas y sacamos cuantos numero hay
@@ -408,4 +409,5 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
         return resolucionDeuda;
     }
+
 }

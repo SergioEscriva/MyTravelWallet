@@ -319,7 +319,7 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(ListarTransaccionesActivity.this)
                         .setTitle("Acerca de")
-                        .setMessage("Wallet Travel Universae\n\n")
+                        .setMessage("My Travel Wallet, una aplicación fin proyecto DAM para Universae")
                         .setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
 
                             @Override
@@ -391,14 +391,13 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         refrescarListas();
+        ordenar(1);
     }
 
     public void refrescarListas() {
         fabResolverDeudas.setVisibility(View.VISIBLE);
         listaDeMiembros = miembroWalletController.obtenerMiembros(walletId);
-
         //ordenar(1);
 
     }

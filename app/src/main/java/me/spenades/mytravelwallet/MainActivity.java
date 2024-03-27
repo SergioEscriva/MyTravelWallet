@@ -15,7 +15,6 @@ import java.util.List;
 
 import me.spenades.mytravelwallet.activities.ListarWalletsActivity;
 import me.spenades.mytravelwallet.adapters.UsuariosAdapters;
-import me.spenades.mytravelwallet.controllers.AyudaAppController;
 import me.spenades.mytravelwallet.controllers.DemoController;
 import me.spenades.mytravelwallet.controllers.UsuarioAppController;
 import me.spenades.mytravelwallet.models.Usuario;
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private UsuarioAppController usuarioAppController;
     private DemoController demoController;
-    private AyudaAppController ayudaAppController;
+
     private List<Usuario> listaDeUsuarios;
     private UsuariosAdapters usuariosAdapters;
     private Button btnEmpezar;
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         // Definir nuestro controlador
         usuarioAppController = new UsuarioAppController(MainActivity.this);
         demoController = new DemoController(MainActivity.this);
-        ayudaAppController = new AyudaAppController(MainActivity.this);
 
         // Instanciamos vistas
         etNombrePropietario = findViewById(R.id.etNombrePropietario);
@@ -67,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        iniciar(); //esto hace que vuelva a la lista de Wallets al ir pulsar atrás.
+        iniciar(); //esto hace que vuelva a la lista de Wallets al pulsar atrás.
         super.onResume();
 
     }
