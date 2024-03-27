@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import me.spenades.mytravelwallet.MainActivity;
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.MiembrosAdapters;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
@@ -163,7 +162,7 @@ public class EditarWalletActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EditarWalletActivity.this,
-                        MainActivity.class);
+                        ListarWalletsActivity.class);
                 startActivity(intent);
             }
         });
