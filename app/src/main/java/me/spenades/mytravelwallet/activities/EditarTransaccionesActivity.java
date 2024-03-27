@@ -56,6 +56,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     private CategoriaController categoriaController;
     private ParticipanAdapters participanAdapters;
     private Transaccion transaccion;
+    private Operaciones operaciones;
     private List<Miembro> listaDeMiembros;
     private List<Miembro> listaDeParticipan;
     private List<Categoria> listaDeCategorias;
@@ -90,6 +91,7 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
         miembroWalletController = new MiembroWalletController(EditarTransaccionesActivity.this);
         participaTransaccionController = new ParticipaTransaccionController(EditarTransaccionesActivity.this);
         categoriaController = new CategoriaController(EditarTransaccionesActivity.this);
+        operaciones = new Operaciones();
 
         // Ahora declaramos las vistas
         //recyclerViewPagadores = findViewById(R.id.recyclerViewParticipan);
@@ -169,9 +171,14 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String nuevoImporte = etImporte.getText().toString();
+                // Comprobamos que no esté vacío
                 if (etImporte == null) nuevoImporte = "0";
-                importeADividir = nuevoImporte;
-                participanImporte();
+                // Comrpobamos que sea un número sin nada más.
+                boolean esNumero = operaciones.esNumero(nuevoImporte);
+                if (esNumero) {
+                    importeADividir = nuevoImporte;
+                    participanImporte();
+                } else nuevoImporte = "0";
             }
 
 

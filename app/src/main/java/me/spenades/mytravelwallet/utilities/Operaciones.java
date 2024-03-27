@@ -24,7 +24,7 @@ public class Operaciones {
         listaTransacciones = new ArrayList<>();
         listaMiembros = new ArrayList<>();
         listaParticipan = new ArrayList<>();
-        walletId = 0l;
+        walletId = 0L;
 
     }
 
@@ -116,6 +116,19 @@ public class Operaciones {
         String fecha = day + "/" + month + "/" + year;
         return fecha;
     }
+
+    // validar si es un numero
+    public boolean esNumero(String numero) {
+        boolean resultado;
+        try {
+            Double.parseDouble(numero);
+            resultado = true;
+        } catch (NumberFormatException excepcion) {
+            resultado = false;
+        }
+        return resultado;
+    }
+
 /*
     // Cierra el teclado
     // https://umhandroid.momrach.es/ocultar-el-teclado-virtual/

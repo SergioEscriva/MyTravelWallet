@@ -142,11 +142,15 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String nuevoImporte = etImporte.getText().toString();
+                // Comprobamos que no esté vacío
                 if (etImporte == null) nuevoImporte = "0";
-                importeADividir = nuevoImporte;
-                participanImporte();
+                // Comrpobamos que sea un número sin nada más.
+                boolean esNumero = operaciones.esNumero(nuevoImporte);
+                if (esNumero) {
+                    importeADividir = nuevoImporte;
+                    participanImporte();
+                } else nuevoImporte = "0";
             }
-
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -300,22 +304,22 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
     // Esto es para pasar datos del PopUp aquí
     public TextView retornaNombrePagador() {
-        return this.etNombrePagador;
+        return etNombrePagador;
     }
 
 
     // Esto es para pasar datos del PopUp aquí
     public TextView retornaPagadorId() {
-        return this.etPagadorId;
+        return etPagadorId;
     }
 
 
     public String paticipanCheck(List<String> participaCheck) {
 
         // Convertimos de lista a String para poder guardar en DB
-        this.nuevosParticipan = String.join(",", participaCheck);
+        nuevosParticipan = String.join(",", participaCheck);
         participanImporte();
-        return this.nuevosParticipan;
+        return nuevosParticipan;
     }
 
 
