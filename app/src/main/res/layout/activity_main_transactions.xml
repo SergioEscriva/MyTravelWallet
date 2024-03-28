@@ -9,377 +9,396 @@
     android:paddingLeft="10dp"
     android:paddingRight="10sp">
 
-    <RelativeLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ConstraintLayoutTransac2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            tools:layout_conversion_absoluteHeight="717dp"
+            tools:layout_conversion_absoluteWidth="371dp">
+
+
+            <TextView
+                android:id="@+id/tvWalletActivo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wallet Activo"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textSize="35sp"
+                android:translationX="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="47dp"
+                tools:layout_conversion_absoluteWidth="204dp"
+                tools:layout_editor_absoluteX="30dp"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvWalletActivo"
+                tools:layout_conversion_absoluteHeight="717dp"
+                tools:layout_conversion_absoluteWidth="371dp" />
+
+            <TextView
+                android:id="@+id/tvOrImporte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="Importe"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2"
+                tools:layout_conversion_absoluteHeight="27dp"
+                tools:layout_conversion_absoluteWidth="71dp" />
+
+            <TextView
+                android:id="@+id/tvOrImporteOr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="·"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:tooltipText="ascendente"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/tvOrImporte"
+                app:layout_constraintTop_toBottomOf="@+id/divider2"
+                tools:layout_conversion_absoluteHeight="27dp"
+                tools:layout_conversion_absoluteWidth="71dp" />
+
+            <TextView
+                android:id="@+id/tvOrDescripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="Descripción"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvOrImporte"
+                tools:layout_conversion_absoluteHeight="22dp"
+                tools:layout_conversion_absoluteWidth="84dp" />
+
+            <TextView
+                android:id="@+id/tvOrDescripcionOr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="·"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
+                android:tooltipText="ascendente"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/tvOrDescripcion"
+                app:layout_constraintTop_toTopOf="@+id/tvOrImporte"
+                tools:layout_conversion_absoluteHeight="22dp"
+                tools:layout_conversion_absoluteWidth="84dp" />
+
+            <TextView
+                android:id="@+id/tvOrCategoria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="Categoría"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrDescripcionOr"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="61dp" />
+
+            <TextView
+                android:id="@+id/tvOrCategoriaOr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="·"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="14sp"
+                android:tooltipText="ascendente"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/tvOrCategoria"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrDescripcion"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="61dp" />
+
+            <TextView
+                android:id="@+id/tvOrPagador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="Pagador"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2"
+                tools:layout_conversion_absoluteHeight="22dp"
+                tools:layout_conversion_absoluteWidth="60dp" />
+
+            <TextView
+                android:id="@+id/tvOrPagadorOr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="·"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
+                android:tooltipText="ascendente"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@+id/tvOrPagador"
+                app:layout_constraintTop_toBottomOf="@+id/divider2"
+                tools:layout_conversion_absoluteHeight="22dp"
+                tools:layout_conversion_absoluteWidth="60dp" />
+
+            <TextView
+                android:id="@+id/tvOrFecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="Fecha"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrPagador"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="38dp" />
+
+            <TextView
+                android:id="@+id/tvOrFechaOr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="·"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="14sp"
+                android:tooltipText="ascendente"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvOrFecha"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrPagador"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="38dp" />
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="wrap_content"
+                android:layout_height="8dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOrCategoria"
+                tools:layout_conversion_absoluteHeight="717dp"
+                tools:layout_conversion_absoluteWidth="371dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginBottom="150dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="10dp">
 
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_gravity="top">
 
             <LinearLayout
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ConstraintLayoutTransac2"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewTransacciones"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    tools:layout_conversion_absoluteHeight="717dp"
-                    tools:layout_conversion_absoluteWidth="371dp">
-
-
-                    <TextView
-                        android:id="@+id/tvWalletActivo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Wallet Activo"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-                        android:textSize="35sp"
-                        android:translationX="10dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:layout_conversion_absoluteHeight="47dp"
-                        tools:layout_conversion_absoluteWidth="204dp"
-                        tools:layout_editor_absoluteX="30dp"
-                        tools:layout_editor_absoluteY="0dp" />
-
-                    <View
-                        android:id="@+id/divider2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="2dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvWalletActivo"
-                        tools:layout_conversion_absoluteHeight="717dp"
-                        tools:layout_conversion_absoluteWidth="371dp" />
-
-                    <TextView
-                        android:id="@+id/tvOrImporte"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:text="Importe"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/divider2"
-                        tools:layout_conversion_absoluteHeight="27dp"
-                        tools:layout_conversion_absoluteWidth="71dp" />
-
-                    <TextView
-                        android:id="@+id/tvOrImporteOr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:text="·"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:tooltipText="ascendente"
-                        android:visibility="invisible"
-                        app:layout_constraintStart_toEndOf="@+id/tvOrImporte"
-                        app:layout_constraintTop_toBottomOf="@+id/divider2"
-                        tools:layout_conversion_absoluteHeight="27dp"
-                        tools:layout_conversion_absoluteWidth="71dp" />
-
-                    <TextView
-                        android:id="@+id/tvOrDescripcion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:text="Descripción"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tvOrImporte"
-                        tools:layout_conversion_absoluteHeight="22dp"
-                        tools:layout_conversion_absoluteWidth="84dp" />
-
-                    <TextView
-                        android:id="@+id/tvOrDescripcionOr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:text="·"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="16sp"
-                        android:tooltipText="ascendente"
-                        android:visibility="invisible"
-                        app:layout_constraintStart_toEndOf="@+id/tvOrDescripcion"
-                        app:layout_constraintTop_toTopOf="@+id/tvOrImporte"
-                        tools:layout_conversion_absoluteHeight="22dp"
-                        tools:layout_conversion_absoluteWidth="84dp" />
-
-                    <TextView
-                        android:id="@+id/tvOrCategoria"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:text="Categoría"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvOrDescripcionOr"
-                        tools:layout_conversion_absoluteHeight="19dp"
-                        tools:layout_conversion_absoluteWidth="61dp" />
-
-                    <TextView
-                        android:id="@+id/tvOrCategoriaOr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:text="·"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="14sp"
-                        android:tooltipText="ascendente"
-                        android:visibility="invisible"
-                        app:layout_constraintStart_toEndOf="@+id/tvOrCategoria"
-                        app:layout_constraintTop_toBottomOf="@+id/tvOrDescripcion"
-                        tools:layout_conversion_absoluteHeight="19dp"
-                        tools:layout_conversion_absoluteWidth="61dp" />
-
-                    <TextView
-                        android:id="@+id/tvOrPagador"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:text="Pagador"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/divider2"
-                        tools:layout_conversion_absoluteHeight="22dp"
-                        tools:layout_conversion_absoluteWidth="60dp" />
-
-                    <TextView
-                        android:id="@+id/tvOrPagadorOr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:text="·"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="16sp"
-                        android:tooltipText="ascendente"
-                        android:visibility="invisible"
-                        app:layout_constraintEnd_toStartOf="@+id/tvOrPagador"
-                        app:layout_constraintTop_toBottomOf="@+id/divider2"
-                        tools:layout_conversion_absoluteHeight="22dp"
-                        tools:layout_conversion_absoluteWidth="60dp" />
-
-                    <TextView
-                        android:id="@+id/tvOrFecha"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:text="Fecha"
-                        android:textAlignment="textEnd"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvOrPagador"
-                        tools:layout_conversion_absoluteHeight="19dp"
-                        tools:layout_conversion_absoluteWidth="38dp" />
-
-                    <TextView
-                        android:id="@+id/tvOrFechaOr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:text="·"
-                        android:textAlignment="textEnd"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="14sp"
-                        android:tooltipText="ascendente"
-                        android:visibility="invisible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/tvOrFecha"
-                        app:layout_constraintTop_toBottomOf="@+id/tvOrPagador"
-                        tools:layout_conversion_absoluteHeight="19dp"
-                        tools:layout_conversion_absoluteWidth="38dp" />
-
-                    <View
-                        android:id="@+id/divider5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="8dp"
-                        android:background="?android:attr/listDivider"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvOrCategoria"
-                        tools:layout_conversion_absoluteHeight="717dp"
-                        tools:layout_conversion_absoluteWidth="371dp" />
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewTransacciones"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/divider5"
-                        tools:layout_conversion_absoluteHeight="189dp"
-                        tools:layout_conversion_absoluteWidth="39dp"></androidx.recyclerview.widget.RecyclerView>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:foregroundGravity="top"
+                    tools:layout_conversion_absoluteHeight="189dp"
+                    tools:layout_conversion_absoluteWidth="39dp"></androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
         </ScrollView>
-    </RelativeLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clResumen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/selectableItemBackground"
-        android:clickable="false"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:contextClickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:padding="5dp"
-        android:touchscreenBlocksFocus="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    </LinearLayout>
 
-        <View
-            android:id="@+id/divider4"
-            android:layout_width="wrap_content"
-            android:layout_height="5dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toTopOf="@+id/tvTotal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_conversion_absoluteHeight="4dp"
-            tools:layout_conversion_absoluteWidth="361dp" />
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="615dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAgregarTransaccion"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clResumen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_white_24dp"
-            app:backgroundTint="#A4A1A1"
-            app:fabSize="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDeberiaPagar"
-            tools:layout_conversion_absoluteHeight="56dp"
-            tools:layout_conversion_absoluteWidth="56dp"
-            tools:layout_editor_absoluteX="330dp"
-            tools:layout_editor_absoluteY="1051dp" />
+            android:layout_gravity="bottom"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="false"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:contextClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:padding="5dp"
+            android:touchscreenBlocksFocus="false">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabResolverDeudas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:src="?attr/actionModeSelectAllDrawable"
-            app:backgroundTint="#A4A1A1"
-            app:fabSize="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/fabAgregarTransaccion"
-            app:layout_constraintTop_toBottomOf="@+id/tvDeberiaPagar"
-            tools:layout_conversion_absoluteHeight="56dp"
-            tools:layout_conversion_absoluteWidth="56dp" />
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toTopOf="@+id/tvTotal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="4dp"
+                tools:layout_conversion_absoluteWidth="361dp" />
 
-        <TextView
-            android:id="@+id/tvTotalLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider4"
-            tools:layout_conversion_absoluteHeight="29dp"
-            tools:layout_conversion_absoluteWidth="55dp" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabAgregarTransaccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_white_24dp"
+                app:backgroundTint="#A4A1A1"
+                app:fabSize="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDeberiaPagar"
+                tools:layout_conversion_absoluteHeight="56dp"
+                tools:layout_conversion_absoluteWidth="56dp"
+                tools:layout_editor_absoluteX="330dp"
+                tools:layout_editor_absoluteY="1051dp" />
 
-        <TextView
-            android:id="@+id/tvTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="€€.€€€"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintStart_toEndOf="@+id/tvTotalLabel"
-            app:layout_constraintTop_toBottomOf="@+id/divider4"
-            tools:layout_conversion_absoluteHeight="29dp"
-            tools:layout_conversion_absoluteWidth="67dp"
-            tools:layout_editor_absoluteX="80dp"
-            tools:layout_editor_absoluteY="994dp" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabResolverDeudas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:src="?attr/actionModeSelectAllDrawable"
+                app:backgroundTint="#A4A1A1"
+                app:fabSize="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/fabAgregarTransaccion"
+                app:layout_constraintTop_toBottomOf="@+id/tvDeberiaPagar"
+                tools:layout_conversion_absoluteHeight="56dp"
+                tools:layout_conversion_absoluteWidth="56dp" />
 
-        <TextView
-            android:id="@+id/tvDeberiaPagarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Debería Pagar"
-            android:textAlignment="textEnd"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:translationY="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider4"
-            tools:layout_conversion_absoluteHeight="24dp"
-            tools:layout_conversion_absoluteWidth="112dp"
-            tools:layout_editor_absoluteX="274dp"
-            tools:layout_editor_absoluteY="989dp" />
+            <TextView
+                android:id="@+id/tvTotalLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider4"
+                tools:layout_conversion_absoluteHeight="29dp"
+                tools:layout_conversion_absoluteWidth="55dp" />
 
-        <TextView
-            android:id="@+id/tvDeberiaPagar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NombrePagador"
-            android:textAlignment="textEnd"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDeberiaPagarLabel"
-            tools:layout_conversion_absoluteHeight="29dp"
-            tools:layout_conversion_absoluteWidth="162dp"
-            tools:layout_editor_absoluteX="225dp"
-            tools:layout_editor_absoluteY="1008dp" />
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="€€.€€€"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintStart_toEndOf="@+id/tvTotalLabel"
+                app:layout_constraintTop_toBottomOf="@+id/divider4"
+                tools:layout_conversion_absoluteHeight="29dp"
+                tools:layout_conversion_absoluteWidth="67dp"
+                tools:layout_editor_absoluteX="80dp"
+                tools:layout_editor_absoluteY="994dp" />
 
-        <TextView
-            android:id="@+id/tvMiembrosLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Miembros"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTotalLabel"
-            tools:layout_conversion_absoluteHeight="24dp"
-            tools:layout_conversion_absoluteWidth="81dp" />
+            <TextView
+                android:id="@+id/tvDeberiaPagarLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Debería Pagar"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:translationY="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider4"
+                tools:layout_conversion_absoluteHeight="24dp"
+                tools:layout_conversion_absoluteWidth="112dp"
+                tools:layout_editor_absoluteX="274dp"
+                tools:layout_editor_absoluteY="989dp" />
 
-        <TextView
-            android:id="@+id/tvMiembros"
-            android:layout_width="199dp"
-            android:layout_height="75dp"
-            android:layout_marginTop="5dp"
-            android:text="Listado de Miembros"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMiembrosLabel"
-            tools:layout_conversion_absoluteHeight="68dp"
-            tools:layout_conversion_absoluteWidth="236dp" />
+            <TextView
+                android:id="@+id/tvDeberiaPagar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NombrePagador"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDeberiaPagarLabel"
+                tools:layout_conversion_absoluteHeight="29dp"
+                tools:layout_conversion_absoluteWidth="162dp"
+                tools:layout_editor_absoluteX="225dp"
+                tools:layout_editor_absoluteY="1008dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvMiembrosLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Miembros"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalLabel"
+                tools:layout_conversion_absoluteHeight="24dp"
+                tools:layout_conversion_absoluteWidth="81dp" />
+
+            <TextView
+                android:id="@+id/tvMiembros"
+                android:layout_width="199dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="5dp"
+                android:text="Listado de Miembros"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMiembrosLabel"
+                tools:layout_conversion_absoluteHeight="68dp"
+                tools:layout_conversion_absoluteWidth="236dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

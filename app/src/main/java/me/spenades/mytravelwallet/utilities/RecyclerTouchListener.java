@@ -1,7 +1,6 @@
 package me.spenades.mytravelwallet.utilities;
 
 import android.content.Context;
-
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
-    private ClickListener clickListener;
-    private GestureDetector gestureDetector;
+    private final ClickListener clickListener;
+    private final GestureDetector gestureDetector;
 
 
     public RecyclerTouchListener(Context context, final RecyclerView recyclerView,
@@ -58,7 +57,7 @@ public abstract class RecyclerTouchListener implements RecyclerView.OnItemTouchL
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean b) {
 
-    } // Un toque para seleccionar pagador
+    }
 
 
     public abstract void onClick(View view, int position);
@@ -69,5 +68,7 @@ public abstract class RecyclerTouchListener implements RecyclerView.OnItemTouchL
         void onClick(View view, int position);
 
         void onLongClick(View view, int position);
+
     }
+
 }
