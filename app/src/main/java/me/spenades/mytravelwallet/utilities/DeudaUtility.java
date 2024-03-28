@@ -34,7 +34,7 @@ public class DeudaUtility extends AppCompatActivity {
         listaDeMiembros = new ArrayList<>();
         listaDeParticipan = new ArrayList<>();
         listaDeGastos = new HashMap<>();
-        walletId = 0l;
+        walletId = 0L;
 
     }
 
@@ -43,9 +43,9 @@ public class DeudaUtility extends AppCompatActivity {
     // INICIA TODAS LAS VARIABLES NECESARIAS PARA OPERAR EN ESTA CLASE
     public String sumaTransacciones(List<Transaccion> listaDeTransacciones,
                                     List<Miembro> listaDeMiembros) {
-        this.listaDeTransacciones = listaDeTransacciones;
-        this.listaDeMiembros = listaDeMiembros;
-        this.listaDeParticipan = listaDeMiembros;
+        DeudaUtility.listaDeTransacciones = listaDeTransacciones;
+        DeudaUtility.listaDeMiembros = listaDeMiembros;
+        listaDeParticipan = listaDeMiembros;
         double total = 0.0;
         for (Transaccion transaccion : listaDeTransacciones) {
             double totalLimpiar = Double.valueOf(transaccion.getImporte());
@@ -200,7 +200,7 @@ public class DeudaUtility extends AppCompatActivity {
 
                     double importeTotal = sumaValoresImporte.getSum();
                     gastosParticianTotalesWallet.put(iterar, importeTotal);
-                    this.listaDeGastos = gastosParticianTotalesWallet;
+                    listaDeGastos = gastosParticianTotalesWallet;
 
                 });
 
@@ -271,7 +271,7 @@ public class DeudaUtility extends AppCompatActivity {
         // Creamos un diccionario con lo que ha pagado cada miembro de esta transacción
         Map<Long, Double> datos = new HashMap<Long, Double>();
         long nombreId = transaccion.getPagadorId();
-        double importe = Double.valueOf(transaccion.getImporte().toString());
+        double importe = Double.valueOf(transaccion.getImporte());
         for (Miembro unNombre : listaDeMiembros) {
             long nombreIdIndividual = unNombre.getUserId();
             double importeCero = 0.0;
@@ -330,7 +330,7 @@ public class DeudaUtility extends AppCompatActivity {
 
     public ArrayList<Spanned> operacionesResolucionDeudas() {
         Operaciones operaciones = new Operaciones();
-        String importeTotal = new String();
+        String importeTotal = "";
         ArrayList<ArrayList> gastosTotalesDivididos = new ArrayList<>();
         Map<Long, Double> importePagadoParticipante = transacionesGastosTotales();
         ArrayList<Spanned> miembrosGastos = new ArrayList<>();
@@ -350,15 +350,15 @@ public class DeudaUtility extends AppCompatActivity {
                 // Añadimos los gastos o cobros por participantes.
                 if (miembroIdGasto == miembroId) {
                     //String miembro = new String();
-                    String importeString = new String();
+                    String importeString = "";
 
                     // Rescatamos importe pagado por cada miembro
                     double importeHaPagado = importePagadoParticipante.get(solucionFinal.getUserId());
                     String importeHaPagadoString = String.valueOf(importeHaPagado);
 
                     // Rescatamos importes a pagar o recibir.
-                    String importeFinalDebe = new String();
-                    String importeFinalPagado = new String();
+                    String importeFinalDebe = "";
+                    String importeFinalPagado = "";
                     double importeDoubleLimpio = 0;
                     double importeFinalPagadoLimpio = 0;
                     double gastoRealizado = 0;
@@ -412,18 +412,22 @@ public class DeudaUtility extends AppCompatActivity {
 
         // Creamos una diccionario con todos los participantes del Wallet, y los ponemos a 0 gastado
         double pagadorImporte = 0.0D;
+        long pagadorId = 0;
         for (Miembro solucionFinal : listaDeMiembros) {
             long miembroId = solucionFinal.getUserId();
             gastoTotalpagador.put(miembroId, pagadorImporte);
         }
         // Ahora añadimos lo que realmente ha pagado cada uno.
+
         for (Transaccion transaccion : listaDeTransacciones) {
-            long pagadorId = transaccion.getPagadorId();
-
-            pagadorImporte = Double.parseDouble(transaccion.getImporte());
-            gastoTotalpagador.replace(pagadorId, pagadorImporte);
-
+            pagadorId = transaccion.getPagadorId();
+            double importePrevio = gastoTotalpagador.get(pagadorId);
+            importePrevio += Double.parseDouble(transaccion.getImporte());
+            gastoTotalpagador.replace(pagadorId, importePrevio);
+            System.out.println(gastoTotalpagador);
         }
+
+        System.out.println(gastoTotalpagador);
         return gastoTotalpagador;
     }
 
@@ -482,7 +486,7 @@ public class DeudaUtility extends AppCompatActivity {
 
                 pagadorId = transaccion.getPagadorId();
                 importeAnterior = datos.get(pagadorId);
-                importeTransaccion = Double.valueOf(transaccion.getImporte().toString());
+                importeTransaccion = Double.valueOf(transaccion.getImporte());
 
                 // Suma al valor anterior el nuevo valor gastado si lo hay
                 importeNuevo = importeAnterior + importeTransaccion;

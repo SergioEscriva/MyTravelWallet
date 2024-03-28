@@ -406,13 +406,14 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
 
     // Para rellenar en le popup de pagadores, info de cuanto han pagado ya.
     public Map<Long, Double> importePagado() {
-        ArrayList<Transaccion> listaDeTransacciones = transaccionController.obtenerTransacciones(walletId);
-        ArrayList<Miembro> listaDeMiembros = miembroWalletController.obtenerMiembros(walletId);
-
+        ArrayList<Transaccion> listaDeTransaccionesP = transaccionController.obtenerTransacciones(walletId);
+        ArrayList<Miembro> listaDeMiembrosP = miembroWalletController.obtenerMiembros(walletId);
+        System.out.println(listaDeTransaccionesP);
         // Iniciamos DeudaUtility
         DeudaUtility deudaUtility = new DeudaUtility();
-        deudaUtility.sumaTransacciones(listaDeTransacciones, listaDeMiembros);
+        deudaUtility.sumaTransacciones(listaDeTransaccionesP, listaDeMiembrosP);
         Map<Long, Double> resolucionDeuda = deudaUtility.transacionesGastosTotales();
+        System.out.println(resolucionDeuda);
 
         return resolucionDeuda;
     }
