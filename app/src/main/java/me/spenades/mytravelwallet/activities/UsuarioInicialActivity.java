@@ -33,7 +33,7 @@ public class UsuarioInicialActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.initial_activity);
+        setContentView(R.layout.activity_initial);
 
         // Definir nuestro controlador
         usuarioAppController = new UsuarioAppController(UsuarioInicialActivity.this);
