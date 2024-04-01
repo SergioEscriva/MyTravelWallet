@@ -24,6 +24,7 @@ import java.util.Map;
 
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.adapters.MiembrosAdapters;
+import me.spenades.mytravelwallet.adapters.ResolucionesAdapters;
 import me.spenades.mytravelwallet.adapters.WalletsAdapters;
 import me.spenades.mytravelwallet.ayuda.EditarWalletAyuda;
 import me.spenades.mytravelwallet.controllers.AyudaAppController;
@@ -51,8 +52,11 @@ public class EditarWalletActivity extends AppCompatActivity {
     private ArrayList<Map> listaDeImportes;
     private WalletsAdapters walletsAdapters;
     private List<Miembro> listaDeMiembros;
+    private List<Transaccion> listaDeTransaccions;
+    private List<List> listaDeSoluciones;
     private MiembrosAdapters miembrosAdapters;
     private WalletController walletController;
+    private ResolucionesAdapters resolucionesAdapters;
     private Wallet wallet;
     private RecyclerView recyclerViewMiembros;
     private Button btnGuardarCambios, btnAgregarMiembro, btnEliminarWallet;
@@ -228,11 +232,16 @@ public class EditarWalletActivity extends AppCompatActivity {
 
             @Override // Un toque Eliminamos Wallet
             public void onClick(View view) {
-                ArrayList<Map> importe = walletController.obtenerWalletsImporte();
-
-                // Iteramos sobre la lista de importes la pasamos a String y luego a Double.
-                double importeWallet = Double.valueOf(importe.iterator().next().get(walletId).toString());
-                if (importeWallet > 0) {
+                DeudaUtility deudaUtility = new DeudaUtility();
+                listaDeTransaccions = new ArrayList<>();
+                listaDeTransaccions = transaccionController.obtenerTransacciones(walletId);
+                deudaUtility.sumaTransacciones(listaDeTransaccions, listaDeMiembros);
+                listaDeSoluciones = new ArrayList<>();
+                listaDeSoluciones = deudaUtility.resolucionDeudaWallet(); //llama a Saldar
+                resolucionesAdapters = new ResolucionesAdapters(listaDeSoluciones);
+                resolucionesAdapters.setListaDeResoluciones(listaDeSoluciones);
+                resolucionesAdapters.notifyDataSetChanged();
+                if (listaDeSoluciones.size() > 1) {
                     AlertDialog dialog = new AlertDialog
                             .Builder(EditarWalletActivity.this)
                             .setPositiveButton("Resolver Deuda", new DialogInterface.OnClickListener() {

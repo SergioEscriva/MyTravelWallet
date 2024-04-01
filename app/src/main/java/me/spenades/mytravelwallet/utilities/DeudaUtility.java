@@ -424,10 +424,7 @@ public class DeudaUtility extends AppCompatActivity {
             double importePrevio = gastoTotalpagador.get(pagadorId);
             importePrevio += Double.parseDouble(transaccion.getImporte());
             gastoTotalpagador.replace(pagadorId, importePrevio);
-            System.out.println(gastoTotalpagador);
         }
-
-        System.out.println(gastoTotalpagador);
         return gastoTotalpagador;
     }
 

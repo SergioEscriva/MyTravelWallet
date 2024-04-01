@@ -55,7 +55,7 @@ public class ResolverDeudaActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         //long usuarioIdActivo = extras.getInt("usuarioIdActivo");
         //String usuarioActivo = extras.getString("usuarioActivo");
-        walletId = Long.parseLong(extras.getString("walletId"));
+        walletId = extras.getLong("walletId");
 
         // Se muestra sólo la primera vez la Ayuda
         int info = extras.getInt("info");
