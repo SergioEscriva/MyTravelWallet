@@ -140,7 +140,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
                             "nuevo", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(AgregarWalletActivity.this, "Wallet Guardada.",
+                    Toast.makeText(AgregarWalletActivity.this, "Wallet Guardado.",
                             Toast.LENGTH_SHORT).show();
 
                     // Agrega al propietario del Wallet como Miembro
@@ -156,8 +156,8 @@ public class AgregarWalletActivity extends AppCompatActivity {
                     intent.putExtra("nombreUsuario", String.valueOf(usuarioActivo));
                     intent.putExtra("usuarioId", String.valueOf(userId));
                     intent.putExtra("walletId", String.valueOf(walletId));
-                    intent.putExtra("nombreWallet", String.valueOf(nombre));
-                    intent.putExtra("descripcion", String.valueOf(descripcion));
+                    intent.putExtra("nombreWallet", nombre);
+                    intent.putExtra("descripcion", descripcion);
                     intent.putExtra("propietarioId", String.valueOf(userId));
                     intent.putExtra("checkCompartir", String.valueOf(compartir));
                     intent.putExtra("agregar", true);
@@ -177,6 +177,7 @@ public class AgregarWalletActivity extends AppCompatActivity {
             }
         });
     }
+
 }
 
 

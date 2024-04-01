@@ -116,9 +116,12 @@ public class EditarWalletActivity extends AppCompatActivity {
         btnAgregarMiembro.setVisibility(View.VISIBLE);
         btnEliminarWallet.setVisibility(View.VISIBLE);
         // Si venimos de Agregar Wallet, eliminamos los botones de guardar y eliminar Wallet.
+        // y los campos de nombre y descripción del wallet no son editables.
         if (agregar) {
             btnEliminarWallet.setVisibility(View.INVISIBLE);
             btnGuardarCambios.setVisibility(View.INVISIBLE);
+            etNombre.setFocusableInTouchMode(false);
+            etDescripcion.setFocusableInTouchMode(false);
         }
 
         // Rellenar los EditText de la pantalla
@@ -129,14 +132,6 @@ public class EditarWalletActivity extends AppCompatActivity {
         int compartirWallet = wallet.getCompartir();
         boolean cbCompartirResultado = compartirWallet == 1;
         cbCompartir.setChecked(cbCompartirResultado);
-        /*
-        System.out.println(cbCompartirResultado);
-        Boolean compartirCheck = (compartir == "0") ? false : true;
-        checkBoxCompartir.setChecked(compartirCheck);
-
-
-         */
-
 
         // Por defecto es una lista vacía,
         listaDeMiembros = new ArrayList<>();
@@ -163,6 +158,8 @@ public class EditarWalletActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(EditarWalletActivity.this,
                         ListarWalletsActivity.class);
+                // intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
+                intent.putExtra("usuarioIdActivo", propietario);
                 startActivity(intent);
             }
         });
