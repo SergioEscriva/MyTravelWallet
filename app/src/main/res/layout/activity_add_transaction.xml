@@ -90,7 +90,7 @@
                 android:layout_width="278dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:capitalize="words"
+                android:capitalize="sentences"
                 android:ems="10"
                 android:hint="Descripción"
                 android:inputType="textPersonName"
