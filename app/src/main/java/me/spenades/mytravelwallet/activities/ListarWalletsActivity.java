@@ -55,7 +55,7 @@ public class ListarWalletsActivity extends AppCompatActivity {
 
         // Recuperar datos que enviaron
         Bundle extras = getIntent().getExtras();
-        long usuarioIdActivo = extras.getInt("usuarioIdActivo");
+        long usuarioIdActivo = extras.getLong("usuarioIdActivo");
         String usuarioActivo = extras.getString("usuarioActivo");
         // Se muestra sólo la primera vez la Ayuda
 
