@@ -71,7 +71,8 @@ public class DeudaUtility extends AppCompatActivity {
         //Iniciamos variables
         Map<Long, Double> pagarMiembro = new HashMap<>();
         Map<Long, Double> recibirMiembro = new HashMap<>();
-        Map<Long, Double> deudas = unificaGastoMiembroWallet(); //#2
+        ArrayList<Map> gastoMiembros = gastosMiembrosTransacciones(listaDeTransacciones);
+        Map<Long, Double> deudas = unificaGastoMiembroWallet(gastoMiembros); //#2
 
         // Extrae las Keys de las transacciones para los cálculos y rellenamos variables.
         deudas.keySet().forEach((key) -> {
@@ -171,13 +172,14 @@ public class DeudaUtility extends AppCompatActivity {
         }
         ArrayList<ArrayList> solucionesLimpias = eliminarSolucionesCero(soluciones); //#7
         // Rellenar Gastos Totales
+        System.out.println(solucionesLimpias);
         return solucionesLimpias;
     }
 
 
     //#2
-    public Map<Long, Double> unificaGastoMiembroWallet() {
-        ArrayList<Map> gastoMiembros = gastosMiembrosTransacciones(); //#3
+    public Map<Long, Double> unificaGastoMiembroWallet(ArrayList<Map> gastoMiembros) {
+        //ArrayList<Map> gastoMiembros = gastosMiembrosTransacciones(); //#3
         Map<Long, Double> gastosParticianTotalesWallet = new HashMap<Long, Double>();
         try {
             // Iteramos en busca de las keys
@@ -212,12 +214,12 @@ public class DeudaUtility extends AppCompatActivity {
 
 
     //#3 que debería pagar cada miembro
-    public ArrayList<Map> gastosMiembrosTransacciones() {
+    public ArrayList<Map> gastosMiembrosTransacciones(List<Transaccion> listaDeTransaccionesNew) {
         Operaciones operaciones = new Operaciones();
         ArrayList<Map> gastoMiembros = new ArrayList<>();
 
         // iteramos transacciones sacamos a lo que sale cada miembro
-        for (Transaccion unaTransaccion : listaDeTransacciones) {
+        for (Transaccion unaTransaccion : listaDeTransaccionesNew) {
 
             Map<Long, Double> pagadoPorMiembro = pagadoPorCadaMiembro(unaTransaccion); //#4
             Transaccion deudaTotal = unaTransaccion;
@@ -327,17 +329,23 @@ public class DeudaUtility extends AppCompatActivity {
         return solucionesLimpias;
     }
 
-
+    // Compone parte de la pantalla de Gastos Totales.
     public ArrayList<Spanned> operacionesResolucionDeudas() {
         Operaciones operaciones = new Operaciones();
-        String importeTotal = "";
         ArrayList<ArrayList> gastosTotalesDivididos = new ArrayList<>();
+
+        // Creamos nuevas listas pero sin los gastos que se han pagado para uno mismo.
         Map<Long, Double> importePagadoParticipante = transacionesGastosTotales();
+        List<Transaccion> listaDeTransaccionesSinPropio = listaDeTransaccionesSinPropio();
+        ArrayList<Map> gastoMiembros = gastosMiembrosTransacciones(listaDeTransaccionesSinPropio);
+        Map<Long, Double> listaDeGastosSinPropio = unificaGastoMiembroWallet(gastoMiembros);
         ArrayList<Spanned> miembrosGastos = new ArrayList<>();
 
         // Iteramos sobre los gastos para extraer que tendría que haber pagado cada miembro.
-        for (Long miembroIdGasto : listaDeGastos.keySet()) {
-            double importeDeberiaPagarAlWallet = listaDeGastos.get(miembroIdGasto);
+        // donde no estára incluido lo que se haya pagado sólo a si mismo.
+        for (Long miembroIdGasto : listaDeGastosSinPropio.keySet()) {
+            double importeDeberiaPagarAlWallet = listaDeGastosSinPropio.get(miembroIdGasto);
+
 
             // Limpiamos decimales del importe
             double importeMovimientosWallet = operaciones.dosDecimalesDoubleDouble(importeDeberiaPagarAlWallet);
@@ -349,6 +357,8 @@ public class DeudaUtility extends AppCompatActivity {
 
                 // Añadimos los gastos o cobros por participantes.
                 if (miembroIdGasto == miembroId) {
+
+                    // if (importeDeberiaPagarAlWallet == miembroId) {
                     //String miembro = new String();
                     String importeString = "";
 
@@ -375,7 +385,6 @@ public class DeudaUtility extends AppCompatActivity {
                         }
                         // Calculamos lo que el gasto total de cada miembro en el Wallet
                         double gastoRealizadoLimpiar = importeDoubleLimpio + importeHaPagado;
-
                         gastoRealizado = operaciones.dosDecimalesDoubleDouble(gastoRealizadoLimpiar);
                     } else {
                         importeFinalPagadoLimpio = importeMovimientosWallet;
@@ -397,8 +406,10 @@ public class DeudaUtility extends AppCompatActivity {
                     gastosTotalesDivididos.add(gastosTotales);
                     //}
                 }
+
             }
         }
+
         return miembrosGastos;
     }
 
@@ -491,6 +502,26 @@ public class DeudaUtility extends AppCompatActivity {
             datos.put(pagadorId, importeNuevo);
         }
         return datos;
+    }
+
+    // sin los Propios pagos sólo a si mismo para Gastos totales
+
+
+    // lista de transacciones sin los Propios pagos sólo a si mismo para Gastos totales
+    public List<Transaccion> listaDeTransaccionesSinPropio() {
+        List<Transaccion> listaDeTransaccionesSinPropio = new ArrayList<>();
+
+        //iteramos sobre los gastos y si es el pagador y participante el mismo no se añade.
+        for (Transaccion transaccion : listaDeTransacciones) {
+            long pagadorId = transaccion.getPagadorId();
+            String listaParticipantes = transaccion.getMiembros();
+            if (listaParticipantes.length() == 1 && listaParticipantes.contains(String.valueOf(pagadorId))) {
+
+            } else {
+                listaDeTransaccionesSinPropio.add(transaccion);
+            }
+        }
+        return listaDeTransaccionesSinPropio;
     }
 
 }
