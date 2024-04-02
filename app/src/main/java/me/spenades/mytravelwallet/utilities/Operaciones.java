@@ -1,5 +1,8 @@
 package me.spenades.mytravelwallet.utilities;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,43 +49,23 @@ public class Operaciones {
 
     // https://es.stackoverflow.com/questions/100147/como-puedo-hacer-para-mostrar-solo-dos-decimales-en-la-operacion-que-sea
     public String dosDecimalesDoubleString(double doubleNumeroString) {
-        DecimalFormat format = new DecimalFormat();
-        format.setMaximumFractionDigits(2); //Define 2 decimales.
-        String numeroString = format.format(doubleNumeroString);
-        String numeroDecimal = numeroString.replaceAll(",", "."); //cambia la coma por un punto
-        return numeroDecimal;
+        BigDecimal numeroDecimal = new BigDecimal(doubleNumeroString);
+        numeroDecimal = numeroDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return numeroDecimal.toString();
     }
 
     public String dosDecimalesStringString(String stringNumeroString) {
         double numero = Double.parseDouble(stringNumeroString);
-        DecimalFormat format = new DecimalFormat();
-        format.setMaximumFractionDigits(2); //Define 2 decimales.
-        String numeroString = format.format(numero);
-        String numeroDecimal = numeroString.replaceAll(",", ".");
-        return numeroDecimal;
+        BigDecimal numeroDecimal = new BigDecimal(numero);
+        numeroDecimal = numeroDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return numeroDecimal.toString();
     }
 
     public Double dosDecimalesDoubleDouble(double doubleNumerodouble) {
-        DecimalFormat format = new DecimalFormat();
-        format.setMaximumFractionDigits(2); //Define 2 decimales.
-        String numeroString = format.format(doubleNumerodouble);
-        String numeroDecimal = numeroString.replaceAll(",", "");
-        Double numeroDecimalDouble = Double.parseDouble(numeroDecimal);
-        return numeroDecimalDouble;
-
-
+        BigDecimal numeroDecimal = new BigDecimal(doubleNumerodouble);
+        numeroDecimal = numeroDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return numeroDecimal.doubleValue();
     }
-
-    public Double dosDecimalesStringDouble(String stringNumeroDouble) {
-        double numero = Double.parseDouble(stringNumeroDouble);
-        DecimalFormat format = new DecimalFormat();
-        format.setMaximumFractionDigits(2); //Define 2 decimales.
-        String numeroString = format.format(numero);
-        String numeroDecimal = numeroString.replaceAll(",", ".");
-        double numeroDecimalDouble = Double.parseDouble(numeroDecimal);
-        return numeroDecimalDouble;
-    }
-
 
     public List<String> listaDeMiembros() {
         List<String> lista = new ArrayList<>();
@@ -131,22 +114,8 @@ public class Operaciones {
         return resultado;
     }
 
-/*
-    // Cierra el teclado
-    // https://umhandroid.momrach.es/ocultar-el-teclado-virtual/
-    private void hideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
 
-    // Abre el teclado
-    // https://umhandroid.momrach.es/ocultar-el-teclado-virtual/
-    private void visibleKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 1);
-    }
 
- */
 }
 
 

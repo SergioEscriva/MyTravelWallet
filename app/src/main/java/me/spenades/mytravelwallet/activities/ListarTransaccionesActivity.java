@@ -411,7 +411,8 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         List<String> siguientePagador = deudaUtility.proximoPagador();
         List<String> miembros = deudaUtility.listaDeMiembros();
         String importeLimpio = operaciones.dosDecimalesStringString(totalTransacciones);
-        String importeTotal = String.format("%s€", importeLimpio);
+        //String importeTotal = String.format("%s€", importeLimpio);
+        String importeTotal = deudaUtility.importeFormateado(totalTransacciones);
         tvTotal.setText(importeTotal);
         tvDeberiaPagar.setText(String.valueOf(siguientePagador.get(1)));
         tvMiembros.setText(String.valueOf(miembros));

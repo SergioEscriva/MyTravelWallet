@@ -6,11 +6,13 @@ import android.text.Spanned;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -364,7 +366,7 @@ public class DeudaUtility extends AppCompatActivity {
 
                     // Rescatamos importe pagado por cada miembro
                     double importeHaPagado = importePagadoParticipante.get(solucionFinal.getUserId());
-                    String importeHaPagadoString = String.valueOf(importeHaPagado);
+                    String importeHaPagadoString = operaciones.dosDecimalesDoubleString(importeHaPagado);
 
                     // Rescatamos importes a pagar o recibir.
                     String importeFinalDebe = "";
@@ -522,6 +524,17 @@ public class DeudaUtility extends AppCompatActivity {
             }
         }
         return listaDeTransaccionesSinPropio;
+    }
+
+
+    // Formatea e importe para mostrarlo según España.
+    //https://javiergarciaescobedo.es/programacion-en-java/29-trucos/113-formato-de-numeros-monedas-y-porcentajes2
+    public String importeFormateado(String importeLimpiar) {
+        double importe = Double.valueOf(importeLimpiar);
+        NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
+        //Si se desea forzar el formato español:
+        formatoImporte = NumberFormat.getCurrencyInstance(new Locale("es", "ES"));
+        return formatoImporte.format(importe);
     }
 
 }
