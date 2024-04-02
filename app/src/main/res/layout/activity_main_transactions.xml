@@ -334,14 +334,13 @@
                 android:id="@+id/tvTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:hint="€€.€€€"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintStart_toEndOf="@+id/tvTotalLabel"
                 app:layout_constraintTop_toBottomOf="@+id/divider4"
                 tools:layout_conversion_absoluteHeight="29dp"
-                tools:layout_conversion_absoluteWidth="67dp"
-                tools:layout_editor_absoluteX="80dp"
-                tools:layout_editor_absoluteY="994dp" />
+                tools:layout_conversion_absoluteWidth="67dp" />
 
             <TextView
                 android:id="@+id/tvDeberiaPagarLabel"
