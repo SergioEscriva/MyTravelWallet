@@ -66,9 +66,11 @@ public class Operaciones {
         DecimalFormat format = new DecimalFormat();
         format.setMaximumFractionDigits(2); //Define 2 decimales.
         String numeroString = format.format(doubleNumerodouble);
-        String numeroDecimal = numeroString.replaceAll(",", ".");
-        double numeroDecimalDouble = Double.parseDouble(numeroDecimal);
+        String numeroDecimal = numeroString.replaceAll(",", "");
+        Double numeroDecimalDouble = Double.parseDouble(numeroDecimal);
         return numeroDecimalDouble;
+
+
     }
 
     public Double dosDecimalesStringDouble(String stringNumeroDouble) {
