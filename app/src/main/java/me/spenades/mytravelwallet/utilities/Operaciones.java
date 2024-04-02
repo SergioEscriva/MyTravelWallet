@@ -47,7 +47,7 @@ public class Operaciones {
     }
 
 
-    // https://es.stackoverflow.com/questions/100147/como-puedo-hacer-para-mostrar-solo-dos-decimales-en-la-operacion-que-sea
+    //https://stackoverflow.com/questions/22609217/rounding-bigdecimal-values-with-2-decimal-places
     public String dosDecimalesDoubleString(double doubleNumeroString) {
         BigDecimal numeroDecimal = new BigDecimal(doubleNumeroString);
         numeroDecimal = numeroDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);

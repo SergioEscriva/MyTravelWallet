@@ -14,6 +14,7 @@ import java.util.Map;
 
 import me.spenades.mytravelwallet.R;
 import me.spenades.mytravelwallet.models.Wallet;
+import me.spenades.mytravelwallet.utilities.DeudaUtility;
 import me.spenades.mytravelwallet.utilities.Operaciones;
 
 public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyViewHolder> {
@@ -74,7 +75,9 @@ public class WalletsAdapters extends RecyclerView.Adapter<WalletsAdapters.MyView
         // Si no tiene transacciones añade 0.0
         if (importeSumado == "null") importeSumado = "0.0";
         String importeSumadoLimpio = operaciones.dosDecimalesStringString(importeSumado);
-        myViewHolder.tvImporteW.setText(String.format("%s€", importeSumadoLimpio));
+        DeudaUtility deudaUtility = new DeudaUtility();
+        String importeTotal = deudaUtility.importeFormateado(importeSumadoLimpio);
+        myViewHolder.tvImporteW.setText(String.format(importeTotal));
     }
 
 

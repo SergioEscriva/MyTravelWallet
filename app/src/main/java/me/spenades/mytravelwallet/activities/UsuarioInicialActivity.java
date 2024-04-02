@@ -1,13 +1,16 @@
 package me.spenades.mytravelwallet.activities;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -65,9 +68,9 @@ public class UsuarioInicialActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        //iniciar(); //esto hace que vuelva a la lista de Wallets al pulsar atrás.
+        iniciar(); //esto hace que vuelva a la lista de Wallets al pulsar atrás.
         super.onResume();
-
+        //finishAndRemoveTask();
     }
 
 
