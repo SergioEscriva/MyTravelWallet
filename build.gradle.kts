@@ -2,4 +2,3 @@
 plugins {
     alias(libs.plugins.androidApplication) apply false
 }
-val defaultVersionName by extra("1.0")

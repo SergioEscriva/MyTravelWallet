@@ -8,10 +8,10 @@ android {
 
     defaultConfig {
         applicationId = "me.spenades.mytravelwallet"
-        minSdk = 27
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = rootProject.extra["defaultVersionName"] as String
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,9 +35,6 @@ dependencies {
 
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.activity)
-    implementation(libs.core.splashscreen)
-    implementation(libs.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
