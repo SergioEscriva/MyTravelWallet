@@ -25,7 +25,7 @@ public class DeudaUtility extends AppCompatActivity {
     private static List<Transaccion> listaDeTransacciones;
 
     private static List<Miembro> listaDeMiembros;
-    private static List<Miembro> listaDeParticipan;
+    private static List<String> listaDeParticipan;
     private static Map<Long, Double> listaDeGastos;
     private static long walletId;
 
@@ -47,7 +47,7 @@ public class DeudaUtility extends AppCompatActivity {
                                     List<Miembro> listaDeMiembros) {
         DeudaUtility.listaDeTransacciones = listaDeTransacciones;
         DeudaUtility.listaDeMiembros = listaDeMiembros;
-        listaDeParticipan = listaDeMiembros;
+        //listaDeParticipan = listaDeMiembros;
         double total = 0.0;
         for (Transaccion transaccion : listaDeTransacciones) {
             double totalLimpiar = Double.valueOf(transaccion.getImporte());
@@ -195,10 +195,10 @@ public class DeudaUtility extends AppCompatActivity {
 
                     // Suma todas las keys values del mismo Miembro
                     DoubleSummaryStatistics sumaValoresImporte =
-                            (DoubleSummaryStatistics) gastoMiembros
+                            gastoMiembros
                                     .stream()
                                     .collect(Collectors.summarizingDouble(
-                                                    e -> Double.valueOf(((Map) e).get(iterar).toString())
+                                                    e -> Double.valueOf(e.get(iterar).toString())
                                             )
                                     );
 
@@ -287,14 +287,17 @@ public class DeudaUtility extends AppCompatActivity {
     }
 
 
-    //#5
+    //#5 Se calcula que debería pagar cada miembro.
     public double aPagarPorMiembro(Transaccion transaccion) {
         Operaciones operaciones = new Operaciones();
+
         // Calculamos la deuda total
-        double numeroMiembros = listaDeParticipan.size();
+        double numeroMiembros = listaDeParticipan(transaccion);
+        
         double importeTransaccion = Double.valueOf(transaccion.getImporte());
         double importePorMiembroLimpiar = importeTransaccion / (numeroMiembros + 0);
         double importePorMiembro = operaciones.dosDecimalesDoubleDouble(importePorMiembroLimpiar);
+        System.out.println("ImporMiembro " + importePorMiembro);
         return importePorMiembro;
     }
 
@@ -445,11 +448,28 @@ public class DeudaUtility extends AppCompatActivity {
     public List<String> listaDeMiembros() {
         List<String> lista = new ArrayList<>();
 
-        for (Miembro listaCompleta : listaDeParticipan) {
+        for (Miembro listaCompleta : listaDeMiembros) {
             String nombre = listaCompleta.getNombre();
             lista.add(nombre);
         }
         return lista;
+    }
+
+    // rellenamos la lista de particiapntes de cada transacción.
+    //List<String>
+    public int listaDeParticipan(Transaccion transaccion) {
+        List<String> lista = new ArrayList<>();
+
+        String participante = "";
+        String participantes = transaccion.getMiembros().toString();
+        String[] listaNumeroDecimal = participantes.split(",");
+        int numeroParticipantes = listaNumeroDecimal.length;
+        for (String unParticipante : listaNumeroDecimal) {
+            participante = unParticipante;
+        }
+        lista.add(participante);
+        listaDeParticipan = lista;
+        return numeroParticipantes;
     }
 
 
