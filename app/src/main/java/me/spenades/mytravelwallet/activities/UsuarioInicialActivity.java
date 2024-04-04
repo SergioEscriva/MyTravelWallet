@@ -1,16 +1,13 @@
 package me.spenades.mytravelwallet.activities;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -45,8 +42,47 @@ public class UsuarioInicialActivity extends AppCompatActivity {
         // Instanciamos vistas
         etNombrePropietario = findViewById(R.id.etNombrePropietario);
         btnEmpezar = findViewById(R.id.btnEmpezar);
+
+        listaDeUsuarios = new ArrayList<>();
+        refrescarListaDeUsuarios();
         iniciar();
 
+    }
+
+    public int primerInicio() {
+
+        // Recuperamos lista de usuarios
+        //usuariosAdapters = new UsuariosAdapters(listaDeUsuarios);
+
+        // Se envía el wallet 0 para poder recuperar todos los usuarios
+        listaDeUsuarios = usuarioAppController.obtenerUsuarios();
+        //usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
+        //int cantidadUsuarios = usuariosAdapters.getItemCount();
+        int cantidadUsuarios = listaDeUsuarios.size();
+
+        // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
+        //refrescarListaDeUsuarios();
+        return cantidadUsuarios;
+    }
+
+    public void iniciar() {
+        int cantidadUsuarios = primerInicio();
+
+        // Si la lista está vacía se insta a añadir usuario Propietario
+        if (cantidadUsuarios == 0) {
+
+            btnEmpezar.setOnClickListener(new View.OnClickListener() {
+
+                // Añadimos Usuario Nuevo Inicial
+                @Override
+                public void onClick(View v) {
+                    usuarioNuevoInicial();
+                }
+
+            });
+        } else {
+            continuar();
+        }
     }
 
 
@@ -66,18 +102,10 @@ public class UsuarioInicialActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        iniciar(); //esto hace que vuelva a la lista de Wallets al pulsar atrás.
-        super.onResume();
-        //finishAndRemoveTask();
-    }
-
-
     public void refrescarListaDeUsuarios() {
         listaDeUsuarios = usuarioAppController.obtenerUsuarios();
-        usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
-        usuariosAdapters.notifyDataSetChanged();
+        //usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
+        //usuariosAdapters.notifyDataSetChanged();
     }
 
 
@@ -106,41 +134,13 @@ public class UsuarioInicialActivity extends AppCompatActivity {
     }
 
 
-    public int primerInicio() {
-        // Recuperamos lista de usuarios
-        listaDeUsuarios = new ArrayList<>();
-        usuariosAdapters = new UsuariosAdapters(listaDeUsuarios);
-
-        // Se envía el wallet 0 para poder recuperar todos los usuarios
-        listaDeUsuarios = usuarioAppController.obtenerUsuarios();
-        usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
-        int cantidadUsuarios = usuariosAdapters.getItemCount();
-
-        // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
-        refrescarListaDeUsuarios();
-        return cantidadUsuarios;
+    @Override
+    protected void onResume() {
+        iniciar(); //esto hace que vuelva a la lista de Wallets al pulsar atrás.
+        super.onResume();
+        //finishAndRemoveTask();
     }
 
-
-    public void iniciar() {
-        int cantidadUsuarios = primerInicio();
-
-        // Si la lista está vacía se insta a añadir usuario Propietario
-        if (cantidadUsuarios == 0) {
-
-            btnEmpezar.setOnClickListener(new View.OnClickListener() {
-
-                // Añadimos Usuario Nuevo Inicial
-                @Override
-                public void onClick(View v) {
-                    usuarioNuevoInicial();
-                }
-
-            });
-        } else {
-            continuar();
-        }
-    }
 
 }
 
