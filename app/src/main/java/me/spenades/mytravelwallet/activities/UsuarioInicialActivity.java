@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.spenades.mytravelwallet.R;
-import me.spenades.mytravelwallet.adapters.UsuariosAdapters;
 import me.spenades.mytravelwallet.controllers.DemoController;
 import me.spenades.mytravelwallet.controllers.UsuarioAppController;
 import me.spenades.mytravelwallet.models.Usuario;
@@ -25,7 +24,7 @@ public class UsuarioInicialActivity extends AppCompatActivity {
     private DemoController demoController;
 
     private List<Usuario> listaDeUsuarios;
-    private UsuariosAdapters usuariosAdapters;
+
     private Button btnEmpezar;
     private EditText etNombrePropietario;
 
@@ -49,28 +48,14 @@ public class UsuarioInicialActivity extends AppCompatActivity {
 
     }
 
-    public int primerInicio() {
-
-        // Recuperamos lista de usuarios
-        //usuariosAdapters = new UsuariosAdapters(listaDeUsuarios);
+    public void iniciar() {
 
         // Se envía el wallet 0 para poder recuperar todos los usuarios
         listaDeUsuarios = usuarioAppController.obtenerUsuarios();
-        //usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
-        //int cantidadUsuarios = usuariosAdapters.getItemCount();
         int cantidadUsuarios = listaDeUsuarios.size();
-
-        // Una vez que ya configuramos el RecyclerView le ponemos los datos de la BD
-        //refrescarListaDeUsuarios();
-        return cantidadUsuarios;
-    }
-
-    public void iniciar() {
-        int cantidadUsuarios = primerInicio();
 
         // Si la lista está vacía se insta a añadir usuario Propietario
         if (cantidadUsuarios == 0) {
-
             btnEmpezar.setOnClickListener(new View.OnClickListener() {
 
                 // Añadimos Usuario Nuevo Inicial
@@ -104,12 +89,11 @@ public class UsuarioInicialActivity extends AppCompatActivity {
 
     public void refrescarListaDeUsuarios() {
         listaDeUsuarios = usuarioAppController.obtenerUsuarios();
-        //usuariosAdapters.setListaDeUsuarios(listaDeUsuarios);
-        //usuariosAdapters.notifyDataSetChanged();
     }
 
 
     public void usuarioNuevoInicial() {
+
         // Resetear errores
         etNombrePropietario.setError(null);
         String nombrePropietario = etNombrePropietario.getText().toString();
@@ -119,7 +103,7 @@ public class UsuarioInicialActivity extends AppCompatActivity {
             etNombrePropietario.requestFocus();
             return;
         }
-
+        // se añade el nombre introducido como usuario y será el propietario de los wallets
         Usuario nuevoPropietario = new Usuario(nombrePropietario, nombrePropietario);
 
         long id = usuarioAppController.nuevoUsuario(nuevoPropietario);
