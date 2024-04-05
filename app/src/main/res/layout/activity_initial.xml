@@ -28,7 +28,7 @@
         android:layout_marginTop="100dp"
         android:layout_marginEnd="185dp"
         android:layout_marginBottom="197dp"
-        android:text="Bienvenido a My Wallet Travel"
+        android:text="Bienvenido a My Travel Wallet"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/btnEmpezar"
         app:layout_constraintEnd_toEndOf="parent"
