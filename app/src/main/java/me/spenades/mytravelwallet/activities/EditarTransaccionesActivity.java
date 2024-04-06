@@ -34,6 +34,7 @@ import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Categoria;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.models.Usuario;
 import me.spenades.mytravelwallet.utilities.DatePickerFragment;
 import me.spenades.mytravelwallet.utilities.DeudaUtility;
 import me.spenades.mytravelwallet.utilities.Operaciones;
@@ -196,8 +197,9 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
                 hideKeyboard(etNombrePagador);
                 // Enviamos al popup la lista de miembros, y la lista de importe pagado por cada miembro.
                 Map<Long, Double> listaImportePagado = importePagado();
+                Usuario pagador = new Usuario(nombrePagadorTransaccion, nombrePagadorTransaccion, pagadorIdTransaccion);
                 PopUpPagadorActivity popUpPagadorActivity = new PopUpPagadorActivity();
-                popUpPagadorActivity.showPopupWindow(v, listaDeMiembros, listaImportePagado, "editar");
+                popUpPagadorActivity.showPopupWindow(v, pagador, listaDeMiembros, listaImportePagado, "editar");
                 //return true;
             }
         });

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.models.Usuario;
 
 public class DeudaUtility extends AppCompatActivity {
 
@@ -174,7 +175,6 @@ public class DeudaUtility extends AppCompatActivity {
         }
         ArrayList<ArrayList> solucionesLimpias = eliminarSolucionesCero(soluciones); //#7
         // Rellenar Gastos Totales
-        System.out.println(solucionesLimpias);
         return solucionesLimpias;
     }
 
@@ -293,11 +293,10 @@ public class DeudaUtility extends AppCompatActivity {
 
         // Calculamos la deuda total
         double numeroMiembros = listaDeParticipan(transaccion);
-        
+
         double importeTransaccion = Double.valueOf(transaccion.getImporte());
         double importePorMiembroLimpiar = importeTransaccion / (numeroMiembros + 0);
         double importePorMiembro = operaciones.dosDecimalesDoubleDouble(importePorMiembroLimpiar);
-        System.out.println("ImporMiembro " + importePorMiembro);
         return importePorMiembro;
     }
 
@@ -473,17 +472,20 @@ public class DeudaUtility extends AppCompatActivity {
     }
 
 
-    public List<String> proximoPagador() {
+    public Usuario proximoPagador() {
         Map<Long, Double> listaPagadoresId = pagadoPorCadaMiembro();
         Map<Long, Double> pagadoresIdOrdenados = ordenarTransacciones(listaPagadoresId);
 
         Set<Long> pagadoresId = pagadoresIdOrdenados.keySet();
         long pagadorFinalId = pagadoresId.iterator().next();
-        List<String> siguientePagador = new ArrayList<>();
+        //List<String> siguientePagador = new ArrayList<>();
+        Usuario siguientePagador = new Usuario(1);
         for (Miembro miembros : listaDeMiembros) {
             if (pagadorFinalId == miembros.getUserId()) {
-                siguientePagador.add(String.valueOf(pagadorFinalId));
-                siguientePagador.add(miembros.getNombre());
+                //siguientePagador.add(String.valueOf(pagadorFinalId));
+                //siguientePagador.add(miembros.getNombre());
+                String siguientePagadorNombre = miembros.getNombre();
+                siguientePagador = new Usuario(siguientePagadorNombre, siguientePagadorNombre, pagadorFinalId);
             }
         }
         return siguientePagador;

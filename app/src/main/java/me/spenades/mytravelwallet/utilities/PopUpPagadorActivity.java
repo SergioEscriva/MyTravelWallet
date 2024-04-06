@@ -21,22 +21,24 @@ import me.spenades.mytravelwallet.activities.AgregarTransaccionActivity;
 import me.spenades.mytravelwallet.activities.EditarTransaccionesActivity;
 import me.spenades.mytravelwallet.adapters.PagadoresAdapters;
 import me.spenades.mytravelwallet.models.Miembro;
+import me.spenades.mytravelwallet.models.Usuario;
 
 public class PopUpPagadorActivity extends PopupWindow {
 
     private static TextView etNombrePagador;
     public String nombrePagador;
-    public String pagadorId;
+    public long pagadorId;
+    //public Usuario proximoPagador;
     public double importePagado;
     private RecyclerView recyclerViewPagadores;
     private PagadoresAdapters pagadoresAdapters;
 
 
-    public void showPopupWindow(final View view, List<Miembro> listaDeMiembros, Map<Long, Double> listaImportePagado, String activity) {
+    public void showPopupWindow(final View view, Usuario proximoPagador, List<Miembro> listaDeMiembros, Map<Long, Double> listaImportePagado, String activity) {
 
 
-        this.nombrePagador = nombrePagador;
-        this.pagadorId = pagadorId;
+        this.nombrePagador = proximoPagador.getNombre();
+        this.pagadorId = proximoPagador.getId();
         this.importePagado = importePagado;
 
         //Crea View con inflater
@@ -63,7 +65,8 @@ public class PopUpPagadorActivity extends PopupWindow {
         //inicializamos los elementos
         recyclerViewPagadores = popupView.findViewById(R.id.recyclerViewGastos);
         etNombrePagador = activityTransactionView.findViewById(R.id.etNombrePagador);
-        String pagador = etNombrePagador.getText().toString();
+        etNombrePagador.setText(nombrePagador);
+        //String pagador = etNombrePagador.getText().toString();
 
         // listaDeMiembros en el popupView
         pagadoresAdapters = new PagadoresAdapters(listaDeMiembros, listaImportePagado);
@@ -84,7 +87,7 @@ public class PopUpPagadorActivity extends PopupWindow {
                         // Pasar a la actividad editarwallet con el nombre elegido.
                         final Miembro pagadorActivo = listaDeMiembros.get(position);
                         nombrePagador = pagadorActivo.getNombre();
-                        pagadorId = String.valueOf(pagadorActivo.getUserId());
+                        pagadorId = pagadorActivo.getUserId();
 
                         if (activity == "agregar") {
 
@@ -93,7 +96,7 @@ public class PopUpPagadorActivity extends PopupWindow {
                                     new AgregarTransaccionActivity();
                             TextView erNombrePagador = agregarTransaccionesActivity.retornaNombrePagador();
                             TextView erPagadorId = agregarTransaccionesActivity.retornaPagadorId();
-                            erPagadorId.setText(pagadorId);
+                            erPagadorId.setText(String.valueOf(pagadorId));
                             erNombrePagador.setText(nombrePagador);
                             popupWindow.dismiss();
                         } else {
@@ -103,7 +106,7 @@ public class PopUpPagadorActivity extends PopupWindow {
                                     new EditarTransaccionesActivity();
                             TextView erNombrePagador = editarTransaccionesActivity.retornaNombrePagador();
                             TextView erPagadorId = editarTransaccionesActivity.retornaPagadorId();
-                            erPagadorId.setText(pagadorId);
+                            erPagadorId.setText(String.valueOf(pagadorId));
                             erNombrePagador.setText(nombrePagador);
                             popupWindow.dismiss();
                         }
@@ -139,4 +142,5 @@ public class PopUpPagadorActivity extends PopupWindow {
             }
         });
     }
+
 }

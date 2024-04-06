@@ -30,6 +30,7 @@ import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Ayuda;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.models.Usuario;
 import me.spenades.mytravelwallet.utilities.DeudaUtility;
 import me.spenades.mytravelwallet.utilities.Operaciones;
 import me.spenades.mytravelwallet.utilities.RecyclerTouchListener;
@@ -44,8 +45,9 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
     private MiembroWalletController miembroWalletController;
     private FloatingActionButton fabAgregarTransaccion;
     private FloatingActionButton fabResolverDeudas;
-    private long walletId;
-    private String walletName;
+    private long walletId, deberiaPagarId;
+    private String walletName, deberiaPagar;
+    private Usuario siguientePagador;
     private String ordenAscendente;
     private TextView tvWalletActivo, tvTotal, tvDeberiaPagar, tvMiembros;
     private TextView tvOrImporte, tvOrCategoria, tvOrPagador, tvOrFecha, tvOrDescripcion;
@@ -301,12 +303,15 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // //Añadir transacción Nueva
+                System.out.println(deberiaPagar);
                 Intent intent = new Intent(ListarTransaccionesActivity.this,
                         AgregarTransaccionActivity.class);
                 intent.putExtra("walletId", String.valueOf(walletId));
                 intent.putExtra("walletName", walletName);
                 intent.putExtra("usuarioActivo", String.valueOf(usuarioActivo));
-                intent.putExtra("usuarioIdActivo", String.valueOf(usuarioIdActivo));
+                intent.putExtra("usuarioIdActivo", usuarioIdActivo);
+                intent.putExtra("deberiaPagar", siguientePagador.getNombre());
+                intent.putExtra("deberiaPagarId", siguientePagador.getId());
                 intent.putExtra("info", info);
                 startActivity(intent);
             }
@@ -408,13 +413,11 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
         DeudaUtility deudaUtility = new DeudaUtility();
         String totalTransacciones = deudaUtility.sumaTransacciones(listaDeTransaccions,
                 listaDeMiembros);
-        List<String> siguientePagador = deudaUtility.proximoPagador();
+        siguientePagador = deudaUtility.proximoPagador();
         List<String> miembros = deudaUtility.listaDeMiembros();
-        //String importeLimpio = operaciones.dosDecimalesStringString(totalTransacciones);
-        //String importeTotal = String.format("%s€", importeLimpio);
         String importeTotal = deudaUtility.importeFormateado(totalTransacciones);
         tvTotal.setText(importeTotal);
-        tvDeberiaPagar.setText(String.valueOf(siguientePagador.get(1)));
+        tvDeberiaPagar.setText(siguientePagador.getNombre());
         tvMiembros.setText(String.valueOf(miembros));
     }
 

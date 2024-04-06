@@ -33,6 +33,7 @@ import me.spenades.mytravelwallet.controllers.TransaccionController;
 import me.spenades.mytravelwallet.models.Categoria;
 import me.spenades.mytravelwallet.models.Miembro;
 import me.spenades.mytravelwallet.models.Transaccion;
+import me.spenades.mytravelwallet.models.Usuario;
 import me.spenades.mytravelwallet.utilities.DatePickerFragment;
 import me.spenades.mytravelwallet.utilities.DeudaUtility;
 import me.spenades.mytravelwallet.utilities.Operaciones;
@@ -70,8 +71,10 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String walletName = extras.getString("walletName");
         this.walletId = Long.parseLong(extras.getString("walletId"));
-        long usuarioIdActivo = extras.getInt("usuarioIdActivo") + 1;
+        long usuarioIdActivo = extras.getLong("usuarioIdActivo") + 1;
         String usuarioActivo = extras.getString("usuarioActivo");
+        String deberiaPagar = extras.getString("deberiaPagar");
+        long deberiaPagarId = extras.getLong("deberiaPagarId");
 
         // Definir el controlador
         transaccionController = new TransaccionController(AgregarTransaccionActivity.this);
@@ -90,8 +93,6 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         tvDivision = findViewById(R.id.tvDivision);
         Button btnCancelarTransaccion = findViewById(R.id.btnCancelarTransaccion);
         Button btnGuardarTransaccion = findViewById(R.id.btnGuardarTransaccion);
-        etNombrePagador.setText(usuarioActivo);
-        etPagadorId.setText(String.valueOf(usuarioIdActivo));
         String transaccionTitulo = "Wallet " + walletName;
         evTransaccionTitulo.setText(transaccionTitulo);
 
@@ -120,12 +121,16 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         recyclerViewParticipan.setItemAnimator(new DefaultItemAnimator());
         recyclerViewParticipan.setAdapter(participanAdapters);
 
+
+        // Rellenamos las opciones que estarán predeterminadas
         Operaciones operaciones = new Operaciones();
         String fecha = operaciones.fechaDeHoy();
+        etNombrePagador.setText(usuarioActivo);
+        etPagadorId.setText(String.valueOf(deberiaPagarId));
         etCategoria.setText("Varios");
         etImporte.setText("0");
-
         etTransaccionFecha.setText(fecha);
+        etNombrePagador.setText(deberiaPagar);
 
         //Refrescamos datos del RecycleView
         refrescarListas();
@@ -164,11 +169,14 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
+                // Ocultamos teclado
                 hideKeyboard(etNombrePagador);
+                Usuario proximoPagador = new Usuario(deberiaPagar, deberiaPagar, deberiaPagarId);
                 // Enviamos al popup la lista de miembros, y la lista de importe pagado por cada miembro.
                 Map<Long, Double> listaImportePagado = importePagado();
                 PopUpPagadorActivity popUpPagadorActivity = new PopUpPagadorActivity();
-                popUpPagadorActivity.showPopupWindow(v, listaDeMiembros, listaImportePagado, "agregar");
+                popUpPagadorActivity.showPopupWindow(v, proximoPagador, listaDeMiembros, listaImportePagado, "agregar");
             }
         });
 
