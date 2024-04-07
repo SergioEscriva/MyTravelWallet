@@ -1,5 +1,7 @@
 # MyWalletTravel
 
+La aplicación se encuentra en el Branche Master.
+
 El objetivo del desarrollo de esta aplicación, es debido a la necesidad de poder operar con pagos comunes, por ejemplo en viajes, de una manera muy intuitiva y sencilla.
 Las aplicaciones existentes hoy en día, están llenas de opciones, que a nivel práctico, son prescindibles, y con esta aplicación se intenta que la experiencia de usuario sea lo más agradable y sencilla posible.
 Para el desarrollo, se ha elegido el “modelo por etapas”. Este método implica que la aplicación en todo momento es funcional, y ha ido evolucionando poco a poco, y la verdad es que ha sido un método con el que me he sentido muy a gusto trabajando, ya que he podido ver los avances en el momento. Como resultado, la aplicación es totalmente funcional, y están implementadas partes de código, que en un principio sólo eran ideas, y que actualmente son evolución de las mismas.
