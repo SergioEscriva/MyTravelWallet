@@ -129,6 +129,7 @@ public class AgregarTransaccionActivity extends AppCompatActivity {
         etPagadorId.setText(String.valueOf(deberiaPagarId));
         etCategoria.setText("Varios");
         etImporte.setText("0");
+        importeADividir = "0";
         etTransaccionFecha.setText(fecha);
         etNombrePagador.setText(deberiaPagar);
 
