@@ -410,12 +410,10 @@ public class EditarTransaccionesActivity extends AppCompatActivity {
     public Map<Long, Double> importePagado() {
         ArrayList<Transaccion> listaDeTransaccionesP = transaccionController.obtenerTransacciones(walletId);
         ArrayList<Miembro> listaDeMiembrosP = miembroWalletController.obtenerMiembros(walletId);
-        System.out.println(listaDeTransaccionesP);
         // Iniciamos DeudaUtility
         DeudaUtility deudaUtility = new DeudaUtility();
         deudaUtility.sumaTransacciones(listaDeTransaccionesP, listaDeMiembrosP);
         Map<Long, Double> resolucionDeuda = deudaUtility.transacionesGastosTotales();
-        System.out.println(resolucionDeuda);
 
         return resolucionDeuda;
     }

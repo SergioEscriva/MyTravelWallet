@@ -303,7 +303,6 @@ public class ListarTransaccionesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // //Añadir transacción Nueva
-                System.out.println(deberiaPagar);
                 Intent intent = new Intent(ListarTransaccionesActivity.this,
                         AgregarTransaccionActivity.class);
                 intent.putExtra("walletId", String.valueOf(walletId));

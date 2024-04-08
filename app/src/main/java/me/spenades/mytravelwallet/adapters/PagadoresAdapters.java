@@ -50,8 +50,6 @@ public class PagadoresAdapters extends RecyclerView.Adapter<PagadoresAdapters.My
 
         double importes = listaDePagado.get(miembro.getUserId());
 
-        System.out.println(listaDePagado);
-
         // Obtener los datos de la lista
         String nombre = miembro.getNombre();
         String importe = operaciones.dosDecimalesDoubleString(importes);
