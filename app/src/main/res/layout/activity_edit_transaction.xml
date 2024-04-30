@@ -1,0 +1,221 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/evTransaccionEditDescripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="Transacción"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.047"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDescripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="descripción"
+        android:textColor="#C7C7C7"
+        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionEditDescripcion"
+        app:layout_constraintEnd_toEndOf="@+id/etTransaccionEditDescripcion" />
+
+    <TextView
+        android:id="@+id/tvDescripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="importe"
+        android:textColor="#C7C7C7"
+        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionEditImporte"
+        app:layout_constraintEnd_toEndOf="@+id/etTransaccionEditDescripcion" />
+
+    <TextView
+        android:id="@+id/tvDescripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="pagador"
+        android:textColor="#C7C7C7"
+        app:layout_constraintBottom_toBottomOf="@+id/etNombreEditPagador"
+        app:layout_constraintEnd_toEndOf="@+id/etTransaccionEditDescripcion" />
+
+    <TextView
+        android:id="@+id/tvDescripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="categoria"
+        android:textColor="#C7C7C7"
+        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionEditCategoria"
+        app:layout_constraintEnd_toEndOf="@+id/etTransaccionEditDescripcion" />
+
+    <TextView
+        android:id="@+id/tvDescripcionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="fecha"
+        android:textColor="#C7C7C7"
+        app:layout_constraintBottom_toBottomOf="@+id/etTransaccionEditFecha"
+        app:layout_constraintEnd_toEndOf="@+id/etTransaccionEditDescripcion" />
+
+    <EditText
+        android:id="@+id/etTransaccionEditDescripcion"
+        android:layout_width="278dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:capitalize="sentences"
+        android:ems="10"
+        android:hint="Descripción"
+        android:inputType="text|textPersonName|textAutoCorrect|textCapWords"
+        android:selectAllOnFocus="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/evTransaccionEditDescripcion" />
+
+    <EditText
+        android:id="@+id/etTransaccionEditImporte"
+        android:layout_width="278dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="Importe"
+        android:digits="0123456789."
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditDescripcion" />
+
+
+    <EditText
+        android:id="@+id/etNombreEditPagador"
+        android:layout_width="278dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:editable="false"
+        android:ems="10"
+
+        android:focusable="false"
+        android:hint="Quién paga"
+        android:inputType="textPersonName"
+        android:text="Pagador"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditImporte" />
+
+
+    <EditText
+        android:id="@+id/etPagadorEditId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:editable="false"
+        android:ems="10"
+        android:focusableInTouchMode="false"
+        android:hint="Quién paga"
+        android:inputType="textPersonName"
+
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditImporte" />
+
+    <AutoCompleteTextView
+        android:id="@+id/etTransaccionEditCategoria"
+        android:layout_width="278dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:completionThreshold="1"
+        android:ems="10"
+        android:hint="Categoría"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etNombreEditPagador" />
+
+    <EditText
+        android:id="@+id/etTransaccionEditFecha"
+        android:layout_width="278dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="Fecha"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditCategoria" />
+
+
+    <TextView
+        android:id="@+id/tvEditDivision"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Importe por participante"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTransaccionEditFecha" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clEditParticipan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toBottomOf="@+id/tvEditDivision"
+        tools:layout_editor_absoluteX="0dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewParticipan"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnGuardarEditTransaccion"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="#A4A1A1"
+        android:text="Guardar"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancelarEditTransaccion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clEditParticipan" />
+
+    <Button
+        android:id="@+id/btnCancelarEditTransaccion"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:backgroundTint="#A4A1A1"
+        android:text="Cancelar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.81"
+        app:layout_constraintStart_toEndOf="@+id/btnGuardarEditTransaccion"
+        app:layout_constraintTop_toBottomOf="@id/clEditParticipan" />
+</androidx.constraintlayout.widget.ConstraintLayout>
