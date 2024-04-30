@@ -1,7 +1,5 @@
 # MyWalletTravel
 
-**La aplicación se encuentra en el Branche Master.**
-
 
 
 Aplicación que se basa en la necesidad de poder operar con pagos comunes,
